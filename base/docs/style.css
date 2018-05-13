@@ -1,0 +1,60 @@
+/* Generated with EditiX at Sun Apr 17 10:55:26 BST 2011 */
+
+body {
+  background-color : #c0c0c0;
+}
+
+span.underline {
+     text-decoration: underline;
+}
+pre.programlisting {
+    background-color:   #FFFF99 ;
+    border: 0px solid  #006600;
+}
+code.filename {
+    font-style: italic;
+    font-weight: bold;
+}
+
+code.devicefile {
+    font-style: italic;
+    font-weight: bold;
+}
+
+code.directory {
+    font-style: italic;
+    font-weight: bold;
+}
+
+div.note {
+  border: 2px solid #2D73B9;
+  margin: 0.3em 0em;
+  padding: 0.3em;
+}
+
+
+div.note th {
+    color:  #2D73B9;
+}
+
+div.warning th {
+    color: red;
+}
+
+div.warning {
+  border: 2px solid red;
+  margin: 0.3em 0em;
+  padding: 0.3em;
+}
+
+.glossterm {
+  font-style: italic;
+}
+
+a.xref:link {
+
+}
+
+a.xref:visited {
+
+}

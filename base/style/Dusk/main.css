@@ -1,0 +1,223 @@
+/**
+ * Test Suite Cascading Style Sheet
+ *
+ *
+ * LICENSE: This source file is subject to version 2.1 of the GPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html.
+ *
+ * @category  Webtamplate
+ * @author    Sandy McNeil <amcneil@iee.org>
+ * @copyright 2009 Sandy McNeil
+ * @license   http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
+ * @version   SVN: $Id:
+ * @link      http://www.g7mzr.demon.co.uk
+ */
+
+body {
+font-family : Arial;
+background-color : #c0c0c0;
+font-size : 12pt;
+}
+table {
+color : #000000;
+font-family : Arial;
+font-size : 12pt;
+font-weight : normal;
+}
+h1, h2, h3, h4, h5, h6 {
+font-family : Arial;
+}
+h1 {
+color : #000000;
+font-family : Arial;
+font-size : 20pt;
+font-weight : bold;
+}
+h2 {
+color : #000000;
+font-family : Arial;
+font-size : 15pt;
+font-weight : bold;
+}
+h3 {
+color : #000000;
+font-family : Arial;
+font-size : 12pt;
+font-weight : bold;
+}
+h4 {
+color : #000000;
+font-family : Arial;
+font-size : 10pt;
+font-weight : bold;
+}
+h5 {
+color : #000000;
+font-family : Arial;
+font-size : 8pt;
+font-weight : normal;
+}
+h6 {
+font-family : Arial;
+font-size : 8pt;
+font-weight : normal;
+}
+.normal {
+background-color : #00ffff;
+}
+.error {
+background-color : #ff0000;
+}
+.contents {
+font-size : 10pt;
+margin-left : 5%;
+}
+#header {
+height : 15px;
+padding : 10px;
+background-color : #404d6c;
+border : 0;
+color : #ffffff;
+font-family : Arial;
+font-size : 10pt;
+padding : 0.5em;
+}
+#left {
+float : left;
+text-align : left;
+white-space : nowrap;
+font-weight : bold;
+}
+#right {
+float : right;
+text-align : right;
+white-space : nowrap;
+}
+#menu_bar {
+height : 15px;
+padding : 10px;
+background-color : #929bb1;
+border : 0;
+color : #ffffff;
+font-family : Arial;
+font-size : 10pt;
+font-weight : bold;
+padding : 0.5em;
+}
+#main-body {
+background : #f0f0f0;
+color : black;
+margin-top : 10px;
+margin-bottom : 10px;
+border : 1px solid #747e93;
+padding : 10px;
+font-size : 10pt;
+}
+
+td {
+font-size : 10pt;
+}
+
+#footer_menu {
+padding : 10px;
+background-color : #929bb1;
+border : 0;
+color : #ffffff;
+font-family : Arial;
+font-size : 10pt;
+font-weight : bold;
+}
+#copyright{
+padding : 10px;
+font-family : Arial;
+font-size : 10pt;
+}
+
+#msg-box{
+border: 1px solid red;
+margin: 0.3em 0em;
+padding: 0.3em;
+color: green;
+}
+
+#banner {
+}
+
+
+.notice {
+    border: 1px dotted black;
+    padding: .5em;
+    font-size: small;
+}
+
+.separator {
+    color: #cccccc;
+}
+
+#useful-links {
+        display: table;
+        padding-left: 1ex;
+        padding-right: 1ex;
+}
+
+#links-actions,
+#links-saved,
+#links-special {
+        display: table-row;
+        list-style-type: none;
+    }
+
+.label {
+font-size: 85%;
+display: table-cell;
+white-space: nowrap;
+vertical-align: top;
+height : 25px;
+}
+
+.links {
+font-size: 85%;
+display: table-cell;
+vertical-align: top;
+}
+
+
+
+ul.links {
+font-size: 85%;
+margin: 0;
+padding: 0;
+list-style-type: none;
+}
+
+ ul.links li {
+display: inline;
+white-space: nowrap;
+}
+
+#error_msg {
+    font-size: x-large;
+}
+
+.throw_error {
+    background-color: #ff0000;
+    color: black;
+    font-size: 120%;
+    margin: 1em;
+    padding: 0.5em 1em;
+}
+
+dt {
+    font-weight: bolder;
+}
+.dottedline{
+    border-top: dotted gray thin;
+    margin: 0em 0em;
+    padding: 0em 0em;
+}
+
+dl {
+    margin: 0em 0em;
+    padding: 0em 0em ;
+}

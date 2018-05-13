@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter  SYSTEM "../../xsl/webtemplate.dtd" [
+    <!ENTITY % myents SYSTEM "webtemplate.ent">
+   %myents;
+]>
+
+<chapter id="using">
+	<title>Using &progname;</title>
+	<section id="using-register">
+		<title>Registering</title>
+		<warning>
+			<para>
+			Attempts to register with an existing e-mail address will be logged along with your IP address and the owner notified.
+			</para>
+		</warning>
+		<para>If allowed by the &progname; administrator you can register yourself as a user by clicking on the 
+		<emphasis>New Account</emphasis> link on the login page.  If this link is not available you will need to request an
+		account from the administrator.
+		</para>
+		<para>
+		Once you click on the new account link you will need to enter a valid email address that belongs to you.  When you submitt
+		your request for a new acount using the <emphasis>Request Account</emphasis> button your e-mail address will be validated
+		and an email sent to you with a link to complete the registration process.
+		</para>
+		<para>
+		When you click on the link in the email you will be directed to the New Account Form which you will need to complete and submit.   
+		You will need the following information to complete the form:
+		</para>
+		<variablelist>
+		   	<varlistentry>
+        				<term>User Name</term>
+        				<listitem>
+          					<para>
+          					This is your chosen username.  The default setting allows user names of between 5 and 12 
+          					characters long and can  contain Upper and Lower cases letters and numbers.  This name 
+          					must be unique and the system will reject duplicates.
+          					</para>
+          					<para>
+          					The system administrator can change the username format.  If your user name is rejected 
+          					please read the error message to obtain the correct format or contact the administrator.
+          					</para>
+          		        		</listitem>
+      			</varlistentry>
+		   	<varlistentry>
+        				<term>Password</term>
+        				<listitem>
+          					<para>
+          					Enter your chosen password in this field.  It should be between 8 and 20 characters long and depending on 
+          					how &progname; is configured be in one of the following formats:
+						<orderedlist>
+      							<listitem>
+      								<para>
+      								no_constraints - No complexity required.
+      								</para>
+      							</listitem>
+      							<listitem>
+      								<para>
+      								letters - Lower and/or uppercase letters only
+      								</para>
+      							</listitem>
+      							<listitem>
+      								<para>
+      								mixed_letters - Passwords must contain letters only with at least one UPPER and one lower case letter.
+      								</para>
+      							</listitem>
+       							<listitem>
+      								<para>
+      								Letters_numbers - Passwords must contain letters and numbers only.  There must be at least 
+      								one UPPER and one lower case letter and a number.
+      								</para>
+      							</listitem>
+       							<listitem>
+      								<para>
+      								letters_numbers_specialchars - Passwords must contain at least one UPPER or one lower 
+      								case letter, a number and a special character.
+      								</para>
+      							</listitem>
+     				
+      						</orderedlist>
+          					
+          					</para>
+          					<para>
+          					You must confirm your password in the <emphasis>Confirm Password</emphasis> box.
+          					</para>
+          		        		</listitem>
+      			</varlistentry>
+		   	<varlistentry>
+        				<term>Real Name</term>
+        				<listitem>
+          					<para>
+          					Your Real name is entered here.
+          					</para>
+          		        		</listitem>
+      			</varlistentry>
+		</variablelist>
+		<para>
+		If any errors are encountered they are displayed at the top of the form in a red box.  After you correct the error you can
+		resubmit your account request.
+		</para>
+	</section>
+	<section id="using-resetpassword">
+		<title>Reset Password</title>
+		<para>If allowed by the &progname; administrator you can request a new password by clicking on the 
+		<emphasis>Forgot Your Password?</emphasis> link on the login page.   If this link is not available you will 
+		need to request a new password from the administrator.
+		</para>
+		<para>
+		To obtain a new password enter your <emphasis>User Name</emphasis> in the box and click on the 
+		<emphasis>New Password</emphasis> button.  If your User Name and e-mail address are valid a 
+		password reset link will be sent to you.
+		</para>
+		<para>
+		Once you have received the e-mail with the link either click on it or copy it into your browser.  This will 
+		open a page that allows you to enter a new password. 
+		</para>
+  		<para>
+          		Your password should be between 8 and 20 characters long and depending on 
+          		how &progname; is configured be in one of the following formats:
+			<orderedlist>
+      				<listitem>
+      					<para>
+      					no_constraints - No complexity required.
+      					</para>
+      				</listitem>
+      				<listitem>
+      					<para>
+      					letters - Lower and/or uppercase letters only
+      					</para>
+      				</listitem>
+      				<listitem>
+      					<para>
+      					mixed_letters - Passwords must contain letters only with at least one UPPER and one lower case letter.
+      					</para>
+      				</listitem>
+       				<listitem>
+      					<para>
+      					Letters_numbers - Passwords must contain letters and numbers only.  There must be at least 
+      					one UPPER and one lower case letter and a number.
+      					</para>
+      				</listitem>
+       				<listitem>
+      					<para>
+      					letters_numbers_specialchars - Passwords must contain at least one UPPER or one lower 
+      					case letter, a number and a special character.
+      					</para>
+      				</listitem>	
+      			</orderedlist>
+         		</para>
+		
+		<para>
+		Once the same valid password is entered in both fields click on <emphasis>Change Password</emphasis> button.  
+		Once your request has been validated 
+		a confirmation page is displayed by clicking on the <emphasis>Continue</emphasis> button you are 
+		returned to the login page where you can use your User Name and New Password to login.
+		</para>
+		<para>
+		If any errors are encountered they are displayed at the top of the form in a red box.  The only error you 
+		can correct as a user is ensuring thet your username is valid.
+		</para>
+	</section>
+	<section id="using-login">
+		<title>Login</title>
+		<para>
+		One you have an account and password you can log in.  This is done by entering your <emphasis>Username and Password
+		</emphasis> in the boxes provided and clicking on the login button.
+		</para>
+		<para>
+		If any errors are encountered, such as an invalid Username/Password combination, they are displayed at the top of the form 
+		in a red box.
+		</para>
+		<para>
+		If password aging has been enabled you will be informed if your password is due to expire as a 14 day countdown.  You can change 
+		your password at any time during this 14 days.  Once your password has expired you will need to change it before you can use &progname;
+		again.  At this point you are presented with a page to enter your new password.  If you do not wish to change your password at this
+		time click on <emphasis>Cancel</emphasis> button and you will be returned to the login page.
+		</para>
+		<para>
+		Once you have sucessfully logged in you can then use &progname;.  The front page also displays the date and time you last used
+		&progname; rather than when you last logged in.
+		</para>
+		<para>
+		The functionality you have available depend on the permissions you have been assigned.
+		</para>
+		<para>
+		If the administrator has enabled Password Aging and your password is due to expire within 15 days you will be given a warning at
+		the top of the screen along with a link to change your password.  
+		</para>
+		<para>
+		If your password has expired or the administrator has reset it for you and is forcing you to change it at first login you will be redirected 
+		to the password change screen.  If this happens you will be unable to continue using &progname; until you have changed your password.
+		</para>
+		<para>
+		The administrator can enable or disable the auto complete function of your web browser for the login forms.  You can still save your username 
+		and password in your browser's Password Manager.  To fill in your username and pasword the next time you log in click on the User Name Field 
+		and select the correct username.  Both the username and password fields are then completed for you.
+		</para>
+		<para>
+		If you have used the wrong password to attempt to login and are advised that you have used an "Invalid Username and password" you must wait 15 seconds 
+		before attempting to login again.  &progname; will reject all login attemps within this time period even if they are correct.
+		</para>
+	</section>
+	<section id="using-preferences">
+		<title>Setting Your Preferences</title>
+		<para>
+		Once you have logged in you can view your user preferences page.  The pages has the following 3 tabs
+		</para>
+			<section id="using-generalpreferences">
+				<title>General Preferences</title>		
+				<para>
+				The General Preferences allow you to configure the applications look and feel.  The site administrator can
+				set default values for each item and can also disable your ability to change them. If this has happened then
+				they will not appear on this tab. The standard options are:
+				</para>
+				<variablelist>
+				   	<varlistentry>
+        						<term>General Apperance</term>
+        						<listitem>
+          							<para>
+          							This sets the theme that is used to display the web pages. It controls the look and
+          							format of each page.  Each Theme is built up from
+          							a number of <olink targetptr="gloss-css" targetdoc="manual" role="glossterm">CSS</olink> files.
+		          					</para>
+          				        		</listitem>
+      					</varlistentry>
+				   	<varlistentry>
+        						<term>Text Area Zoom</term>
+        						<listitem>
+          							<para>
+          							This option controls wither the <olink targetptr="gloss-html" targetdoc="manual" role="glossterm">HTML</olink> 
+          							textarea changes size when it obtains or losses focus.  For this to work 
+          							<olink targetptr="gloss-javascript" targetdoc="manual" role="glossterm">javascript</olink> has to be enabled on your 
+          							browser.
+		          					</para>
+          				        		</listitem>
+      					</varlistentry>
+				   	<varlistentry>
+        						<term>Maximum Number of Results to Display</term>
+        						<listitem>
+          							<para>
+          							This sets the number of search results you wish tp display on a single page.
+          							The valid values are 10,20, 30, 40 and 50. 
+		          					</para>
+          				        		</listitem>
+      					</varlistentry>
+				</variablelist>
+			</section>
+			<section id="using-nameandpassword">
+				<title>Name and Password</title>
+				<para>
+				This tab allows you to update your profile.  In order to process the update you will need
+				to provide your current password.  You can update the following information:
+				</para>
+				<variablelist>
+			   	<varlistentry>
+        					<term>Password</term>
+        					<listitem>
+          						<para>
+          						Enter your chosen password in this field.  It should be between 8 and 20 characters long and depending on 
+          						how &progname; is configured be in one of the following formats:
+							<orderedlist>
+      								<listitem>
+      									<para>
+      									no_constraints - No complexity required.
+      									</para>
+      								</listitem>
+      								<listitem>
+      									<para>
+      									letters - Lower and/or uppercase letters only
+      									</para>
+      								</listitem>
+      								<listitem>
+      									<para>
+      									mixed_letters - Passwords must contain letters only with at least one UPPER and one lower case letter.
+      									</para>
+      								</listitem>
+       								<listitem>
+      									<para>
+      									Letters_numbers - Passwords must contain letters and numbers only.  There must be at least 
+      									one UPPER and one lower case letter and a number.
+      									</para>
+      								</listitem>
+       								<listitem>
+      									<para>
+      									letters_numbers_specialchars - Passwords must contain at least one UPPER or one lower 
+      									case letter, a number and a special character.
+      									</para>
+      								</listitem>	
+      							</orderedlist>
+         						</para>
+          						<para>
+          						You must confirm your password in the <emphasis>Confirm Password</emphasis> box.
+          						</para>
+          		        			</listitem>
+	      			</varlistentry>
+			   	<varlistentry>
+        					<term>Real Name</term>
+        					<listitem>
+          						<para>
+          						You can change your real name here.
+	          					</para>
+          			        		</listitem>
+      				</varlistentry>
+			   	<varlistentry>
+        					<term>Email Address</term>
+        					<listitem>
+          						<para>
+          						This is used to send you updates such as a new password if requested.
+          						</para>
+          			        		</listitem>
+      				</varlistentry>
+			</variablelist>
+			</section>
+			<section id="using-permissions">
+				<title>Permissions</title>
+				<para>
+				This tab show the groups you are a member off.  Default groups which all users are members of are
+				indicated with a <emphasis>(*)</emphasis>
+				</para>
+			</section>
+	</section>
+	<section id="using-logout">
+		<title>Logout</title>
+		<para>
+		In order to logout click on the <emphasis>Logout</emphasis> link on either the top or bottom menus.
+		</para>
+	</section>
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="app.xml" />
+</chapter>

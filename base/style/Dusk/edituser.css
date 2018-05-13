@@ -1,0 +1,37 @@
+table.edituser {
+    border-spacing: 1em;
+    font-size : 10pt;
+    width : 50%
+}
+table.edituser tr {
+    vertical-align: top;
+    border-top: solid thin black;
+}
+table.edituser th {
+    text-align: right;
+    white-space: nowrap;
+    width : 20%;
+}
+table.edituser th,
+table.edituser td {
+    padding: 0;
+}
+table.editusergroups {
+    border-spacing: 0.25em;
+    font-size : 10pt;
+    width : 60%
+}
+table.editusergroups tr {
+    vertical-align: top;
+    border-top: solid thin black;
+}
+table.editusergroups th {
+    text-align: left;
+    white-space: nowrap;
+    width : 12%;
+}
+table.editusergroups th,
+table.editusergroups td {
+    padding: 0;
+}
+

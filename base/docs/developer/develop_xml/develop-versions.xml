@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE appendix SYSTEM "../../xsl/webtemplate.dtd" [ 
+    <!ENTITY % myents SYSTEM "webtemplate.ent">
+   %myents;
+]>
+
+<appendix id="modifications">
+	<title>Modification Record</title>
+	<para>
+	This appendix contains the modification record for Webtemplate
+	</para>
+	<table><title>Modification Record</title>
+	<tgroup cols="3" align="left" >
+	<colspec colnum="1" colname="version" colwidth="2*" />
+	<colspec colnum="2" colname="date" colwidth="4*" />
+	<colspec colnum="3" colname="modifications" colwidth="10*" />
+	<thead>
+		<row>
+			<entry>Version</entry>
+			<entry>Date</entry>
+			<entry>Modification</entry>
+		</row>
+	</thead>
+	<tbody>
+		<row>
+			<entry>0.1.0</entry>
+			<entry>01 May 2011</entry>
+			<entry>Initial Design</entry>
+		</row>
+		<row>
+			<entry>0.5.0</entry>
+			<entry>31 March 2015</entry>
+			<entry>Development Release for Testing</entry>
+		</row>
+	</tbody>
+	</tgroup>
+	</table>
+</appendix>

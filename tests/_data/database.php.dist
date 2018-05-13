@@ -1,0 +1,17 @@
+<?php
+require_once 'MDB2.php';
+
+$options = array(
+    'debug'       => 2,
+    'portability' => MDB2_PORTABILITY_ALL,
+    'idxname_format' => '%s'
+);
+
+
+$dsn["phptype"]  = "";
+$dsn["hostspec"] = "";
+$dsn["database"] = "";
+$dsn["username"] = "";
+$dsn["password"] = "";
+
+?>         

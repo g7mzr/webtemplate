@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE chapter SYSTEM "../../xsl/docbook.dtd" [
+      <!ENTITY  % myents SYSTEM "webtemplate.ent">
+      %myents;
+]>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:id="api_groups">
+	<title>Groups Resource</title>
+	<section xml:id="groups_intoduction">
+		<title>Introduction</title>
+		<para>
+		Webtemplate 
+		</para>
+	</section>
+	<section xml:id="groups_read">
+		<title>IRead Group Information</title>
+		<para>
+		Webtemplate 
+		</para>
+	</section>
+	<section xml:id="groups_insert">
+		<title>Insert New Group</title>
+		<para>
+		Webtemplate 
+		</para>
+	</section>
+	<section xml:id="groups_update">
+		<title>Update Existing Group</title>
+		<para>
+		Webtemplate 
+		</para>
+	</section>
+	<section xml:id="groups_delete">
+		<title>Delete Group</title>
+		<para>
+		Webtemplate 
+		</para>
+	</section>
+</chapter>

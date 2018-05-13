@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter SYSTEM "../../xsl/webtemplate.dtd" [ 
+    <!ENTITY % myents SYSTEM "webtemplate.ent">
+   %myents;
+]>
+
+<chapter id="install-develop-system">
+	<title>Install Webtemplate for Application Development</title>
+	<para> 
+	In order to use Webtemplate to develop your own application you will need the following prerequisites at the 
+	very minimum.  Aditional Chapters are avilable if you wish to use  <olink targetptr="continuous_integration" targetdoc="develop">Continuous Integration</olink>
+	or <olink targetptr="selenium" targetdoc="develop" >Selenium</olink>
+	</para>
+
+	<procedure>
+		<step>
+			<para><link linkend="install-php">Install PHP</link>
+			</para>
+		</step>
+		<step>
+			<para><link linkend="install-webserver">Install Apache</link>
+			</para>
+		</step>
+		<step>
+			<para><link linkend="install-database">Install a Database Engine</link>
+			</para>
+		</step>
+		<step>
+			<para><link linkend="install-webtemplate">Install Webtemplate</link>
+			</para>
+		</step>
+		<step>
+			<para><link linkend="install-composer">Install Composer</link>
+			</para>
+		</step>
+		<step>
+			<para><link linkend="install-smarty">Install SMARTY</link>
+			</para>
+		</step>
+		 <step>
+			<para><link linkend="config-webtemplate">Configure all of the above.</link> </para>
+	     	</step>
+	</procedure>
+	
+	<section id="install-php">
+		<title>PHP</title>
+		<para>Installed Version Test: <programlisting>php -v</programlisting></para>
+      
+      		<para>
+      		If you don't have it and your OS doesn't provide official packages, 
+      		visit <ulink url="http://www.php.net"/>.
+		 Although Webtemplate runs with PHP &min-php-ver;,
+		 it's a good idea to be using the latest stable version.
+      		</para>
+      		<para>The following PHP Extensions are required.  
+     			<orderedlist>
+      				<listitem>
+      					<para>
+      						posix - required to set up the application.
+      					</para>
+      				</listitem>
+      				<listitem>
+      					<para>
+      						session - used to monitor logins beteen pages.
+      					</para>
+      				</listitem>
+      				<listitem>
+      					<para>
+      						pgsql - PHP Postgresql Native Driver.
+      					</para>
+      				</listitem>
+     			
+      			</orderedlist>
+      		</para>
+		<para>Installed Extension Test:
+		<programlisting>php -m</programlisting></para>
+		<para>
+		If you don't have the required extensions and you OS does not provide them to may have to 
+		reinstall PHP from source.
+		</para>
+	</section>
+	<section id="install-webserver">
+  		<title>Apache Webserver</title>
+		<para>
+		Installed Version Test: view the default welcome page at
+      		http://&lt;your-machine&gt;/
+      		</para>
+      		<para>
+      		You have freedom of choice here, pretty much any web server that is capable of running 
+      		<olink targetptr="gloss-php" targetdoc="develop" role="glossterm">PHP</olink> scripts will work.  However, we strongly recommend using the Apache 
+      		web server (either 1.3.x or 2.x), and  the installation instructions usually assume you are using it. 
+		</para>
+      		<para>
+      		If you don't have Apache and your OS doesn't provide official packages, 
+      		visit <ulink url="http://httpd.apache.org/"/>.
+      		</para>
+	</section>
+	
+	<section id="install-database">
+  		<title>Database</title>
+  		<para>
+  		Webtemplate supports pgsql as its database server.
+  		</para>
+  		<section id="install-pgsql">
+  			<title>Install Postgresql</title>
+			<para>Installed Version Test: <programlisting>psql -V</programlisting></para>
+			<para>
+			 If you don't have it and your OS doesn't provide official packages, 
+			 visit <ulink url="http://www.postgresql.org/"/>. You need PostgreSQL
+		          	 version &min-pg-ver; or higher.
+          			</para>
+          			<para>
+          			If you install from something other than a packaging/installation
+			system, such as .rpm (Redhat Package), or .deb (Debian Package), make sure the
+          			PostgreSQL server is started when the machine boots.
+          			</para>
+
+  		</section>
+	</section>
+
+	<section id="install-webtemplate">
+  		<title>Webtemplate</title>
+		<para>
+		<ulink url="&url-main;" >Download a copy of Webtemplate</ulink> and place your development directory.  
+		This can be accessable by a local webserver for testing. 
+		</para>
+		<para>
+		As you are not installing Webtemplate please ensure that the <filename>templates_c</filename>, 
+		<filename>configs</filename>, <filename>logs</filename> and <filename>cache</filename> 
+		directories are writable by the webserver.
+		</para>
+	</section>
+	<section id="install-composer">
+		<title>Install Composer</title>
+		<para>
+		<olink targetptr="gloss-composer"  targetdoc="develop" role="glossterm">Composer</olink> is used to install a number of &progname; 
+		dependancies for both development and productions systems.  Instructions for manually installing it can be found at 
+		<ulink url="https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx" />.  If you only require Composer for &progname; then 
+		you should install it locally in the build directory of &progname; 
+		</para>
+		<para>
+		<olink targetptr="gloss-composer"  targetdoc="develop" role="glossterm">composer.phar</olink> can be automatically installed 
+		by running the command <programlisting>ant composer-install</programlisting>.  
+		<olink targetptr="gloss-composer"  targetdoc="develop" role="glossterm">Composer</olink> will be autobatically installed when you run the
+		build file for the firest time.
+		</para>
+	</section>
+	<section id="install-smarty">
+		<title>Install SMARTY</title>
+		<para>
+		&progname; requires SMARTY to display its output.  Smarty is a template engine for PHP, facilitating the separation of 
+		presentation (HTML/CSS) from application logic. 	&progname; requires SMARTY version &min-smarty-ver;.  
+		The SMARTY homepage is <ulink url="http://www.smarty.net"/>.
+		</para>
+		<para>
+		SMARTY is installed using <olink targetptr="gloss-composer"  targetdoc="develop" role="glossterm">Composer</olink>. 
+		</para>
+		<para>
+		To install Smarty run the following command <programlisting>php composer.phar install --no-dev</programlisting>.  This will
+		install the correct version of the Smarty Template Engine in the <filename class="directory">vendor</filename> directory.  if you leave the 
+		<emphasis>--no-dev</emphasis> option out all dependancies including those for developing the application will be installed.
+		</para>
+	</section>
+
+	
+	<section id="configuration">
+	<title>Configuration</title>
+	<warning>
+      		<para>
+        		Poorly-configured installations can give attackers full access to your system.  Please take the
+        		security parts of these guidelines seriously, even for &progname; machines hidden away behind your firewall. 
+        		Be certain to read the User Manual for some important security tips.
+   			</para>      
+	</warning>
+	
+		<section id="config-database">
+  			<title>Database</title>
+			<para>There is no specific database configuration required.  Please ensure that you have an account
+			available that can create users and databases.  This account should not be used as the &progname; 
+			database user.
+			</para>
+		</section>
+
+		<section id="config-webtemplate">
+  			<title>&progname;</title>
+			<para>In order to configure &progname; you require root access to your webserver as you need to run a PHP install script.
+			This script configures &progname;, setsup your database and sets file permissions within the &progname; directory structure.
+			</para>
+			<para>To configure &progname; carry out the following instructions:</para>
+			<procedure>
+				<step>
+					<para>Copy <filename>config.php.dist</filename> to <filename>config.php</filename>.  Open
+					<filename>config.php</filename> in your favourite text editor.
+					</para>
+				</step>
+				<step>
+					<para><filename>config.php</filename> contains the following elements and all must be completed 
+					for &progname; to be installed correctly.
+					</para>
+					<programlisting>
+					
+		/* Database type. Only pgsql is supported */
+		$installConfig['database_type']             = '';
+
+		/* Database Super User.  Only used to configure the database */
+		$installConfig['database_superuser']        = '';
+		$installConfig['database_superuser_passwd'] = '';
+
+		/* Normal User for application */
+		$installConfig['database_user']             = '';
+		$installConfig['database_user_passwd']      = '';
+
+		/* Name of Host that Database is installed on */
+		$installConfig['database_host']             = '';
+
+		/* Name of the database */
+		$installConfig['database_name']             = '';
+
+		/* Linux group that the Webserver runs under */
+		$installConfig['webservergroup']            = '';
+					</programlisting>					
+				</step>
+				<step>
+					<para> </para>
+					<para>Run the following command from the &progname; directory: <programlisting>./install.php --check-modules</programlisting></para>
+				</step>
+				<step>
+					<para>
+					Install any missing modules and run the command again omitting the --check-modules switch.
+					<programlisting>./install.php --unit-test</programlisting>
+					This will install the test users required for <olink targetptr="gloss-unittest" targetdoc="develop" role="glossterm">UnitTests</olink>  and 
+					<olink targetptr="gloss-selenium" targetdoc="develop" role="glossterm">SELENIUM</olink>  testing. 
+					</para>
+				</step>
+			</procedure>
+			<para>
+			&progname; should now be configured for use.  If the install failed correct the errors and run the install command again.
+			</para>
+		</section>
+
+		<section id="config-webserver">
+  			<title>Apache Webserver</title>
+			<para>
+			Configure your webserver according to the appropriate section below.  Currently &progname; only supports 
+			Apache with mod_php. 
+			</para>
+			<section id="config-apache">
+				<title>	Apache with mod_php</title>
+				<para>To configure Apache to work with &progname; carry out the following instructions.</para>
+				<procedure>
+					<step>
+						<para>
+						Load <filename>httpd.conf</filename> in your editor.  In distributions like 
+						RedHat this can be found in /etc/hpptd/conf.  If your distribution has configuration 
+						tools such as Yast in Suse it is recommended that you use them.
+						</para>
+					</step>
+					<step>
+						<para>
+						Apache users the <computeroutput>&lt;Directory&gt;</computeroutput> directive to
+						set permissions.  The following lines need to be added to the directive that applies to the 
+						location of &progname;.  If it does not exist.  This example assumes that &progname; resides
+						in <filename class="directory">/src/www/&progname;</filename>.
+						</para>
+						<para>
+						For  Apache version 2.2 and earlier use the following directory block
+						</para>
+					            <programlisting>
+					            
+	&lt;Directory /src/www/webtemplate/base&gt;
+		AllowOverride None
+		Order allow,deny
+		Allow from all
+		DirectoryIndex index.php
+	&lt;/Directory&gt;
+					            </programlisting>
+					            
+					             <para>
+						For  Apache version 2.4 and later use the following directory block
+						</para>
+					            <programlisting>
+					            
+	&lt;Directory /src/www/webtemplate/base&gt;
+		AllowOverride None
+		Order allow,deny
+		Allow from all
+		Require all granted
+		DirectoryIndex index.php
+	&lt;/Directory&gt;
+					            </programlisting>
+					            
+					            <para>
+					            These instructions tell Apache to look for <filename class="devicefile">index.php</filename> if 
+					            someone only types the directory name into the browser.  It prevents <filename class="devicefile">.htaccess
+					            </filename> files overriding global permissions. It also allows access from any IP address
+					            </para>
+					</step>
+					<step>
+						<para>
+						Set up your access to the directory as either an alias or virtual host.  Follow the instructions for your 
+						webserver to do this.
+						</para>
+					</step>
+					<step>
+						<para>
+						Restart the webserver and access &progname; using your chosen URL.
+						</para>
+					</step>
+				</procedure>
+			</section>
+		</section>
+	</section>
+
+</chapter>

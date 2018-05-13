@@ -1,0 +1,22 @@
+table.editgroup {
+    border-spacing: 1em;
+    font-size : 10pt;
+    width : 50%;
+}
+table.editgroup tr {
+    vertical-align: top;
+    border-top: solid thin black;
+}
+table.editgroup th {
+    text-align: right;
+    white-space: nowrap;
+    width : 20%;
+}
+table.editgroup th,
+table.editgroup td {
+    padding: 0;
+}
+
+.tableheader {
+    background-color : #6666FF;
+}

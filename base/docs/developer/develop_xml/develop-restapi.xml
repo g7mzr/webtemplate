@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter SYSTEM "../../xsl/webtemplate.dtd" [
+    <!ENTITY % myents SYSTEM "webtemplate.ent">
+   %myents;
+]>
+
+<chapter id="restapi">
+	<title>RESTful API</title>
+	<section id="api_introduction">
+		<title>Introduction</title>
+		<para>
+		TO BE DONE
+		</para>
+	</section>
+</chapter>

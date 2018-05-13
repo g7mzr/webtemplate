@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter SYSTEM "../../xsl/webtemplate.dtd" [ 
+    <!ENTITY % myents SYSTEM "webtemplate.ent">
+   %myents;
+]>
+
+<chapter id="develop-application">
+	<title>How to Develop Applications from Webtemplate</title>
+	<section id="develop-modify">
+		<title>Introduction</title>
+		<para>
+		Once you decide what you want your application to do you need to design how it will fit in Webtemplate.  
+		</para>
+		<para>
+		It is recommended that your new classes, templates and tests are stored 
+		in a subdirectory named after you application.  It will be necssary to update some existing classes when you add new parameters and preferences to the application.
+		</para>
+	</section>
+	<section id="develop-dependancies">
+	<title>Dependancy Checking</title>
+	<para>
+	As part of the installation process <filename>install.php</filename> checks that the correct  <olink targetptr="gloss-php" targetdoc="develop" role="glossterm">PHP</olink> 
+	and  <olink targetptr="gloss-smarty" targetdoc="develop" role="glossterm">SMARTY</olink> module and 
+	versions are installed on the target machine.  The dependancy information is held in the DependanciesData class located in 
+	<filename>include/install/dependanciesdata.class.php</filename>.  
+	</para>
+	<para>
+	The dependancies are stored in three arrays:
+		<itemizedlist mark="bullet">
+			<listitem>
+				<para>
+				phpModules -  PHP extensions required for Webtemplate.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+				otherModules - Other applications and php extensions required for Webtemplate.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+				databaseModules - Databases supported by Webtemplate.
+				</para>
+			</listitem>
+		</itemizedlist>
+	</para>
+	<para>
+	Examples of dependancy records can be seen in <filename>include/install/dependanciesdata.class.php</filename>.
+	</para>
+	</section>
+		<section id="develop-database">
+	  	<title>Database</title>
+		<note>
+			<para>
+			Webtemplate only support Postgesql as its database.
+			</para>
+		</note>
+		<para>
+		Changes to the database are fairly simple to make.  Once you have decided on the additional tables you require you will need to edit 
+		<filename>schema.php</filename> to add your tables to the schema array.  You may also need to edit the database driver (<filename>pgsql.php</filename>) 
+		if you have used any field type which require translating from ANSISQL to your specific SQL implementation.
+		</para>
+		<para>
+		Please review <filename>schema.php</filename> for how to create tables in you application.  An example table is shown below:
+		</para>
+		<programlisting>
+		
+	'users' => array
+        		'COLUMNS' => array(
+           		 	'user_id' => array('TYPE' => 'serial', 'PRIMARY' => '1'),
+           		 	'user_name' => array('TYPE' => 'varchar(64)', 'NOTNULL' => '1'),
+           		 	'user_passwd' => array('TYPE' => 'varchar(64)', 'NOTNULL' => '1'),
+           		 	'user_realname' => array('TYPE' => 'varchar(64)'),
+           		 	'user_email' => array('TYPE' => 'varchar(64)'),
+           		 	'user_enabled' => array('TYPE' => 'char(1)', 'DEFAULT' => 'Y', 'NOTNULL' => '1'),
+           		 	'user_disable_mail' => array('TYPE' => 'char(1)', 'DEFAULT' => 'N', 'NOTNULL' => '1'),
+            			'last_seen_date' => array('TYPE' => 'DATETIME'),
+           			'passwd_changed' => array('TYPE' => 'DATETIME')
+       		 )
+  	)
+		</programlisting>
+		<para>
+		It is recommended that once you release your application you only change the schema when absolutly necessary and such changes result in an increment of the
+		Minor Version 
+		</para>
+		<para>
+		You should also configure any Security Groups that are specific to you application at this time as you will need them later to control access to any modules you create.
+		</para>
+	</section>
+	<section id="develop-app">
+	  	<title>Application Development</title>
+		<para>
+		Once you have decided on the data you wish to store in the database and updated <filename>schema.php</filename> you then need to be able to store, update and retreive the data.
+		This is done through Classes you develop.  All data validation and database access should be carried out through  <olink targetptr="gloss-php" targetdoc="develop" role="glossterm">PHP</olink>  
+		classes so that this functionality of the application can be tested using  <olink targetptr="gloss-phpunit" targetdoc="develop" role="glossterm">PHPUnit</olink> .
+		</para>
+		<para>
+		The modules that the user accesses through the webserver should only contain the minimum code to set up the user environment, retrive the users command and data and display the
+		results of searches and manipulate (Save) data to the database. 
+		</para>
+		<para>
+		In the rest of the explanation on how to develop an application using Webtemplate we will use the example of a Club Membership Database.  The database will store members details in 
+		one table and subscriptions in another.  This is a rather simple example but we will develop it as if is was more complex.  Although the areas to be devloped are listed seperately below
+		the development process will be iterative, particularly between the Members and Accounts Classes and their unit test scripts.
+		</para>
+		<note>
+			<para>
+			You should use your own naming convention for the files and classes required in your application.
+			</para>
+		</note>
+		<para>
+		You should develop your application in the following order.
+		</para>
+		<procedure>
+			<step>
+				<para>
+				<link linkend="develop-preferences">Preferences</link>
+				</para>
+			</step>
+			<step>
+				<para>
+				<link linkend="develop-parameters">Parameters</link>
+				</para>
+			</step>
+			<step>
+				<para>
+				<link linkend="develop-classes">Classes</link>
+				</para>
+			</step>
+			<step>
+				<para>
+				<link linkend="develop-unittest">Unit Tests</link>
+				</para>
+			</step>
+			<step>
+				<para>
+				<link linkend="develop-templates">Templates</link>
+				</para>
+			</step>
+			<step>
+				<para>
+				<link linkend="develop-modules">Modules</link>
+				</para>
+			</step>
+			<step>
+				<para>
+				<link linkend="develop-seleniumtests">Selenium Tests</link>
+				</para>
+			</step>
+		</procedure>
+		<section id="develop-preferences">
+	  		<title>Preferences</title>
+			<para>
+			Preferences are used by the Webtemplate/your application users to set the look and feel of the application.    This is one of the most complecated areas to update as it
+			affect both the Administration and Users subsystem.  Default Preferences can be set by the adminstrator who can also set if users are allowed to change them.  Users
+			can then set the preferences to suite themselves and the application then has to use them.  
+			</para>
+			<para>
+			It is recommended that the following steps are followed to add new Preferences to ths application.
+			</para>
+			<procedure>
+				<step>
+					<para>
+					Update <filename>includes/admin/preferences.php</filename>.  You will need to modify the following functions to update any new preferences you add:
+					of each new preference you have added.
+					
+					</para>
+				</step>
+				<step>
+					<para>
+					Update <filename>test/admin/PreferencesClassTest.php</filename> to test that the new preference can be validated, and saved.
+					</para>
+				</step>
+				<step>
+					<para>
+					Update<filename>includes/users/users_pref_class.php</filename>.  You will need modify the following functions for new preferences you have added.
+					<itemizedlist mark="bullet">
+						<listitem>
+							<para>
+							UserPrefClass::checkUserPreferncesChanged
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+							UserPrefClass::LoadPreferences, 
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+							UserPrefClass::saveUserPreferences
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+							UserPrefClass::validateUserPreferences
+							</para>
+						</listitem>
+					</itemizedlist>
+					</para>
+				</step>
+				<step>
+					<para>
+					Update <filename>test/users/UserPrefsClassTest.php</filename> to test that the new preference can be validated, and saved for a user. This includes
+					the dummy parameter test file <filename>parameter_test_file.php</filename> located in the <filename>tests/_data</filename> directory.
+					</para>
+				</step>
+				<step>
+					<para>
+					Update <filename>includes/users/user_class.php</filename> to enable the chosen value for your new preferences to be used.  You will need to modify 
+					UserClass::register to save the chosen prefernce value in a Class Variable and add a function which can retrevie and store the preference value in the Class Veriable.
+					</para>
+				</step>
+				<step>
+					<para>
+					Update <filename>test/users/UserPrefsClassTest.php</filename> to test that the new preference can be validated, and saved for a user..
+					</para>
+				</step>
+				<step>
+					<para>
+					Update <filename>templates/en/admin/prefs.tpl</filename> to display the new preference(s) to the admin user.
+					</para>
+				</step>
+				<step>
+					<para>
+					Update <filename>templates/en/users/prefs.tpl</filename> to display the new preference(s) to the user.
+					</para>
+				</step>
+				<step>
+					<para>
+					Update <filename>base/editsettings.php</filename> to ensure the current values of the new preference(s) are displayed when the admin user
+					is editing them
+					</para>
+				</step>
+				<step>
+					<para>
+					Update <filename>base/userprefs.php</filename> to ensure the user is shown which preference(s) can be edited, the current value and what values
+					they can choose.
+					</para>
+				</step>
+				<step>
+					<para>
+					Update <filename>includes/install/filemanager.php</filename> to add the new default preference variable to <filename>configs/preferences.php</filename>.  
+					This update has to cover both new installs and updated to existing installs.  The function to be updated is called FileManger::createPreferences.
+					</para>
+				</step>
+				<step>
+					<para>
+					Update <filename>tests/selenium/admin_preferences.php</filename> to test the new preferences from the admin screen and also
+					<filename>userpref_ClassTest.php</filename> to test the new preferences from the user screen.
+					</para>
+				</step>
+			</procedure>
+		</section>
+		<section id="develop-parameters">
+	  		<title>Parameters</title>
+			<para>
+			The configuration Parameters control how your application works.  You will need to follow the steps below to add new preferences to Webtemplate.
+			</para>
+			<procedure>
+				<step>
+					<para>
+					Update <filename>includes/admin/parameters.php</filename>.  You will need to add or update the following procedures to deal with your application specific 
+					Parameters.
+					<itemizedlist mark="bullet">
+						<listitem>
+							<para>
+							Create Class Variables for your new Parameters.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+							Create ParametersClass::check...ParametersChanged. (Where ... is the name of your parameters section.)
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+							Create ParametersClass::validate...Parameters. (Where ... is the name of your parameters section.)
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+							Update ParametersClass::getCurrentParameters
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+							Update ParametersClass::saveParamFile
+							</para>
+						</listitem>
+					</itemizedlist>
+					</para>
+				</step>
+				<step>
+					<para>
+					Update <filename>test/admin/ParameterClassTest.php</filename> to test that the new parameters can be validated, and saved.  This includes
+					the dummy parameter test file <filename>parameter_test_file.php</filename> located in the <filename>tests/_data</filename> directory.
+					</para>
+				</step>
+				<step>
+					<para>
+					Update <filename>templates/en/admin/config.tpl</filename> to display the new parameter(s) to the admin user.  The Template is split into two parts, 
+					the first is the menus and the second is the part of the page showing the parameters.  It is suggested you you create a new page for your parameters.
+					</para>
+				</step>
+				<step>
+					<para>
+					Update <filename>base/editconfig.php</filename> to ensure that the new parameters page can be displayed and populated with the current value of
+					each new parameter 
+					</para>
+				</step>
+				<step>
+					<para>
+					Update <filename>includes/install/filemanager.php</filename> to add the new defaul preference variable to <filename>configs/parametersphp</filename>.  
+					This update has to cover both new installs and updated to existing installs.  The function to be updated is called FileManger::createParameters.
+					</para>
+				</step>
+				<step>
+					<para>
+					Update <filename>tests/selenium/admin_parameters.php</filename> to test the new parameters from the admin screen.
+					</para>
+				</step>
+			</procedure>
+		</section>
+		<section id="develop-classes">
+	  		<title>Classes</title>
+			<para>
+			In this example we will require two classes, one to access the Members data and another to access the members accounts.  At this point we are not concerned how the information
+			will be displayed to or retrived from the user.    The basic steps to create the required <olink targetptr="gloss-php" targetdoc="develop" role="glossterm">PHP</olink>  files and classes are detailed below:
+			</para>
+			<procedure>
+				<step>
+					<para>
+					Create two new directories in the <filename>includes</filename> directory.  One called members and the other called accounts.
+					</para>
+				</step>
+				<step id="class_copy">
+					<para>
+					 In the <filename>includes/blank</filename> directory you will fine a file called <filename>blank_class.php</filename>. Copy this file in to the <filename>members</filename>
+					 directory and rename it to <filename>members_class.php</filename>.  Open the file in your favorite editor and rename blankClass to memberClass.  
+					 At the moment the class contains the 7 basic functions for the class They are:
+						<itemizedlist mark="bullet">
+							<listitem>
+								<para>
+									<emphasis role="underline">__Construct.</emphasis>  The Class constructor.  you should pass any common parameters
+									such as Database Login details to the constructor.
+								</para>
+							</listitem>
+							<listitem>
+								<para>
+									<emphasis role="underline">search.</emphasis>  All database dearchs should be carried out using this function.  The search data
+									is passes as parameters and the searched data returned as an array.
+								</para>
+							</listitem>
+							<listitem>
+								<para>
+									<emphasis role="underline">validate.</emphasis>  this function is uesed to validate user input data.
+								</para>
+							</listitem>
+							<listitem>
+								<para>
+									<emphasis role="underline">fetch.</emphasis>  This function fetched one record from teh database.  The Record Is should be passed
+									as a parameter.  The record is returned as an array.
+								</para>
+							</listitem>
+							<listitem>
+								<para>
+									<emphasis role="underline">save.</emphasis>  this function is used to insert or update database records.  New records are <function>INSERT</function>ed
+									to the database while existing records are <function>UPDATE</function>d.
+								</para>
+							</listitem>
+							<listitem>
+								<para>
+									<emphasis role="underline">datachanged</emphasis>.  This function compare the existing record with the new record to see if there are any changes.  it should
+									return <emphasis>TRUE</emphasis> if data has changed and <emphasis>FALSE</emphasis> otherwise.  This function also creates the change string which
+									records which fields has changed.
+								</para>
+							</listitem>
+							<listitem>
+								<para>
+									<emphasis role="underline">getChangeString.</emphasis>  Returns the change string created by <function>datachanged</function>.
+								</para>
+							</listitem>
+						</itemizedlist>
+					</para>
+					<para>
+					You may need more functions later but this is the bare minimum.
+					</para>
+				</step>
+				<step>
+					<para>
+					Repeat <xref linkend="class_copy" /> above to create the blank accounts_Class file in the <filename>accounts</filename> directory.  This time 
+					rename the file as <filename>accounts_class.php</filename>  and the class as accountClass.
+					</para>
+				</step>
+			</procedure>
+		</section>
+		<section id="develop-unittest">
+	  		<title>Unit Test</title>
+			<para>
+			The program used to run Unit Tests is <olink targetptr="gloss-phpunit" targetdoc="develop" role="glossterm">PHPUnit</olink> .  Once you have created you create the test files wither manually or 
+			using the the following command: <programlisting>phpunit-skelgen generate-test ClassName classfile.php </programlisting> from the directory containing the ClassFile.
+			Once the test file is created move it to the correct directory under the <filename>tests</filename> directory.  You will then need to edit the file to <emphasis>include</emphasis>
+			the Class_File and incorporate the tests.
+			</para>
+			<para>
+			Full instructions for writing <olink targetptr="gloss-phpunit" targetdoc="develop" role="glossterm">PHPUnit</olink> tests can be found at <ulink url="https://phpunit.de/manual/current/en/writing-tests-for-phpunit.html" />.  
+			Other examples can be found by looking at the tests written for Webtemplate.
+			</para>
+		</section>
+		<section id="develop-templates">
+	  		<title>Templates</title>
+			<para>
+			Webtemplate uses <ulink url="http://www.smarty.net/inheritance">Smarty Inherited templates</ulink>.  A Blank template is provided at <filename>templates/en/blank.tpl</filename>.  
+			The templates used for Webtemplate are <emphasis role="bold">HTML 4.01 Transitional//EN</emphasis>.
+			</para>
+			<para>
+			 It is suggested that you create one or more directories in <filename>includes/en/</filename> to hold your application's Smarty Templates.  Copy 
+			 <filename>blank.tpl</filename> into your directory and rename it to suite your application.  In the example discussed above you would copy it twice as 
+			 <filename>members.tpl</filename> and <filename>accounts.tpl</filename>.
+			</para>
+		</section>
+		<section id="develop-modules">
+	  		<title>Modules</title>
+			<para>
+			The modules accessed by the user via the web server are located in the <filename>base</filename> directory.  A blank module called <filename>blank.php</filename>
+			is provided in this directory for you to use as a template.  There are a few lines that you must change.  They are:
+			</para>
+			<itemizedlist mark="bullet">
+				<listitem>
+					<para>
+					<emphasis role="underline">Line 112 (if (!$user->checkGroup('group') == true) {)</emphasis>.  This provides access control for the module.  If you want
+					to restrict access to a specific group replace the word "group" with the name of the group you want to restrict access to.  If you do not wish to restrict access
+					remove or comment out lines 112 to 122. 
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+					<emphasis role="underline">Line 124</emphasis>.  Add you code here.
+					</para>
+				</listitem>
+				<listitem>
+					<para> 
+					<emphasis role="underline">Line 124</emphasis>.  Add you code here.
+					</para>
+				</listitem>
+				<listitem>
+					<para> 
+					<emphasis role="underline">Line 128 ($template = 'blank.tpl';)</emphasis>.  Replace <filename>blank.tpl</filename> with the name of your template
+					relative to the <filename>templates</filename> directory.
+					</para>
+				</listitem>
+			</itemizedlist>
+		</section>
+		<section id="develop-seleniumtests">
+	  		<title>Selenium Tests</title>
+			<para>
+			Webtemplate provides tests for <olink targetptr="gloss-selenium" targetdoc="develop" role="glossterm">SELENIUM</olink> Webdriver which allows you to test the user interface of your application.
+			You can write tests to for any new functionality you develop.  It has already been recomended you write tests for any new Preferences or Parameters you add.  The instruction
+			for setting up a Selenium Server can be found at <olink targetptr="selenium" targetdoc="develop">here</olink>.
+			</para>
+			<para>
+			<olink targetptr="gloss-selenium" targetdoc="develop" role="glossterm">SELENIUM</olink> tests are located in the <filename>tests/selenium</filename> directory.  You can use the scripts already in 
+			this directory as examples when you write your own.
+			</para>
+		</section>
+	</section>
+	<section id="develop-documentation">
+	  	<title>Documentation</title>
+		<para>
+		The documentation for Webtemplate is written in Docbook Version 4 format.  The XML files for webtemplate can be found in <filename>base/docs/en/xml</filename>.  To update 
+		the documentation you will need to follow the following steps.
+		</para>
+		<procedure>
+			<step>
+				<para>
+				<filename>base/docs/webtemplate.ent</filename>: Rename and edit to reflect your applications name, version and pre-requisits
+				</para>
+			</step>
+			<step>
+				<para>
+				<filename>base/docs/makedocs.php</filename>: Edit Lines 38 and 39 to reflect you applications name and version.
+				</para>
+			</step>
+			<step>
+				<para>
+				<filename>base/docs/en/xml/webtemplate.xml</filename>: Rename to reflect your applications name.  Edit the entity filename on line 5 to the name you 
+				have used in step 1 above.
+				</para>
+			</step>
+			<step>
+				<para>
+				<filename>base/docs/en/xml/administration.xml</filename>:  Edit the Preferences and Parameters sections to cover any new preferences or parameters you have
+				added.
+				</para>
+			</step>
+			<step>
+				<para>
+				<filename>base/docs/en/xml/app.xml</filename>:   Edit this file to explain to the user how to use your application.  <filename>base/docs/en/xml/using.xml</filename> 
+				contains the basic instructions such as logging in and out.
+				</para>
+			</step>
+		</procedure>
+	</section>
+</chapter>

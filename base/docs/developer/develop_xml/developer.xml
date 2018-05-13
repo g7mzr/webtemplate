@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book SYSTEM "../../xsl/webtemplate.dtd" [ 
+    <!ENTITY % myents SYSTEM "webtemplate.ent">
+   %myents;
+]>
+
+<book id="develop">
+	<title>&progname; - Version &current-ver; Developers Guide</title>
+	<bookinfo>	
+		<author>
+			<firstname>Alexander</firstname>
+			<surname>McNeil</surname>
+			<affiliation>
+				<address>
+					<email>amcneil@iee.org</email>
+				</address>
+			</affiliation>
+		</author>
+		<copyright>
+			<year>2011 - &current-year;</year>
+			<holder role="mailto:amcneil@iee.org">Alexander McNeil</holder>
+		</copyright>
+		<abstract>
+			<para>
+			Welcome to the Webtemplate development guide.  Webtemplate is a base system designed to
+			allow the implementation of web based applications.  It contain User, group and configuration modules which
+			are common across all applications.
+			</para>
+			<para>
+			This handbook tells you as the developer how to used Webtemplate to develop your own application, integrate it with phpundercontrol,
+			phpunit and docbook.
+			</para>
+			<para>
+			The most current version of this documentation can be found at <ulink url="&url-main;">&url-name;</ulink>
+			</para>
+		</abstract>
+	</bookinfo>
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-introduction.xml" /> 
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-philosophy.xml" /> 
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-install.xml" /> 
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-structure.xml" /> 
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-application.xml" /> 
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="ci-setup.xml" /> 
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="selenium.xml" /> 
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-restapi.xml" /> 
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="glossary.xml" /> 
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-versions.xml" /> 
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-tools.xml" /> 
+	<!--<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="../common_xml/gfdl.xml" /> -->
+</book>

@@ -1,0 +1,14 @@
+<phpdox xmlns="http://xml.phpdox.net/config">
+ <project name="webtemplate" source="../../../includes" workdir="api/xml">
+   <collector publiconly="false">
+      <include mask="*.php" />
+   </collector>
+
+   <generator output="api">
+
+        <build engine="html" enabled="true" output="html">
+            <file extension="html" />
+        </build>
+  </generator>
+ </project>
+</phpdox>

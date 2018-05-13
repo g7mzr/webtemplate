@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Sat Feb 05 10:54:45 GMT 2011 -->
+<!DOCTYPE glossary PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+    <!ENTITY % myents SYSTEM "webtemplate.ent">
+ 
+   %myents;
+]>
+
+<glossary id="glossary">
+
+	<glossdiv>
+	    	<title>0-9, high ascii</title>
+
+	    	<glossentry id="gloss-htaccess">
+      			<glossterm>.htaccess</glossterm>
+
+      			<glossdef>
+        				<para>Apache web server, and other NCSA-compliant web servers,
+       					 observe the convention of using files in directories called 
+        					<filename>.htaccess</filename>
+       					 to restrict access to certain files. They are not currently used in [[progname}}
+       				</para>
+      			</glossdef>
+		</glossentry>
+ 	</glossdiv>
+
+	 <glossdiv id="gloss-a">
+		<title>A</title>
+
+	    	<glossentry id="gloss-ant">
+      			<glossterm>ANT</glossterm>
+
+      			<glossdef>
+        				<para>
+        				Apache Ant is a software tool for automating software build processes. It originally 
+        				came from the Apache Tomcat project in early 2000. It was a replacement for the unix 
+        				make build tool, and was created due to a number of problems with the unix make.
+        				It is similar to Make but is implemented using the Java language, requires the Java 
+        				platform, and is best suited to building Java projects.
+				</para>
+				<para>
+				The most immediately noticeable difference between Ant and Make is that Ant uses XML 
+				to describe the build process and its dependencies, whereas Make uses Makefile format. 
+				By default the XML file is named <filename>build.xml</filename>.
+        				</para>
+      			</glossdef>
+		</glossentry>
+		
+	</glossdiv>
+	
+	<glossdiv id="gloss-c">
+	    	<title>C</title>
+	    	<glossentry id="gloss-composer">
+	    		<glossterm>Composer</glossterm>
+	    		<glossdef>
+	    			<para>
+	    			Composer is an application-level package manager for the PHP programming language that provides a standard format for 
+	    			managing dependencies of PHP software and required libraries.
+				</para>
+				<para>
+				Composer runs through the command line and installs dependencies (e.g. libraries) for an application. It also allows users 
+				to install PHP applications that are available on <glossterm linkend="gloss-packagist">Packagist</glossterm> which is its main 
+				repository containing available packages. It also 	provides autoload capabilities for libraries that specify autoload information 
+				to ease usage of third-party code.
+	    			</para>
+	    		</glossdef>
+	    	</glossentry>
+	    	<glossentry id="gloss-css">
+      			<glossterm>CSS</glossterm>
+
+      			<glossdef>
+        				<para>
+        				Cascading Style Sheets (CSS) is a style sheet language used to describe the presentation semantics 
+        				(the look and formatting) of a document written in a markup language. Its most common application 
+        				is to style web pages written in HTML and XHTML, but the language can also be applied to any kind 
+        				of XML document, including SVG and XUL.
+        				</para>
+      			</glossdef>
+		</glossentry>
+
+	</glossdiv>
+	
+<glossdiv id="gloss-d">
+	    	<title>D</title>
+	    	<glossentry id="gloss-docbook">
+      			<glossterm>DocBook</glossterm>
+
+      			<glossdef>
+        				<para>
+				 DocBook is a semantic markup language for technical documentation. It was originally intended for writing technical documents related to computer 
+				 hardware and software but it can be used for any other sort of documentation.
+				</para>
+				<para>	
+				As a semantic language, DocBook enables its users to create document content in a presentation-neutral form that captures the logical structure 
+				of the content; that content can then be published in a variety of formats, including HTML, XHTML, EPUB, PDF, man pages, Web help and HTML Help, 
+				without requiring users to make any changes to the source. In other words, when a document is written in DocBook format it becomes easily portable 
+				into other formats. It solves the problem of reformatting by writing it once using XML tags.
+				</para>
+      			</glossdef>
+		</glossentry>
+
+	</glossdiv>
+
+	  <glossdiv id="gloss-h">
+	    	<title>H</title>
+	    	<glossentry id="gloss-html">
+      			<glossterm>HTML</glossterm>
+
+      			<glossdef>
+        				<para>
+        				HTML, which stands for HyperText Markup Language, is the predominant markup language for 
+        				web pages. HTML is the basic building-blocks of webpages.
+				</para>
+				<para>
+				HTML is written in the form of HTML elements consisting of tags, enclosed in angle brackets, 
+				within the web page content. HTML tags normally come in pairs. 
+				The first tag in a pair is the start tag, the second tag is the end tag (they are also called 
+				opening tags and closing tags). In between these tags web designers can add text, tables, 
+				images, etc.
+        				</para>
+      			</glossdef>
+		</glossentry>
+
+	</glossdiv>
+	
+	  <glossdiv id="gloss-j">
+	    	<title>J</title>
+	    	<glossentry id="gloss-jar">
+      			<glossterm>JAR</glossterm>
+
+      			<glossdef>
+        				<para>
+	    			A JAR (Java Archive) is a package file format typically used to aggregate many Java class files and associated metadata and 
+	    			resources (text, images, etc.) into one file to distribute application software or libraries on the Java platform.
+				</para>
+      			</glossdef>
+		</glossentry>
+		
+	    	<glossentry id="gloss-javascript">
+      			<glossterm>Javascript</glossterm>
+
+      			<glossdef>
+        				<para>
+	    			 JavaScript, also known as ECMAScript is a prototype-based, object-oriented scripting language that 
+	    			 is dynamic, weakly typed and has first-class functions. It is also considered a functional programming 
+	    			 language like Scheme and OCaml because it has closures and supports higher-order functions.   				
+        				</para>
+      			</glossdef>
+		</glossentry>
+
+	</glossdiv>
+
+
+	  <glossdiv id="gloss-p">
+	    	<title>P</title>
+	    	<glossentry id="gloss-packagist">
+	    		<glossterm>Packagist</glossterm>
+	    		<glossdef>
+	    			<para>
+	    			Packagist is the main <glossterm linkend="gloss-composer">Composer</glossterm> repository. It aggregates public PHP 
+	    			packages installable with <glossterm linkend="gloss-composer">Composer</glossterm>.
+	    			</para>
+	    		</glossdef>
+	    	</glossentry>
+	    	<glossentry id="gloss-phar">
+      			<glossterm>PHAR</glossterm>
+
+      			<glossdef>
+        				<para>
+        				The phar extension provides a way to put entire PHP applications into a single file called a "phar" (PHP Archive) for easy distribution and installation. 
+        				Phar archives are best characterized as a convenient way to group several files into a single file. As such, a phar archive provides a way to distribute a 
+        				complete PHP application in a single file and run it from that file without the need to extract it to disk. Additionally, phar archives can be executed by PHP 
+        				as easily as any other file, both on the commandline and from a web server.
+        				</para>
+      			</glossdef>
+		</glossentry>
+
+	    	<glossentry id="gloss-php">
+      			<glossterm>PHP</glossterm>
+
+      			<glossdef>
+        				<para>PHP is a widely-used general-purpose scripting language that is especially suited for 
+        					Web development and can be embedded into HTML.
+        				</para>
+      			</glossdef>
+		</glossentry>
+
+	    	<glossentry id="gloss-phpunit">
+      			<glossterm>PHP Unit</glossterm>
+
+      			<glossdef>
+        				<para>
+        				PHPUnit is a unit testing framework for the PHP programming language. PHPUnit was created by Sebastian Bergmann and its development 
+        				is hosted on GitHub.
+        				</para>
+      			</glossdef>
+		</glossentry>
+
+
+	    	<glossentry id="gloss-pgsql">
+      			<glossterm>PostgreSQL</glossterm>
+
+      			<glossdef>
+        				<para>
+        				PostgreSQL, often simply "Postgres", is an object-relational database management system (ORDBMS) with an emphasis on extensibility and 
+        				standards-compliance. As a database server, its primary function is to store data, securely and supporting best practices, and retrieve it later, 
+        				as requested by other software applications, be it those on the same computer or those running on another computer across a network 
+        				(including the Internet). It can handle workloads ranging from small single-machine applications to large Internet-facing applications with many 
+        				concurrent users. 
+        				</para>
+      			</glossdef>
+		</glossentry>
+
+	</glossdiv>
+	<glossdiv id="gloss-r">
+		<title>R</title>
+		<glossentry id="gloss-regexp">
+			<glossterm>REGULAR EXPRESSION</glossterm>
+			<glossdef>
+				<para>
+				In computing, a regular expression (abbreviated regex or regexp) is a sequence of characters 
+				that forms a search pattern, mainly for use in pattern matching with strings, or string matching, 
+				i.e. "find and replace"-like operations. The concept arose in the 1950s, when Kleene formalized 
+				the description of a regular language, and came into common use with the Unix text processing 
+				utilities ed, an editor, and grep (global regular expression print), a filter.
+				</para>
+			</glossdef>
+		</glossentry>
+	
+	</glossdiv>
+	  <glossdiv id="gloss-s">
+	    	<title>S</title>
+	    	<glossentry id="gloss-selenium">
+	    		<glossterm>SELENIUM</glossterm>
+	    		<glossdef>
+	    			<para>
+	    			Selenium is a portable software testing framework for web applications. Selenium provides a record/playback tool for authoring 
+	    			tests without learning a test scripting language (Selenium IDE). It also provides a test domain-specific language (Selenese) to 
+	    			write tests in a number of popular programming languages, including Java, C#, Groovy, Perl, PHP, Python and Ruby. The tests can 
+	    			then be run against most modern web browsers. Selenium deploys on Windows, Linux, and Macintosh platforms.
+	    			</para>
+	    		</glossdef>
+	    	</glossentry>
+	    	<glossentry id="gloss-session">
+      			<glossterm>SESSION</glossterm>
+
+      			<glossdef>
+        				<para>
+        				Session support in PHP consists of a way to preserve certain data across subsequent accesses. This enables you to 
+        				build more customized applications and increase the appeal of your web site. 
+        				</para>
+        				<para>
+        				A visitor accessing your web site is assigned a unique id, the so-called session id. This is either stored in a cookie 
+        				on the user side or is propagated in the URL.  This allows you to store data between requests.
+        				</para>
+      			</glossdef>
+		</glossentry>
+	    	<glossentry id="gloss-smarty">
+      			<glossterm>SMARTY</glossterm>
+
+      			<glossdef>
+        				<para>
+        				Smarty is a template engine for PHP, facilitating the separation of presentation (HTML/CSS) from application logic.  
+        				This implies that PHP code is application logic, and is separated from the presentation. 
+        				</para>
+      			</glossdef>
+		</glossentry>
+	
+	</glossdiv>
+	<glossdiv id="gloss-u">
+		<title>U</title>
+		<glossentry id="gloss-unittest">
+		<glossterm>Unittest</glossterm>
+		<glossdef>
+			<para>
+			In computer programming, unit testing is a software testing method by which individual units of source code, sets of one or more computer program modules 
+			together with associated control data, usage procedures, and operating procedures, are tested to determine whether they are fit for use.  Intuitively, one can 
+			view a unit as the smallest testable part of an application. In procedural programming, a unit could be an entire module, but it is more commonly an individual 
+			function or procedure. In object-oriented programming, a unit is often an entire interface, such as a class, but could be an individual method.  Unit tests are 
+			short code fragments created by programmers or occasionally by white box testers during the development process. It forms the basis for component testing.
+			</para>
+		</glossdef>
+		</glossentry>
+	</glossdiv>
+	
+	  <glossdiv id="gloss-x">
+	  	<title>X</title>
+	  	<glossentry id="gloss-xml">
+	  	<glossterm>XML</glossterm>
+	  	<glossdef>
+	  		<para>
+	  		Extensible Markup Language (XML) is a markup language that defines a set of rules for encoding documents in a format which is both human-readable 
+	  		and machine-readable. It is defined by the W3C's XML 1.0 Specification and by several other related specifications.
+	  		</para>
+	  	</glossdef>
+	  	</glossentry>
+	  	
+	  	<glossentry id="gloss-xvfb">
+	  	<glossterm>XVFB</glossterm>
+	  	<glossdef>
+	  		<para>
+	  		Xvfb or X virtual framebuffer is a display server implementing the X11 display server protocol. In contrast to other display servers 
+	  		Xvfb performs all graphical operations in memory without showing any screen output. From the point of view of the client, it acts 
+	  		exactly like any other X display server, serving requests and sending events and errors as appropriate. However, no output is shown. 
+	  		</para>
+	  	</glossdef>
+	  	</glossentry>
+	  		
+	  </glossdiv>
+
+</glossary>
+

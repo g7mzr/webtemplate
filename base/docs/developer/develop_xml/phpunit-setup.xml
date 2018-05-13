@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter SYSTEM "../../xsl/webtemplate.dtd" [ 
+    <!ENTITY % myents SYSTEM ".webtemplate.ent">
+   %myents;
+]>
+
+<chapter id="phpunit">
+	<title>PHP Unit</title>
+	<section id="install-phpunit">
+	  	<title>Installing PHP Unit</title>
+		<para>
+			PHPUnit is installed as a Phar file.  The file and instructions for installing and using it can be found at  <ulink url="https://phpunit.de">https://phpunit.de</ulink>
+		</para>
+		<para>
+			In order to produce code coverage graphs PHPUnit need  Xdebug installed.  This can
+			be installed using pecl.  Xdebug is installed using the following command:
+			<programlisting>
+			# sudo pecl install xdebug
+			</programlisting>
+			but you still need to add the correct line to your php.ini: (don't forget to change the path and filename
+			to the correct one — but make sure you use the full path)
+			<programlisting>
+			zend_extension="/usr/local/php/modules/xdebug.so"
+			</programlisting>
+		</para>
+		<note>
+			<para>
+				You should ignore any prompts to add "extension=xdebug.so" to php.ini — this will cause 
+				problems.
+			</para>
+		</note>
+	</section>		
+	<section id="conf-phpunit">
+		<title>Configuring PHP Unit</title>
+		<para>
+		You next have to configure Webtemplate to run unit tests using PHPUnit  The steps are: 
+			<itemizedlist mark="bullet">
+				<listitem>
+					<para>
+					Create Test Database
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+					Configure Test Scrips to use Test Database
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+					Configure PHPUnit
+					</para>
+				</listitem>
+			</itemizedlist>
+		</para>		
+		<para>To configure &progname; for PHPUnit carry out the following instructions:</para>
+		<procedure>
+			<step>
+				<para>Copy <filename>config.php.dist</filename> to <filename>config.php</filename>.  Open
+				<filename>config.php</filename> in your favourite text editor.
+				</para>
+			</step>
+			<step>
+				<para><filename>config.php</filename> contains the following elements and all must be completed 
+				for &progname; to be installed correctly.
+				</para>
+				<programlisting>
+					
+		/* Database type. Only pgsql is supported */
+		$installConfig['database_type']             = '';
+
+		/* Database Super User.  Only used to configure the database */
+		$installConfig['database_superuser']        = '';
+		$installConfig['database_superuser_passwd'] = '';
+
+		/* Normal User for application */
+		$installConfig['database_user']             = '';
+		$installConfig['database_user_passwd']      = '';
+
+		/* Name of Host that Database is installed on */
+		$installConfig['database_host']             = '';
+
+		/* Name of the database */
+		$installConfig['database_name']             = '';
+
+		/* Linux group that the Webserver runs under */
+		$installConfig['webservergroup']            = '';
+			</programlisting>					
+			</step>
+			<step>
+				<para> </para>
+				<para>Run the following command from the &progname; directory: <programlisting>./install.php --check-modules</programlisting></para>
+			</step>
+			<step>
+				<para>
+				Install any missing modules and run the command again omitting the --check-modules switch.
+				<programlisting>./install.php --unit-test</programlisting>
+				</para>
+			</step>
+		</procedure>
+		<para>
+		The &progname; database should now be configured for unit test.  If the install failed correct the errors and run the install command again.
+		</para>	
+	</section>
+	<section id="vfsstream">
+		<title>Virtual File System</title>
+		<para>
+		&progname; uses vfsStream to test the FileManager Class used during the install process.  Instructions for installing vfsStream can be found in the phpunit documentation 
+		 at <ulink url="https://phpunit.de/manual/current/en/test-doubles.html#test-doubles.mocking-the-filesystem" />.  Instruction on how to use the vitual file system can be found
+		 at <ulink url="http://vfs.bovigo.org/" />.
+		</para>
+	</section>
+	<section id="using-phpunit">
+	  	<title>using PHP Unit</title>
+		<para>
+		Once &progname; has been configured unit tests can now be carried out to check the include files, classes
+		etc work correctly.  PHPUnit can also be used to confirm that any changes made do not break the functionality 
+		of the include files.
+		</para>
+		<para>
+		To run unit tests on all include files use the following command from the &progname; directory:
+		<programlisting>
+		phpunit ./tests
+		</programlisting>
+		</para>
+		<para>
+		To run unit tests on a specific include file use the following command from the &progname; directory:
+		<programlisting>
+		phpunit ./tests/filename
+		</programlisting>
+		</para>
+		<para>
+		To run unit tests on all include files and include  Code Coverage Graphs use the following command from 
+		the &progname; directory:
+		<programlisting>
+		phpunit --coverage-html ./tests/logs ./tests
+		</programlisting>
+		</para>
+	</section>
+</chapter>

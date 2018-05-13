@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New XML document created with EditiX XML Editor (http://www.editix.com) at Fri Nov 20 14:58:35 GMT 2015 -->
+
+<targetset>
+	<targetsetinfo>
+	This is the olink database for Webtemplate RESTAPI Manual in the big html format
+	</targetsetinfo>
+	<sitemap>
+		<dir name="rest">
+			<document targetdoc="restapi" baseuri="restapi.html">
+				<xi:include href="olinknochunk.db" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+			</document>
+		</dir>
+	</sitemap>
+</targetset>
+       

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book SYSTEM "../../xsl/webtemplate.dtd" [ 
+    <!ENTITY % myents SYSTEM "webtemplate.ent">
+   %myents;
+]>
+
+<book id="manual">
+	<title>&progname; - Version &current-ver; </title>
+	<bookinfo>	
+	              <authorgroup>
+		<author>
+			<firstname>Alexander</firstname>
+			<surname>McNeil</surname>
+			<affiliation>
+				<address>
+					<email>amcneil@iee.org</email>
+				</address>
+			</affiliation>
+		</author>
+		</authorgroup>
+		<copyright>
+			<year>2011 -  &current-year;</year>
+			<holder role="mailto:amcneil@iee.org">Alexander McNeil</holder>
+		</copyright>
+		<abstract>
+			<para>Welcome to the &progname; installation and user guide.  &progname; is a base system designed to
+			allow the implimentation of web based applications.  It contain User, group and configuration modules which
+			are common across all applications.
+			</para>
+			<para>This abstract should be replaced along with all references to &progname; when it is deployed as part of an application.
+			</para>
+			<para>The most current version of this documentation can be found at <ulink url="&url-main;">&url-name;</ulink>
+			</para>
+		</abstract>
+		</bookinfo>
+	
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="about.xml" /> 
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="installation.xml" />
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="administration.xml" /> 
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="security.xml" />
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="using.xml" />
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="customising.xml" />
+ 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="glossary.xml" /> 
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="versions.xml" /> 
+ 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="logging.xml" /> 
+ 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="gfdl.xml" /> 
+ 	
+</book>
+

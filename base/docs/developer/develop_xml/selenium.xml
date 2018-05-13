@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter SYSTEM "../../xsl/webtemplate.dtd" [ 
+    <!ENTITY % myents SYSTEM "webtemplate.ent">
+   %myents;
+]>
+
+<chapter id="selenium">
+	<title>Selenium</title>
+	<section id="selenium-intro">
+		<title>Introduction</title>
+		<note>
+			<para>
+			The Selenium tests are disabled by default.  If you they are enabled your Jenkins build time will be increased significantly.
+			</para>
+		</note>
+		<para>
+		<olink targetptr="gloss-selenium" targetdoc="develop" role="glossterm">Selenium</olink> is a portable software testing framework that can run tests against most modern 
+		web browsers.  It can be used to test the parts of Webtemplate that <olink targetptr="gloss-phpunit" targetdoc="develop" role="glossterm">PHPUnit</olink> cannot normaly test, 
+		the user interface.  The <olink targetptr="gloss-selenium" targetdoc="develop" role="glossterm">Selenium</olink> home page, where the software and instructions for its use, can 
+		be found at <ulink url="http://www.seleniumhq.org/"/>.
+		</para>
+		<para>
+		Webtemplate provides <olink targetptr="gloss-selenium" targetdoc="develop" role="glossterm">Selenium</olink> server test scripts which can be run using 
+		<olink targetptr="gloss-phpunit" targetdoc="develop" >PHPUnit</olink>.  The server can be run from a terminal with the output shown on the computer's main display or
+		as a headless server using <olink targetptr="gloss-xvfb" targetdoc="develop" >Xvfb</olink> as a virtual display.
+		</para>
+		<para>
+		Webtemplate uses the Facebook php-webdriver as the interface from phpunit test scripts to <olink targetptr="gloss-selenium" targetdoc="develop" role="glossterm">Selenium</olink>.  The home page
+		can be found at <ulink url="https://github.com/facebook/php-webdriver" />.
+		</para>
+	</section>
+	<section id="selenium-install">
+		<title>Install</title>
+		<section id="selenium-driver">
+			<title>Selenium</title>
+			<para>
+			The <olink targetptr="gloss-selenium" targetdoc="develop" role="glossterm">Selenium</olink> webdriver <olink targetptr="gloss-jar" targetdoc="develop" role="glossterm">JAR</olink> file can be downloaded from 
+			<ulink url="http://www.seleniumhq.org/download/" />. 
+			</para>
+			<para>
+			Once downloaded it can be run with the following command <programlisting>java -jar /opt/selenium/selenium-server-standalone-2.45.0.jar</programlisting>.  
+			This assumes that you have saved the downloaded jar file in a directory called <filename>/opt/selenium</filename> and you have downloaded version 2.45.0.
+			</para>
+			<para>
+			It is possible to run <olink targetptr="gloss-selenium" targetdoc="develop" >Selenium</olink> as a service on a Linux server. In order to do so you either need to specify 
+			"htmlunit" as your browser in the <filename>constants.php</filename> file located in the <filename>tests/selenium</filename> directory or configure Selenium 
+			to run in a headless mode.  Details on how to do this can be found on the Internet.
+			</para>
+		</section>
+		<section id="php-webdriver">
+			<title>Facebook php-webdriver</title>
+			<note>
+				<para>
+				Facebook php-webdriver must be installed using <olink targetptr="gloss-composer" targetdoc="develop" role="glossterm">Composer</olink> from the <olink targetptr="gloss-packagist" targetdoc="develop" role="glossterm" >Packagist</olink> repository.
+				</para>
+			</note>
+			<para>
+			Detailed instructions for installing php-webdriver can be found on at <ulink url="https://github.com/facebook/php-webdriver" />.  The configuration file
+			for <olink targetptr="gloss-composer" targetdoc="develop" role="glossterm">Composer</olink> (<filename>composer.json)</filename> is included with Webtemplate.  The following
+			steps are required:
+			</para>
+			<procedure>
+				<step>
+					<para>
+					Download composer.phar
+					</para>
+					<programlisting>curl -sS https://getcomposer.org/installer | php</programlisting>					
+				</step>
+				<step>
+					<para>
+					Install the library
+					</para>
+					<programlisting>php composer.phar install</programlisting>					
+				</step>
+			</procedure>
+			<para>
+			You are now ready to run the <olink targetptr="gloss-selenium" targetdoc="develop" >Selenium</olink>  tests for Webtemplate
+			</para>
+		</section>
+	</section>
+	<section id="selenium-configure">
+		<title>Configure Selenium</title>
+		<para>
+		As mentioned above Webtemplate uses <olink targetptr="gloss-phpunit" targetdoc="develop" role="glossterm">PHPUnit</olink> to drive the <olink targetptr="gloss-selenium" targetdoc="develop" role="glossterm">Selenium</olink> 
+		Webdriver.  The configuration that Webtemplate uses for <olink targetptr="gloss-selenium" targetdoc="develop" role="glossterm">Selenium</olink> is different than that used for 
+		<olink targetptr="gloss-unittest" targetdoc="develop" role="glossterm">Unit Testing</olink>.  The primary difference is that Webtemplate is accessed through a Web Server such as Apache.		</para>
+		<para>
+		To configure Webtemplate for Apache follow the steps below.
+		</para>
+		<procedure>
+			<step>
+				<para>
+				Install Webtemplate as described in <olink targetptr="install-develop-system" targetdoc="develop" />
+				</para>
+			</step>
+			<step>
+				<para>
+				Log in as admin and set the Key Parameters
+				</para>
+			</step>
+			<step>
+				<para>
+				Edit the file <filename>tests/selenium/constants.php</filename> to match your application. 
+				</para>
+			</step>
+			<step>
+				<para>
+				Run the tests using the following command: <programlisting>phpunit -c build/selenium.xml</programlisting>.
+				</para>
+			</step>
+		</procedure>
+	</section>
+	<section id="selenium-tests">
+		<title>Selenium Tests</title>
+		<para>
+		The <olink targetptr="gloss-selenium" targetdoc="develop" role="glossterm">Selenium</olink> tests are located in the <filename>tests/selenium</filename> directory.  All the 
+		<olink targetptr="gloss-selenium" targetdoc="develop" role="glossterm">Selenium</olink> tests are located here.  The filenames describe the runctionality areas that they cover.  For example 
+		<filename>userpref_ClassTest.php</filename> covers the User's Preferences page and <filename> adminusers_ClassTest.php</filename> covers the creation, 
+		and modification of users by an Administrator.
+		</para>
+		<para>
+		The <olink targetptr="gloss-selenium" targetdoc="develop" role="glossterm">Selenium</olink> tests are created using <olink targetptr="gloss-php" targetdoc="develop" role="glossterm">PHP</olink> and run using 
+		<olink targetptr="gloss-phpunit" targetdoc="develop" role="glossterm">PHPUnit</olink>.  They are have been disabled in the <filename>build/phpunit.xml</filename> configuration file.
+		</para>
+		<para>
+		Examples of the selenium tests used by webtemplate can be found in the <filename>tests/selenium</filename> directory.  These tests can be used as examples 
+		to create your own.
+		</para>
+	</section>
+</chapter>		

@@ -1,0 +1,43 @@
+.tabbed .tabbody {
+    background: #f8f8f8;
+    padding: 1em;
+    border-style: solid;
+    border-color: #000000;
+    border-width: 0 3px 3px 1px;
+}
+
+.tabs {
+    margin: 0;
+    padding: 0;
+    border-collapse: collapse;
+}
+
+.tabs td {
+    background: #c8c8c8;
+    border-style: solid;
+    border-color: #000000;
+    border-width: 1px;
+}
+
+.tabs td.selected {
+    background: #f8f8f8;
+    border-style: solid;
+    border-color: #000000;
+    border-width: 1px 3px 0 1px;
+}
+
+.tabs td.spacer {
+    background: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+.clickable_area {
+    cursor: pointer;
+}
+#permissions {
+    margin-left: auto;
+    margin-right: auto;
+    width: 40em;
+}

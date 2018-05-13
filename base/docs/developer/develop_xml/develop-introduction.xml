@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter SYSTEM "../../xsl/webtemplate.dtd" [ 
+    <!ENTITY % myents SYSTEM "webtemplate.ent">
+   %myents;
+]>
+
+<chapter id="webtemplate-introduction">
+	<title>Introduction</title>
+		<para>
+		&progname; is a PHP framework designed to assist in developing PHP Applications running on Linux servers
+		using anApache web-server and PostgreSQL database.   &progname; contains the key modules for installing and 
+		administrating an application such as user and group management and configuration.  &progname; uses a modular 
+		approch which allows testing of key components using phpunit.
+		</para>
+		<para>
+		This manual explains how to use &progname; to build your applications and how to integrate it into 
+		phpUnderControl for continuous integration using PHPDocumentor for documenting the API and PHPUnit for 
+		testing the application Classes.
+		</para>
+</chapter>

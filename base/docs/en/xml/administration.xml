@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter SYSTEM "../../xsl/webtemplate.dtd" [
+    <!ENTITY % myents SYSTEM "webtemplate.ent">
+   %myents;
+]>
+
+<chapter id="admin">
+	<title>Administering &progname;</title>
+	<section id="parameters">
+	  	<title>&progname; Configuration</title>
+		<para>
+		&progname; is configured by changing various parameters, accessed from the "Parameters" link in the 
+		Administration page (the Administration page can be found by clicking the "Administration" link in the footer). 
+		The parameters are divided into several categories, accessed via the menu on the left. The list below is
+		description of the different categories and important parameters within those categories. 
+		</para>
+		<section id="required">
+			<title>Required Settings</title>
+			<para>
+			The core required parameters for any &progname; installation are set here. These parameters must be set 
+			before a new &progname;  installation can be used and  administrators should review this list before deploying 
+			a new installation. 
+			</para>
+			<variablelist>
+			   	<varlistentry>
+        					<term>URL Base</term>
+        					<listitem>
+          						<para>This defines the fully qualified domain name and path to this &progname; instance.</para>
+						<para>
+						Example, if the path to the home page is 
+						<filename>http://www.example.com/&progname;/index.php</filename>.  The <quote>URL Base</quote> 
+						should be set to <filename>http://www.example.com/&progname;/</filename>. 
+						</para>
+			        		</listitem>
+      				</varlistentry>
+			   	<varlistentry>
+        					<term>Maintainer</term>
+        					<listitem>
+          						<para>The e-mail address of the person who manages this &progname; installation.</para>
+			        		</listitem>
+      				</varlistentry>
+			   	<varlistentry>
+        					<term>Doc Base</term>
+        					<listitem>
+          						<para>This defines the path to the &progname; documentation.  It is a path relative to the "URL Base".</para>
+          						<para>
+          						Example, if the path to this page is <filename>http://www.example.com/&progname;/docs/en/admin.html</filename>
+          						 then the <quote>Doc Base</quote> should be set to <filename>docs/en/</filename>.
+          						</para>
+			        		</listitem>
+      				</varlistentry>
+			   	<varlistentry>
+        					<term>Cookie Domain</term>
+        					<listitem>
+          						<para>Defines the domain for &progname; cookies. This is typically left blank.</para>
+			        		</listitem>
+      				</varlistentry>
+			   	<varlistentry>
+        					<term>Cookie Path</term>
+        					<listitem>
+          						<para>
+          						 Defines a path, relative to the web server root, that &progname;
+					            cookies will be restricted to. For example, if the 
+                					<command>urlbase</command> is set to
+					           <filename>http://www.example.com/&progname;/</filename>, the 
+                					<command>cookiepath</command> should be set to 
+                					<filename>/&progname;/</filename>. Setting it to "/" will allow all sites 
+                					served by this web server or virtual host to read &progname; cookies.
+
+          						</para>
+			        		</listitem>
+      				</varlistentry>
+	 		</variablelist>
+		</section>
+		<section id="admin-policy">
+			<title>Administrative Policys</title>
+			<para>
+			This page contains parameters for basic administrative functions.
+			</para>
+			<variablelist>
+				<varlistentry>
+					<term>Logging Level</term>
+					<listitem>
+						<para>
+						This sets the type of information that the &progname; will log.   A detailed explination of
+						each logging level can be found in <olink targetptr="logging" targetdoc="manual" />  The further down the list 
+						the more information that is logged.
+						</para>
+						<para>
+						Security violations are logged at every level except for None.
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term>Log Rotate</term>
+					<listitem>
+						<para>
+						This sets the frequency the logs are rotated. the options are Daily, Weekly and Monthly.
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term>Open Links in New Windows</term>
+					<listitem>
+						<para>
+						When set to <quote>Yes</quote> links to the documentation or other sites are opned 
+						in either a new window or tab depending on browser seetings
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term>Max Records</term>
+					<listitem>
+						<para>
+						Sets the maximum number of records that can be returned in a query.
+						</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</section>
+		
+		<section id="user-authentication">
+			<title>User Authentication</title>
+			<para>
+			This page contains parameters for authenticating users.
+			</para>
+			<variablelist>
+				<varlistentry>
+					<term>Create Accounts</term>
+					<listitem>
+						<para>
+						When set to <quote>Yes</quote> new users can create their own acounts.  However depending on 
+						default permissions they may not be able to do anything.
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term>New Password</term>
+					<listitem>
+						<para>
+						When set to <quote>Yes</quote> users can request a new password.  
+						The password is sent to their registered e-mail address.
+						</para>
+					</listitem>
+				</varlistentry>
+				
+				<varlistentry>
+					<term>Password Strength</term>
+					<listitem>
+						<para>
+						This parameter allows the administrator to set the complexity of the passwords used by the system.  In
+						all cases the paswords must be at least 8 characters long and no more than 20.
+						</para>
+						<para>
+						The five options are:
+							<orderedlist>
+      								<listitem>
+      									<para>
+      									no_constraints - No complexity required.
+      									</para>
+      								</listitem>
+      							<listitem>
+      								<para>
+      								letters - Lower and/or uppercase letters only
+      								</para>
+      							</listitem>
+      							<listitem>
+      								<para>
+      								mixed_letters - Passwords must contain letters only with at least one UPPER and one lower case letter.
+      								</para>
+      							</listitem>
+       							<listitem>
+      								<para>
+      								Letters_numbers - Passwords must contain letters and numbers only.  There must be at least 
+      								one UPPER and one lower case letter and a number.
+      								</para>
+      							</listitem>
+       							<listitem>
+      								<para>
+      								letters_numbers_specialchars - Passwords must contain at least one UPPER or one lower 
+      								case letter, a number and a special character.
+      								</para>
+      							</listitem>
+     				
+      						</orderedlist>
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term>User Name Regexp</term>
+					<listitem>
+						<para>
+						This parameter contains the <olink targetptr="gloss-regexp"  targetdoc="manual" role="glossterm" >Regular Expression</olink> used to validate usernames.  The default entry allows 
+						user names to between 5 and 12 charachers long made up of upper and lower case letters and numbers.
+						The maximum length of a user name is 20 characters.
+						</para>
+						<warning>
+							<para>
+							&progname; does not check that the <olink targetptr="gloss-regexp" targetdoc="manual"  role="glossterm">Regular Expression</olink> 
+							is valid.  If there is an error with your  <olink targetptr="gloss-regexp" targetdoc="manual" role="glossterm">Regular Expression</olink>  you may be locked out of &progname; until you
+							can manually update the  <olink targetptr="gloss-regexp" targetdoc="manual" role="glossterm">Regular Expression</olink>  in <filename>parameters.php</filename>.
+							</para>
+						</warning>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term>User Name Regexp Description</term>
+					<listitem>
+						<para>
+						This parameter contains the plain english description of the user name  <olink targetptr="gloss-regexp" targetdoc="manual" role="glossterm">Regular Expression</olink>
+						used by the program.  It is limited to 200 characters.
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry id="passwd-aging" >
+					<term>Password Aging</term>
+					<listitem>
+						<para>
+						This parameter allows the administrator to set the wither users' password expire or not.  If a password has expired
+						the user must change it before proceding.
+						</para>
+						<para>
+						The four options are:
+							<orderedlist>
+								<listitem>
+									<para>
+									None - Passwords do not expire.  This is the default option when &progname; is
+									installed.
+									</para>
+								</listitem>
+								<listitem>
+								<para>
+								60 Days - Passwords expire after 60 days.
+								</para>
+							</listitem>
+							<listitem>
+								<para>
+								90 Days - Passwords expire after 90 days.
+								</para>
+							</listitem>
+							<listitem>
+								<para>
+								180 Days - Passwords expire after 180 days.
+								</para>
+							</listitem>
+						</orderedlist>
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term id="autocomplete">Save Login Details</term>
+					<listitem>
+						<para>
+						This parameter allows the administrator to set wither the user can save their login details in their
+						web browser.  Ther are two options "Enable" and "Disable" which allow or disallow the auto complete
+						function of the login form.  Depending on the browser the user can still save their username and password
+						in the Password Manager but will need to tell the browser to automatically fill in the username abd password 
+						the next time they log in.
+						</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</section>
+
+		<section id="email-configuration">
+			<title>Email Configuration</title>
+			<para>
+			This page contains parameters for configuring the applications e-mail subsystem.
+			</para>
+			<variablelist>
+				<varlistentry>
+					<term>Mail Delivery Method</term>
+					<listitem>
+						<para>
+						This is used to specify how email is sent, or if it is sent at all. There are several options included for different MTAs, 
+						along with two additional options that disable email sending. "Test" does not send mail, but instead saves it in 
+						logs/mailer.testfile for later review. "None" disables email sending entirely. 
+						</para>
+					</listitem>
+				</varlistentry>
+			   	<varlistentry>
+        					<term>E-mail Address</term>
+        					<listitem>
+          						<para>This is the email address that &progname; uses as its <quote>From:</quote> address in
+          						any e-mail it sends</para>
+			        		</listitem>
+      				</varlistentry>
+      				
+				<varlistentry>
+					<term>SMTP Server</term>
+					<listitem>
+						<para>
+						This is the SMTP server address, if the "mail_delivery_method" parameter is set to SMTP. Use "localhost" if you 
+						have a local MTA running, otherwise use a remote SMTP server. Append ":" and the port number, if a 
+						non-default port is needed. 
+						</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term>SMTP Username</term>
+					<listitem>
+						<para>
+						Username to use for SASL authentication to the SMTP server. Leave this parameter empty if your server 
+						does not require authentication. 
+						</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term>SMTP Password</term>
+					<listitem>
+						<para>
+						Psssword to use for SASL authentication to the SMTP server. This parameter will be ignored if the 
+						"SMTP Username" parameter is left empty.
+						</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term>SMTP Debug</term>
+					<listitem>
+						<para>
+						This parameter allows you to enable detailed debugging output. Log messages are printed the 
+						web server's error log. 
+						</para>
+					</listitem>
+				</varlistentry>
+
+			</variablelist>
+		</section>
+
+
+		
+	</section>		
+	<section id="preferences">
+	  	<title>&progname; Preferences</title>
+		<para>This section sets the default customisation of the &progname; installation. </para>
+		<para>
+		Each custimisation option has an associated checkbox.  If ticked the user can change the custimisation option
+		to suite themselves.  If not checked the the option is not available to the user throut the Preferences link.
+		</para>
+		<variablelist>
+			<varlistentry>
+				<term>Default Theme</term>
+				<listitem>
+					<para>
+					Selects the default Theme used to display the &progname; pages.  This controls which 
+					<olink targetptr="gloss-css" targetdoc="manual" role="glossterm">CSS</olink> stylesheets are used.  
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>Zoom Text Areas</term>
+				<listitem>
+					<para>
+					When set to <quote>On</quote> the size of <quote>TextAreas</quote> on web pages is increased when the
+					<quote>TextArea</quote> is selected. The size returns to normal when not selected.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>Search Results</term>
+				<listitem>
+					<para>
+					Sets the maximum number of records that can be displayed on a single page. Options are 10, 20,30, 40 and 50.
+					</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</section>
+	<section id="users">
+	  	<title>&progname; User Management</title>
+		<section id="default-user">
+			<title>Creating the Default User</title>
+			<para>
+			When you first run <filename>install.php</filename> to install the program for the first time the default user is
+			created.  This user is called <quote>admin</quote> and has the default password <quote>Admin1admin</quote>.
+			</para>
+			<para>
+			The first thing you need to do when you login is change the password for this account.  You will also need to add an 
+			e-mail address so that your update can be saved.
+			</para>
+		</section>
+		<section id="managing-users">
+			<title>Managing Other Users</title>
+			<section id="searching-users">
+				<title>Searching for Existing Users</title>
+				<para>
+				If you have "editusers" privileges, the "Users" link will appear in the Administration page. 
+				</para>
+				<para>
+				The first screen you see allows you to search for users in a number of ways.  You can search on "User Name",
+				 "Real Name" or e-mail address.
+				</para>
+				<para>
+				The search returns a list of users matching your criteria. The list contains the login name, real name, 
+				email address, date last logged in, date password last changed  and wither the account is disabled or not.
+				</para>
+				<para>
+				User properties can be edited by clicking 	the login name. 
+				</para>
+			</section>
+			<section id="create-users">
+				<title>Create New Users</title>
+				<section id="self-registration">
+					<title>Self Registration</title>
+					<para>
+					Users can create their own account by clicking the "New Account" link on the login page 
+					if this function has been enabled.  See <olink targetptr="user-authentication" targetdoc="manual" />.
+					</para>
+					<para>
+					Accounts created this way may not have access to the main functionality of the &progname;.
+					</para>
+				</section>
+				<section id="admin-registration">
+					<title>Accounts Created by Administrators</title>
+					<para>
+					This is the recommended way for creating new accounts as it allows the administrator to assign the users
+					to specific groups depending on their function.
+					</para>
+					<para>
+					Users with "edit users" privilages can create other users.
+					</para>
+					<procedure>
+						<step>
+							<para>
+							Go to the users search page from the Administration Page.  Then click in the "add a new user link"
+							</para>
+						</step>
+						<step>
+							<para>
+							Complete the user name, real name, password and e-mail address fields.  Save the record.
+							</para>
+						</step>
+						<step>
+							<para>
+							Once the user has been created assign then to the groups required for their role and save the record again
+							</para>
+						</step>
+					</procedure>
+				</section>
+				<section id="modify-user">
+					<title>Modifing User</title>
+					<para>
+					Once you have found the user you can modify the following fields:
+					</para>
+					<itemizedlist>
+						<listitem>
+							<para><emphasis>Real Name</emphasis>:  
+							The user's real name
+							</para>
+						</listitem>
+						<listitem>
+							<para><emphasis>Password</emphasis>:  
+							The user's password.  If you have enabled the option for users to request new 
+							passwords you should not have to do this often.
+							</para>
+						</listitem>
+						<listitem>
+							<para><emphasis>Force Password Change</emphasis>: 
+							Mark this checkbox when you reset a users password and they will be forced to change 
+							it the next time they log in.  This option is only visible when 
+							<olink targetptr="passwd-aging">Password Aging</olink> is enabled.
+							</para>
+						</listitem>
+						<listitem>
+							<para><emphasis>E-Mail Address</emphasis>:  
+							The user's e-mail address
+							</para>
+						</listitem>
+						<listitem>
+							<para><emphasis>Disable Mail</emphasis>: 
+							Mark this checkbox to disable all mail functions except new pass word requests for this user
+							</para>
+						</listitem>
+						<listitem>
+							<para><emphasis>Enable User</emphasis>: 
+							If this checkbox is checked then the user can login.  If the checkbox is not checked the user will
+							not be allowed to login and will be given an <emphasis>	Invalid Username and Password  
+							</emphasis>warning.
+							</para>
+						</listitem>
+						<listitem>
+							<para><emphasis>Groups</emphasis>: 
+							Check the boxes next to the groups this user belongs  to.
+							</para>
+						</listitem>
+					</itemizedlist>
+					<para>
+					The date that the user was last active is shown at the bottom of the page.
+					</para>
+				</section>
+			
+				<section id="delete-accounts">
+					<title>Delete User Accounts</title>
+					<para>
+					User accounts cannot be deleted they can only be disabled.
+					</para>
+				</section>
+			</section>
+		</section>
+	</section>
+	<section id="groups">
+	  	<title>&progname; Group Management</title>
+		<para>
+		Groups allow you control the functionality each user has.  Currently there is no inheritance so 
+		users must be added to each group to get access to it's functionality.
+		</para>
+		<para>
+		  Groups are divided into two classes, system and user.  System Groups are created as part of the installation 
+		  process and are needed for the correct operation of &progname;.  These groups cannot be edited.  User groups are created 
+		  by the administrator and are used to restrict access to individual products.  User groups can be edited and deleted.
+		</para>
+		<para>
+		If you have "editgroups" privileges, the "Groups" link will appear in the Administration page. 
+		</para>
+		<para>
+		The first screen you see gives you a list of groups currently used by &progname;.  
+		</para>
+		<section id="create_group">
+			<title>Create New Group</title>
+			<para>
+			You can create a new group by carrying out the following steps
+			</para>
+			<procedure>
+				<step>
+					<para>
+					Go to the List Groups Page from the Administration Page.  Then click in the "New Group" link
+					</para>
+				</step>
+				<step>
+					<para>
+					Complete the Group Name, Group Description, Use for product  and Automatic Group fields.  Save the record
+					</para>
+				</step>
+			</procedure>
+		</section>
+		<section id="modify-group">
+			<title>Modify Group</title>
+			<para>
+			Select the group you wish to modify by clicking on it's name on the List Group Page.  
+			</para>
+			<note>
+				<para>
+				You cannot edit System Groups.
+				</para>
+			</note>
+			<para>
+			Once you have selected the group you can edit the following fields
+			</para>
+			<itemizedlist>
+				<listitem>
+					<para><emphasis>Group Description</emphasis>:  
+					The description of the group
+					</para>
+				</listitem>
+				<listitem>
+					<para><emphasis>Use For Product</emphasis>:  
+					Wither the group can be used for restricting access to a particular product.
+					</para>
+				</listitem>
+				<listitem>
+					<para><emphasis>Automatic Group</emphasis>:  
+					When selected all users are automatically members of this group.
+					</para>
+				</listitem>
+			</itemizedlist>
+		</section>
+		<section id="delete-group">
+			<title>Delete Group</title>
+			<para>
+			User groups can be deleted when they are no longer required.
+			</para>
+			<para>
+			To delete a group click on the delete link of the desired group on the List Group Page.  
+			Confirm the deletion on the next page and the group is deleted.
+			</para>
+		</section>
+	</section>
+	
+	
+	<section id="about-program">
+	  	<title>About &progname;</title>
+		<para>This contains information on &progname;.  The page contains the following information;</para>
+		<itemizedlist>
+			<listitem>
+				<para><emphasis>Version</emphasis>: 
+				The current version number of &progname;
+				</para>
+			</listitem>
+			<listitem>
+				<para><emphasis>Author</emphasis>: 
+				The name of the author who developed &progname;
+				</para>
+			</listitem>
+			<listitem>
+				<para><emphasis>PHP Version</emphasis>: 
+				The version of PHP which &progname; is currently running on.
+				</para>
+			</listitem>
+			<listitem>
+				<para><emphasis>SMARTY Version</emphasis>: 
+				The cersion of the SMARTY Templating Engine currently being used.
+				</para>
+			</listitem>
+			<listitem>
+				<para><emphasis>Server Name</emphasis>: 
+				The fully qualified domain name of the server
+				</para>
+			</listitem>
+			<listitem>
+				<para><emphasis>Server Software</emphasis>: 
+				The version of Apache and Operating System.
+				</para>
+			</listitem>
+			<listitem>
+				<para><emphasis>Server Admin</emphasis>: 
+				The e-mail address of the Web Server's administrator
+				</para>
+			</listitem>
+			<listitem>
+				<para><emphasis>Database Version</emphasis>: 
+				The type and version of databse being used.
+				</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+</chapter>

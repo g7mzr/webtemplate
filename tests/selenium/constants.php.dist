@@ -1,0 +1,244 @@
+<?php
+/**
+ * This file is part of Webtemplate.
+ *
+ * (c) Sandy McNeil <g7mzrdev@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+namespace Facebook\WebDriver;
+
+use Facebook\WebDriver\Remote\DesiredCapabilities;
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+
+// Include the composer Autoloader
+require_once __DIR__ . '/../../vendor/autoload.php';
+
+/**********************************************************************************
+ *          EDIT TEST CONFIGURATION BELOW TO MATCH YOUR SETUP                     *
+ **********************************************************************************/
+
+// URL of the application under test
+define("URL", "");
+
+// Define the location of the firefox binary if it is not on the default path
+define("FIREFOX_BIN", "");
+
+// Set to True to use the Firefox marionette driver
+define("MARIONETTE", false);
+
+//Domain for Parameters Cookie Test
+define("COOKIEDOMAIN", "");
+define("COOKIENAME", 'webdatabase');
+
+// Details of the application under test
+define("WEBSITENAME", "Web Database Skeleton");
+define("VERSION", "0.5.0+");
+
+// Define the local ZAP Proxy
+define("HTTPPROXY", "localhost:8080");
+define("SSLPROXY", "localhost:8080");
+
+//Define the FTP details
+define("FTPSERVER", "");
+define("FTPPATH", "logs");
+define("FTPUSER", "");
+define("FTPPASSWD", "");
+
+
+
+/**********************************************************************************
+ *                         DO NOT EDIT BELOW THIS POINT                           *
+ **********************************************************************************/
+
+// User and password to run the tests under
+define("USERNAME", "phpunit");
+define("PASSWORD", "phpUnit1");
+define("USERREALNAME", "Phpunit User");
+define("USEREMAIL", "phpunit@example.com");
+
+// User and password to check response to a locked user
+define("LOCKEDUSERNAME", "lockeduser");
+define("LOCKEDPASSWORD", "lockedUser1");
+
+// Security Users and passwords: No additional permissions
+define("SECNONEUSERNAME", "secnone");
+define("SECNONEPASSWORD", "secNone1");
+
+// Security Users and passwords: Permissions to edit users
+define("SECUSERUSERNAME", "secuser");
+define("SECUSERPASSWORD", "secUser1");
+define("SECUSEREMAIL", "secuser@example.com");
+
+// Security Users and passwords: Permissions to edit groups
+define("SECGROUPSUSERNAME", "secgroups");
+define("SECGROUPSPASSWORD", "secGroups1");
+
+// Security Users and passwords: Permissions to edit users and groups
+define("SECBOTHUSERNAME", "secboth");
+define("SECBOTHPASSWORD", "secBoth1");
+
+
+// Define the SELENIUM Host
+if (getenv('SELHOST') == false) {
+    define("HOST", 'selenium');
+} else {
+    define("HOST", getenv('SELHOST'));
+}
+
+// Define the SELENIUM PORT
+if (getenv('SELPORT') == false) {
+    define("PORT", 4444);
+} else {
+    define("PORT", intval(getenv('SELPORT')));
+}
+
+// Web Browser to be used during the test
+// If no browser is set as an environment variable then the htmlunit driver is used.
+if (getenv('SELBROWSER') == false) {
+    define("BROWSER", "htmlunit");
+} else {
+    define("BROWSER", getenv('SELBROWSER'));
+}
+
+//Define the platform to be used
+// Set default Platform as Windowns if iexplorer chosen
+if (BROWSER == "iexplorer") {
+    define("PLATFORM", "WINDOWS");
+} else {
+    if (getenv('SELPLATFORM') == false) {
+        define("PLATFORM", "ANY");
+    } else {
+        define("PLATFORM", strtoupper(getenv("SELPLATFORM")));
+    }
+}
+
+// Set if the Browser is to be maximised.
+// Automatically maximise the browser is iexplorer is chosen
+if (BROWSER == "iexplorer") {
+    define("MAXBROWSER", true);
+} else {
+    if (getenv('SELMAXIMISE') == false) {
+        define("MAXBROWSER", false);
+    } else {
+        if (getenv('SELMAXIMISE') == 'true') {
+            define("MAXBROWSER", true);
+        } else {
+            define("MAXBROWSER", false);
+        }
+    }
+}
+
+// Set the BROWSER Version to be used.
+if (getenv("SELBROWSERVERSION") == true) {
+    define("BROWSERVERSION", getenv("SELBROWSERVERSION"));
+} else {
+    define("BROWSERVERSION", 'ANY');
+}
+
+// Set if Selenium is to use the ZAP PROXY
+if (getenv('SELPROXY') == false) {
+    define("PROXY", false);
+} else {
+    if (getenv("SELPROXY") == 'true') {
+        define("PROXY", true);
+    } else {
+        define("PROXY", false);
+    }
+}
+
+/**
+ * This class builds the webdrive and is used by each of the selenium tests
+ *
+ * @category Webtemplate
+ * @package  Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @license  View the license file distributed with this source code
+ */
+class MyWebDriver
+{
+
+    /**
+     * This function called statically creates a Facebook Webdriver Object with the
+     * desired capabilities set for the test
+     *
+     * @return Facebook\WebDriver\Remote\RemoteWebDriver
+     *
+     * @access load
+     */
+    public static function load()
+    {
+        // Select the Web Browser to use.
+        switch (BROWSER) {
+        case 'chrome':
+            $options = new \Facebook\WebDriver\Chrome\ChromeOptions();
+            $options->addArguments(array('--headless'));
+            $capabilities = DesiredCapabilities::chrome();
+            $capabilities->setCapability(
+                \Facebook\WebDriver\Chrome\ChromeOptions::CAPABILITY,
+                $options
+            );
+            break;
+        case 'firefox':
+            $capabilities = DesiredCapabilities::firefox();
+            $capabilities->setCapability('marionette', MARIONETTE);
+            if (FIREFOX_BIN <> "") {
+                $capabilities-> setCapability("firefox_binary", FIREFOX_BIN);
+            }
+            $profile = new \Facebook\WebDriver\Firefox\FirefoxProfile();
+            $profile->setPreference("browser.startup.homepage", "about:blank");
+            $profile->setPreference("startup.homepage_welcome_url", "about:blank");
+            $profile->setPreference(
+                "startup.homepage_welcome_url.additional",
+                "about:blank"
+            );
+            $capabilities->setCapability(
+                \Facebook\WebDriver\Firefox\FirefoxDriver::PROFILE,
+                $profile
+            );
+            break;
+        case 'iexplorer':
+            $capabilities = DesiredCapabilities::iexplorer();
+            break;
+        default:
+            $capabilities = DesiredCapabilities::htmlUnit();
+            break;
+
+        }
+
+        // Set which platform the tests should be running on.
+        // Valid choices are {WINDOWS|XP|VISTA|MAC|LINUX|UNIX|ANDROID}
+        $capabilities->setPlatform(PLATFORM);
+
+        // Set the BROWSER version that teste should be run on
+        $capabilities->setVersion(BROWSERVERSION);
+
+        // Activate the PROXY Server
+        if (PROXY == true) {
+            $proxy = array(
+                'proxyType' => 'manual',
+                'httpProxy' => HTTPPROXY,
+                'sslProxy' => SSLPROXY
+            );
+            $capabilities->setCapability('proxy', $proxy);
+        }
+
+        // Create the webdriver
+        $webDriver = RemoteWebDriver::create(
+            'http://' . HOST . ':' . PORT . '/wd/hub',
+            $capabilities
+        );
+
+        // Set the browser to full screen
+        if (MAXBROWSER == true) {
+            $webDriver->manage()->window()->maximize();
+        }
+
+        // Wait up to 5 seconds for a page to load before throwing an error
+        $webDriver->manage()->timeouts()->implicitlyWait(5);
+
+        return $webDriver;
+    }
+}
+?>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE appendix SYSTEM "../../xsl/webtemplate.dtd" [ 
+    <!ENTITY % myents SYSTEM "webtemplate.ent">
+   %myents;
+]>
+
+<appendix id="tools">
+	<title>Tools</title>
+	<para> 
+	The following is the list of Tools are also used in the development of  Webtemplate.  These are over and above the ones described in  
+	<olink targetptr="continuous_integration" targetdoc="develop" />.
+	</para>	
+	<variablelist>
+		<varlistentry>
+        			<term>Bugzilla</term>
+        			<listitem>
+          				<para>
+          				Bugzilla is a Bug/Enhamcement tracking web based application written in PERL.  It can be found at <ulink url="http://www.bugzilla.org/" />.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+        			<term>Editix</term>
+        			<listitem>
+          				<para>
+          				An xml editor used to develop the program documentation in docbook format.  Editix can be found at <ulink url="http://www.editix.com/"/>
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+        			<term>NetBeans</term>
+        			<listitem>
+          				<para>
+          				A Java IDE capable of support PHP including syntax highlighting and connecting to xdebug running on the application's web server. Netbeans 
+          				can be found at <ulink url="https://netbeans.org/" />.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+        			<term>Review Board</term>
+        			<listitem>
+          				<para>
+          				Review Board is a web based application written in Python.  It is used to simplify code review.  review board can be found at 
+          				<ulink url="https://www.reviewboard.org/" />.
+          				
+				</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</appendix>

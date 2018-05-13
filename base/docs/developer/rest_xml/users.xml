@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE chapter SYSTEM "../../xsl/docbook.dtd" [
+      <!ENTITY  % myents SYSTEM "webtemplate.ent">
+      %myents;
+]>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:id="api_users">
+	<title>Users Resource</title>
+	<section xml:id="users_intoduction">
+		<title>Introduction</title>
+		<para>
+		Webtemplate 
+		</para>
+	</section>
+	<section xml:id="users_read">
+		<title>Read User Information</title>
+		<para>
+		Webtemplate 
+		</para>
+	</section>
+	<section xml:id="users_Insert">
+		<title>Insert New User</title>
+		<para>
+		Webtemplate 
+		</para>
+	</section>
+	<section xml:id="users_update">
+		<title>Update Existing User</title>
+		<para>
+		Webtemplate 
+		</para>
+	</section>
+</chapter>

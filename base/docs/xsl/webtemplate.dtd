@@ -1,0 +1,37 @@
+<!-- DTD created at Sat Nov 21 13:36:46 GMT 2015 with EditiX XML Editor (http://www.editix.com). Please insert an encoding attribute header for converting any DTD  -->
+
+<!ENTITY % local.book.class "| xi:include">
+
+<!ENTITY % local.chapter.class "| xi:include">
+
+<!ENTITY % local.section.class "| xi:include">
+
+<!-- inside chapter or section elements -->
+<!ENTITY % local.divcomponent.mix "| xi:include">
+
+<!-- inside para, programlisting, literallayout, etc. -->   
+<!ENTITY % local.para.char.mix "| xi:include">
+
+<!-- inside bookinfo, chapterinfo, etc. -->      
+<!ENTITY % local.info.class "| xi:include">         
+
+
+
+<!-- load DocBook -->
+<!ENTITY % DocBookDTD PUBLIC "-//OASIS//DTD DocBook V4.5//EN"  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd"  >
+%DocBookDTD;
+
+<!ELEMENT xi:include (xi:fallback?) >
+<!ATTLIST xi:include
+    xmlns:xi   CDATA       #FIXED    "http://www.w3.org/2001/XInclude" 
+    href       CDATA       #IMPLIED 
+    parse      (xml|text)  "xml"    
+    xpointer   CDATA       #IMPLIED    
+    encoding   CDATA       #IMPLIED 
+    accept     CDATA       #IMPLIED
+    accept-language CDATA  #IMPLIED >
+
+<!ELEMENT xi:fallback ANY>
+<!ATTLIST xi:fallback
+    xmlns:xi   CDATA   #FIXED   "http://www.w3.org/2001/XInclude" >
+

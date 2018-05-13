@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE targetset 
+       SYSTEM "file:///usr/share/xml/docbook/stylesheet/nwalsh5/1.78.1/common/targetdatabase.dtd">
+<targetset>
+	<targetsetinfo>
+	This is the olink database for Webtemplate RESTAPI in the big html format
+	</targetsetinfo>
+	<sitemap>
+		<dir name="pdf">
+			<document targetdoc="restapi" baseuri="restapi.pdf">
+				<xi:include href="olinknochunk.db" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+			</document>
+		</dir>
+	</sitemap>
+</targetset>
+       

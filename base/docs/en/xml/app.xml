@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Sat Feb 05 10:54:45 GMT 2011 -->
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+    <!ENTITY % myents SYSTEM "webtemplate.ent">
+ 
+   %myents;
+]>
+
+<section id="app-inst">
+	<title>Applications Instructions</title>
+	<para>Populate this with you applications instructions</para>
+</section>		

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter SYSTEM "../../xsl/webtemplate.dtd" [
+    <!ENTITY % myents SYSTEM "webtemplate.ent">
+   %myents;
+]>
+
+<chapter id="customising">
+	<title>Customising &progname;</title>
+	<para>
+		This section of the manual explains how you can customise &progname; to your own requirements.  As a systems administrator you can customise the 
+		templates to change how items are displayed and css files to create a new theme inline with your corporate identity. 
+	</para>
+	<section id="customising-templates">
+		<title>Customising Templates</title>
+		<para>
+		&progname; 
+		</para>
+	</section>
+	<section id="customising-theme">
+		<title>Customising Theme</title>
+		<para>
+		&progname; 
+		</para>
+	</section>
+</chapter>

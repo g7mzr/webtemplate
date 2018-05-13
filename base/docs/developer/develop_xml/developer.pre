@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<MyProject path="/home/sandy/Documents/src/git/webtemplate/base/docs/en/xml/developer.pre">
+ <item path="./gfdl.xml" type="XML" encoding="AUTOMATIC" open="false" test="true">
+  <property name="encoding" value="AUTOMATIC"/>
+ </item>
+ <item path="./glossary.xml" type="XML" encoding="UTF-8" open="false" test="true">
+  <property name="encoding" value="UTF-8"/>
+ </item>
+ <item path="../../webtemplate.ent" type="TEXT" encoding="UTF-8" test="true" open="true">
+  <property name="encoding" value="UTF-8"/>
+ </item>
+ <item path="./developer.xml" type="DOCBOOK" encoding="UTF-8" open="true" test="true">
+  <property name="fo.output" value="/home/sandy/Documents/src/git/webtemplate/base/docs/en/pdf/develop"/>  <property name="docBook.ok" value="true"/>  <property name="docBook.output" value="/home/sandy/Documents/src/svn_files/webtemplate/base/docs/en/pdf/develop"/>  <property name="fo.render" value="PDF"/>  <property name="docBook.application" value="true"/>  <property name="xslt.result.file" value="../../../../../../../../.editix/editix.tmp"/>  <property name="docBook.render" value="PDF"/>  <property name="xslt.data.file" value="./developer.xml"/>  <property name="encoding" value="UTF-8"/>  <property name="docbook.ok" value="true"/>  <property name="reload.res" value="ok"/>  <property name="fo.source" value="/home/sandy/.editix/editix.tmp"/>  <property name="xslt.xslt.file" value="../../../../../../../../../../opt/editix2013/res/docbook/fo/docbook.xsl"/>
+ </item>
+ <item path="./develop-structure.xml" type="XML" encoding="AUTOMATIC" open="true" test="true">
+  <property name="encoding" value="AUTOMATIC"/>
+ </item>
+ <item path="./ci-setup.xml" type="XML" encoding="AUTOMATIC" open="false" test="true">
+  <property name="bookmarks" value="/chapter/section[2]/programlisting[1]/text()"/>  <property name="encoding" value="AUTOMATIC"/>
+ </item>
+ <item path="./develop-versions.xml" type="XML" encoding="AUTOMATIC" open="false" test="true">
+  <property name="encoding" value="AUTOMATIC"/>
+ </item>
+ <item path="./phpunit-setup.xml" type="XML" encoding="AUTOMATIC" open="true" test="true">
+  <property name="encoding" value="AUTOMATIC"/>
+ </item>
+ <item path="./develop-cc-build.xml" type="XML" encoding="AUTOMATIC" open="false" test="true">
+  <property name="encoding" value="AUTOMATIC"/>
+ </item>
+ <item path="./develop-cc-config.xml" type="XML" encoding="AUTOMATIC" open="false" test="true">
+  <property name="encoding" value="AUTOMATIC"/>  <property name="lastView" value="Source"/>
+ </item>
+ <item path="./develop-install.xml" type="XML" encoding="AUTOMATIC" open="false" test="true">
+  <property name="encoding" value="AUTOMATIC"/>  <property name="lastView" value="Source"/>
+ </item>
+ <item path="./develop-introduction.xml" type="XML" encoding="AUTOMATIC" open="false" test="true">
+  <property name="encoding" value="AUTOMATIC"/>  <property name="lastView" value="Source"/>
+ </item>
+ <item path="./develop-application.xml" type="XML" encoding="AUTOMATIC" open="false" test="true">
+  <property name="encoding" value="AUTOMATIC"/>  <property name="lastView" value="Source"/>
+ </item>
+ <item path="./develop-philosophy.xml" type="XML" encoding="AUTOMATIC" open="true" test="true">
+  <property name="encoding" value="AUTOMATIC"/>  <property name="lastView" value="Source"/>
+ </item>
+
+</MyProject>

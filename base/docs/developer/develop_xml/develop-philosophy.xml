@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter SYSTEM "../../xsl/webtemplate.dtd" [ 
+    <!ENTITY % myents SYSTEM "webtemplate.ent">
+   %myents;
+]>
+
+<chapter id="design-philosophy">
+	<title>Design Philosophy</title>
+	<section id="design-introduction">
+	  	<title>The Philosophy</title>
+		<para>
+		Webtemplate has been designed to provide a secure base to start the development of web based applications using 
+		<olink targetptr="gloss-php" targetdoc="develop" role="glossterm">PHP</olink> and <olink targetptr="gloss-pgsql" targetdoc="develop" role="glossterm">PostgreSQL</olink>.
+		 It provides the following functionality
+	  	<itemizedlist mark="bullet">
+			<listitem>
+				<para>
+					Application Administration 
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					User Administration 
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Group Administration 
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Security 
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Database Management
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Configuration
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Event Logging
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					PHP and Smarty Templates for adding  your own functionality to the program.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+				Scripts for integrating into Jenkins Continous Integration Server for Unit and Coding Standards Testing.  This functionality is also available at the command
+				line by using <olink targetptr="gloss-ant" targetdoc="develop" role="glossterm">ANT</olink>.
+				</para>
+			</listitem>
+		</itemizedlist>
+		</para>
+	</section>		
+	<section id="design-overall">
+	  	<title>Programme Design</title>
+		<para>	
+		Webtemplate has been developed as a base system to develop Web Based Applications from.  It is completely modular and open.  A blank PHP module and smarty template are 
+		provided as templates for your own modules.  The blank PHP module includes all the necessary Classes for verifiny users, logging and security.
+		</para>
+		<para>
+		There are five  main directories thay will need files added to or updated.  They are:
+		</para>
+		<variablelist>
+		   	<varlistentry>
+        				<term>base</term>
+        				<listitem>
+          					<para>
+          					This directory and its sub-directories are the only ones directly accesses by Apache.  The <olink targetptr="gloss-php" targetdoc="develop" role="glossterm">PHP</olink>  files
+          					in this directory provide the user interface to Webtamplate and subsequently your own application.  <filename>blank.php</filename> is provided as
+          					a template to create your application.  Each function within the application has its own <olink targetptr="gloss-php" targetdoc="develop" role="glossterm">PHP</olink>  file.
+					</para>
+			        	</listitem>
+			</varlistentry>
+		   	<varlistentry>
+        				<term>base/docs</term>
+        				<listitem>
+          					<para>
+          					This is the main documentation directory.  It contains all the files required to generate the documentation for Webtemplate or your application 
+          					using <olink targetptr="gloss-docbook" targetdoc="develop" role="glossterm">DOCBOOK</olink>.  To document the additional functionality you 
+          					have added to Webtaemplate to create your application you need to update <filename>using.xml</filename> and <filename>administration.xml</filename> 
+          					in the <filename>en/xml</filename> sub-directory
+					</para>
+			        	</listitem>
+			</varlistentry>
+		   	<varlistentry>
+        				<term>includes</term>
+        				<listitem>
+          					<para>
+          					The <filename>includes</filename> directory is broken down into a number of sub-directories.  Any new functionality you add to Webtemplate should
+          					be saved in a subdirectory named after your application or specific functionality you are adding.  You will need to update <filename>general/parameters.class.php</filename>
+          					if you add any new setup  parameters to your application and <filename>users/user.class.php</filename> and <filename>general/preferences.class.php</filename> if you 
+          					add any new user preferences to the application.
+					</para>
+					<para>
+					Each Class included  in a file is also in a <emphasis role="bold">NAMESPACE</emphasis> of the format <emphasis role="bold">webtemplate/dirname</emphasis>. 
+					It is recommended that when you add your own classes you replace "webtemplate" with the name of your own application in your files
+					only.  You will also have to update <filename>autoloader.class.php</filename> to strip that name from the filename it uses to load the class.
+					</para>
+			        	</listitem>
+			</varlistentry>
+		   	<varlistentry>
+        				<term>templates</term>
+        				<listitem>
+          					<para>
+          					The raw <olink targetptr="gloss-smarty" targetdoc="develop" role="glossterm">SMARTY</olink> templates are saved in this directory.  It is broken down in to sub-directories for 
+          					each language that Webtemplate supports.  Currently this is only English.  Each Language sub-directory is then further broken down into the same 
+          					structure as the <filename>includes</filename> directory.   New templates are created from <filename>blank.tpl</filename> while <filename>main.tpl</filename> 
+          					can be updated to display application specific information after a user has logged in and <filename>layout.tpl</filename> should be updated to display ane new 
+          					menu functions.
+					</para>
+					<para>
+					<filename>admin/preferences.tpl</filename>, <filename>admin/config.tpl</filename>, <filename>admin/admin.tpl</filename>, <filename>admin/admin.tpl</filename> 
+					and <filename>users/prefs.tpl</filename> may also need updating as new functionality is added to Webtemplate.
+					</para>
+			        	</listitem>
+			</varlistentry>
+		   	<varlistentry>
+        				<term>tests</term>
+        				<listitem>
+          					<para>
+          					Webtemplate uses <olink targetptr="gloss-phpunit" targetdoc="develop" role="glossterm">PHPUnit</olink> to carry out Unit testing on the core of the application.  
+          					All data verification, database access and data manipulation is carried out in Classes stored in the <filename>includes</filename> directory.  The structure of the 
+          					<filename>tests</filename> directory matches that of the <filename>includes</filename> directory.
+					</para>
+					<para>
+					You should add new tests to this directory for any new Classes you create as well as update any existing tests for changes you have made to existing Classes.
+					</para>
+			        	</listitem>
+			</varlistentry>
+		</variablelist>		
+	</section>
+	<section id="design-versioning">
+	  	<title>Versioning</title>
+	  	<para>
+	  	It is recommended that you use the Semantic Versioning system described at <ulink url="http://semver.org/"/> and that you follow their guidance regarding Major, Minor and Patch
+	  	versioning and application changes.
+	  	</para>
+	  </section>
+</chapter>

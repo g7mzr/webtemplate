@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter SYSTEM "../../xsl/webtemplate.dtd" [
+    <!ENTITY % myents SYSTEM "webtemplate.ent">
+   %myents;
+]>
+
+<chapter id="security">
+	<title>&progname; Security</title>
+	<para>
+	While some of the items in this chapter are related to the operating system &progname; is running on or some of the 
+	support software required to run &progname;, it is all related to protecting your data. This is not intended to be a 
+	comprehensive guide to securing Linux, Apache, PostgreSQL, MySQL, or any other piece of software mentioned. There is no 
+	substitute for active administration and monitoring of a machine.
+	</para>
+	<para>
+	While programmers in general always strive to write secure code, accidents can and do happen. The best approach to 
+	security is to always assume that the program you are working with isn't 100% secure and restrict its access to other parts of 
+	your machine as much as possible. 
+	</para>
+	<section id="security-os">
+	  	<title>Operating System</title>
+	  	<section id="security-updates">
+	  		<title>Software Updates</title>
+	  		<para>
+	  		The Linux Operating system is made up of a number of packages such as the Kernel, shell programs ftp servers and mail servers.
+	  		It is recommended that you update your software regularly using the appropriate update repository for your distribution.  For example
+	  		if your server is based on OpenSUSE you could run the following command as root from the command prompt 
+	  		<filename>zypper up</filename>.
+	  		</para>
+	  	</section>
+	  	<section id="security-ports">
+		  	<title>TCP/IP Ports</title>
+			<para>
+			The TCP/IP standard defines more than 65,000 ports for sending and receiving traffic. Of those, &progname; needs 
+			two to operate, one for the webserver and one for the database. You should audit your server and make sure that you aren't listening on any ports you don't 
+			need to be. It's also highly recommended that the server &progname; resides on, along with any other machines 
+			you administer, be placed behind some kind of firewall. 
+			</para>
+	  	</section>
+	  	<section id="security-accounts">
+	  		<title>System Accounts</title>
+	  		<para>
+	  		Many daemons, such as Apache's httpd run as either "root" or "nobody".  While running 
+	  		as "root" introduces obvious security concerns, the problems introduced by running everything as "nobody" may 
+	  		not be so obvious. Basically, if you run every daemon as "nobody" and one of them gets compromised it 
+	  		can compromise every other daemon running as "nobody" on your machine. It is therefore recommended that 
+	  		you create a user account for each daemon.
+	  		</para>
+	  		<note>
+	  			<para>
+	  			You will need to set the webservergroup option in <filename>config.php</filename> to the group your web server runs as. 
+	  			This will allow <filename>./install.php</filename> to set file permissions on Unix systems so 
+	  			that nothing is world-writable. 
+	  			</para>
+	  		</note>
+	  	</section> 
+	  	<section id="security-remoteadmin">
+	  		<title>Remote Admin</title>
+	  		<para>
+	  		In most cases servers are managed remotely and it is recommended you use applications like <filename>ssh</filename>	
+	  		trather than <filename>telnet</filename> to administer them.  To further protect your system it is recomended that the port used by 
+	  		<filename>ssh</filename> is cnaged and thay you used public key encryption to identify yourself to the server and log in.
+	  		</para>
+	  	</section>
+		<section id="security-services">
+			<title>Other Services</title>
+			<para>
+			Linux distributions provide a large number of server applications such as smtp, imap, pop, ldap and ftp.  It is recomended that you only install and enable 
+			the servers you need for &progname; and any other services you are providing.
+			</para>
+		</section>
+	</section>
+	<section id="security-database">
+		<title>Database Security</title>
+		<section id="security-pgsql">
+	  		<title>PostgreSQL</title>
+			<para>The <ulink url="&pgsqldocs;">Postgresql Documentation</ulink> provides advice on how
+			to secure your Postgresql Server.  At the very minimum it is recommended that you edit your <filename>pg_hba.conf</filename> 
+			file to restrict database access to you webserver and admin terminal IP addresses and that you enable the requirement for md5 client passwords.
+			</para>
+		</section>		
+		</section>		
+	<section id="security-webserver">
+	  	<title>Apache</title>
+		<para>The <ulink url="&apachedocs;">Apache httpd Documentation</ulink> provides advice on how
+		to secure your Apache Webserver.  The <filename>security_tips.html </filename> page provide both general and Apacge Specific advice
+		</para>
+		<para>
+		The configuration files for &progname; are protected by being located in a directory not served by Apache.  To ensure that 
+		the configuration files remain safe only allow Apache to serve the <filename>base</filename> directory.
+		</para>
+	</section>
+	<section id="security-application">
+	  	<title>&progname;</title>
+		<para>&progname; explicitly set the character encoding for webpages and the database following   
+		<ulink url="http://www.cert.org/tech_tips/malicious_code_mitigation.html#3">a CERT advisory</ulink> recommending 
+		exactly this.  The encoding used by &progname; is <emphasis>utf8</emphasis>.
+		</para>
+	</section>
+</chapter>

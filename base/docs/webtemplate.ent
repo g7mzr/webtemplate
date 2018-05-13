@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+ <!-- Application Details -->
+<!ENTITY progname "Webtemplate">
+<!ENTITY current-ver "0.5.0+">
+<!ENTITY current-year "2018">
+<!ENTITY url-main "http://www.starfleet.g7mzr.ampr.org">
+<!ENTITY url-name "Sandy's Website">
+<!ENTITY url-doc "http://www.starfleet.g7mzr.ampr.org">
+<!ENTITY url-download "http://www.starfleet.g7mzr.ampr.org">
+<!ENTITY url-api "http://help.starfleet.g7mzr.ampr.org/webtemplateapi/">
+
+
+<!-- Module Versions -->
+<!ENTITY min-php-ver "7.1.0">
+<!ENTITY min-pear-ver "1.9.1">
+<!ENTITY min-mdb2-ver "2.4.1">
+<!ENTITY min-validate-ver "0.8.4">
+<!ENTITY min-dbdeploy-ver "0.9.2">
+<!ENTITY min-smarty-ver "3.0.0">
+<!ENTITY min-mdb2pgsql-ver "1.4.1">
+
+
+ <!-- Database Versions -->
+<!ENTITY min-pg-ver "8.4.5">
+
+
+<!-- Document Links -->
+<!ENTITY apachedocs "http://httpd.apache.org/docs/">
+<!ENTITY pgsqldocs "http://www.postgresql.org/docs/">
+

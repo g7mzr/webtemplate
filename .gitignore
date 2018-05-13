@@ -1,0 +1,15 @@
+#Git Ignore File
+*~
+*.pdf
+*.html
+config.php
+local.conf
+parameters.php
+preferences.php
+database.php
+constants.php
+mailer.testfile
+cache.properties
+/nbproject/
+/vendor/
+composer.phar

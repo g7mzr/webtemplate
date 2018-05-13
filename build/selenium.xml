@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.3/phpunit.xsd"
+     backupGlobals="true"
+     backupStaticAttributes="false"
+     cacheTokens="false"
+     colors="true"
+     convertErrorsToExceptions="true"
+     convertNoticesToExceptions="true"
+     convertWarningsToExceptions="true"
+     forceCoversAnnotation="false"
+     mapTestClassNameToCoveredClassName="false"
+     processIsolation="false"
+     stopOnError="false"
+     stopOnFailure="false"
+     stopOnIncomplete="false"
+     stopOnSkipped="false"
+     verbose="true">
+    <!--
+        The section below lists the selenium test files in the order they are to be
+        run.  New test files are added here as to test the functionality of your
+        application as it is developed.
+    -->
+    <testsuite name="webtemplate selenium tests">
+        <file>../tests/selenium/homepage.classTest.php</file>
+        <file>../tests/selenium/userpref.classTest.php</file>
+        <file>../tests/selenium/adminMain.classTest.php</file>
+        <file>../tests/selenium/adminAbout.classTest.php</file>
+        <file>../tests/selenium/adminPreferences.classTest.php</file>
+        <file>../tests/selenium/adminParameters.classTest.php</file>
+        <file>../tests/selenium/adminParametersSettings.classTest.php</file>
+        <file>../tests/selenium/adminParametersPolicy.classTest.php</file>
+        <file>../tests/selenium/adminParametersAuthentication.classTest.php</file>
+        <file>../tests/selenium/adminParametersMail.classTest.php</file>
+        <file>../tests/selenium/adminUsers.classTest.php</file>
+        <file>../tests/selenium/adminGroups.classTest.php</file>
+        <file>../tests/selenium/security.classTest.php</file>
+        <file>../tests/selenium/register.classTest.php</file>
+    </testsuite>
+    <!--
+        The section below allows the setting of environment variables to control the
+        operation of the selenium server.  The can also be set using the bash
+        terminal export command
+    -->
+    <!--
+    <php>
+        <env name="SELHOST" value="localhost"/>
+        <env name="SELPORT" value="4444"/>
+        <env name="SELBROWSER" value="htmlunit"/>
+        <env name="SELMAXIMISE" value="false"/>
+    </php>
+    -->
+    <logging>
+      <log type="junit" target="logs/selenium.xml" logIncompleteSkipped="false"/>
+    </logging>
+</phpunit>

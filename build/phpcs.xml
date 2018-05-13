@@ -1,0 +1,17 @@
+<ruleset name="WebTemplate">
+    <description>Webtemplate Coding Standard</description>
+         <exclude-pattern>*/tests/_data/*</exclude-pattern>
+         <exclude-pattern>*/configs/*</exclude-pattern>
+         <exclude-pattern>*/templates_c/*</exclude-pattern>
+         <exclude-pattern>*/config.php</exclude-pattern>
+         <exclude-pattern>*/vendor/*</exclude-pattern>
+        <rule ref="PSR2"/>
+        <rule ref="Generic.Files.LineLength">
+            <exclude-pattern>*/schema/schemadata.class.php</exclude-pattern>
+            <exclude-pattern>*/schema/schemafunctions.class.php</exclude-pattern>
+        </rule>
+        <rule ref="PSR1.Files.SideEffects">
+            <!-- Exclude from unit tests as autoloader needs to be included -->
+            <exclude-pattern>*/tests/*</exclude-pattern>
+        </rule>
+</ruleset>

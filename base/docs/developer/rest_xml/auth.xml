@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE chapter SYSTEM "../../xsl/docbook.dtd" [
+      <!ENTITY  % myents SYSTEM "webtemplate.ent">
+      %myents;
+]>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:id="api_auth">
+	<title>Authentication</title>
+	<section xml:id="auth_introduction">
+		<title>Introduction</title>
+		<para>
+		Webtemplate 
+		</para>
+	</section>
+	<section xml:id="auth_login">
+		<title>Login</title>
+		<para>
+		Webtemplate 
+		</para>
+	</section>
+	<section xml:id="auth_logout">
+		<title>Logout</title>
+		<para>
+		Webtemplate 
+		</para>
+	</section>
+</chapter>

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<MyProject path="/home/sandy/Documents/src/git/webtemplate/base/docs/en/xml/webtemplate.pre">
+ <item path="./installation.xml" type="XML" encoding="UTF-8" open="true" test="true">
+  <property name="encoding" value="UTF-8"/>
+ </item>
+ <item path="./about.xml" type="XML" encoding="AUTOMATIC" open="false" test="true">
+  <property name="encoding" value="AUTOMATIC"/>
+ </item>
+ <item path="./gfdl.xml" type="XML" encoding="AUTOMATIC" open="false" test="true">
+  <property name="encoding" value="AUTOMATIC"/>
+ </item>
+ <item path="./webtemplate.xml" type="DOCBOOK" encoding="UTF-8" open="true" test="true">
+  <property name="fo.output" value="/home/sandy/workspace/test/webtemplate.pdf"/>  <property name="docBook.ok" value="true"/>  <property name="docBook.output" value="/home/sandy/workspace/test/webtemplate.pdf"/>  <property name="fo.render" value="PDF"/>  <property name="docBook.application" value="true"/>  <property name="xslt.result.file" value="../../../../../../../../.editix/editix.tmp"/>  <property name="docBook.render" value="PDF"/>  <property name="xslt.data.file" value="./webtemplate.xml"/>  <property name="com.japisoft.editix.action.xml.LockedTagAction" value="false"/>  <property name="docbook.ok" value="true"/>  <property name="encoding" value="UTF-8"/>  <property name="reload.res" value="ok"/>  <property name="fo.source" value="/home/sandy/.editix/editix.tmp"/>  <property name="xslt.xslt.file" value="../../../../../../../../../../opt/editix2012/res/docbook/fo/docbook.xsl"/>
+ </item>
+ <item path="./glossary.xml" type="XML" encoding="UTF-8" open="true" test="true">
+  <property name="encoding" value="UTF-8"/>
+ </item>
+ <item path="./security.xml" type="XML" encoding="UTF-8" open="false" test="true">
+  <property name="encoding" value="UTF-8"/>
+ </item>
+ <item path="./administration.xml" type="XML" encoding="UTF-8" open="true" test="true">
+  <property name="bookmarks" value="/chapter/section[4]/section[1]"/>  <property name="encoding" value="UTF-8"/>  <property name="com.japisoft.editix.action.xml.DisabledEnabledCompletionAction" value="true"/>  <property name="filter" value="false"/>
+ </item>
+ <item path="./using.xml" type="XML" encoding="UTF-8" open="true" test="true">
+  <property name="encoding" value="UTF-8"/>
+ </item>
+ <item path="../html/webtemplate.css" type="CSS" encoding="AUTOMATIC" open="false" test="true">
+  <property name="encoding" value="AUTOMATIC"/>
+ </item>
+ <item path="../../webtemplate.ent" type="TEXT" encoding="UTF-8" test="true" open="true">
+  <property name="encoding" value="UTF-8"/>
+ </item>
+ <item path="./logging.xml" type="XML" encoding="AUTOMATIC" open="false" test="true">
+  <property name="encoding" value="AUTOMATIC"/>  <property name="tree.renderer.node.bold" value="bold"/>
+ </item>
+ <item path="./app.xml" type="XML" encoding="AUTOMATIC" open="false" test="true">
+  <property name="encoding" value="AUTOMATIC"/>
+ </item>
+ <item path="./versions.xml" type="XML" encoding="AUTOMATIC" open="false" test="true">
+  <property name="encoding" value="AUTOMATIC"/>  <property name="lastView" value="Source"/>
+ </item>
+
+</MyProject>
