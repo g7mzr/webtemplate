@@ -8,17 +8,17 @@
 	<title>&progname; - Version &current-ver; Developers Guide</title>
 	<bookinfo>	
 		<author>
-			<firstname>Alexander</firstname>
+			<firstname>Sandy</firstname>
 			<surname>McNeil</surname>
 			<affiliation>
 				<address>
-					<email>amcneil@iee.org</email>
+					<email>g7mzrdev@gmail.com</email>
 				</address>
 			</affiliation>
 		</author>
 		<copyright>
 			<year>2011 - &current-year;</year>
-			<holder role="mailto:amcneil@iee.org">Alexander McNeil</holder>
+			<holder role="mailto:g7mzrdev@gmail.com">Sandy McNeil</holder>
 		</copyright>
 		<abstract>
 			<para>
