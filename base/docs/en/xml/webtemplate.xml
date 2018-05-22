@@ -9,18 +9,18 @@
 	<bookinfo>	
 	              <authorgroup>
 		<author>
-			<firstname>Alexander</firstname>
+			<firstname>Sandy</firstname>
 			<surname>McNeil</surname>
 			<affiliation>
 				<address>
-					<email>amcneil@iee.org</email>
+					<email>g7mzrdev@gmail.com</email>
 				</address>
 			</affiliation>
 		</author>
 		</authorgroup>
 		<copyright>
 			<year>2011 -  &current-year;</year>
-			<holder role="mailto:amcneil@iee.org">Alexander McNeil</holder>
+			<holder role="mailto:g7mzrdev@gmail.com">Sandy McNeil</holder>
 		</copyright>
 		<abstract>
 			<para>Welcome to the &progname; installation and user guide.  &progname; is a base system designed to
