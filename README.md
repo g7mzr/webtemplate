@@ -35,9 +35,10 @@ In order to use Webtemplate the minimum requirements are:
 To install Webtemplate carry out the following steps
 
   * Clone Webtemplate
-  * Copy config.php.dist tp config.php
+  * Copy config.php.dist to config.php
   * Edit config.php with your system settings
   * run "phing prepare"
+  * run "install.php"
   * Configure Apache
 
 Webtemplate is now ready to run.
