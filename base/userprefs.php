@@ -144,26 +144,7 @@ $tpl->assign("PAGETITLE", gettext("User Preferences")  . ": " .$user->getUserNam
 $groups = new \webtemplate\groups\EditUsersGroups($db, $tpl);
 
 //Set up the page array.  This is a tempory location.
-$pagelist = array(
-    "settings" => array(
-        "description" => "General Preferences",
-        "template" => "users/preferences/settings.tpl",
-        "url" => "userprefs.php?tab=setting",
-        "selected" => false
-    ),
-    "account" => array(
-        "description" => "Name and Password",
-        "template" => "users/preferences/account.tpl",
-        "url" => "userprefs.php?tab=account",
-        "selected" => false
-    ),
-    "permissions" => array(
-        "description" => "Permissions",
-        "template" => "users/preferences/permissions.tpl",
-        "url" => "userprefs.php?tab=permissions",
-        "selected" => false
-    )
-);
+$pagelist = $config->readMenu('userprefpagelist');
 
 // Get which TAB has been selected.
 // If no TAB or Invalid TAB selected default to settings
