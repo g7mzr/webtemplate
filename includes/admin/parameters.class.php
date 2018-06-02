@@ -78,7 +78,7 @@ class Parameters
      */
     public function getPageList()
     {
-        return \webtemplate\admin\parameters\Pagelist::$pagelist;
+        return $this->config->readMenu('parampagelist');
     }
 
     /**

@@ -52,6 +52,14 @@ class Configure
     protected $mainmenu;
 
     /**
+     * Property Application Parameters Menu
+     *
+     * @var array
+     * @access protected
+     */
+    protected $parametersmenu;
+
+    /**
      * Constructor for the edit user class.
      *
      * @param array $db MDB2 Database Connection Object
@@ -70,6 +78,9 @@ class Configure
 
         include __DIR__ . '/../../configs/menus/mainMenu.php';
         $this->mainmenu = $mainMenu;
+
+        include __DIR__ . '/../../configs/menus/paramMenu.php';
+        $this->parametersmenu = $parampagelist;
 
         // Set up the database access.  Not used at present.
         $this->db       = $db;
@@ -605,6 +616,7 @@ class Configure
         // Sit up the supper array containing all menus
         $menulist = array();
         $menulist['mainmenu'] = $this->mainmenu;
+        $menulist['parampagelist'] =$this->parametersmenu;
 
         // Check if the requested menu exists and return it.
         if (array_key_exists($menu, $menulist) == true) {
