@@ -38,7 +38,9 @@
             depends="composer-check"
             unless="composer.present">
         <property name="composer.noselfupdate" value="true"/>
-        <get src="https://getcomposer.org/composer.phar" dest="${composer}"/>
+        <exec executable="wget" dir="${builddir}" passthru="true" logoutput="true">
+            <arg line="https://getcomposer.org/composer.phar" />
+        </exec>
     </target>
 
     <target name="composer-selfupdate"

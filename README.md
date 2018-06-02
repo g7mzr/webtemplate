@@ -31,6 +31,7 @@ In order to use Webtemplate the minimum requirements are:
   * Phing
   * Apache 2
   * PostgreSQL Database
+  * wget
 
 To install Webtemplate carry out the following steps
 
