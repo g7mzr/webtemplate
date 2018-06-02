@@ -95,7 +95,7 @@ text-align : right;
 white-space : nowrap;
 }
 #menu_bar {
-height : 15px;
+height : 20px;
 padding : 10px;
 background-color : #929bb1;
 border : 0;
@@ -220,4 +220,43 @@ dt {
 dl {
     margin: 0em 0em;
     padding: 0em 0em ;
+}
+
+#mainmenu {
+  width: 10em;
+  margin-top: 0em;
+  margin-right: 0.5em;
+  border: solid thin;
+  border-spacing: 0px;
+  border-collapse: collapse;
+  text-align: center;
+  color: black;
+  background-color: #edf2f2;
+  font-weight: normal;
+  vertical-align: middle;
+  table-layout: fixed;
+}
+
+#mainmenu a:link, #mainmenu a:visited {
+  color: #039;
+  background-color: transparent;
+}
+
+#mainmenu a:hover, #mainmenu a:active {
+  color: red;
+  background-color: transparent;
+}
+
+#mainmenu td {
+  border: solid thin;
+  padding: 0.2em 0.5em;
+  width: 100px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#mainmenu tr {
+  vertical-align: top;
 }

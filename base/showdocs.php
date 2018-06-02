@@ -74,6 +74,10 @@ $docsAvailable = \webtemplate\general\General::checkdocs(
 );
 $tpl->assign("DOCSAVAILABLE", $docsAvailable);
 
+// Load the menu and assign it to a SMARTY Variable
+$mainmenu = $config->readMenu('mainmenu');
+$tpl->assign('MAINMENU', $mainmenu);
+
 // Initalise the session variables
 $session = new \webtemplate\application\Session(
     $config->read('param.cookiepath'),

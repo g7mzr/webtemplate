@@ -64,6 +64,10 @@ $log = new \webtemplate\general\Log(
 );
 
 
+// Load the menu and assign it to a SMARTY Variable
+$mainmenu = $config->readMenu('mainmenu');
+$tpl->assign('MAINMENU', $mainmenu);
+
 // Initalise the session variables
 /* Initilaise PHP Session handling from session.php */
 $session = new \webtemplate\application\Session(
@@ -101,7 +105,7 @@ $stylesheetarray[] = '/style/' . $config->read('pref.theme.value') . '/main.css'
 $tpl->assign('STYLESHEET', $stylesheetarray);
 
 // Set LOGIN to true to hide the menus
-$tpl->assign('LOGIN', 'true');
+$tpl->assign('LOGIN', true);
 
 // Set the page title
 $tpl->assign("PAGETITLE", gettext("Email Address"));

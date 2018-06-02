@@ -30,16 +30,32 @@
     </div>
 </div>
 <div id="menu_bar">
-            <ul class="links">
-                <li><a href="./">Home</a></li>
-                {if $LOGIN == 'false'}
-                    <li><span class="separator">|</span> <a href="userprefs.php">Preferences</a></li>
-                    {if $ADMINACCESS  == true}
-                        <li><span class="separator">|</span> <a href="admin.php">Administration</a></li>
-                    {/if}
-                    <li><span class="separator">|</span> <a href="logout.php">Logout</a>&nbsp;{$USERNAME}</li>
+    <table id="mainmenu" border=1>
+        <tr>
+            {foreach $MAINMENU as $menuitem}
+                {if $menuitem.loggedin == false}
+                    <td onClick="document.location='{$menuitem.url}';"><a href="{$menuitem.url}">{$menuitem.name}</a></td>
                 {/if}
-            </ul>
+                {if ($menuitem.loggedin == true) and ($LOGIN == false)}
+                    {if $menuitem.admin == false}
+                        <td onClick="document.location='{$menuitem.url}';"><a href="{$menuitem.url}">{$menuitem.name}</a></td>
+                    {elseif ($menuitem.admin == true) and ($ADMINACCESS == true)}
+                        <td onClick="document.location='{$menuitem.url}';"><a href="{$menuitem.url}">{$menuitem.name}</a></td>
+                    {/if}
+                {/if}
+
+            {/foreach}
+            {*
+            <td onClick="document.location='./';"><a href="./">Home</a></td>
+                {if $LOGIN == 'false'}
+                    <td onClick="document.location='userprefs.php';"><a href="userprefs.php">Preferences</a></td>
+                    {if $ADMINACCESS  == true}
+                        <td onClick="document.location='admin.php';"> <a href="admin.php">Administration</a></td>
+                    {/if}
+                    <td onClick="document.location='logout.php';"><a href="logout.php">Logout</a></td>
+                {/if} *}
+        </tr>
+    </table>
 </div>
 <div id="main-body">
 {if $MSG != ''}
@@ -50,6 +66,7 @@
 
 </div>
 <div id="footer_menu">
+{*
 <ul id="useful-links">
     <li id="links-actions">
         <div class="label">Actions:&nbsp;</div>
@@ -73,6 +90,7 @@
         </li>
     {/if}
 </ul>
+*}
 </div>
 <div id="copyright">Copyright {#Author#} {$YEAR} </div>
 </body>

@@ -63,6 +63,10 @@ $log = new \webtemplate\general\Log(
     $config->read('param.admin.logrotate')
 );
 
+// Load the menu and assign it to a SMARTY Variable
+$mainmenu = $config->readMenu('mainmenu');
+$tpl->assign('MAINMENU', $mainmenu);
+
 /* Initilaise PHP Session handling from session.php */
 $session = new \webtemplate\application\Session(
     $config->read('param.cookiepath'),
@@ -123,7 +127,7 @@ $tpl->assign('USERNAME', $user->getRealName());
 $tpl->assign('ADMINACCESS', $userGroups->getAdminAccess());
 
 // Tell the templates the user has logged in.  This will display the menus
-$tpl->assign('LOGIN', 'false');
+$tpl->assign('LOGIN', false);
 
 // Check if the docbase parameter is set and the document files are available
 $docsAvailable = \webtemplate\general\General::checkdocs(

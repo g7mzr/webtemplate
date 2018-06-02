@@ -44,6 +44,14 @@ class Configure
     protected $preferences;
 
     /**
+     * Property Application Main Menu
+     *
+     * @var array
+     * @access protected
+     */
+    protected $mainmenu;
+
+    /**
      * Constructor for the edit user class.
      *
      * @param array $db MDB2 Database Connection Object
@@ -60,6 +68,9 @@ class Configure
         include  __DIR__ . '/../../configs/preferences.php';
         $this->preferences = $sitePreferences;
 
+        include __DIR__ . '/../../configs/menus/mainMenu.php';
+        $this->mainmenu = $mainMenu;
+
         // Set up the database access.  Not used at present.
         $this->db       = $db;
     } // end constructor
@@ -67,12 +78,12 @@ class Configure
 
     /**
      * This function returns the data in the specified key or null if the key does
-     * not exist.  Dot notation can be used.  Thefisrt name in the path should be
+     * not exist.  Dot notation can be used.  The first name in the path should be
      * param for $parameters of pref for $preferences.
      *
      * @param string $config The Parameter key being requested
      *
-     * @return mixed The vale of the Paramater requeted or null if it does not exist
+     * @return mixed The vale of the Parameter requested or null if it does not exist
      * @access public
      */
     final public function read($config = null)
@@ -580,4 +591,27 @@ class Configure
             return false;
         }
     }
+
+    /**
+     * This function returns the menu specified in menu
+     *
+     * @param string $menu The menu being requested
+     *
+     * @return mixed The menu being requested or an empty array if it does not exist
+     * @access public
+     */
+    final public function readMenu($menu)
+    {
+        // Sit up the supper array containing all menus
+        $menulist = array();
+        $menulist['mainmenu'] = $this->mainmenu;
+
+        // Check if the requested menu exists and return it.
+        if (array_key_exists($menu, $menulist) == true) {
+            return $menulist[$menu];
+        } else {
+            return array();
+        }
+    }
+
 }

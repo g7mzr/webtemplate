@@ -62,7 +62,7 @@ $log = new \webtemplate\general\Log(
 );
 
 /* Default to the user needing to log in */
-$tpl->assign('LOGIN', 'true');
+$tpl->assign('LOGIN', true);
 
 // Set the Sys admin email address
 $tpl->assign("SYSADMINEMAIL", $config->read("param.maintainer"));
@@ -90,6 +90,10 @@ if ($config->read('param.admin.newwindow') == true) {
 } else {
     $tpl->assign("NEWWINDOW", false);
 }
+
+// Load the menu and assign it to a SMARTY Variable
+$mainmenu = $config->readMenu('mainmenu');
+$tpl->assign('MAINMENU', $mainmenu);
 
 /* Initilaise PHP Session handling from session.php */
 $session = new \webtemplate\application\Session(
@@ -171,7 +175,7 @@ if ($session->getUserName() == '') {
                     $tpl->assign('ADMINACCESS', $userGroups->getAdminAccess());
 
                     // Tell template the user is logged in.
-                    $tpl->assign('LOGIN', 'false');
+                    $tpl->assign('LOGIN', false);
 
                     // Set the last logged in date
                     $tpl->assign("LASTLOGEDIN", $user->getLastSeenDate());
@@ -246,7 +250,7 @@ if ($session->getUserName() == '') {
     }
 } else {
     // User is logged in.  Display the main page using User's own preferences.
-    $tpl->assign('LOGIN', 'false');
+    $tpl->assign('LOGIN', false);
     $result = $user->register($session->getUserName(), $config->read('pref'));
     if (\webtemplate\general\General::isError($result)) {
         $log->error(

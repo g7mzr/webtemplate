@@ -63,6 +63,10 @@ $log = new \webtemplate\general\Log(
     $config->read('param.admin.logrotate')
 );
 
+// Load the menu and assign it to a SMARTY Variable
+$mainmenu = $config->readMenu('mainmenu');
+$tpl->assign('MAINMENU', $mainmenu);
+
 // Initalise the session variables
 $session = new \webtemplate\application\Session(
     $config->read('param.cookiepath'),
@@ -99,7 +103,7 @@ $tpl->assign('STYLESHEET', $stylesheetarray);
 $tpl->assign("SYSADMINEMAIL", $config->read("param.maintainer"));
 
 // Set LOGIN to true to hide the menus
-$tpl->assign('LOGIN', 'true');
+$tpl->assign('LOGIN', true);
 
 // Set the default page title
 $tpl->assign("PAGETITLE", gettext("Request New Password"));

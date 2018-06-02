@@ -64,6 +64,10 @@ $log = new \webtemplate\general\Log(
 );
 
 
+// Load the menu and assign it to a SMARTY Variable
+$mainmenu = $config->readMenu('mainmenu');
+$tpl->assign('MAINMENU', $mainmenu);
+
 // Initalise the session variables
 $session = new \webtemplate\application\Session(
     $config->read('param.cookiepath'),
@@ -109,7 +113,7 @@ $tpl->assign('STYLESHEET', $stylesheetarray);
 $tpl->assign("SYSADMINEMAIL", $config->read("param.maintainer"));
 
 // Restrict the menuses to the non logged in ones
-$tpl->assign('LOGIN', 'true');
+$tpl->assign('LOGIN', true);
 
 // Users real name for displaying on web page
 $tpl->assign('USERNAME', $user->getRealName());
