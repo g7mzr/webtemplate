@@ -1,11 +1,15 @@
 <ruleset name="WebTemplate">
+    <!-- Configs -->
+    <arg name="colors" /> <!-- Use Colours -->
+    <arg value="sp" />  <!-- Show progress.  Show shifs in report -->
+
     <description>Webtemplate Coding Standard</description>
-         <exclude-pattern>*/tests/_data/*</exclude-pattern>
-         <exclude-pattern>*/configs/*</exclude-pattern>
-         <exclude-pattern>*/templates_c/*</exclude-pattern>
-         <exclude-pattern>*/config.php</exclude-pattern>
-         <exclude-pattern>*/vendor/*</exclude-pattern>
+
+    <!-- Rule Sets -->
+        <!--  Default Standard is PSR2 -->
         <rule ref="PSR2"/>
+
+        <!-- Rules to exclude from Specific files -->
         <rule ref="Generic.Files.LineLength">
             <exclude-pattern>*/schema/schemadata.class.php</exclude-pattern>
             <exclude-pattern>*/schema/schemafunctions.class.php</exclude-pattern>
@@ -14,4 +18,11 @@
             <!-- Exclude from unit tests as autoloader needs to be included -->
             <exclude-pattern>*/tests/*</exclude-pattern>
         </rule>
+
+        <!-- Directorys to exclude as they only contain tempory files -->
+        <exclude-pattern>*/tests/_data/*</exclude-pattern>
+        <exclude-pattern>*/configs/*</exclude-pattern>
+        <exclude-pattern>*/templates_c/*</exclude-pattern>
+        <exclude-pattern>*/config.php</exclude-pattern>
+        <exclude-pattern>*/vendor/*</exclude-pattern>
 </ruleset>

@@ -13,47 +13,26 @@
 {block name=title}: Admin{/block}
 {block name=head}{/block}
 {block name=body}
+<p id="center">
 This page is only accessible to empowered users. You can access administrative pages from here
 (based on your privileges), letting you configure different aspects of this installation.
-<table>
-  <tr>
-    <td class="admin_links">
-        {if $EDITSETTINGS == true}
-            <dl class="dottedline">
-                <dt><a href="/editsettings.php">Site Preferences</a></dt>
-                <dd>Set the default user preferences. These are the values which will be used by default for all users. Users will be able to edit their own preferences from the <a href="userprefs.php">Preferences</a>.</dd>
-            </dl>
+</p>
+<p>
+<table id="adminmenu" border=1 width="70%">
+    {foreach $PAGELIST as $page}
+        {if (in_array($page.group, $GROUPLIST)  == true) or (in_array('admin', $GROUPLIST) == true)}
+            <tr>
+                <td width="10%"><a href="{$page.url}">{$page.name}</a></td>
+                <td width="10%" id="center">
+                    <a href="{$page.url}">
+                        <img src="images/{$page.icon}" alt="{$page.alttext}" height="42" width="42">
+                    </a>
+                </td>
+                <td width="80%">{$page.description}</td>
+            </tr>
         {/if}
-        {if $EDITCONFIG == true}
-            <dl class="dottedline">
-                <dt><a href="/editconfig.php">Setup</a></dt>
-                <dd>Edit the application configuration, including mandatory settings.</dd>
-            </dl>
-        {/if}
-        {if $ABOUT == true}
-            <dl class="dottedline">
-                <dt><a href="/about.php">About</a></dt>
-                <dd>Information about the application and server it is running on.</dd>
-            </dl>
-        {/if}
-    </td>
-
-    <td class="admin_links">
-        {if $EDITUSERS == true}
-            <dl class="dottedline">
-                <dt><a href="/editusers.php">Users</a></dt>
-                <dd>Create new user accounts or edit existing ones. You can also add and remove users from groups.</dd>
-            </dl>
-        {/if}
-        {if $EDITGROUPS == true}
-            <dl class="dottedline">
-                <dt><a href="/editgroups.php">Groups</a></dt>
-                <dd>Define groups which will be used in the installation. They can either be used to define new user privileges.</dd>
-            </dl>
-        {/if}
-   </td>
-
-  </tr>
+    {/foreach}
 </table>
+</p>
 {/block}
 

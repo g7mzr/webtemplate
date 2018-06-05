@@ -45,15 +45,6 @@
                 {/if}
 
             {/foreach}
-            {*
-            <td onClick="document.location='./';"><a href="./">Home</a></td>
-                {if $LOGIN == 'false'}
-                    <td onClick="document.location='userprefs.php';"><a href="userprefs.php">Preferences</a></td>
-                    {if $ADMINACCESS  == true}
-                        <td onClick="document.location='admin.php';"> <a href="admin.php">Administration</a></td>
-                    {/if}
-                    <td onClick="document.location='logout.php';"><a href="logout.php">Logout</a></td>
-                {/if} *}
         </tr>
     </table>
 </div>
@@ -66,31 +57,6 @@
 
 </div>
 <div id="footer_menu">
-{*
-<ul id="useful-links">
-    <li id="links-actions">
-        <div class="label">Actions:&nbsp;</div>
-            <ul class="links">
-                <li><a href="/">Home</a></li>
-                {if $LOGIN == 'false'}
-                    <li><span class="separator">|</span> <a href="userprefs.php">Preferences</a></li>
-                    {if $ADMINACCESS  == true}
-                        <li><span class="separator">|</span> <a href="admin.php">Administration</a></li>
-                    {/if}
-                    <li><span class="separator">|</span> <a href="logout.php">Logout</a>&nbsp;{$USERNAME}</li>
-                {/if}
-            </ul>
-    </li>
-    {if $LOGIN == 'false'}
-        <li id="links-saved">
-            <div class="label">Searches: </div>
-                <ul class="links">
-                    <li><a href="/">Home</a></li>
-                </ul>
-        </li>
-    {/if}
-</ul>
-*}
 </div>
 <div id="copyright">Copyright {#Author#} {$YEAR} </div>
 </body>

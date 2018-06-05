@@ -60,12 +60,20 @@ class Configure
     protected $parametersmenu;
 
     /**
-     * Property Application Parameters Menu
+     * Property Application User Preferences Menu
      *
      * @var array
      * @access protected
      */
     protected $userprefmenu;
+
+     /**
+     * Property Application Admin  Menu
+     *
+     * @var array
+     * @access protected
+     */
+    protected $adminmenu;
 
     /**
      * Constructor for the edit user class.
@@ -93,7 +101,10 @@ class Configure
         include __DIR__ . '/../../configs/menus/userPrefMenu.php';
         $this->userprefmenu = $userprefpagelist;
 
-       // Set up the database access.  Not used at present.
+        include __DIR__ . '/../../configs/menus/adminMenu.php';
+        $this->adminmenu = $adminpagelist;
+
+        // Set up the database access.  Not used at present.
         $this->db       = $db;
     } // end constructor
 
@@ -629,6 +640,7 @@ class Configure
         $menulist['mainmenu'] = $this->mainmenu;
         $menulist['parampagelist'] = $this->parametersmenu;
         $menulist['userprefpagelist'] = $this->userprefmenu;
+        $menulist['adminpagelist'] = $this->adminmenu;
 
         // Check if the requested menu exists and return it.
         if (array_key_exists($menu, $menulist) == true) {
@@ -637,5 +649,4 @@ class Configure
             return array();
         }
     }
-
 }

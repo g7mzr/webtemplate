@@ -116,6 +116,15 @@ class ErrorHandler
         // Get the Application Name
         $appName = $tpl->getConfigVars('application_name');
 
+        //Create new config class
+        $config = new \webtemplate\config\Configure(null);
+
+        // Load the menu and assign it to a SMARTY Variable
+        $mainmenu = $config->readMenu('mainmenu');
+        $tpl->assign('MAINMENU', $mainmenu);
+
+
+
         // Format the Stack Trace for the Web page
         $trace = $exception->getTrace();
         $tracedata = array();

@@ -156,6 +156,15 @@ if (!$userGroups->getAdminAccess() == true) {
     exit();
 }
 
+// Get the menu
+$menuitems = $config->readMenu('adminpagelist');
+$tpl->assign("PAGELIST", $menuitems);
+
+// Get The users groups
+$grouplist = $userGroups->getGroups();
+$tpl->assign("GROUPLIST", $grouplist);
+
+// $tpl->debugging = true;
 //ASSIGN PERMISIONS TO SHOW MENU ITEMS
 $tpl->assign('EDITSETTINGS', $userGroups->checkGroup('admin'));
 $tpl->assign('EDITCONFIG', $userGroups->checkGroup('admin'));
