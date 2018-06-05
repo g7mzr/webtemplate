@@ -263,7 +263,7 @@ class PasswordResetTest extends TestCase
         $data = $this->getEmail();
         if ($data <> "") {
             $lines = explode("\n", $data);
-            $url = $lines[12];
+            $url = $lines[13];
         }
         return $url;
     }

@@ -246,10 +246,10 @@ class SecurityTest extends TestCase
         $this->assertContains('Administration', $menuBarText);
 
         // Check the Adminstration Link is missing on the footer menu bar
-        $menuBarText = $this->webDriver
-            ->findElement(WebDriverBy::cssSelector('div#footer_menu'))
-            ->getText();
-        $this->assertContains('Administration', $menuBarText);
+        //$menuBarText = $this->webDriver
+        //    ->findElement(WebDriverBy::cssSelector('div#footer_menu'))
+        //    ->getText();
+        //$this->assertContains('Administration', $menuBarText);
 
         // Switch to the Admin Page to check we are there
         $this->webDriver
@@ -373,10 +373,10 @@ class SecurityTest extends TestCase
         $this->assertContains('Administration', $menuBarText);
 
         // Check the Adminstration Link is missing on the footer menu bar
-        $menuBarText = $this->webDriver
-            ->findElement(WebDriverBy::cssSelector('div#footer_menu'))
-            ->getText();
-        $this->assertContains('Administration', $menuBarText);
+        //$menuBarText = $this->webDriver
+        //    ->findElement(WebDriverBy::cssSelector('div#footer_menu'))
+        //    ->getText();
+        //$this->assertContains('Administration', $menuBarText);
 
         // Switch to the Admin Page to check we are there
         $this->webDriver
@@ -498,10 +498,10 @@ class SecurityTest extends TestCase
         $this->assertContains('Administration', $menuBarText);
 
         // Check the Adminstration Link is missing on the footer menu bar
-        $menuBarText = $this->webDriver
-            ->findElement(WebDriverBy::cssSelector('div#footer_menu'))
-            ->getText();
-        $this->assertContains('Administration', $menuBarText);
+        //$menuBarText = $this->webDriver
+        //    ->findElement(WebDriverBy::cssSelector('div#footer_menu'))
+        //    ->getText();
+        //$this->assertContains('Administration', $menuBarText);
 
         // Switch to the Admin Page to check we are there
         $this->webDriver
@@ -631,10 +631,10 @@ class SecurityTest extends TestCase
         $this->assertContains('Administration', $menuBarText);
 
         // Check the Adminstration Link is missing on the footer menu bar
-        $menuBarText = $this->webDriver
-            ->findElement(WebDriverBy::cssSelector('div#footer_menu'))
-            ->getText();
-        $this->assertContains('Administration', $menuBarText);
+        //$menuBarText = $this->webDriver
+        //    ->findElement(WebDriverBy::cssSelector('div#footer_menu'))
+        //    ->getText();
+        //$this->assertContains('Administration', $menuBarText);
 
         // Switch to the Admin Page to check we are there
         $this->webDriver

@@ -134,7 +134,7 @@ class AdminParametersTest extends TestCase
             ->findElement(WebDriverBy::cssSelector('td.selected_section'));
         $this->assertRegExp('/Required Settings/', $checkSelectedSection->getText());
         $checkBodyText = $this->webDriver
-            ->findElement(WebDriverBy::xpath("//table/tbody"))
+            ->findElement(WebDriverBy::xpath("//div[@id='main-body']/table/tbody"))
             ->getText();
         $this->assertRegExp('/URL Base/', $checkBodyText);
 
@@ -149,7 +149,7 @@ class AdminParametersTest extends TestCase
             $checkSelectedSection->getText()
         );
         $checkBodyText = $this->webDriver
-            ->findElement(WebDriverBy::xpath("//table/tbody"))
+            ->findElement(WebDriverBy::xpath("//div[@id='main-body']/table/tbody"))
             ->getText();
         $this->assertRegExp('/Logging Level/', $checkBodyText);
 
@@ -164,7 +164,7 @@ class AdminParametersTest extends TestCase
             $checkSelectedSection->getText()
         );
         $checkBodyText = $this->webDriver
-            ->findElement(WebDriverBy::xpath("//table/tbody"))
+            ->findElement(WebDriverBy::xpath("//div[@id='main-body']/table/tbody"))
             ->getText();
         $this->assertRegExp('/Create Accounts/', $checkBodyText);
 
@@ -174,7 +174,7 @@ class AdminParametersTest extends TestCase
             ->findElement(WebDriverBy::cssSelector('td.selected_section'));
         $this->assertRegExp('/e-mail/', $checkSelectedSection->getText());
         $checkBodyText = $this->webDriver
-            ->findElement(WebDriverBy::xpath("//table/tbody"))
+            ->findElement(WebDriverBy::xpath("//div[@id='main-body']/table/tbody"))
             ->getText();
         $this->assertRegExp('/Mail Delivery Method/', $checkBodyText);
 
@@ -186,7 +186,7 @@ class AdminParametersTest extends TestCase
             ->findElement(WebDriverBy::cssSelector('td.selected_section'));
         $this->assertRegExp('/Required Settings/', $checkSelectedSection->getText());
         $checkBodyText = $this->webDriver
-            ->findElement(WebDriverBy::xpath("//table/tbody"))
+            ->findElement(WebDriverBy::xpath("//div[@id='main-body']/table/tbody"))
             ->getText();
         $this->assertRegExp('/URL Base/', $checkBodyText);
 
