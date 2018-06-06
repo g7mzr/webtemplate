@@ -1,0 +1,26 @@
+{
+    "home": {
+        "name": "Home",
+        "url": ".\/",
+        "loggedin": false,
+        "admin": false
+    },
+    "pref": {
+        "name": "Preferences",
+        "url": "userprefs.php",
+        "loggedin": true,
+        "admin": false
+    },
+    "admin": {
+        "name": "Administration",
+        "url": "admin.php",
+        "loggedin": true,
+        "admin": true
+    },
+    "logout": {
+        "name": "Logout",
+        "url": "logout.php",
+        "loggedin": true,
+        "admin": false
+    }
+}

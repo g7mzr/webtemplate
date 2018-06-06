@@ -92,17 +92,25 @@ class Configure
         include  __DIR__ . '/../../configs/preferences.php';
         $this->preferences = $sitePreferences;
 
-        include __DIR__ . '/../../configs/menus/mainMenu.php';
-        $this->mainmenu = $mainMenu;
+        // Load the Main menu
+        $mainmenufilename = __DIR__ . '/../../configs/menus/mainmenu.json';
+        $mainmenustr = file_get_contents($mainmenufilename);
+        $this->mainmenu = json_decode($mainmenustr, true);
 
-        include __DIR__ . '/../../configs/menus/paramMenu.php';
-        $this->parametersmenu = $parampagelist;
+        // Load the Parameter Settings Menu
+        $parammenufilename = __DIR__ . '/../../configs/menus/parammenu.json';
+        $parammenustr = file_get_contents($parammenufilename);
+        $this->parametersmenu = json_decode($parammenustr, true);
 
-        include __DIR__ . '/../../configs/menus/userPrefMenu.php';
-        $this->userprefmenu = $userprefpagelist;
+        // Load the Users Preferences Menu
+        $userprefmenufilename = __DIR__ . '/../../configs/menus/userprefmenu.json';
+        $userprefmenustr = file_get_contents($userprefmenufilename);
+        $this->userprefmenu = json_decode($userprefmenustr, true);
 
-        include __DIR__ . '/../../configs/menus/adminMenu.php';
-        $this->adminmenu = $adminpagelist;
+        // Load the Main Admin Menu
+        $adminmenufilename = __DIR__ . '/../../configs/menus/adminmenu.json';
+        $adminmenustr = file_get_contents($adminmenufilename);
+        $this->adminmenu = json_decode($adminmenustr, true);
 
         // Set up the database access.  Not used at present.
         $this->db       = $db;
