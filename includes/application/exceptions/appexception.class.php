@@ -10,7 +10,7 @@
 namespace webtemplate\application\exceptions;
 
 /**
-* User Groups Class
+* Webtemplate Exception Class
 *
 * @category Webtemplate
 * @package  Exception

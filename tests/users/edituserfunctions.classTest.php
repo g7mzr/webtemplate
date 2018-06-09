@@ -105,7 +105,8 @@ class EditUserFunctionsClassTest extends TestCase
         $this->db = \webtemplate\db\DB::load($testdsn);
         $this->tpl = new \webtemplate\application\SmartyTemplate();
         $this->edituser = new \webtemplate\users\EditUser($this->db);
-        $this->config = new \webtemplate\config\Configure($this->db);
+        $configDir = __DIR__ . "/../../configs";
+        $this->config = new \webtemplate\config\Configure($configDir);
         $this->editusergroups = new \webtemplate\groups\EditUsersGroups($this->db);
 
         // Create a Mock database object

@@ -18,7 +18,7 @@ require_once __DIR__ . '/../../includes/global.php';
 require_once dirname(__FILE__) .'/../_data/database.php';
 
 // Include the Default Preferences
-require_once dirname(__FILE__) .'/../../configs/preferences.php';
+//require_once dirname(__FILE__) .'/../../configs/preferences.php';
 
 /**
  * UserClass Unit Tests
@@ -117,7 +117,8 @@ class UserClassTest extends TestCase
         $testName =  $this->getName();
 
         // Set up the configuration object
-        $this->config = new \webtemplate\config\Configure($this->object2);
+        $configDir = __DIR__ . "/../../configs";
+        $this->config = new \webtemplate\config\Configure($configDir);
     }
 
     /**

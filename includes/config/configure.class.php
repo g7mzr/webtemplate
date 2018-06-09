@@ -20,12 +20,12 @@ namespace webtemplate\config;
 class Configure
 {
     /**
-     * Database MDB2 Database Connection Object
+     * Location of Configuration Directory
      *
      * @var    array
      * @access protected
      */
-    protected $db = null;
+    protected $configDir = null;
 
     /**
      * Application configuration parameters
@@ -78,42 +78,43 @@ class Configure
     /**
      * Constructor for the edit user class.
      *
-     * @param array $db MDB2 Database Connection Object
+     * @param string $configDir Location of the parameter file
      *
      * @access public
      */
-    public function __construct($db)
+    public function __construct($configDir)
     {
 
-        // Load global parameters and preferences
-        include __DIR__ . '/../../configs/parameters.php';
-        $this->parameters = $parameters;
+        $this->configDir = $configDir;
 
-        include  __DIR__ . '/../../configs/preferences.php';
-        $this->preferences = $sitePreferences;
+        // Load global parameters and preferences
+        $parametersfile = $configDir . "/parameters.json";
+        $parameterstr = file_get_contents($parametersfile);
+        $this->parameters = json_decode($parameterstr, true);
+
+        $preferencesfile = $configDir . "/preferences.json";
+        $preferencesstr = file_get_contents($preferencesfile);
+        $this->preferences = json_decode($preferencesstr, true);
 
         // Load the Main menu
-        $mainmenufilename = __DIR__ . '/../../configs/menus/mainmenu.json';
+        $mainmenufilename = $configDir . '/menus/mainmenu.json';
         $mainmenustr = file_get_contents($mainmenufilename);
         $this->mainmenu = json_decode($mainmenustr, true);
 
         // Load the Parameter Settings Menu
-        $parammenufilename = __DIR__ . '/../../configs/menus/parammenu.json';
+        $parammenufilename = $configDir . '/menus/parammenu.json';
         $parammenustr = file_get_contents($parammenufilename);
         $this->parametersmenu = json_decode($parammenustr, true);
 
         // Load the Users Preferences Menu
-        $userprefmenufilename = __DIR__ . '/../../configs/menus/userprefmenu.json';
+        $userprefmenufilename = $configDir . '/menus/userprefmenu.json';
         $userprefmenustr = file_get_contents($userprefmenufilename);
         $this->userprefmenu = json_decode($userprefmenustr, true);
 
         // Load the Main Admin Menu
-        $adminmenufilename = __DIR__ . '/../../configs/menus/adminmenu.json';
+        $adminmenufilename = $configDir . '/menus/adminmenu.json';
         $adminmenustr = file_get_contents($adminmenufilename);
         $this->adminmenu = json_decode($adminmenustr, true);
-
-        // Set up the database access.  Not used at present.
-        $this->db       = $db;
     } // end constructor
 
 
@@ -369,180 +370,22 @@ class Configure
     */
     final public function saveParams($configDir)
     {
-        // Open the parameters.php file.. If there is a problem fail.
-        if ($handle = @fopen($configDir . '/parameters.php', "w")) {
-            // write the opening tag
-            fwrite($handle, "<?php\n");
 
-            /* Write the REQUIRED section of the parameters array */
-            $tempstr = $this->parameters['urlbase'];
-            fwrite($handle, "\$parameters['urlbase'] = '$tempstr';\n");
-
-            $tempstr = $this->parameters['maintainer'];
-            fwrite($handle, "\$parameters['maintainer'] = '$tempstr';\n");
-
-            $tempstr = $this->parameters['docbase'];
-            fwrite($handle, "\$parameters['docbase'] = '$tempstr';\n");
-
-            $tempstr = $this->parameters['cookiedomain'];
-            fwrite($handle, "\$parameters['cookiedomain'] = '$tempstr';\n");
-
-            $tempstr = $this->parameters['cookiepath'];
-            fwrite($handle, "\$parameters['cookiepath'] = '$tempstr';\n");
-
-            /* Write the ADMIN section of the parameters array */
-            $tempstr = $this->parameters['admin']['logging'];
-            fwrite(
-                $handle,
-                "\$parameters['admin']['logging'] = '$tempstr';\n"
-            );
-
-            $tempstr = $this->parameters['admin']['logrotate'];
-            fwrite(
-                $handle,
-                "\$parameters['admin']['logrotate'] = '$tempstr';\n"
-            );
-
-            if ($this->parameters['admin']['newwindow'] == true) {
-                fwrite(
-                    $handle,
-                    "\$parameters['admin']['newwindow'] = true;\n"
-                );
-            } else {
-                fwrite(
-                    $handle,
-                    "\$parameters['admin']['newwindow'] = false;\n"
-                );
-            }
-
-            $tempstr = $this->parameters['admin']['maxrecords'];
-            fwrite(
-                $handle,
-                "\$parameters['admin']['maxrecords'] = '$tempstr';\n"
-            );
-
-            /* Write the USERS section of the parameters array */
-            if ($this->parameters['users']['newaccount']) {
-                fwrite(
-                    $handle,
-                    "\$parameters['users']['newaccount'] = true;\n"
-                );
-            } else {
-                fwrite(
-                    $handle,
-                    "\$parameters['users']['newaccount'] = false;\n"
-                );
-            }
-
-            if ($this->parameters['users']['newpassword'] == true) {
-                fwrite(
-                    $handle,
-                    "\$parameters['users']['newpassword'] = true;\n"
-                );
-            } else {
-                fwrite(
-                    $handle,
-                    "\$parameters['users']['newpassword'] = false;\n"
-                );
-            }
-
-            $tempstr = $this->parameters['users']['regexp'];
-            fwrite(
-                $handle,
-                "\$parameters['users']['regexp'] = '$tempstr';\n"
-            );
-
-            $tempstr = $this->parameters['users']['regexpdesc'];
-            fwrite(
-                $handle,
-                "\$parameters['users']['regexpdesc'] = '$tempstr';\n"
-            );
-
-            $tempstr = $this->parameters['users']['passwdstrength'];
-            fwrite(
-                $handle,
-                "\$parameters['users']['passwdstrength'] = '$tempstr';\n"
-            );
-
-            $tempstr = $this->parameters['users']['passwdage'];
-            fwrite(
-                $handle,
-                "\$parameters['users']['passwdage'] = '$tempstr';\n"
-            );
-
-
-            if ($this->parameters['users']['autocomplete'] == true) {
-                fwrite(
-                    $handle,
-                    "\$parameters['users']['autocomplete'] = true;\n"
-                );
-            } else {
-                fwrite(
-                    $handle,
-                    "\$parameters['users']['autocomplete'] = false;\n"
-                );
-            }
-
-            $tempstr = $this->parameters['users']['autologout'];
-            fwrite(
-                $handle,
-                "\$parameters['users']['autologout'] = '$tempstr';\n"
-            );
-
-            // Write the e-mail section of the Parameters Array
-            $tempstr = $this->parameters['email']['smtpdeliverymethod'];
-            fwrite(
-                $handle,
-                "\$parameters['email']['smtpdeliverymethod'] = '$tempstr';\n"
-            );
-
-            $tempstr = $this->parameters['email']['emailaddress'];
-            fwrite(
-                $handle,
-                "\$parameters['email']['emailaddress'] = '$tempstr';\n"
-            );
-
-            $tempstr = $this->parameters['email']['smtpserver'];
-            fwrite(
-                $handle,
-                "\$parameters['email']['smtpserver'] = '$tempstr';\n"
-            );
-
-            $tempstr = $this->parameters['email']['smtpusername'];
-            fwrite(
-                $handle,
-                "\$parameters['email']['smtpusername'] = '$tempstr';\n"
-            );
-
-            $tempstr = $this->parameters['email']['smtppassword'];
-            fwrite(
-                $handle,
-                "\$parameters['email']['smtppassword'] = '$tempstr';\n"
-            );
-
-            if ($this->parameters['email']['smtpdebug'] == true) {
-                fwrite($handle, "\$parameters['email']['smtpdebug'] = true;\n");
-            } else {
-                fwrite($handle, "\$parameters['email']['smtpdebug'] = false;\n");
-            }
-
-            // Write the closing tag
-            fwrite($handle, "?>\n");
-            fflush($handle);
-
-            // Close the file and return true
-            fclose($handle);
-
-            if (extension_loaded('Zend OPcache')) {
-                if (\opcache_get_status() !== false) {
-                    \opcache_invalidate(\realpath($configDir . '/parameters.php'));
-                }
-            }
-            return true;
-        } else {
-            // return false as the file could not be opened
+        $filename = $configDir . "/parameters.json";
+        $jsonstr = json_encode($this->parameters, JSON_PRETTY_PRINT);
+        if (!is_writable($filename)) {
             return false;
         }
+        $result = file_put_contents($filename, $jsonstr);
+        if ($result === false) {
+            return false;
+        }
+        if (extension_loaded('Zend OPcache')) {
+            if (\opcache_get_status() !== false) {
+                \opcache_invalidate(\realpath($filename));
+            }
+        }
+        return true;
     }
 
     /**
@@ -551,86 +394,27 @@ class Configure
     *
     * @param string $configDir Location of the parameter file
     *
-    * @return boolean true if parameterfile saved false otherwise
+    * @return boolean true if preferences file saved false otherwise
     *
     * @access public
     */
     final public function savePrefs($configDir)
     {
-        if ($handle = @fopen($configDir . '/preferences.php', "w")) {
-            // Write the file
-            fwrite($handle, "<?php\n");
-            $tmpstr = $this->preferences['theme']['value'];
-            fwrite(
-                $handle,
-                "\$sitePreferences['theme']['value'] = '$tmpstr';\n"
-            );
-
-            // Save binary data by converting value into string
-            if ($this->preferences['theme']['enabled'] == true) {
-                $tempstr = "true";
-            } else {
-                $tempstr = "false";
-            }
-            fwrite(
-                $handle,
-                "\$sitePreferences['theme']['enabled'] = $tempstr;\n"
-            );
-
-            // Save binary data by converting value into string
-            if ($this->preferences['zoomtext']['value'] == true) {
-                $tempstr = "true";
-            } else {
-                $tempstr = "false";
-            }
-            fwrite(
-                $handle,
-                "\$sitePreferences['zoomtext']['value'] = $tempstr;\n"
-            );
-
-            // Save binary data by converting value into string
-            if ($this->preferences['zoomtext']['enabled'] == true) {
-                $tempstr = "true";
-            } else {
-                $tempstr = "false";
-            }
-            fwrite(
-                $handle,
-                "\$sitePreferences['zoomtext']['enabled'] = $tempstr;\n"
-            );
-
-            $tmpstr = $this->preferences['displayrows']['value'];
-            fwrite(
-                $handle,
-                "\$sitePreferences['displayrows']['value'] = '$tmpstr';\n"
-            );
-
-            // Save binary data by converting value into string
-            if ($this->preferences['displayrows']['enabled'] == true) {
-                $tempstr = "true";
-            } else {
-                $tempstr = "false";
-            }
-            fwrite(
-                $handle,
-                "\$sitePreferences['displayrows']['enabled'] = $tempstr;\n"
-            );
-
-            // Finish and close the file
-            fwrite($handle, "?>\n");
-            fflush($handle);
-            fclose($handle);
-
-            if (extension_loaded('Zend OPcache')) {
-                if (\opcache_get_status() !== false) {
-                    \opcache_invalidate(\realpath($configDir . '/preferences.php'));
-                }
-            }
-            return true;
-        } else {
-            // An error was encountered creating the file
+        $filename = $configDir . "/preferences.json";
+        $jsonstr = json_encode($this->preferences, JSON_PRETTY_PRINT);
+        if (!is_writable($filename)) {
             return false;
         }
+        $result = \file_put_contents($filename, $jsonstr);
+        if ($result === false) {
+            return false;
+        }
+        if (extension_loaded('Zend OPcache')) {
+            if (\opcache_get_status() !== false) {
+                \opcache_invalidate(\realpath($filename));
+            }
+        }
+        return true;
     }
 
     /**

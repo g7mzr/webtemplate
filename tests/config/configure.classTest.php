@@ -61,7 +61,8 @@ class ConfigureClassTest extends TestCase
         $this->db = null;
 
         // Create configuration Object
-        $this->object = new \webtemplate\config\Configure($this->db);
+        $configDir = __DIR__ . "/../../configs";
+        $this->object = new \webtemplate\config\Configure($configDir);
     }
 
     /**
@@ -730,15 +731,15 @@ class ConfigureClassTest extends TestCase
         // SET UP VALID FILE NAMES
         $configDir = dirname(__FILE__) ."/../_data";
         $faultyconfigDir = dirname(__FILE__) ."/../data";
-        $filename = $configDir . '/parameters.php';
-        $expectedfilename = $configDir . '/parameters_test_file.php';
+        $filename = $configDir . '/parameters.json';
+        $expectedfilename = $configDir . '/parameters_test_file.json';
 
 
         // Test saving the file
         $filesaved = $this->object->saveParams($configDir);
         $this->assertTrue($filesaved);
-        $filename = $configDir . '/parameters.php';
-        $expectedfilename = $configDir . '/parameters_test_file.php';
+        $filename = $configDir . '/parameters.json';
+        $expectedfilename = $configDir . '/parameters_test_file.json';
         $this->assertFileExists($filename);
         $this->assertFileEquals($expectedfilename, $filename);
 
@@ -770,8 +771,8 @@ class ConfigureClassTest extends TestCase
         // SET UP VALID FILE NAMES
         $configDir = dirname(__FILE__) ."/../_data";
         $faultyconfigDir = dirname(__FILE__) ."/../data";
-        $filename = $configDir . '/preferences.php';
-        $expectedfilename = $configDir . '/preferences_test_file.php';
+        $filename = $configDir . '/preferences.json';
+        $expectedfilename = $configDir . '/preferences_test_file.json';
 
         // Set test values. They may or may not be the same as the default values
         $this->object->write('pref.theme.value', 'Dusk');

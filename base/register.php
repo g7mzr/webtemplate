@@ -55,7 +55,8 @@ $token = new \webtemplate\general\Tokens($tpl, $db);
 //$tpl->debugging = true;
 
 //Create new config class
-$config = new \webtemplate\config\Configure($db);
+$configdir = $tpl->getConfigDir(0);
+$config = new \webtemplate\config\Configure($configdir);
 
 //Create the logclass
 $log = new \webtemplate\general\Log(

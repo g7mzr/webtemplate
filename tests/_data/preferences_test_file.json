@@ -1,0 +1,14 @@
+{
+    "theme": {
+        "value": "Dusk",
+        "enabled": true
+    },
+    "zoomtext": {
+        "value": true,
+        "enabled": true
+    },
+    "displayrows": {
+        "value": "2",
+        "enabled": true
+    }
+}

@@ -14,8 +14,6 @@ use PHPUnit\Framework\TestCase;
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
 
-// Include the Applications Parameters File
-require_once __DIR__ . '/../../configs/parameters.php';
 /**
  * General Code Class Unit Tests
  *

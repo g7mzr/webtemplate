@@ -18,7 +18,8 @@ require_once "../includes/global.php";
 require_once "../includes/general/help.php";
 
 // Create the Smart Template object
-$tpl = new \webtemplate\application\SmartyTemplate;
+$configdir = $tpl->getConfigDir(0);
+$config = new \webtemplate\config\Configure($configdir);
 
 //Set up the correct language and associated templates
 $languageconfig = \webtemplate\general\General::getconfigfile($tpl->getConfigDir());

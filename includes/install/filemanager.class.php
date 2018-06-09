@@ -327,7 +327,7 @@ class FileManager
 
 
     /**
-    * This function creates/modifies the parameters.php file
+    * This function creates/modifies the preferences.json file
     *
     * @param pointer $parameters Applications Configuration Parameters
     *
@@ -339,7 +339,7 @@ class FileManager
     {
         //global $installConfig, $parameters;
 
-        if (!file_exists($this->homeDir . "/configs/parameters.php")) {
+        if (!file_exists($this->homeDir . "/configs/parameters.json")) {
             return $this->createNewParameters();
         } else {
             return $this->updateParameters($parameters);
@@ -360,7 +360,7 @@ class FileManager
     {
         //global $installConfig, $sitePreferences;
 
-        if (!file_exists($this->homeDir . "/configs/preferences.php")) {
+        if (!file_exists($this->homeDir . "/configs/preferences.json")) {
             return $this->createNewPreferences();
         } else {
             return $this->updatePreferences($sitePreferences);
@@ -448,47 +448,36 @@ class FileManager
     private function createNewParameters()
     {
 
-        // Create the file
-        $handle = @fopen($this->homeDir . "/configs/parameters.php", "w");
-        if ($handle !== false) {
-            fwrite($handle, "<?php\n");
+        // Create the ne parameters array
+        $tempParameters = array();
 
-            // Walk throug the newParameters array
-            foreach ($this->newParameters as $value) {
-                // Create $parameters variable name
-                $str ="\$parameters";
+        // Walk through the newParameters array
+        foreach ($this->newParameters as $value) {
+            // Create $parameters variable name
 
-                // Add first level array name
-                $str .= "['" . $value[0] . "']";
-
-
-                // Add second level array name if it exists
-                if ($value[1] != '') {
-                    $str .= "['" . $value[1] . "']";
-                }
-
-                // Add the value of the parameter.
-                $str .= " = ";
-                if ($value[2] === true) {
-                    $str .= "true";
-                } elseif ($value[2] === false) {
-                    $str .= "false";
-                } else {
-                    $str .= "'" . $value[2] . "'";
-                }
-
-                $str .= ";\n";
-
-                fwrite($handle, $str);
+            $tempindex1 = $value[0];
+            $tempindex2 = $value[1];
+            $tempvalue  = $value[2];
+            if ($tempindex2 == '') {
+                $tempParameters[$tempindex1] = $tempvalue;
+            } else {
+                $tempParameters[$tempindex1][$tempindex2] = $tempvalue;
             }
-
-            // Close the file
-            fwrite($handle, "?>\n");
-            fclose($handle);
-            return true;
-        } else {
+        }
+        $filename = $this->homeDir . "/configs/parameters.json";
+        $jsonstr = json_encode($tempParameters, JSON_PRETTY_PRINT);
+        $handle = @fopen($filename, "w");
+        if ($handle === false) {
             return false;
         }
+        fwrite($handle, $jsonstr);
+        fclose($handle);
+        if (extension_loaded('Zend OPcache')) {
+            if (\opcache_get_status() !== false) {
+                \opcache_invalidate(\realpath($filename));
+            }
+        }
+        return true;
     }
 
     /**
@@ -502,59 +491,51 @@ class FileManager
      */
     private function updateParameters(&$parameters)
     {
-        $handle = @fopen($this->homeDir . "/configs/parameters.php", "w");
-        if ($handle !== false) {
-            fwrite($handle, "<?php\n");
+        // Create the ne parameters array
+        $tempParameters = array();
 
-            foreach ($this->newParameters as $value) {
-                // Create $parameters variable name
-                $str ="\$parameters";
+        // Walk through the newParameters array
 
-                // Add first level array name
-                $str .= "['" . $value[0] . "']";
+        foreach ($this->newParameters as $value) {
+            // Add the value of the parameter.
+            // Set the default in case it is new
+            $tempindex1 = $value[0];
+            $tempindex2 = $value[1];
+            $tempvalue = $value[2];
 
-
-                // Add second level array name if it exists
-                if ($value[1] != '') {
-                    $str .= "['" . $value[1] . "']";
+            // Check if the 4parameter exists.
+            // If it does get the save the current value.
+            if ($value[1] == '') {
+                if (isset($parameters[$tempindex1])) {
+                    $tempvalue = $parameters[$tempindex1];
                 }
-
-                // Add the value of the parameter.
-                // Set the default in case it is new
-                $tempindex1 = $value[0];
-                $tempindex2 = $value[1];
-                $tempvalue = $value[2];
-                if ($value[1] == '') {
-                    if (isset($parameters[$tempindex1])) {
-                        $tempvalue = $parameters[$tempindex1];
-                    }
-                } else {
-                    if (isset($parameters[$tempindex1][$tempindex2])) {
-                        $tempvalue = $parameters[$tempindex1][$tempindex2];
-                    }
+            } else {
+                if (isset($parameters[$tempindex1][$tempindex2])) {
+                    $tempvalue = $parameters[$tempindex1][$tempindex2];
                 }
-
-
-                $str .= " = ";
-                if ($tempvalue === true) {
-                    $str .= "true";
-                } elseif ($tempvalue === false) {
-                    $str .= "false";
-                } else {
-                    $str .= "'" . $tempvalue . "'";
-                }
-
-                $str .= ";\n";
-                fwrite($handle, $str);
             }
 
-            // Close the file
-            fwrite($handle, "?>\n");
-            fclose($handle);
-            return true;
-        } else {
+            // Create the updated parameters
+            if ($tempindex2 == '') {
+                $tempParameters[$tempindex1] = $tempvalue;
+            } else {
+                $tempParameters[$tempindex1][$tempindex2] = $tempvalue;
+            }
+        }
+        $filename = $this->homeDir . "/configs/parameters.json";
+        $jsonstr = json_encode($tempParameters, JSON_PRETTY_PRINT);
+        $handle = @fopen($filename, "w");
+        if ($handle === false) {
             return false;
         }
+        fwrite($handle, $jsonstr);
+        fclose($handle);
+        if (extension_loaded('Zend OPcache')) {
+            if (\opcache_get_status() !== false) {
+                \opcache_invalidate(\realpath($filename));
+            }
+        }
+        return true;
     }
 
 
@@ -567,43 +548,29 @@ class FileManager
      */
     private function createNewPreferences()
     {
-        $handle = @fopen($this->homeDir . "/configs/preferences.php", "w");
-        if ($handle !== false) {
-            fwrite($handle, "<?php\n");
-
-            // Walk through the newPreferences array
-            foreach ($this->newsitePreferences as $value) {
-                // Create $parameters variable name
-                $str ="\$sitePreferences";
-
-                // Add first level array name
-                $str .= "['" . $value[0] . "']";
-
-                // Add second level array name if it exists
-                $str .= "['" . $value[1] . "']";
-
-                // Add the value of the parameter.
-                $str .= " = ";
-                if ($value[2] === true) {
-                    $str .= "true";
-                } elseif ($value[2] === false) {
-                    $str .= "false";
-                } else {
-                    $str .= "'" . $value[2] . "'";
-                }
-
-                $str .= ";\n";
-
-                fwrite($handle, $str);
-            }
-
-            // Close the file
-            fwrite($handle, "?>\n");
-            fclose($handle);
-            return true;
-        } else {
+        // set up the temp preferences array
+        $tempPreferences = array();
+        // Walk through the newPreferences array
+        foreach ($this->newsitePreferences as $value) {
+            $tempindex1 = $value[0];
+            $tempindex2 = $value[1];
+            $tempvalue  = $value[2];
+            $tempPreferences[$tempindex1][$tempindex2] = $tempvalue;
+        }
+        $filename = $this->homeDir . "/configs/preferences.json";
+        $jsonstr = json_encode($tempPreferences, JSON_PRETTY_PRINT);
+        $handle = @fopen($filename, "w");
+        if ($handle === false) {
             return false;
         }
+        fwrite($handle, $jsonstr);
+        fclose($handle);
+        if (extension_loaded('Zend OPcache')) {
+            if (\opcache_get_status() !== false) {
+                \opcache_invalidate(\realpath($filename));
+            }
+        }
+        return true;
     }
 
     /**
@@ -617,53 +584,33 @@ class FileManager
      */
     private function updatePreferences(&$sitePreferences)
     {
-        $handle = @fopen($this->homeDir . "/configs/preferences.php", "w");
-        if ($handle !== false) {
-            fwrite($handle, "<?php\n");
+       // set up the temp preferences array
+        $tempPreferences = array();
+        // Walk through the newPreferences array
+        foreach ($this->newsitePreferences as $value) {
+            $tempindex1 = $value[0];
+            $tempindex2 = $value[1];
+            $tempvalue  = $value[2];
 
-            // Walk through the newPreferences array
-            foreach ($this->newsitePreferences as $value) {
-                // Create $parameters variable name
-                $str ="\$sitePreferences";
-
-                // Add first level array name
-                $str .= "['" . $value[0] . "']";
-
-                // Add second level array name if it exists
-                $str .= "['" . $value[1] . "']";
-
-                // Add the value of the parameter.
-                // Set the default in case it is new
-
-                $tempindex1 = $value[0];
-                $tempindex2 = $value[1];
-                $tempvalue = $value[2];
-
-                if (isset($sitePreferences[$tempindex1][$tempindex2])) {
-                    $tempvalue = $sitePreferences[$tempindex1][$tempindex2];
-                }
-
-                $str .= " = ";
-                if ($tempvalue === true) {
-                    $str .= "true";
-                } elseif ($tempvalue === false) {
-                    $str .= "false";
-                } else {
-                    $str .= "'" . $tempvalue . "'";
-                }
-
-                $str .= ";\n";
-
-                fwrite($handle, $str);
+            if (isset($sitePreferences[$tempindex1][$tempindex2])) {
+                $tempvalue = $sitePreferences[$tempindex1][$tempindex2];
             }
-
-            // Close the file
-            fwrite($handle, "?>\n");
-            fclose($handle);
-            return true;
-        } else {
+            $tempPreferences[$tempindex1][$tempindex2] = $tempvalue;
+        }
+        $filename = $this->homeDir . "/configs/preferences.json";
+        $jsonstr = json_encode($tempPreferences, JSON_PRETTY_PRINT);
+        $handle = @fopen($filename, "w");
+        if ($handle === false) {
             return false;
         }
+        fwrite($handle, $jsonstr);
+        fclose($handle);
+        if (extension_loaded('Zend OPcache')) {
+            if (\opcache_get_status() !== false) {
+                \opcache_invalidate(\realpath($filename));
+            }
+        }
+        return true;
     }
 
 

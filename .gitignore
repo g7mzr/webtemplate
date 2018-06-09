@@ -4,8 +4,8 @@
 *.html
 config.php
 local.conf
-parameters.php
-preferences.php
+parameters.json
+preferences.json
 database.php
 constants.php
 mailer.testfile
