@@ -299,7 +299,7 @@ class FileManagerTest extends TestCase
 
 
     /**
-     * Test the parameters.php file can be created
+     * Test the parameters.jason file can be created
      *
      * @group unittest
      * @group install
@@ -308,7 +308,7 @@ class FileManagerTest extends TestCase
      */
     public function testcreateParameters()
     {
-        $parametersfile = vfsStream::url($this->rootdir . "/configs/parameters.php");
+        $parametersfile = vfsStream::url($this->rootdir . "/configs/parameters.json");
         // Test with the configs directory missing.  It should report back false
         $result = $this->filemanager->createParameters($parameters);
         $this->assertFalse($result);
@@ -317,29 +317,6 @@ class FileManagerTest extends TestCase
         $this->vsffilestream->addChild(vfsStream::newDirectory('configs'));
         $result = $this->filemanager->createParameters($parameters);
         $this->assertTrue($result);
-        include $parametersfile;
-        $this->assertEquals(
-            '1',
-            $parameters['admin']['logging']
-        );
-        $this->assertEquals(
-            'none',
-            $parameters['email']['smtpdeliverymethod']
-        );
-
-        // Test for an update
-        $parameters['email']['smtpdeliverymethod'] = "smtp";
-        $result = $this->filemanager->createParameters($parameters);
-        $this->assertTrue($result);
-        include $parametersfile;
-        $this->assertEquals(
-            '1',
-            $parameters['admin']['logging']
-        );
-        $this->assertEquals(
-            'smtp',
-            $parameters['email']['smtpdeliverymethod']
-        );
 
         // Test that an error occurs if the file cannot be opened for writing
         chmod($parametersfile, 0444);
@@ -348,7 +325,7 @@ class FileManagerTest extends TestCase
     }
 
     /**
-     * Test the preferences.php file can be created
+     * Test the preferences.json file can be created
      *
      * @group unittest
      * @group install
@@ -358,7 +335,7 @@ class FileManagerTest extends TestCase
     public function testcreatePreferences()
     {
         $preferencesfile = vfsStream::url(
-            $this->rootdir . "/configs/preferences.php"
+            $this->rootdir . "/configs/preferences.json"
         );
         // Test with the configs directory missing.  It should report back false
         $result = $this->filemanager->createPreferences($sitePreferences);
@@ -368,29 +345,6 @@ class FileManagerTest extends TestCase
         $this->vsffilestream->addChild(vfsStream::newDirectory('configs'));
         $result = $this->filemanager->createPreferences($sitePreferences);
         $this->assertTrue($result);
-        include $preferencesfile;
-
-
-
-        $this->assertEquals(
-            'Dusk',
-            $sitePreferences['theme']['value']
-        );
-        $this->assertTrue($sitePreferences['theme']['enabled']);
-
-        // Test for an update
-        $sitePreferences['theme']['value'] = 'Blue';
-        $sitePreferences['theme']['enabled'] = false;
-
-        $result = $this->filemanager->createPreferences($sitePreferences);
-        $this->assertTrue($result);
-        include $preferencesfile;
-
-        $this->assertEquals(
-            'Blue',
-            $sitePreferences['theme']['value']
-        );
-        $this->assertFalse($sitePreferences['theme']['enabled']);
 
         // Test that an error occurs if the file cannot be opened for writing
         chmod($preferencesfile, 0444);
@@ -400,7 +354,7 @@ class FileManagerTest extends TestCase
 
 
     /**
-     * Test the preferences.php file can be created
+     * Test the preferences.json file can be created
      *
      * @group unittest
      * @group install
@@ -477,8 +431,8 @@ class FileManagerTest extends TestCase
 
             ),
             "configs" => array(
-                "parameters.php" => "Parameters File",
-                "preferences.php" => "Preferences File"
+                "parameters.json" => "Parameters File",
+                "preferences.json" => "Preferences File"
             ),
             "cache" => array(
                 "cacheFile.php" => " A Cache file"

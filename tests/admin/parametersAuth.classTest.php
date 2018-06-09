@@ -50,7 +50,8 @@ class ParametersAuthTest extends TestCase
     {
 
         // Create configuration Object
-        $this->confobj = new \webtemplate\config\Configure(null);
+        $configDir = __DIR__ . "/../../configs";
+        $this->confobj = new \webtemplate\config\Configure($configDir);
         $this->defaultParameters();
 
         // Create the Parameters Class
@@ -568,8 +569,8 @@ class ParametersAuthTest extends TestCase
         $configDir = dirname(__FILE__) ."/../_data";
         $filesaved = $this->object->saveParamFile($configDir);
         $this->assertTrue($filesaved);
-        $filename = $configDir . '/parameters.php';
-        $expectedfilename = $configDir . '/parameters_test_file.php';
+        $filename = $configDir . '/parameters.json';
+        $expectedfilename = $configDir . '/parameters_test_file.json';
         $this->assertFileExists($filename);
         $this->assertFileEquals($expectedfilename, $filename);
     }

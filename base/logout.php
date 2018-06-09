@@ -49,7 +49,8 @@ if (\webtemplate\general\General::isError($db)) {
     exit();
 }
 //Create new config class
-$config = new \webtemplate\config\Configure($db);
+$configdir = $tpl->getConfigDir(0);
+$config = new \webtemplate\config\Configure($configdir);
 
 //Create the logclass
 $log = new \webtemplate\general\Log(
@@ -60,6 +61,10 @@ $log = new \webtemplate\general\Log(
 
 // Set the Sys admin email address
 $tpl->assign("SYSADMINEMAIL", $config->read("param.maintainer"));
+
+// Load the menu and assign it to a SMARTY Variable
+$mainmenu = $config->readMenu('mainmenu');
+$tpl->assign('MAINMENU', $mainmenu);
 
 /* Initilaise PHP Session handling from session.php */
 $session = new \webtemplate\application\Session(

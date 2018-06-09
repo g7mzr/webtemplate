@@ -1,0 +1,42 @@
+{
+    "about": {
+        "name": "About",
+        "description": "Information about the application and server it is running on.",
+        "url": "\/about.php",
+        "icon": "about.png",
+        "alttext": "About",
+        "group": "admin"
+    },
+    "settings": {
+        "name": "Setup",
+        "description": "Edit the application configuration, including mandatory settings.",
+        "url": "\/editconfig.php",
+        "icon": "setup.png",
+        "alttext": "Edit Settings",
+        "group": "admin"
+    },
+    "preferences": {
+        "name": "Site Preferences",
+        "description": "Set the default user preferences. These are the values which will be used by default for all users. Users will be able to edit their own preferences.",
+        "url": "\/editsettings.php",
+        "icon": "preferences.png",
+        "alttext": "Edit User Preferences",
+        "group": "admin"
+    },
+    "editgroup": {
+        "name": "Groups",
+        "description": "Define groups which will be used in the installation. They can be used to define user privileges",
+        "url": "\/editgroups.php",
+        "icon": "groups.png",
+        "alttext": "Edit Groups",
+        "group": "editgroups"
+    },
+    "editusers": {
+        "name": "Users",
+        "description": "Create new user accounts or edit existing ones. You can also add and remove users from groups.",
+        "url": "\/editusers.php",
+        "icon": "users.png",
+        "alttext": "Edit Users",
+        "group": "editusers"
+    }
+}

@@ -48,7 +48,8 @@ class PreferencesTest extends TestCase
     {
 
         // Create configuration Object
-        $this->confobj = new \webtemplate\config\Configure(null);
+        $configDir = __DIR__ . "/../../configs";
+        $this->confobj = new \webtemplate\config\Configure($configDir);
 
         $this->confobj->write('pref.theme.value', 'Dusk');
         $this->confobj->write('pref.theme.enabled', true);
@@ -244,8 +245,8 @@ class PreferencesTest extends TestCase
         $configDir = dirname(__FILE__) ."/../_data";
         $filesaved = $this->object->savePrefFile($configDir);
         $this->assertTrue($filesaved);
-        $filename = $configDir . '/preferences.php';
-        $expectedfilename = $configDir . '/preferences_test_file.php';
+        $filename = $configDir . '/preferences.json';
+        $expectedfilename = $configDir . '/preferences_test_file.json';
         $this->assertFileExists($filename);
 
         $this->assertFileEquals($expectedfilename, $filename);

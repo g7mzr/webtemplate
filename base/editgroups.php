@@ -50,7 +50,8 @@ if (\webtemplate\general\General::isError($db)) {
 }
 
 //Create new config class
-$config = new \webtemplate\config\Configure($db);
+$configdir = $tpl->getConfigDir(0);
+$config = new \webtemplate\config\Configure($configdir);
 
 //Create the logclass
 $log = new \webtemplate\general\Log(
@@ -62,6 +63,10 @@ $log = new \webtemplate\general\Log(
 $token = new \webtemplate\general\Tokens($tpl, $db);
 
 //$tpl->debugging = true;
+
+// Load the menu and assign it to a SMARTY Variable
+$mainmenu = $config->readMenu('mainmenu');
+$tpl->assign('MAINMENU', $mainmenu);
 
 // Initalise the session variables
 $session = new \webtemplate\application\Session(
@@ -122,7 +127,7 @@ $tpl->assign('USERNAME', $user->getRealName());
 $tpl->assign('ADMINACCESS', $userGroups->getAdminAccess());
 
 // Tell the templates the user has logged in.  This will display the menus
-$tpl->assign('LOGIN', 'false');
+$tpl->assign('LOGIN', false);
 
 // Check if the docbase parameter is set and the document files are available
 $docsAvailable = \webtemplate\general\General::checkdocs(

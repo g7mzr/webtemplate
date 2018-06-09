@@ -55,13 +55,19 @@ $token = new \webtemplate\general\Tokens($tpl, $db);
 //$tpl->debugging = true;
 
 //Create new config class
-$config = new \webtemplate\config\Configure($db);
+$configdir = $tpl->getConfigDir(0);
+$config = new \webtemplate\config\Configure($configdir);
 
 //Create the logclass
 $log = new \webtemplate\general\Log(
     $config->read('param.admin.logging'),
     $config->read('param.admin.logrotate')
 );
+
+// Load the menu and assign it to a SMARTY Variable
+$mainmenu = $config->readMenu('mainmenu');
+$tpl->assign('MAINMENU', $mainmenu);
+
 // Initalise the session variables
 $session = new \webtemplate\application\Session(
     $config->read('param.cookiepath'),
@@ -117,7 +123,7 @@ $tpl->assign('STYLESHEET', $stylesheetarray);
 $tpl->assign("SYSADMINEMAIL", $config->read("param.maintainer"));
 
 // Tell the templates the user has logged in.  This will display the menus
-$tpl->assign('LOGIN', 'false');
+$tpl->assign('LOGIN', false);
 
 // Users real name for displaying on web page
 $tpl->assign("USERNAME", $user->getRealName());
@@ -139,26 +145,7 @@ $tpl->assign("PAGETITLE", gettext("User Preferences")  . ": " .$user->getUserNam
 $groups = new \webtemplate\groups\EditUsersGroups($db, $tpl);
 
 //Set up the page array.  This is a tempory location.
-$pagelist = array(
-    "settings" => array(
-        "description" => "General Preferences",
-        "template" => "users/preferences/settings.tpl",
-        "url" => "userprefs.php?tab=setting",
-        "selected" => false
-    ),
-    "account" => array(
-        "description" => "Name and Password",
-        "template" => "users/preferences/account.tpl",
-        "url" => "userprefs.php?tab=account",
-        "selected" => false
-    ),
-    "permissions" => array(
-        "description" => "Permissions",
-        "template" => "users/preferences/permissions.tpl",
-        "url" => "userprefs.php?tab=permissions",
-        "selected" => false
-    )
-);
+$pagelist = $config->readMenu('userprefpagelist');
 
 // Get which TAB has been selected.
 // If no TAB or Invalid TAB selected default to settings

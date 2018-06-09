@@ -198,7 +198,8 @@ class Application
         }
 
         //Create new config class
-        $this->var_config = new \webtemplate\config\Configure($this->var_db);
+        $configdir = $this->var_tpl->getConfigDir(0);
+        $this->var_config = new \webtemplate\config\Configure($configdir);
 
         //Create the logclass
         $this->var_log = new \webtemplate\general\Log(

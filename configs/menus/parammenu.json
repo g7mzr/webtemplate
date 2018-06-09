@@ -1,0 +1,26 @@
+{
+    "required": {
+        "description": "Required Settings",
+        "template": "admin\/config\/required.tpl",
+        "url": "editconfig.php?section=required",
+        "selected": false
+    },
+    "admin": {
+        "description": "Administrative Policys",
+        "template": "admin\/config\/admin.tpl",
+        "url": "editconfig.php?section=admin",
+        "selected": false
+    },
+    "auth": {
+        "description": "User Authentication",
+        "template": "admin\/config\/auth.tpl",
+        "url": "editconfig.php?section=auth",
+        "selected": false
+    },
+    "email": {
+        "description": "e-mail",
+        "template": "admin\/config\/email.tpl",
+        "url": "editconfig.php?section=email",
+        "selected": false
+    }
+}

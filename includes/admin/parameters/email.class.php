@@ -138,6 +138,7 @@ class Email extends ParametersAbstract
         // SMTP Server give if Delivery method is smtp
         if (($this->mailDeliveryMethod == 'smtp') and ($this->smtpServer == '')) {
             $this->lastMsg .= gettext("You must enter the name of your SMTP server");
+            $this->mailDeliveryMethod = "None";
             $dataok = false;
         }
 

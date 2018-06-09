@@ -1,0 +1,20 @@
+{
+    "settings": {
+        "description": "General Preferences",
+        "template": "users\/preferences\/settings.tpl",
+        "url": "userprefs.php?tab=setting",
+        "selected": false
+    },
+    "account": {
+        "description": "Name and Password",
+        "template": "users\/preferences\/account.tpl",
+        "url": "userprefs.php?tab=account",
+        "selected": false
+    },
+    "permissions": {
+        "description": "Permissions",
+        "template": "users\/preferences\/permissions.tpl",
+        "url": "userprefs.php?tab=permissions",
+        "selected": false
+    }
+}

@@ -52,7 +52,8 @@ if (\webtemplate\general\General::isError($db)) {
 //$tpl->debugging = true;
 
 //Create new config class
-$config = new \webtemplate\config\Configure($db);
+$configdir = $tpl->getConfigDir(0);
+$config = new \webtemplate\config\Configure($configdir);
 
 //Create the logclass
 $log = new \webtemplate\general\Log(
@@ -60,6 +61,10 @@ $log = new \webtemplate\general\Log(
     $config->read('param.admin.logrotate')
 );
 
+
+// Load the menu and assign it to a SMARTY Variable
+$mainmenu = $config->readMenu('mainmenu');
+$tpl->assign('MAINMENU', $mainmenu);
 
 // Initalise the session variables
 $session = new \webtemplate\application\Session(
@@ -81,7 +86,7 @@ if ($headerResult == false) {
 // Check if the user is logged in.
 if ($session->getUserName() == '') {
     // Tell the templates the user has not logged in.
-    $tpl->assign('LOGIN', 'true');
+    $tpl->assign('LOGIN', true);
 
     // Get the Default style
     $stylesheetarray = array();
@@ -90,7 +95,7 @@ if ($session->getUserName() == '') {
     $tpl->assign('STYLESHEET', $stylesheetarray);
 } else {
     // Tell the templates the user has logged in.  This will display the menus
-    $tpl->assign('LOGIN', 'false');
+    $tpl->assign('LOGIN', false);
 
 
     // Configure the correct user and their permissions

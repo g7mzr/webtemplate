@@ -21,13 +21,18 @@ use GetOpt\Option;
 use GetOpt\ArgumentException;
 use GetOpt\ArgumentException\Missing;
 
-// Include the following files if they exist
+// Load the following files if they exist
 // If not they will be created later
+$preferencesfile = __DIR__ . "/configs/preferences.json";
 if (file_exists('./configs/preferences.php')) {
-    include './configs/preferences.php';
+    $preferencesstr = file_get_contents($preferencesfile);
+    $sitepreferences = json_decode($preferencesstr, true);
 }
-if (file_exists('./configs/parameters.php')) {
-    include './configs/parameters.php';
+
+$parametersfile = __DIR__ . "/configs/parameters.json";
+if (file_exists($parametersfile)) {
+    $parameterstr = file_get_contents($parametersfile);
+    $parameters = json_decode($parameterstr, true);
 }
 
 

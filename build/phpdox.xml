@@ -18,7 +18,7 @@
         <source type="pmd" />
         <source type="phploc" />
         <source type="phpunit">
-            <coverage path="${basedir}/logs/coverage/xml" />
+            <coverage path="${basedir}/logs/coverage" />
     </source>
     </enrich>
     <build engine="html" enabled="true" output="api">

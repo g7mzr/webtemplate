@@ -263,7 +263,7 @@ class RegisterTest extends TestCase
         $data = $this->getEmail();
         if ($data <> "") {
             $lines = explode("\n", $data);
-            $url = $lines[13];
+            $url = $lines[14];
         }
         return $url;
     }

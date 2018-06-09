@@ -50,7 +50,8 @@ class ParametersTest extends TestCase
     {
 
         // Create configuration Object
-        $this->confobj = new \webtemplate\config\Configure(null);
+        $configDir = __DIR__ . "/../../configs";
+        $this->confobj = new \webtemplate\config\Configure($configDir);
 
         // Create the Parameters Class
         $this->object = new \webtemplate\admin\Parameters($this->confobj);

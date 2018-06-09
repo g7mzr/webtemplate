@@ -81,7 +81,8 @@ class EditGroupFunctionsClassTest extends TestCase
         $this->db = \webtemplate\db\DB::load($testdsn);
         $this->tpl = new \webtemplate\application\SmartyTemplate();
         $this->editgroup = new \webtemplate\groups\EditGroups($this->db);
-        $this->config = new \webtemplate\config\Configure($this->db);
+        $configDir = __DIR__ . "/../../configs";
+        $this->config = new \webtemplate\config\Configure($configDir);
 
         // Create a Mock database object
         $testdsn['phptype'] = 'mock';

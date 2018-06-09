@@ -87,7 +87,7 @@
         <delete dir="${basedir}/build/phpdox"/>
         <delete dir="${basedir}/build/phpmetrics"/>
         <!--<delete dir="${basedir}/vendor"/> -->
-        <delete file="${basedir}/configs/preferences.php" />
+        <delete file="${basedir}/configs/preferences.json" />
         <delete>
             <fileset dir="${basedir}/templates_c" includes="**/*.php" />
         </delete>
@@ -101,7 +101,7 @@
     </target>
 
     <target name="clean-config" unless="functional.set" description="Delete Config files">
-        <delete file="${basedir}/configs/parameters.php" />
+        <delete file="${basedir}/configs/parameters.json" />
     </target>
 
 
@@ -128,7 +128,7 @@
         <mkdir dir="${basedir}/build/phpmetrics"/>
         <chmod file="${basedir}/configs" mode="0775">
             <fileset dir="${basedir}/configs">
-                <include name="**/*.php"/>
+                <include name="**/*.json"/>
             </fileset>
         </chmod>
         <chmod file="${basedir}/logs" mode="0775">
@@ -300,22 +300,13 @@
     <!-- ================================================================== -->
     <!--                  Functional Testing Targets                        -->
     <!-- ================================================================== -->
-    <target name="functional-permissions"
-            description="Set file permissions for webserver">
-        <chmod dir="${basedir}/configs" perm="ug+rw" includes="**/*.php" />
-        <chmod dir="${basedir}/configs" perm="ug+rw" />
-        <chmod dir="${basedir}/logs" perm="ug+rw" />
-        <chmod dir="${basedir}/logs" perm="ug+rw"  includes="**/*" />
-        <chmod dir="${basedir}/templates_c" perm="ug+rw" />
-        <chmod dir="${basedir}/templates_c" perm="ug+rw" includes="**/*.php" />
-    </target>
 
     <target name="functional-check">
         <property name="functional.set" value="true"/>
     </target>
 
     <target name="functional"
-            depends="composer-install, functional-check, db-update, functional-permissions"
+            depends="composer-install, functional-check, db-update"
             description="Run user interface tests with PHPUnit and Selenium Webdriver">
         <exec executable="${toolsdir}phpunit" checkreturn="true" passthru="true" logoutput="true">
             <arg value="--configuration"/>
@@ -378,7 +369,7 @@
             depends="prepare, unit"/>
 
     <target name="functional-test"
-            depends="prepare, functional-check, db-update, functional-permissions, functional"/>
+            depends="prepare, functional-check, db-update, functional"/>
 
     <target name="documentation"
             depends="code-analysis, unit-test, make-docs, phpdox"/>

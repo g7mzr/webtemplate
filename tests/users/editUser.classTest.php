@@ -18,7 +18,7 @@ require_once __DIR__ . '/../../includes/global.php';
 require_once dirname(__FILE__) .'/../_data/database.php';
 
 // Include Parameters File
-require_once dirname(__FILE__) ."/../../configs/parameters.php";
+//require_once dirname(__FILE__) ."/../../configs/parameters.php";
 
 /**
  * EditUser Class Unit Tests
@@ -122,7 +122,8 @@ class EditUserClassTest extends TestCase
         $testdsn['phptype'] = $tempDBDriver;
 
         // Set up the configuration object
-        $this->config = new \webtemplate\config\Configure($this->object2);
+        $configDir = __DIR__ . "/../../configs";
+        $this->config = new \webtemplate\config\Configure($configDir);
     }
 
     /**

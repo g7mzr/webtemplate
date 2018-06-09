@@ -55,7 +55,8 @@ $token = new \webtemplate\general\Tokens($tpl, $db);
 //$tpl->debugging = true;
 
 //Create new config class
-$config = new \webtemplate\config\Configure($db);
+$configdir = $tpl->getConfigDir(0);
+$config = new \webtemplate\config\Configure($configdir);
 
 //Create the logclass
 $log = new \webtemplate\general\Log(
@@ -63,6 +64,10 @@ $log = new \webtemplate\general\Log(
     $config->read('param.admin.logrotate')
 );
 
+
+// Load the menu and assign it to a SMARTY Variable
+$mainmenu = $config->readMenu('mainmenu');
+$tpl->assign('MAINMENU', $mainmenu);
 
 // Initalise the session variables
 /* Initilaise PHP Session handling from session.php */
@@ -101,7 +106,7 @@ $stylesheetarray[] = '/style/' . $config->read('pref.theme.value') . '/main.css'
 $tpl->assign('STYLESHEET', $stylesheetarray);
 
 // Set LOGIN to true to hide the menus
-$tpl->assign('LOGIN', 'true');
+$tpl->assign('LOGIN', true);
 
 // Set the page title
 $tpl->assign("PAGETITLE", gettext("Email Address"));

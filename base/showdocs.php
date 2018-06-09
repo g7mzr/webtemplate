@@ -18,7 +18,8 @@ require_once "../includes/global.php";
 require_once "../includes/general/help.php";
 
 // Create the Smart Template object
-$tpl = new \webtemplate\application\SmartyTemplate;
+$configdir = $tpl->getConfigDir(0);
+$config = new \webtemplate\config\Configure($configdir);
 
 //Set up the correct language and associated templates
 $languageconfig = \webtemplate\general\General::getconfigfile($tpl->getConfigDir());
@@ -73,6 +74,10 @@ $docsAvailable = \webtemplate\general\General::checkdocs(
     $language
 );
 $tpl->assign("DOCSAVAILABLE", $docsAvailable);
+
+// Load the menu and assign it to a SMARTY Variable
+$mainmenu = $config->readMenu('mainmenu');
+$tpl->assign('MAINMENU', $mainmenu);
 
 // Initalise the session variables
 $session = new \webtemplate\application\Session(
