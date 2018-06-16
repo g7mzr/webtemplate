@@ -116,13 +116,25 @@ class EditUserPref
     *
     * @access public
     */
-    public function __construct($db, $userId)
+    public function __construct($db, $userId = 0)
     {
         $this->db     = $db ;
         $this->userId = $userId;
     } // end constructor
 
 
+    /**
+     * Function to set the $userid which is seperate from the class constructor
+     *
+     * @param string $userId Id of user whose preferences are being updated.
+     *
+     * @access public
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    }
+    
     /**
     * Get the last message created by class
     *

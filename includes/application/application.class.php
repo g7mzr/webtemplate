@@ -152,6 +152,51 @@ class Application
     protected $var_editgroups;
 
     /**
+     * Property: parameters
+     * Webtemplate Parameters Object
+     *
+     * @var    \webtemplate\admin\Parameters
+     * @access protected
+     */
+    protected $var_parameters;
+
+    /**
+     * Property: preferences
+     * Webtemplate Preferences Object
+     *
+     * @var    \webtemplate\admin\Preferences
+     * @access protected
+     */
+    protected $var_preferences;
+
+    /**
+     * Property: mail
+     * Webtemplate Mailer Object
+     *
+     * @var    \webtemplate\general\Mail
+     * @access protected
+     */
+    protected $var_mail;
+
+    /**
+     * Property: tokens
+     * Webtemplate Tokens Object
+     *
+     * @var    \webtemplate\general\Tokens
+     * @access protected
+     */
+    protected $var_tokens;
+
+    /**
+     * Property: edituserprefs
+     * Webtemplate edituserprefs Object
+     *
+     * @var    \webtemplate\users\EditUserPref
+     * @access protected
+     */
+    protected $var_edituserprefs;
+
+    /**
      * Constructor
      *
      * @access public
@@ -234,6 +279,29 @@ class Application
         // Initalise edit groups object
         $this->var_editgroups = new \webtemplate\groups\EditGroups($this->var_db);
 
+        // Initalise the Parameters Object
+        $this->var_parameters = new \webtemplate\admin\Parameters($this->var_config);
+
+        // Inialise the Preferences Object
+        $this->var_preferences = new \webtemplate\admin\Preferences(
+            $this->var_config
+        );
+
+        // Initalise the Mail Object
+        $this->var_mail = new \webtemplate\general\Mail(
+            $this->var_config->read('param.mail')
+        );
+
+        //Initalise the Tokens Object
+        $this->var_tokens = new \webtemplate\general\Tokens(
+            $this->var_tpl,
+            $this->var_db
+        );
+
+        // Inialise the Edit Users Preferences Object
+        $this->var_edituserprefs = new \webtemplate\users\EditUserPref(
+            $this->var_db
+        );
         // Check if user is logged in.  If they are register them.
         if ($this->var_session->getUserName() != '') {
             $result = $this->var_user->register(
@@ -246,12 +314,16 @@ class Application
                     ": Failed To Register logged in user " .
                     $this->session->getUserName()
                 );
-                return;
+                throw new AppException('Unable to register user', 1);
             }
 
             // Get the users groups
             $this->var_usergroups->loadusersgroups($this->var_user->getUserId());
+
+            // Set the userid for edituserprefs
+            $this->var_edituserprefs->setUserId($this->var_user->getUserId());
         }
+
 
         $this->var_log->debug('Application Class Initalised');
     }
@@ -425,5 +497,66 @@ class Application
     public function editgroups()
     {
         return $this->var_editgroups;
+    }
+
+    /**
+     * This function returns the parameters object
+     *
+     * @return \webtemplate\admin\Parameters
+     *
+     * @access protected
+     */
+    public function parameters()
+    {
+        return $this->var_parameters;
+    }
+
+
+    /**
+     * This function returns the preferences object
+     *
+     * @return \webtemplate\admin\Preferences
+     *
+     * @access protected
+     */
+    public function preferences()
+    {
+        return $this->var_preferences;
+    }
+
+    /**
+     * This function returns the mail object
+     *
+     * @return \webtemplate\general\Mail
+     *
+     * @access protected
+     */
+    public function mail()
+    {
+        return $this->var_mail;
+    }
+
+    /**
+     * This function returns the tokens object
+     *
+     * @return \webtemplate\general\tokens
+     *
+     * @access protected
+     */
+    public function tokens()
+    {
+        return $this->var_tokens;
+    }
+
+    /**
+     * This function returns the edituserpref object
+     *
+     * @return \webtemplate\users\EditUserPref
+     *
+     * @access protected
+     */
+    public function edituserpref()
+    {
+        return $this->var_edituserprefs;
     }
 }
