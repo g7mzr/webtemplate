@@ -39,7 +39,7 @@ class EditUserFunctions
      *
      * @access public
      */
-    public static function listUsers(&$tpl, &$template, &$editUser, $regexp, &$data)
+    public static function listUsers($tpl, &$template, $editUser, $regexp, &$data)
     {
         // Get the type of search the user has chosen.  Valid values are:
         // username, email and realname.  Declare searchType as empty prior
@@ -124,7 +124,7 @@ class EditUserFunctions
      *
      * @access public
      */
-    public static function newUser(&$tpl, &$template)
+    public static function newUser($tpl, &$template)
     {
         // Initialise global variables for this method.
         //global $tpl, $template;
@@ -165,7 +165,7 @@ class EditUserFunctions
      *
      * @access public
      */
-    public static function editUser(&$tpl, &$template, &$editUser, &$groups, &$data)
+    public static function editUser($tpl, &$template, $editUser, $groups, &$data)
     {
         // Initialise global variables for this method.
         //global $tpl, $editUser, $template, $groups;
@@ -250,10 +250,10 @@ class EditUserFunctions
      * @access public
      */
     public static function saveUser(
-        &$tpl,
+        $tpl,
         &$template,
-        &$editUser,
-        &$groups,
+        $editUser,
+        $groups,
         $userparams,
         &$data
     ) {
