@@ -14,33 +14,17 @@
 // Include the Globals
 require_once "../includes/global.php";
 
-// Create the Smart Template object
-$tpl = new \webtemplate\application\SmartyTemplate;
-
-//Set up the correct language and associated templates
-$languageconfig = \webtemplate\general\General::getconfigfile($tpl->getConfigDir());
-$tpl->assign('CONFIGFILE', $languageconfig);
-$tpl->configLoad($languageconfig);
-$language = $tpl->getConfigVars('Language');
-$templateArray = $tpl->getTemplateDir();
-$tpl->setTemplateDir($templateArray[0] . '/' . $language);
-$tpl->setCompileId($language);
-putenv("LANGUAGE=$language");
-setlocale(LC_ALL, $language);
-bindtextdomain('messages', '../locale');
-textdomain('messages');
-
-// Get the Database login information
-\webtemplate\application\WebTemplateCommon::loadDSN($tpl, $dsn);
-
-// Loginto the Database for all classes
-$db =& \webtemplate\db\DB::load($dsn);
-if (\webtemplate\general\General::isError($db)) {
-    // Unable to Connect to the Database
+// Create a WEBTEMPLATE CLASS
+try {
+    $app = new \webtemplate\application\Application();
+} catch (\Throwable $e) {
+    // Create the Smart Template object
+    $tpl = new \webtemplate\application\SmartyTemplate;
     $template = 'global/error.tpl';
-    $msg = gettext("Unable to Connect to the Database.\n\n");
+    $msg = $e->getMessage();
+    $msg .= "\n\n";
     $msg .= gettext("Please Contact your Adminstrator");
-    $header =  gettext("Unable to Connect to the Database");
+    $header =  gettext("Application Error");
     $tpl->assign('ERRORMSG', $msg);
     $tpl->assign('HEADERMSG', $header);
     $dateArray = getdate();
@@ -49,83 +33,59 @@ if (\webtemplate\general\General::isError($db)) {
     exit();
 }
 
-// Create new Token Class
-$token = new \webtemplate\general\Tokens($tpl, $db);
-
-//$tpl->debugging = true;
-
-//Create new config class
-$configdir = $tpl->getConfigDir(0);
-$config = new \webtemplate\config\Configure($configdir);
-
-//Create the logclass
-$log = new \webtemplate\general\Log(
-    $config->read('param.admin.logging'),
-    $config->read('param.admin.logrotate')
-);
-
+// Set up the Language for translations
+$language = $app->language();
+\putenv("LANGUAGE=$language");
+\setlocale(LC_ALL, $language);
+\bindtextdomain('messages', '../locale');
+\textdomain('messages');
 // Load the menu and assign it to a SMARTY Variable
-$mainmenu = $config->readMenu('mainmenu');
-$tpl->assign('MAINMENU', $mainmenu);
-
-// Initalise the session variables
-$session = new \webtemplate\application\Session(
-    $config->read('param.cookiepath'),
-    $config->read('param.cookiedomain'),
-    $config->read('param.users.autologout'),
-    $tpl,
-    $db
-);
+$mainmenu = $app->config()->readMenu('mainmenu');
+$app->tpl()->assign('MAINMENU', $mainmenu);
 
 /* Send the HTTP Headers required by the application */
 $headerResult = \webtemplate\application\Header::sendHeaders();
 if ($headerResult == false) {
     // Log error is headers not sent
-    $log->error(basename(__FILE__) . ":  Failed to send HTTP Headers");
+    $app->log()->error(basename(__FILE__) . ":  Failed to send HTTP Headers");
 }
 
 // Check is requesting new passwords is allowed
-if ($config->read('param.users.newpassword') == false) {
-    //The user is not logged in. Display a login screen
+if ($app->config()->read('param.users.newpassword') == false) {
+    // Requesting new passwords is not allowed
     $headerResult = \webtemplate\application\Header::sendRedirect('index.php');
     if ($headerResult == false) {
         // Log error is headers not sent
-        $log->error(basename(__FILE__) . ":  Failed to send Redirect HTTP Header");
+        $app->log()->error(basename(__FILE__) . ":  Failed to send Redirect HTTP Header");
     }
     exit();
 }
 
 // Get the users select style
 $stylesheetarray = array();
-$stylesheetarray[] = '/style/' . $config->read('pref.theme.value') . '/main.css';
-$tpl->assign('STYLESHEET', $stylesheetarray);
+$stylesheetarray[] = '/style/' . $app->config()->read('pref.theme.value') . '/main.css';
+$app->tpl()->assign('STYLESHEET', $stylesheetarray);
 
 // Set the Sys admin email address
-$tpl->assign("SYSADMINEMAIL", $config->read("param.maintainer"));
+$app->tpl()->assign("SYSADMINEMAIL", $app->config()->read("param.maintainer"));
 
 // Set LOGIN to true to hide the menus
-$tpl->assign('LOGIN', true);
+$app->tpl()->assign('LOGIN', true);
 
 // Set the default page title
-$tpl->assign("PAGETITLE", gettext("Request New Password"));
+$app->tpl()->assign("PAGETITLE", gettext("Request New Password"));
 
 // Check if the docbase parameter is set and the document files are available
 $docsAvailable = \webtemplate\general\General::checkdocs(
-    $config->read('param.docbase'),
+    $app->config()->read('param.docbase'),
     $language
 );
-$tpl->assign("DOCSAVAILABLE", $docsAvailable);
-
-/* Create a user object for the current user */
-$user = new \webtemplate\users\User($db);
-
-/* Create an Edit User Class */
-$updateuser = new \webtemplate\users\EditUser($db);
+$app->tpl()->assign("DOCSAVAILABLE", $docsAvailable);
 
 // Assign default variables to prevent Template Warnings
-$tpl->assign("USERNAME", "");
-$tpl->assign("USERID", '0');
-$tpl->assign("PASSWDTOKEN", "wwwwwwwwww");
+$app->tpl()->assign("USERNAME", "");
+$app->tpl()->assign("USERID", '0');
+$app->tpl()->assign("PASSWDTOKEN", "wwwwwwwwww");
 
 // Set Variables to display the correct part of the Template
 $entername = true;
@@ -161,16 +121,16 @@ if ($action == "new") {
     // Abort the script if the session and page tokens are not the same.
     $inputToken = \filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
     $uid = "1";
-    if ($token->verifyToken($inputToken, 'RESETPASS', $uid) == false) {
+    if ($app->tokens()->verifyToken($inputToken, 'RESETPASS', $uid) == false) {
         // Get the year for the Copyright Statement
         $dateArray = getdate();
-        $tpl->assign('YEAR', "$dateArray[year]");
+        $app->tpl()->assign('YEAR', "$dateArray[year]");
         $template = "global/error.tpl";
         $msg = gettext("Security Failure. Unable to complete request");
         $header = gettext("Token Check Failure");
-        $tpl->assign("ERRORMSG", $msg);
-        $tpl->assign("HEADERMSG", $header);
-        $tpl->display($template);
+        $app->tpl()->assign("ERRORMSG", $msg);
+        $app->tpl()->assign("HEADERMSG", $header);
+        $app->tpl()->display($template);
         exit();
     }
 
@@ -183,7 +143,7 @@ if ($action == "new") {
     // Check that the username is in a valid format
     if (\webtemplate\general\LocalValidate::username(
         $tempuser,
-        $config->read('param.users.regexp')
+        $app->config()->read('param.users.regexp')
     )
     ) {
         $validusernameformat = true;
@@ -191,146 +151,145 @@ if ($action == "new") {
 
     // If the username is in an invalid format bring up an error
     if ($validusernameformat == false) {
-        $log->security(
+        $app->log()->security(
             gettext("Attempt to get new password with invalid username format")
         );
 
         // Get the year for the Copyright Statement
         $dateArray = getdate();
-        $tpl->assign('YEAR', "$dateArray[year]");
+        $app->tpl()->assign('YEAR', "$dateArray[year]");
         $template = "global/error.tpl";
         $msg = gettext("The format of the username entered was incorrect");
         $header = gettext("Invalid Username");
-        $tpl->assign("ERRORMSG", $msg);
-        $tpl->assign("HEADERMSG", $header);
-        $tpl->display($template);
+        $app->tpl()->assign("ERRORMSG", $msg);
+        $app->tpl()->assign("HEADERMSG", $header);
+        $app->tpl()->display($template);
         exit();
     }
 
     // Check that the mail system is active.  If off stop the password reset
-    $newMail = new \webtemplate\general\Mail($config->read('param.email'));
-    if ($newMail->status() == false) {
+    if ($app->mail()->status() == false) {
         // Get the year for the Copyright Statement
         $dateArray = getdate();
-        $tpl->assign('YEAR', "$dateArray[year]");
-        $log->error(gettext("Reset Password - Mail system is off"));
+        $app->tpl()->assign('YEAR', "$dateArray[year]");
+        $app->log()->error(gettext("Reset Password - Mail system is off"));
         $template = "global/error.tpl";
         $msg = gettext("System Error. Unable to complete request");
         $header = gettext("System Error");
-        $tpl->assign("ERRORMSG", $msg);
-        $tpl->assign("HEADERMSG", $header);
-        $tpl->display($template);
+        $app->tpl()->assign("ERRORMSG", $msg);
+        $app->tpl()->assign("HEADERMSG", $header);
+        $app->tpl()->display($template);
         exit();
     }
 
-    $searchresults = $updateuser->search('username', $tempuser);
+    $searchresults = $app->edituser()->search('username', $tempuser);
     if ((\webtemplate\general\General::isError($searchresults))
         or (count($searchresults) != 1)
     ) {
         // Get the year for the Copyright Statement
         $dateArray = getdate();
-        $tpl->assign('YEAR', "$dateArray[year]");
+        $app->tpl()->assign('YEAR', "$dateArray[year]");
 
         $msg = gettext("Unable to create new password request. ");
         $msg .= gettext("Please contact the system Administrator ");
-        $msg .= "(" . $config->read('param.maintainer') .")";
+        $msg .= "(" . $app->config()->read('param.maintainer') .")";
         $template = "global/error.tpl";
         $msg = gettext("System Error. Unable to complete request");
         $header = gettext("System Error");
-        $tpl->assign("ERRORMSG", $msg);
-        $tpl->assign("HEADERMSG", $header);
-        $tpl->display($template);
+        $app->tpl()->assign("ERRORMSG", $msg);
+        $app->tpl()->assign("HEADERMSG", $header);
+        $app->tpl()->display($template);
         exit();
     }
 
 
     $userid = $searchresults[0]['userid'];
-    $usertoken = $token->createToken($userid, 'PASSWORD', 1, "", false, false);
+    $usertoken = $app->tokens()->createToken($userid, 'PASSWORD', 1, "", false, false);
     if (\webtemplate\general\General::isError($usertoken)) {
         // Get the year for the Copyright Statement
         $dateArray = getdate();
-        $tpl->assign('YEAR', "$dateArray[year]");
+        $app->tpl()->assign('YEAR', "$dateArray[year]");
 
         $msg = gettext("Unable to create new password request. ");
         $msg .= gettext("Please contact the system Administrator ");
-        $msg .= "(" . $config->read('param.maintainer') .")";
+        $msg .= "(" . $app->config()->read('param.maintainer') .")";
         $template = "global/error.tpl";
         $msg = gettext("System Error. Unable to complete request");
         $header = gettext("System Error");
-        $tpl->assign("ERRORMSG", $msg);
-        $tpl->assign("HEADERMSG", $header);
-        $tpl->display($template);
+        $app->tpl()->assign("ERRORMSG", $msg);
+        $app->tpl()->assign("HEADERMSG", $header);
+        $app->tpl()->display($template);
         exit();
     }
 
     // Set the e-mail template variables
-    $user->register($tempuser, $config->read('pref'));
-    if ($user->getUserEmail() == "") {
+    $app->user()->register($tempuser, $app->config()->read('pref'));
+    if ($app->user()->getUserEmail() == "") {
         // Get the year for the Copyright Statement
         $dateArray = getdate();
-        $tpl->assign('YEAR', "$dateArray[year]");
+        $app->tpl()->assign('YEAR', "$dateArray[year]");
         $errorTxt = getText("Reset Password - User:");
         $errorTxt .= " " . $tempuser  . " ";
         $errorTxt .= gettext("does not have a email address");
-        $log->error(gettext($errorTxt));
+        $app->log()->error(gettext($errorTxt));
         $template = "global/error.tpl";
         $msg = gettext("System Error. Unable to complete request");
         $header = gettext("System Error");
-        $tpl->assign("ERRORMSG", $msg);
-        $tpl->assign("HEADERMSG", $header);
-        $tpl->display($template);
+        $app->tpl()->assign("ERRORMSG", $msg);
+        $app->tpl()->assign("HEADERMSG", $header);
+        $app->tpl()->display($template);
         exit();
     }
 
 
-    $tempURL = $config->read('param.urlbase');
+    $tempURL = $app->config()->read('param.urlbase');
     $tempURL .= "resetpasswd.php?passwdreq=".$usertoken;
-    $tpl->assign("EMAILUSERNAME", $user->getRealName());
-    $tpl->assign("PASSWODRESETLINK", $tempURL);
-    $passwdstrength = $config->read('param.users.passwdstrength');
-    $tpl->assign(
+    $app->tpl()->assign("EMAILUSERNAME", $app->user()->getRealName());
+    $app->tpl()->assign("PASSWODRESETLINK", $tempURL);
+    $passwdstrength = $app->config()->read('param.users.passwdstrength');
+    $app->tpl()->assign(
         "PASSWDFORMAT",
         \webtemplate\general\General::passwdFormat($passwdstrength)
     );
 
     // Get the completed e-mail template
-    $maildata  = $tpl->fetch("users/passwdrequest.tpl");
+    $maildata  = $app->tpl()->fetch("users/passwdrequest.tpl");
 
-    $result = $newMail->sendEmail(
-        $user->getUserEmail(),
+    $result = $app->mail()->sendEmail(
+        $app->user()->getUserEmail(),
         '',
         '',
         gettext("Password Request"),
         $maildata
     );
     if ($result == false) {
-        $log->error($newMail->errorMsg());
+        $app->log()->error($app->mail()->errorMsg());
 
         // Unable to send email record error
         $msg = gettext("Unable to create new password request. ");
         $msg .= gettext("Please contact the system Administrator ");
-        $msg .= "(" . $config->read("param.maintainer") .")";
+        $msg .= "(" . $app->config()->read("param.maintainer") .")";
         $template = "global/error.tpl";
         $msg = gettext("System Error. Unable to complete request");
         $header = gettext("System Error");
-        $tpl->assign("ERRORMSG", $msg);
-        $tpl->assign("HEADERMSG", $header);
+        $app->tpl()->assign("ERRORMSG", $msg);
+        $app->tpl()->assign("HEADERMSG", $header);
 
         // Get the year for the Copyright Statement
         $dateArray = getdate();
-        $tpl->assign('YEAR', "$dateArray[year]");
+        $app->tpl()->assign('YEAR', "$dateArray[year]");
 
-        $tpl->display($template);
+        $app->tpl()->display($template);
         exit();
     }
 
     $tempstr = gettext("User: ");
     $tempstr .= $tempuser;
     $tempstr .= gettext(" has requested a password reset");
-    $log->security($tempstr);
+    $app->log()->security($tempstr);
 
     // Set the page title
-    $tpl->assign("PAGETITLE", gettext("Email Confirmation"));
+    $app->tpl()->assign("PAGETITLE", gettext("Email Confirmation"));
 
 
     // Set Variables to display the correct part of the Template
@@ -346,7 +305,7 @@ if ($action == "new") {
 // is responding to a new token request
 if (\filter_input(INPUT_GET, 'passwdreq') !== null) {
     // Set the page title
-    $tpl->assign("PAGETITLE", gettext("Enter Password"));
+    $app->tpl()->assign("PAGETITLE", gettext("Enter Password"));
 
     // Set Variables to display the correct part of the Template
     $entername = false;
@@ -359,31 +318,31 @@ if (\filter_input(INPUT_GET, 'passwdreq') !== null) {
     $userid = '0';
     $passwdreq = substr(\filter_input(INPUT_GET, 'passwdreq'), 0, 10);
     if (webtemplate\general\LocalValidate::token($passwdreq) == true) {
-        $userid = $token->getTokenUserid($passwdreq, 'PASSWORD');
+        $userid = $app->tokens()->getTokenUserid($passwdreq, 'PASSWORD');
         if ($userid > 0) {
             $validpasswdtoken = true;
-            $tpl->assign("USERID", $userid);
-            $tpl->assign("PASSWDTOKEN", $passwdreq);
+            $app->tpl()->assign("USERID", $userid);
+            $app->tpl()->assign("PASSWDTOKEN", $passwdreq);
         }
     }
 
     if ($validpasswdtoken == false) {
         // Get the year for the Copyright Statement
         $dateArray = getdate();
-        $tpl->assign('YEAR', "$dateArray[year]");
+        $app->tpl()->assign('YEAR', "$dateArray[year]");
         $template = "global/error.tpl";
         $msg = gettext("This is not a valid password change token");
         $header = gettext("Invalid Request");
-        $tpl->assign("ERRORMSG", $msg);
-        $tpl->assign("HEADERMSG", $header);
-        $tpl->display($template);
+        $app->tpl()->assign("ERRORMSG", $msg);
+        $app->tpl()->assign("HEADERMSG", $header);
+        $app->tpl()->display($template);
         exit();
     }
-    $expiretime = $token->getExpireTime();
+    $expiretime = $app->tokens()->getExpireTime();
     $expiretimestamp = date('d F Y', $expiretime);
     $expiretimestamp .= " at " . date("G:i:s", $expiretime);
     $expiretimestamp .= " " . date("T");
-    $tpl->assign("EXPIREDATE", $expiretimestamp);
+    $app->tpl()->assign("EXPIREDATE", $expiretimestamp);
 }
 
 
@@ -391,17 +350,17 @@ if (\filter_input(INPUT_GET, 'passwdreq') !== null) {
 if ($action == "save") {
     // Abort the script if the session and page tokens are not the same.
     $inputToken = \filter_input(\INPUT_POST, 'token', FILTER_SANITIZE_STRING);
-    $uid = $user->getUserId();
-    if ($token->verifyToken($inputToken, 'RESETPASS', 1) == false) {
+    $uid = $app->user()->getUserId();
+    if ($app->tokens()->verifyToken($inputToken, 'RESETPASS', 1) == false) {
         // Get the year for the Copyright Statement
         $dateArray = getdate();
-        $tpl->assign('YEAR', "$dateArray[year]");
+        $app->tpl()->assign('YEAR', "$dateArray[year]");
         $template = "global/error.tpl";
         $msg = gettext("Security Failure. Unable to complete request");
         $header = gettext("Token Check Failure");
-        $tpl->assign("ERRORMSG", $msg);
-        $tpl->assign("HEADERMSG", $header);
-        $tpl->display($template);
+        $app->tpl()->assign("ERRORMSG", $msg);
+        $app->tpl()->assign("HEADERMSG", $header);
+        $app->tpl()->display($template);
         exit();
     }
 
@@ -410,16 +369,16 @@ if ($action == "save") {
     $temppass2 = substr(\filter_input(INPUT_POST, 'newpasswd2'), 0, 20);
     $passwdreq   = substr(\filter_input(INPUT_POST, 'passwdtoken'), 0, 10);
     $userid      = substr(\filter_input(INPUT_POST, 'userid'), 0, 10);
-    $tpl->assign("PASSWDTOKEN", $passwdreq);
-    $tpl->assign("USERID", $userid);
+    $app->tpl()->assign("PASSWDTOKEN", $passwdreq);
+    $app->tpl()->assign("USERID", $userid);
 
-    $passwdstrength = $config->read('param.users.passwdstrength');
+    $passwdstrength = $app->config()->read('param.users.passwdstrength');
     if ((\webtemplate\general\LocalValidate::password($temppass1, $passwdstrength))
         and ($temppass1 == $temppass2)
     ) {
         $validpasswdtoken = false;
         if (\webtemplate\general\LocalValidate::token($passwdreq) == true) {
-            $userid = $token->getTokenUserid($passwdreq, 'PASSWORD');
+            $userid = $app->tokens()->getTokenUserid($passwdreq, 'PASSWORD');
             if ($userid > 0) {
                 $validpasswdtoken = true;
             }
@@ -428,20 +387,20 @@ if ($action == "save") {
         if ($validpasswdtoken == true) {
             // Get username
             if (\webtemplate\general\LocalValidate::dbid($userid) == true) {
-                $temuserdetails = $updateuser->getUser($userid);
+                $temuserdetails = $app->edituser()->getUser($userid);
                 if (!\webtemplate\general\General::isError($temuserdetails)) {
-                    $passwdstatus = $updateuser->updatePasswd(
+                    $passwdstatus = $app->edituser()->updatePasswd(
                         $temuserdetails[0]['username'],
                         $temppass1
                     );
                     if (!\webtemplate\general\General::isError($passwdstatus)) {
-                        $tpl->assign("PAGETITLE", gettext("Password Updated"));
-                        $deletetoken = $token->deleteToken($passwdreq);
+                        $app->tpl()->assign("PAGETITLE", gettext("Password Updated"));
+                        $deletetoken = $app->tokens()->deleteToken($passwdreq);
                         if (\webtemplate\general\General::isError($deletetoken)) {
                             $tempstr = gettext("resetpasswd: ");
                             $tempstr .= gettext("Failed to delete token");
                             $tempstr .= gettext(" after password changed");
-                            $log->error($tempstr);
+                            $app->log()->error($tempstr);
                         }
 
                         // Password has been updated
@@ -460,39 +419,39 @@ if ($action == "save") {
         if ($passwordUpdated == false) {
             // Get the year for the Copyright Statement
             $dateArray = getdate();
-            $tpl->assign('YEAR', "$dateArray[year]");
-            $log->error(gettext("Password reset failed. Userid = " . $userid));
+            $app->tpl()->assign('YEAR', "$dateArray[year]");
+            $app->log()->error(gettext("Password reset failed. Userid = " . $userid));
             $template = "global/error.tpl";
             $msg = gettext("Unable to reset Password.  Please try again");
             $header = gettext("Password Reset failed");
-            $tpl->assign("ERRORMSG", $msg);
-            $tpl->assign("HEADERMSG", $header);
-            $tpl->display($template);
+            $app->tpl()->assign("ERRORMSG", $msg);
+            $app->tpl()->assign("HEADERMSG", $header);
+            $app->tpl()->display($template);
             exit();
         }
     } else {
         // Set the page title
-        $tpl->assign("PAGETITLE", gettext("Enter Password"));
+        $app->tpl()->assign("PAGETITLE", gettext("Enter Password"));
 
         $msg = gettext("Unable to validate passwords.\n");
         $msg .= \webtemplate\general\General::passwdFormat(
-            $config->read('param.users.passwdstrength')
+            $app->config()->read('param.users.passwdstrength')
         );
         $msg .= "\n";
         $msg .= gettext("and both passwords are the same");
-        $tpl->assign("MSG", $msg);
-        $tpl->assign("ENTERPASSWORD", true);
-        $tpl->assign("REQUESTPASSWORD", false);
+        $app->tpl()->assign("MSG", $msg);
+        $app->tpl()->assign("ENTERPASSWORD", true);
+        $app->tpl()->assign("REQUESTPASSWORD", false);
         $entername = false;
         $mailsent = false;
         $enterpasswd = true;
         $confirmpasswd = false;
         $requestcancelled = false;
-        $expiretime = $token->getExpireTime();
+        $expiretime = $app->tokens()->getExpireTime();
         $expiretimestamp = date('d F Y', $expiretime);
         $expiretimestamp .= " at " . date("G:i:s", $expiretime);
         $expiretimestamp .= " " . date("T");
-        $tpl->assign("EXPIREDATE", $expiretimestamp);
+        $app->tpl()->assign("EXPIREDATE", $expiretimestamp);
     }
 }
 
@@ -507,17 +466,17 @@ if ($action == "cancelpasswdrequest") {
     // Check the security token is valid.
     $inputToken = \filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
     $uid = "1";
-    if ($token->verifyToken($inputToken, 'RESETPASS', $uid) == false) {
+    if ($app->tokens()->verifyToken($inputToken, 'RESETPASS', $uid) == false) {
         $template = "global/error.tpl";
         $msg = gettext("Security Failure. Request has not been deleted");
         $header = gettext("Token Check Failure");
-        $tpl->assign("ERRORMSG", $msg);
-        $tpl->assign("HEADERMSG", $header);
+        $app->tpl()->assign("ERRORMSG", $msg);
+        $app->tpl()->assign("HEADERMSG", $header);
 
         // Get the year for the Copyright Statement
         $dateArray = getdate();
-        $tpl->assign('YEAR', "$dateArray[year]");
-        $tpl->display($template);
+        $app->tpl()->assign('YEAR', "$dateArray[year]");
+        $app->tpl()->display($template);
         exit();
     }
 
@@ -527,24 +486,24 @@ if ($action == "cancelpasswdrequest") {
         $template = 'global/error.tpl';
         $msg = gettext("Unable to validate  password reset cancelation request.\n");
         $header =  gettext("Invalid Request");
-        $tpl->assign('ERRORMSG', $msg);
-        $tpl->assign('HEADERMSG', $header);
+        $app->tpl()->assign('ERRORMSG', $msg);
+        $app->tpl()->assign('HEADERMSG', $header);
         $dateArray = getdate();
-        $tpl->assign("YEAR", "$dateArray[year]");
-        $tpl->display($template);
+        $app->tpl()->assign("YEAR", "$dateArray[year]");
+        $app->tpl()->display($template);
         exit();
     }
 
-    $result = $token->deleteToken($temptoken);
+    $result = $app->tokens()->deleteToken($temptoken);
     if (webtemplate\general\General::isError($result)) {
         $msg = gettext(__FILE__ . "Error cancelling new account request");
-        $log->error($msg);
+        $app->log()->error($msg);
     }
     $enterEmail = false;
     $accountcancelled = true;
 
     // Page Title
-    $tpl->assign("PAGETITLE", gettext("Request Cancelled"));
+    $app->tpl()->assign("PAGETITLE", gettext("Request Cancelled"));
 }
 
 
@@ -552,21 +511,21 @@ if ($action == "cancelpasswdrequest") {
 
 
 // Set Template variables
-$tpl->assign("ENTERNAME", $entername);
-$tpl->assign("EMAILSENT", $mailsent);
-$tpl->assign("ENTERPASSWORD", $enterpasswd);
-$tpl->assign("CONFIRMPASSWORD", $confirmpasswd);
-$tpl->assign("REQUESTCANCELLED", $requestcancelled);
+$app->tpl()->assign("ENTERNAME", $entername);
+$app->tpl()->assign("EMAILSENT", $mailsent);
+$app->tpl()->assign("ENTERPASSWORD", $enterpasswd);
+$app->tpl()->assign("CONFIRMPASSWORD", $confirmpasswd);
+$app->tpl()->assign("REQUESTCANCELLED", $requestcancelled);
 
 $template = "users/resetpasswd.tpl";
 
 // Create the token for checking the page authenticition
-$localtoken = $token->createToken("1", 'RESETPASS', 1, ''. true);
-$tpl->assign("TOKEN", $localtoken);
+$localtoken = $app->tokens()->createToken("1", 'RESETPASS', 1, ''. true);
+$app->tpl()->assign("TOKEN", $localtoken);
 
 // Get the year for the Copyright Statement
 $dateArray = getdate();
-$tpl->assign('YEAR', "$dateArray[year]");
+$app->tpl()->assign('YEAR', "$dateArray[year]");
 
 // Display the Web Page
-$tpl->display($template);
+$app->tpl()->display($template);
