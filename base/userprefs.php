@@ -14,33 +14,17 @@
 // Include the Globals
 require_once "../includes/global.php";
 
-// Create the Smart Template object
-$tpl = new \webtemplate\application\SmartyTemplate;
-
-//Set up the correct language and associated templates
-$languageconfig = \webtemplate\general\General::getconfigfile($tpl->getConfigDir());
-$tpl->assign('CONFIGFILE', $languageconfig);
-$tpl->configLoad($languageconfig);
-$language = $tpl->getConfigVars('Language');
-$templateArray = $tpl->getTemplateDir();
-$tpl->setTemplateDir($templateArray[0] . '/' . $language);
-$tpl->setCompileId($language);
-putenv("LANGUAGE=$language");
-setlocale(LC_ALL, $language);
-bindtextdomain('messages', '../locale');
-textdomain('messages');
-
-// Get the Database login information
-\webtemplate\application\WebTemplateCommon::loadDSN($tpl, $dsn);
-
-// Loginto the Database for all classes
-$db = \webtemplate\db\DB::load($dsn);
-if (\webtemplate\general\General::isError($db)) {
-    // Unable to Connect to the Database
+// Create a WEBTEMPLATE CLASS
+try {
+    $app = new \webtemplate\application\Application();
+} catch (\Throwable $e) {
+    // Create the Smart Template object
+    $tpl = new \webtemplate\application\SmartyTemplate;
     $template = 'global/error.tpl';
-    $msg = gettext("Unable to Connect to the Database.\n\n");
+    $msg = $e->getMessage();
+    $msg .= "\n\n";
     $msg .= gettext("Please Contact your Adminstrator");
-    $header =  gettext("Unable to Connect to the Database");
+    $header =  gettext("Application Error");
     $tpl->assign('ERRORMSG', $msg);
     $tpl->assign('HEADERMSG', $header);
     $dateArray = getdate();
@@ -49,103 +33,71 @@ if (\webtemplate\general\General::isError($db)) {
     exit();
 }
 
-// Create new Token Class
-$token = new \webtemplate\general\Tokens($tpl, $db);
-
-//$tpl->debugging = true;
-
-//Create new config class
-$configdir = $tpl->getConfigDir(0);
-$config = new \webtemplate\config\Configure($configdir);
-
-//Create the logclass
-$log = new \webtemplate\general\Log(
-    $config->read('param.admin.logging'),
-    $config->read('param.admin.logrotate')
-);
+// Set up the Language for translations
+$language = $app->language();
+\putenv("LANGUAGE=$language");
+\setlocale(LC_ALL, $language);
+\bindtextdomain('messages', '../locale');
+\textdomain('messages');
 
 // Load the menu and assign it to a SMARTY Variable
-$mainmenu = $config->readMenu('mainmenu');
-$tpl->assign('MAINMENU', $mainmenu);
-
-// Initalise the session variables
-$session = new \webtemplate\application\Session(
-    $config->read('param.cookiepath'),
-    $config->read('param.cookiedomain'),
-    $config->read('param.users.autologout'),
-    $tpl,
-    $db
-);
-
+$mainmenu = $app->config()->readMenu('mainmenu');
+$app->tpl()->assign('MAINMENU', $mainmenu);
 
 /* Send the HTTP Headers required by the application */
 $headerResult = \webtemplate\application\Header::sendHeaders();
 if ($headerResult == false) {
     // Log error is headers not sent
-    $log->error(basename(__FILE__) . ":  Failed to send HTTP Headers");
+    $app->log()->error(basename(__FILE__) . ":  Failed to send HTTP Headers");
 }
 
 // Check if the user is logged in.
-if ($session->getUserName() == '') {
+if ($app->session()->getUserName() == '') {
     //The user is not logged in. Display a login screen
     $headerResult = \webtemplate\application\Header::sendRedirect('index.php');
     if ($headerResult == false) {
         // Log error is headers not sent
-        $log->error(basename(__FILE__) . ":  Failed to send Redirect HTTP Header");
+        $app->log()->error(
+            basename(__FILE__) . ":  Failed to send Redirect HTTP Header"
+        );
     }
     exit();
 }
 
-// Configure the correct user and their permissions
-$user = new \webtemplate\users\User($db);
-$result = \webtemplate\general\General::isError(
-    $user->register($session->getUserName(), $config->read('pref'))
-);
-if ($result) {
-    $log->error(
-        basename(__FILE__) .
-        ": Failed To Register logged in user $username"
-    );
-}
-
-$userid = $user->getUserId();
-
-// Get the users groups
-$userGroups = new \webtemplate\users\Groups($db, $user->getUserId());
+$userid = $app->user()->getUserId();
 
 // Get the users select style
 $stylesheetarray = array();
-$stylesheetarray[] = '/style/' . $user->getUserTheme() . '/main.css';
-$stylesheetarray[] = '/style/' . $user->getUserTheme() . '/userprefs.css';
-$tpl->assign('STYLESHEET', $stylesheetarray);
+$stylesheetarray[] = '/style/' . $app->user()->getUserTheme() . '/main.css';
+$stylesheetarray[] = '/style/' . $app->user()->getUserTheme() . '/userprefs.css';
+$app->tpl()->assign('STYLESHEET', $stylesheetarray);
 
 // Set the Sys admin email address
-$tpl->assign("SYSADMINEMAIL", $config->read("param.maintainer"));
+$app->tpl()->assign("SYSADMINEMAIL", $app->config()->read("param.maintainer"));
 
 // Tell the templates the user has logged in.  This will display the menus
-$tpl->assign('LOGIN', false);
+$app->tpl()->assign('LOGIN', false);
 
 // Users real name for displaying on web page
-$tpl->assign("USERNAME", $user->getRealName());
+$app->tpl()->assign("USERNAME", $app->user()->getRealName());
 
 // Assign AdminAccess Rights to the template
-$tpl->assign('ADMINACCESS', $userGroups->getAdminAccess());
+$app->tpl()->assign('ADMINACCESS', $app->usergroups()->getAdminAccess());
 
 // Check if the docbase parameter is set and the document files are available
 $docsAvailable = \webtemplate\general\General::checkdocs(
-    $config->read('param.docbase'),
+    $app->config()->read('param.docbase'),
     $language
 );
-$tpl->assign("DOCSAVAILABLE", $docsAvailable);
+$app->tpl()->assign("DOCSAVAILABLE", $docsAvailable);
 
-$tpl->assign("PAGETITLE", gettext("User Preferences")  . ": " .$user->getUserName());
-
-// This module does not need to check if user can edit their own preferences.
-// Check if an action has been performed
-$groups = new \webtemplate\groups\EditUsersGroups($db, $tpl);
+$app->tpl()->assign(
+    "PAGETITLE",
+    gettext("User Preferences")  . ": " .$app->user()->getUserName()
+);
 
 //Set up the page array.  This is a tempory location.
-$pagelist = $config->readMenu('userprefpagelist');
+$pagelist = $app->config()->readMenu('userprefpagelist');
 
 // Get which TAB has been selected.
 // If no TAB or Invalid TAB selected default to settings
@@ -167,7 +119,7 @@ if (preg_match($tabList, $tempTab, $regs) == true) {
 }
 
 // Set the selected TAB and Default Template for User Preferences.
-$tpl->assign("TAB", $tab);
+$app->tpl()->assign("TAB", $tab);
 
 $template = $pagelist[$tab]['template'];
 $pagelist[$tab]['selected'] = true;
@@ -185,95 +137,101 @@ if ($tab == 'settings') {
         $action = "new_page";
     }
 
-    $myPrefs = new \webtemplate\users\EditUserPref($db, $user->getUserId());
-
     // Initalise Preferences
-    $result = $myPrefs->loadPreferences(
+    $result = $app->edituserpref()->loadPreferences(
         filter_input(INPUT_SERVER, 'DOCUMENT_ROOT'),
-        $config->read('pref')
+        $app->config()->read('pref')
     );
     if ($result == false) {
-            $log->error(basename(__FILE__) . ": " . $myPrefs->getLastMsg());
+            $app->log()->error(
+                basename(__FILE__) . ": " . $app->edituserpref()->getLastMsg()
+            );
             $template = "global/error.tpl";
             $msg = gettext("Unable to get User Preferences. Please try later");
             $header = gettext("Preference Failure");
-            $tpl->assign("ERRORMSG", $msg);
-            $tpl->assign("HEADERMSG", $header);
-            $tpl->display($template);
+            $app->tpl()->assign("ERRORMSG", $msg);
+            $app->tpl()->assign("HEADERMSG", $header);
+            $app->tpl()->display($template);
     }
     // Save the users Preferences
     if ($action == "save") {
         // Abort the script if the session and page tokens are not the same.
         $inputToken = \filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
-        $uid = $user->getUserId();
-        if ($token->verifyToken($inputToken, 'PREFS', $uid) == false) {
+        $uid = $app->user()->getUserId();
+        if ($app->tokens()->verifyToken($inputToken, 'PREFS', $uid) == false) {
             $template = "global/error.tpl";
             $msg = gettext("Security Failure. Settings not updated");
             $header = gettext("Token Check Failure");
-            $tpl->assign("ERRORMSG", $msg);
-            $tpl->assign("HEADERMSG", $header);
-            $tpl->display($template);
+            $app->tpl()->assign("ERRORMSG", $msg);
+            $app->tpl()->assign("HEADERMSG", $header);
+            $app->tpl()->display($template);
             exit();
         }
 
-        $result = $myPrefs->validateUserPreferences($_POST);
+        $result = $app->edituserpref()->validateUserPreferences($_POST);
         if ($result == true) {
-            $result = $myPrefs->checkUserPreferencesChanged();
-            $tpl->assign("MSG", $myPrefs->getLastMsg());
+            $result = $app->edituserpref()->checkUserPreferencesChanged();
+            $app->tpl()->assign("MSG", $app->edituserpref()->getLastMsg());
             if ($result == true) {
-                $result = $myPrefs->saveUserPreferences();
+                $result = $app->edituserpref()->saveUserPreferences();
                 if ($result == true) {
-                    $result = $myPrefs->updatePreferences();
+                    $result = $app->edituserpref()->updatePreferences();
                     if ($result == false) {
-                        $tpl->assign("MSG", $myPrefs->getLastMsg());
+                        $app->tpl()->assign(
+                            "MSG",
+                            $app->edituserpref()->getLastMsg()
+                        );
                     }
-                    $newTheme = $myPrefs->getNewTheme(
-                        $config->read('pref.theme.value')
+                    $newTheme = $app->edituserpref()->getNewTheme(
+                        $app->config()->read('pref.theme.value')
                     );
                     $stylesheetarray = array();
                     $stylesheetarray[] = 'style/' . $newTheme . '/main.css';
                     $stylesheetarray[] = 'style/' . $newTheme . '/userprefs.css';
-                    $tpl->assign('STYLESHEET', $stylesheetarray);
+                    $app->tpl()->assign('STYLESHEET', $stylesheetarray);
                 } else {
-                    $tpl->assign("MSG", $myPrefs->getLastMsg());
+                    $app->tpl()->assign("MSG", $app->edituserpref()->getLastMsg());
                 }
             } else {
-                $tpl->assign("MSG", $myPrefs->getLastMsg());
+                $app->tpl()->assign("MSG", $app->edituserpref()->getLastMsg());
             }
         } else {
-            $tpl->assign("MSG", $myPrefs->getLastMsg());
+            $app->tpl()->assign("MSG", $app->edituserpref()->getLastMsg());
         }
     }
 
     // If an invalid command has been chosen display this in the MSG box
     if ($action == "invalid") {
-        $tpl->assign("MSG", gettext("You have made an invalid command."));
+        $app->tpl()->assign("MSG", gettext("You have made an invalid command."));
     }
 
     // Get the Thems
-    $tpl->assign("THEME_ENABLED", $config->read('pref.theme.enabled'));
-    $tpl->assign("THEME", $myPrefs->getInstalledThemes());
+    $app->tpl()->assign("THEME_ENABLED", $app->config()->read('pref.theme.enabled'));
+    $app->tpl()->assign("THEME", $app->edituserpref()->getInstalledThemes());
     // Get Textbox Zoom.
     // Can the user change it.
-    $tpl->assign("ZOOM_TEXTAREAS_ENABLED", $config->read('pref.zoomtext.enabled'));
-    $tpl->assign("TEXTAREAS", $myPrefs->getZoomTextOptions());
+    $app->tpl()->assign(
+        "ZOOM_TEXTAREAS_ENABLED",
+        $app->config()->read('pref.zoomtext.enabled')
+    );
+    $app->tpl()->assign("TEXTAREAS", $app->edituserpref()->getZoomTextOptions());
     // Get the number of rows to sho on a single page
     // Can the user change it
-    $tpl->assign(
+    $app->tpl()->assign(
         "DISPLAY_ROWS_ENABLED",
-        $config->read('pref.displayrows.enabled')
+        $app->config()->read('pref.displayrows.enabled')
     );
-    $tpl->assign("DISPLAYROWS", $myPrefs->getDisplayRowsOptions());
+    $app->tpl()->assign("DISPLAYROWS", $app->edituserpref()->getDisplayRowsOptions());
 
     // Mark if the user can change any value
     $enablepreferences = false;
-    $localPreferences = $config->read('pref');
+    $localPreferences = $app->config()->read('pref');
     foreach ($localPreferences as $preferenceitem) {
         if ($preferenceitem['enabled'] == true) {
             $enablepreferences = true;
         }
     }
-    $tpl->assign("ATLEASTONEPREFERENCE", $enablepreferences);
+    $app->tpl()->assign("ATLEASTONEPREFERENCE", $enablepreferences);
 }
 
 
@@ -294,12 +252,12 @@ if ($tab == 'account') {
     if (preg_match("/(save)/", $action, $regs) == true) {
         // Check if the stored token matches the returned one
         $inputToken = \filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
-        $uid = $user->getUserId();
-        if ($token->verifyToken($inputToken, 'PREFS', $uid) == false) {
+        $uid = $app->user()->getUserId();
+        if ($app->tokens()->verifyToken($inputToken, 'PREFS', $uid) == false) {
             $template = "global/error.tpl";
             $msg = gettext("Security Failure. Settings not updated");
             $header = gettext("Token Check Failure");
-            $tpl->display($template);
+            $app->tpl()->display($template);
             exit();
         }
 
@@ -314,12 +272,10 @@ if ($tab == 'account') {
         $dataok = true;
 
         // Check if the returned password is correct
-        if ($user->checkPasswd($passwd) == true) {
-            $edituser = new \webtemplate\users\EditUser($db, $tpl);
-
-            $resultArray = $edituser->validateUserData(
+        if ($app->user()->checkPasswd($passwd) == true) {
+            $resultArray = $app->edituser()->validateUserData(
                 $_POST,
-                $config->read('param.users'),
+                $app->config()->read('param.users'),
                 true
             );
 
@@ -332,7 +288,7 @@ if ($tab == 'account') {
                 // Create an edit-user object
 
                 // Save the update data
-                $result = $edituser->updateUserDetails(
+                $result = $app->edituser()->updateUserDetails(
                     $resultArray[0]["realname"],
                     $resultArray[0]["passwd"],
                     $resultArray[0]["useremail"],
@@ -340,59 +296,65 @@ if ($tab == 'account') {
                 );
                 if (!\webtemplate\general\General::isError($result)) {
                     // Data saved okay
-                    $tpl->assign("MSG", gettext("Preferences Updated"));
-                    $user->getRealName($resultArray[0]["realname"]);
-                    $user->getUserEmail($resultArray[0]["useremail"]);
+                    $app->tpl()->assign("MSG", gettext("Preferences Updated"));
+                    $app->user()->getRealName($resultArray[0]["realname"]);
+                    $app->user()->getUserEmail($resultArray[0]["useremail"]);
                 } else {
                     // Error saving data.
                     $msg = gettext("Error updating your user preferences.");
-                    $tpl->assign("MSG", $msg . "\n". $result->getMessage());
+                    $app->tpl()->assign("MSG", $msg . "\n". $result->getMessage());
                 }
             } else {
                 // Data not validated.  Create an error string and reload the page.
                 $msg = $resultArray[0]['msg'];
-                $tpl->assign("MSG", $msg);
-                //    $tpl->assign("REALNAME", $realname);
-                //    $tpl->assign("EMAIL", $usermail);
+                $app->tpl()->assign("MSG", $msg);
+                //    $app->tpl()->assign("REALNAME", $realname);
+                //    $app->tpl()->assign("EMAIL", $usermail);
             }
         } else {
             // The returned current password is is wrong
             // Do not update any of the personal information
-            $tpl->assign("MSG", gettext("Invalid Current Password"));
-            $tpl->assign("REALNAME", $user->getRealName());
-            $tpl->assign("EMAIL", $user->getUserEmail());
+            $app->tpl()->assign("MSG", gettext("Invalid Current Password"));
+            $app->tpl()->assign("REALNAME", $app->user()->getRealName());
+            $app->tpl()->assign("EMAIL", $app->user()->getUserEmail());
         }
     }
     // If an invalid command has been chosen display this in the MSG box
     if ($action == "invalid") {
-        $tpl->assign("MSG", gettext("You have made an invalid command"));
+        $app->tpl()->assign("MSG", gettext("You have made an invalid command"));
     }
-    $tpl->assign("REALNAME", $user->getRealName());
-    $tpl->assign("EMAIL", $user->getUserEmail());
+    $app->tpl()->assign("REALNAME", $app->user()->getRealName());
+    $app->tpl()->assign("EMAIL", $app->user()->getUserEmail());
 }
 
 // This is the code to display the contents of the PERMISSIONS TAB
 if ($tab == 'permissions') {
     // Get the list of groups
-    $grouparray = $userGroups->getGroupDescription();
+    $grouparray = $app->usergroups()->getGroupDescription();
     if (\webtemplate\general\General::isError($grouparray)) {
         // If it failed publish the error
-        $tpl->assign("MSG", $grouparray->getMessage());
+        $app->tpl()->assign("MSG", $grouparray->getMessage());
     } else {
-        $tpl->assign("GROUPRESULT", $grouparray);
+        $app->tpl()->assign("GROUPRESULT", $grouparray);
     }
 }
 
 // Create the token for checking the page authenticition
-$localtoken = $token->createToken($user->getUserId(), 'PREFS', 1, ''. true);
-$tpl->assign("TOKEN", $localtoken);
+$localtoken = $app->tokens()->createToken(
+    $app->user()->getUserId(),
+    'PREFS',
+    1,
+    '',
+    true
+);
+$app->tpl()->assign("TOKEN", $localtoken);
 
 // Assign the page list
-$tpl->assign("PAGELIST", $pagelist);
+$app->tpl()->assign("PAGELIST", $pagelist);
 
 /* Get the year for the Copyright Statement at */
 $dateArray = getdate();
-$tpl->assign("YEAR", "$dateArray[year]");
+$app->tpl()->assign("YEAR", "$dateArray[year]");
 
 /* Display the Web Page */
-$tpl->display($template);
+$app->tpl()->display($template);
