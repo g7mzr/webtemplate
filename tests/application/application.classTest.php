@@ -59,8 +59,6 @@ class ApplicationTest extends TestCase
         } catch (\Throwable $e) {
             $this->fail($e->getMessage());
         }
-
-
     }
 
     /**
@@ -71,7 +69,7 @@ class ApplicationTest extends TestCase
      */
     protected function tearDown()
     {
-        //$this->object->session()->destroy();
+        $this->object->session()->destroy();
     }
 
 
@@ -129,6 +127,20 @@ class ApplicationTest extends TestCase
     {
         $result = $this->object->language();
         $this->assertEquals(LANGUAGE, $result);
+    }
+
+    /**
+     * This function tests the production flag
+     *
+     * @group unittest
+     * @group application
+     *
+     * @return null
+     */
+    public function testProduction()
+    {
+        $result = $this->object->production();
+        $this->assertFalse($result);
     }
 
     /**
@@ -350,7 +362,8 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->mail(),
-            '\webtemplate\general\Mail');
+            '\webtemplate\general\Mail'
+        );
         $this->assertTrue($result);
     }
 
@@ -366,7 +379,8 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->tokens(),
-            '\webtemplate\general\Tokens');
+            '\webtemplate\general\Tokens'
+        );
         $this->assertTrue($result);
     }
 
@@ -382,7 +396,8 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->edituserpref(),
-            '\webtemplate\users\EditUserPref');
+            '\webtemplate\users\EditUserPref'
+        );
         $this->assertTrue($result);
     }
 
@@ -406,6 +421,5 @@ class ApplicationTest extends TestCase
         $testapp = new \webtemplate\application\Application();
         $username = $testapp->session()->getUserName();
         $this->assertEquals("phpunit", $username);
-
     }
 }

@@ -79,6 +79,15 @@ class Application
     protected $var_apiversion = '';
 
     /**
+     * Property: production
+     * Boolean true if application is in a production environment
+     *
+     * @var    boolean
+     * @access protected
+     */
+    protected $var_production = true;
+
+    /**
      * Property: config
      * Webtemplate config object
      *
@@ -232,6 +241,9 @@ class Application
         $this->var_appversion = $this->var_tpl->getConfigVars('application_version');
         $this->var_apiversion = $this->var_tpl->getConfigVars('api_version');
 
+        // Get the application development mode
+        $this->var_production = $this->var_tpl->getConfigVars('Production');
+
 
         // Get the Database login information
         WebTemplateCommon::loadDSN($this->var_tpl, $dsn);
@@ -289,7 +301,7 @@ class Application
 
         // Initalise the Mail Object
         $this->var_mail = new \webtemplate\general\Mail(
-            $this->var_config->read('param.mail')
+            $this->var_config->read('param.email')
         );
 
         //Initalise the Tokens Object
@@ -365,7 +377,20 @@ class Application
         return $this->var_appversion;
     }
 
-        /**
+    /**
+     * This function returns true if the application is set for a production
+     * environment.
+     *
+     * @return boolean
+     *
+     * @access public
+     */
+    public function production()
+    {
+        return $this->var_production;
+    }
+
+    /**
      * This function returns the config object
      *
      * @return \webtemplate\config\Configure
