@@ -14,33 +14,17 @@
 // Include the Globals
 require_once "../includes/global.php";
 
-// Create the Smart Template object
-$tpl = new \webtemplate\application\SmartyTemplate;
-
-//Set up the correct language and associated templates
-$languageconfig = \webtemplate\general\General::getconfigfile($tpl->getConfigDir());
-$tpl->assign('CONFIGFILE', $languageconfig);
-$tpl->configLoad($languageconfig);
-$language = $tpl->getConfigVars('Language');
-$templateArray = $tpl->getTemplateDir();
-$tpl->setTemplateDir($templateArray[0] . '/' . $language);
-$tpl->setCompileId($language);
-putenv("LANGUAGE=$language");
-setlocale(LC_ALL, $language);
-bindtextdomain('messages', '../locale');
-textdomain('messages');
-
-// Get the Database login information
-\webtemplate\application\WebTemplateCommon::loadDSN($tpl, $dsn);
-
-// Loginto the Database for all classes
-$db = \webtemplate\db\DB::load($dsn);
-if (\webtemplate\general\General::isError($db)) {
-    // Unable to Connect to the Database
+// Create a WEBTEMPLATE CLASS
+try {
+    $app = new \webtemplate\application\Application();
+} catch (\Throwable $e) {
+    // Create the Smart Template object
+    $tpl = new \webtemplate\application\SmartyTemplate;
     $template = 'global/error.tpl';
-    $msg = gettext("Unable to Connect to the Database.\n\n");
+    $msg = $e->getMessage();
+    $msg .= "\n\n";
     $msg .= gettext("Please Contact your Adminstrator");
-    $header =  gettext("Unable to Connect to the Database");
+    $header =  gettext("Application Error");
     $tpl->assign('ERRORMSG', $msg);
     $tpl->assign('HEADERMSG', $header);
     $dateArray = getdate();
@@ -49,128 +33,96 @@ if (\webtemplate\general\General::isError($db)) {
     exit();
 }
 
-// Create new Token Class
-$token = new \webtemplate\general\Tokens($tpl, $db);
-
-//$tpl->debugging = true;
-
-//Create new config class
-$configdir = $tpl->getConfigDir(0);
-$config = new \webtemplate\config\Configure($configdir);
-
-//Create the logclass
-$log = new \webtemplate\general\Log(
-    $config->read('param.admin.logging'),
-    $config->read('param.admin.logrotate')
-);
+// Set up the Language for translations
+$language = $app->language();
+\putenv("LANGUAGE=$language");
+\setlocale(LC_ALL, $language);
+\bindtextdomain('messages', '../locale');
+\textdomain('messages');
 
 // Load the menu and assign it to a SMARTY Variable
-$mainmenu = $config->readMenu('mainmenu');
-$tpl->assign('MAINMENU', $mainmenu);
-
-// Initalise the session variables
-$session = new \webtemplate\application\Session(
-    $config->read('param.cookiepath'),
-    $config->read('param.cookiedomain'),
-    $config->read('param.users.autologout'),
-    $tpl,
-    $db
-);
+$mainmenu = $app->config()->readMenu('mainmenu');
+$app->tpl()->assign('MAINMENU', $mainmenu);
 
 /* Send the HTTP Headers required by the application */
 $headerResult = \webtemplate\application\Header::sendHeaders();
 if ($headerResult == false) {
     // Log error is headers not sent
-    $log->error(basename(__FILE__) . ":  Failed to send HTTP Headers");
+    $app->log()->error(basename(__FILE__) . ":  Failed to send HTTP Headers");
 }
 
 // Check if the user is logged in.
-if ($session->getUserName() == '') {
+if ($app->session()->getUserName() == '') {
     //The user is not logged in. Display a login screen
     $headerResult = \webtemplate\application\Header::sendRedirect('index.php');
     if ($headerResult == false) {
         // Log error is headers not sent
-        $log->error(basename(__FILE__) . ":  Failed to send Redirect HTTP Header");
+        $app->log()->error(basename(__FILE__) . ":  Failed to send Redirect HTTP Header");
     }
     exit();
 }
 
-// Configure the correct user and their permissions
-$user = new \webtemplate\users\User($db);
-$result = \webtemplate\general\General::isError(
-    $user->register($session->getUserName(), $config->read('pref'))
-);
-if ($result) {
-    $log->error(
-        basename(__FILE__) .
-        ": Failed To Register logged in user $username"
-    );
-}
-
-// Get the users groups
-$userGroups = new \webtemplate\users\Groups($db, $user->getUserId());
-
 // Get the users select style
 $stylesheetarray = array();
-$stylesheetarray[] = '/style/' . $user->getUserTheme() . '/main.css';
-$stylesheetarray[] = '/style/' . $user->getUserTheme() . '/editconfig.css';
-$tpl->assign('STYLESHEET', $stylesheetarray);
+$stylesheetarray[] = '/style/' . $app->user()->getUserTheme() . '/main.css';
+$stylesheetarray[] = '/style/' . $app->user()->getUserTheme() . '/editconfig.css';
+$app->tpl()->assign('STYLESHEET', $stylesheetarray);
 
 // Set the Sys admin email address
-$tpl->assign("SYSADMINEMAIL", $config->read("param.maintainer"));
+$app->tpl()->assign("SYSADMINEMAIL", $app->config()->read("param.maintainer"));
 
 // Tell the templates the user has logged in.  This will display the menus
-$tpl->assign('LOGIN', false);
+$app->tpl()->assign('LOGIN', false);
 
 // Users real name for displaying on web page
-$tpl->assign("USERNAME", $user->getRealName());
+$app->tpl()->assign("USERNAME", $app->user()->getRealName());
 
 // Assign AdminAccess Rights to the template
-$tpl->assign('ADMINACCESS', $userGroups->getAdminAccess());
+$app->tpl()->assign('ADMINACCESS', $app->usergroups()->getAdminAccess());
 
 // Set the current user's text box zoom settings
-$tpl->assign("ZOOMON", $user->getUserZoom());
+$app->tpl()->assign("ZOOMON", $app->user()->getUserZoom());
 
 //Set default readonly tag for the username
-$tpl->assign("READONLY", false);
+$app->tpl()->assign("READONLY", false);
 
 //Set the default referer
-$tpl->assign("REFERER", '');
+$app->tpl()->assign("REFERER", '');
 
 //Set the default Group Result
-$tpl->assign("GROUPRESULT", "");
+$app->tpl()->assign("GROUPRESULT", "");
 
 // Check if the docbase parameter is set and the document files are available
 $docsAvailable = \webtemplate\general\General::checkdocs(
-    $config->read('param.docbase'),
+    $app->config()->read('param.docbase'),
     $language
 );
 
-$tpl->assign("DOCSAVAILABLE", $docsAvailable);
+$app->tpl()->assign("DOCSAVAILABLE", $docsAvailable);
 
 // Check the user has permission to run this module
-if (!$userGroups->checkGroup("editusers") == true) {
+if (!$app->usergroups()->checkGroup("editusers") == true) {
     // User is not allowed to display the admin page
-    $log->security(
-        $session->getUserName() .
+    $app->log()->security(
+        $app->session()->getUserName() .
         gettext(" attempted to access ") . basename(__FILE__)
     );
     $template = 'global/error.tpl';
     $msg = gettext("You are not authorised to access this page.");
     $header =  gettext("Authorisation Required");
-    $tpl->assign('ERRORMSG', $msg);
-    $tpl->assign('HEADERMSG', $header);
+    $app->tpl()->assign('ERRORMSG', $msg);
+    $app->tpl()->assign('HEADERMSG', $header);
     $dateArray = getdate();
-    $tpl->assign("YEAR", "$dateArray[year]");
-    $tpl->display($template);
+    $app->tpl()->assign("YEAR", "$dateArray[year]");
+    $app->tpl()->display($template);
     exit();
 }
 
 // Set Password aging
-if ($config->read('param.users.passwdage') == '1') {
-    $tpl->assign("PASSWDAGING", false);
+if ($app->config()->read('param.users.passwdage') == '1') {
+    $app->tpl()->assign("PASSWDAGING", false);
 } else {
-    $tpl->assign("PASSWDAGING", true);
+    $app->tpl()->assign("PASSWDAGING", true);
 }
 
 $template = "";
@@ -192,19 +144,17 @@ if ($tempAction != '') {
     } else {
         $action = "invalid";
     }
-    $editUser = new \webtemplate\users\EditUser($db);
-    $groups = new \webtemplate\groups\EditUsersGroups($db);
 
     if ($action == "list") {
         \webtemplate\users\EditUserFunctions::listUsers(
-            $tpl,
+            $app->tpl(),
             $template,
-            $editUser,
-            $config->read('param.users.regexp'),
+            $app->edituser(),
+            $app->config()->read('param.users.regexp'),
             $_GET
         );
     } elseif ($action == "new") {
-        \webtemplate\users\EditUserFunctions::newUser($tpl, $template);
+        \webtemplate\users\EditUserFunctions::newUser($app->tpl(), $template);
     } elseif ($action == "edit") {
         // Set the link to return to the search page
         if (isset($_SERVER["HTTP_REFERER"])) {
@@ -213,36 +163,36 @@ if ($tempAction != '') {
             $referer = '';
         }
         // Set the page referer
-        $tpl->assign("REFERER", $referer);
+        $app->tpl()->assign("REFERER", $referer);
         \webtemplate\users\EditUserFunctions::editUser(
-            $tpl,
+            $app->tpl(),
             $template,
-            $editUser,
-            $groups,
+            $app->edituser(),
+            $app->editusersgroups(),
             $_GET
         );
     } elseif ($action == "save") {
         $inputToken = \filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
-        $uid = $user->getUserId();
-        if ($token->verifyToken($inputToken, 'USERS', $uid) == false) {
+        $uid = $app->user()->getUserId();
+        if ($app->tokens()->verifyToken($inputToken, 'USERS', $uid) == false) {
             $template = "global/error.tpl";
             $msg = gettext("Security Failure. User Details not saved");
             $header = gettext("Token Check Failure");
-            $tpl->assign("ERRORMSG", $msg);
-            $tpl->assign("HEADERMSG", $header);
-            $tpl->display($template);
+            $app->tpl()->assign("ERRORMSG", $msg);
+            $app->tpl()->assign("HEADERMSG", $header);
+            $app->tpl()->display($template);
             exit();
         }
         \webtemplate\users\EditUserFunctions::saveUser(
-            $tpl,
+            $app->tpl(),
             $template,
-            $editUser,
-            $groups,
-            $config->read("param.users"),
+            $app->edituser(),
+            $app->editusersgroups(),
+            $app->config()->read("param.users"),
             $_POST
         );
     } else {
-        $tpl->assign("MSG", gettext("You Have Chosen an Invalid Command"));
+        $app->tpl()->assign("MSG", gettext("You Have Chosen an Invalid Command"));
         $template = "users/search.tpl";
     }
 } else {
@@ -250,12 +200,12 @@ if ($tempAction != '') {
 }
 
 // Create the token for checking the page authenticition
-$localtoken = $token->createToken($user->getUserId(), 'USERS', 1, ''. true);
-$tpl->assign("TOKEN", $localtoken);
+$localtoken = $app->tokens()->createToken($app->user()->getUserId(), 'USERS', 1, ''. true);
+$app->tpl()->assign("TOKEN", $localtoken);
 
 // Get the year for the Copyright Statement at
 $dateArray = getdate();
-$tpl->assign("YEAR", "$dateArray[year]");
+$app->tpl()->assign("YEAR", "$dateArray[year]");
 
 // Display the Web Page
-$tpl->display($template);
+$app->tpl()->display($template);

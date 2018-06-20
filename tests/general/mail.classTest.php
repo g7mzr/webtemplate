@@ -256,6 +256,6 @@ class MailTest extends TestCase
         );
         $this->assertFalse($result);
         $msg = $this->object3->errorMsg();
-        $this->assertEquals("Mail Error: Unknown delivery method", $msg);
+        $this->assertEquals("Mail Error: Unknown delivery method: down", $msg);
     }
 }

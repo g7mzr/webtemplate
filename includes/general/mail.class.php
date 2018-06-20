@@ -249,7 +249,8 @@ class Mail
                 $mailsent = $this->sendSendMail();
                 break;
             default:
-                $this->errorMsg = gettext("Mail Error: Unknown delivery method");
+                $this->errorMsg = gettext("Mail Error: Unknown delivery method: ");
+                $this->errorMsg .= $this->smtpdeliverymethod;
                 $mailsent = false;
         }
 

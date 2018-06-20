@@ -36,7 +36,7 @@ class EditGroupFunctions
      *
      * @access public
      */
-    public static function listGroups(&$tpl, &$groups, &$template)
+    public static function listGroups($tpl, $groups, &$template)
     {
         // Get the list of current Groups
         $groupArray = $groups->getGroupList();
@@ -72,7 +72,7 @@ class EditGroupFunctions
      *
      * @access public
      */
-    public static function newGroup(&$tpl, &$template)
+    public static function newGroup($tpl, &$template)
     {
         //Set default blank results
         $resultArray[] = array(
@@ -104,7 +104,7 @@ class EditGroupFunctions
      *
      * @access public
      */
-    public static function editGroup(&$tpl, &$groups, &$template, $groupId)
+    public static function editGroup($tpl, $groups, &$template, $groupId)
     {
         if (!EditGroupFunctions::getGroupData($tpl, $groups, $template, $groupId)) {
             return false;
@@ -129,7 +129,7 @@ class EditGroupFunctions
      *
      * @access public
      */
-    public static function confirmDeleteGroup(&$tpl, &$groups, &$template, $groupId)
+    public static function confirmDeleteGroup($tpl, $groups, &$template, $groupId)
     {
         if (!EditGroupFunctions::getGroupData($tpl, $groups, $template, $groupId)) {
             return false;
@@ -154,7 +154,7 @@ class EditGroupFunctions
      *
      * @access public
      */
-    public static function deleteGroup(&$tpl, &$groups, &$template, $groupId)
+    public static function deleteGroup($tpl, $groups, &$template, $groupId)
     {
         // Check the user has sent a valid group id.
         // For this check it does not matter if the group exists.
@@ -210,7 +210,7 @@ class EditGroupFunctions
      *
      * @access public
      */
-    public static function saveGroup(&$tpl, &$groups, &$template, $data)
+    public static function saveGroup($tpl, $groups, &$template, $data)
     {
         // Initalise the local variables
         $groupExists = false;
@@ -356,7 +356,7 @@ class EditGroupFunctions
      *
      * @access private
      */
-    private static function getGroupData(&$tpl, &$groups, &$template, $groupId)
+    private static function getGroupData($tpl, $groups, &$template, $groupId)
     {
 
             // Check the user has sent a valid group id.
@@ -382,7 +382,6 @@ class EditGroupFunctions
                 return false;
             }
         }
-
 
         // Got the group okay.  Load the template.
         $tpl->assign("RESULTS", $resultArray);

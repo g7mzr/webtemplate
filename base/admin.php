@@ -14,36 +14,17 @@
 // Include the Globals
 require_once "../includes/global.php";
 
-// Create the Smart Template object
-$tpl = new \webtemplate\application\SmartyTemplate;
-
-
-//Set up the correct language and associated templates
-$languageconfig = \webtemplate\general\General::getconfigfile(
-    $tpl->getConfigDir()
-);
-$tpl->assign('CONFIGFILE', $languageconfig);
-$tpl->configLoad($languageconfig);
-$language = $tpl->getConfigVars('Language');
-$templateArray = $tpl->getTemplateDir();
-$tpl->setTemplateDir($templateArray[0] . '/' . $language);
-$tpl->setCompileId($language);
-putenv("LANGUAGE=$language");
-setlocale(LC_ALL, $language);
-bindtextdomain('messages', '../locale');
-textdomain('messages');
-
-// Get the Database login information
-\webtemplate\application\WebTemplateCommon::loadDSN($tpl, $dsn);
-
-// Loginto the Database for all classes
-$db = \webtemplate\db\DB::load($dsn);
-if (\webtemplate\general\General::isError($db)) {
-    // Unable to Connect to the Database
+// Create a WEBTEMPLATE CLASS
+try {
+    $app = new \webtemplate\application\Application();
+} catch (\Throwable $e) {
+    // Create the Smart Template object
+    $tpl = new \webtemplate\application\SmartyTemplate;
     $template = 'global/error.tpl';
-    $msg = gettext("Unable to Connect to the Database.\n\n");
+    $msg = $e->getMessage();
+    $msg .= "\n\n";
     $msg .= gettext("Please Contact your Adminstrator");
-    $header =  gettext("Unable to Connect to the Database");
+    $header =  gettext("Application Error");
     $tpl->assign('ERRORMSG', $msg);
     $tpl->assign('HEADERMSG', $header);
     $dateArray = getdate();
@@ -52,126 +33,97 @@ if (\webtemplate\general\General::isError($db)) {
     exit();
 }
 
-//$tpl->debugging = true;
+// Set up the Language for translations
+$language = $app->language();
+\putenv("LANGUAGE=$language");
+\setlocale(LC_ALL, $language);
+\bindtextdomain('messages', '../locale');
+\textdomain('messages');
 
-//Create new config class
-$configdir = $tpl->getConfigDir(0);
-$config = new \webtemplate\config\Configure($configdir);
-
-//Create the logclass
-$log = new \webtemplate\general\Log(
-    $config->read('param.admin.logging'),
-    $config->read('param.admin.logrotate')
-);
 
 // Load the menu and assign it to a SMARTY Variable
-$mainmenu = $config->readMenu('mainmenu');
-$tpl->assign('MAINMENU', $mainmenu);
-
-/* Initilaise PHP Session handling from session.php */
-$session = new \webtemplate\application\Session(
-    $config->read('param.cookiepath'),
-    $config->read('param.cookiedomain'),
-    $config->read('param.users.autologout'),
-    $tpl,
-    $db
-);
-
+$mainmenu = $app->config()->readMenu('mainmenu');
+$app->tpl()->assign('MAINMENU', $mainmenu);
 
 /* Send the HTTP Headers required by the application */
 $headerResult = \webtemplate\application\Header::sendHeaders();
 if ($headerResult == false) {
     // Log error is headers not sent
-    $log->error(basename(__FILE__) . ":  Failed to send HTTP Headers");
+    $app->log()->error(basename(__FILE__) . ":  Failed to send HTTP Headers");
 }
 
 // Check if the user is logged in.
-if ($session->getUserName() == '') {
+if ($app->session()->getUserName() == '') {
     //The user is not logged in. Display a login screen
     $headerResult = \webtemplate\application\Header::sendRedirect('index.php');
     if ($headerResult == false) {
         // Log error is headers not sent
-        $log->error(basename(__FILE__) . ":  Failed to send Redirect HTTP Header");
+        $app->log()->error(basename(__FILE__) . ":  Failed to send Redirect HTTP Header");
     }
     exit();
 }
 
-// Configure the correct user and their permissions
-$user = new \webtemplate\users\User($db);
-$result = \webtemplate\general\General::isError(
-    $user->register($session->getUserName(), $config->read('pref'))
-);
-if ($result) {
-    $log->error(
-        basename(__FILE__) .
-        ": Failed To Register logged in user $username"
-    );
-}
-
-// Get the users groups
-$userGroups = new \webtemplate\users\Groups($db, $user->getUserId());
-
 // Get the users select style
 $stylesheetarray   = array();
-$stylesheetarray[] = '/style/' . $user->getUserTheme() . '/main.css';
-$stylesheetarray[] = '/style/' . $user->getUserTheme() . '/admin.css';
-$tpl->assign('STYLESHEET', $stylesheetarray);
+$stylesheetarray[] = '/style/' . $app->user()->getUserTheme() . '/main.css';
+$stylesheetarray[] = '/style/' . $app->user()->getUserTheme() . '/admin.css';
+$app->tpl()->assign('STYLESHEET', $stylesheetarray);
 
 // Set the Sys admin email address
-$tpl->assign("SYSADMINEMAIL", $config->read("param.maintainer"));
+$app->tpl()->assign("SYSADMINEMAIL", $app->config()->read("param.maintainer"));
 
 // Users real name for displaying on web page
-$tpl->assign('USERNAME', $user->getRealName());
+$app->tpl()->assign('USERNAME', $app->user()->getRealName());
 
 
 // Assign AdminAccess Rights to the template
-$tpl->assign('ADMINACCESS', $userGroups->getAdminAccess());
+$app->tpl()->assign('ADMINACCESS', $app->usergroups()->getAdminAccess());
 
 // Tell the templates the user has logged in.  This will display the menus
-$tpl->assign('LOGIN', false);
+$app->tpl()->assign('LOGIN', false);
 
 // Check if the docbase parameter is set and the document files are available
 $docsAvailable = \webtemplate\general\General::checkdocs(
-    $config->read('param.docbase'),
+    $app->config()->read('param.docbase'),
     $language
 );
 
-$tpl->assign("DOCSAVAILABLE", $docsAvailable);
+$app->tpl()->assign("DOCSAVAILABLE", $docsAvailable);
 
 // Check the user has permission to run this module
-if (!$userGroups->getAdminAccess() == true) {
+if (!$app->usergroups()->getAdminAccess() == true) {
     // User is not allowed to display the admin page
-    $log->security(
-        $session->getUserName() .
+    $app->log()->security(
+        $app->session()->getUserName() .
         gettext(" attempted to access ") .
         basename(__FILE__)
     );
     $template = 'global/error.tpl';
     $msg = gettext("You are not authorised to access administrative pages.");
     $header =  gettext("Authorisation Required");
-    $tpl->assign('ERRORMSG', $msg);
-    $tpl->assign('HEADERMSG', $header);
+    $app->tpl()->assign('ERRORMSG', $msg);
+    $app->tpl()->assign('HEADERMSG', $header);
     $dateArray = getdate();
-    $tpl->assign("YEAR", "$dateArray[year]");
-    $tpl->display($template);
+    $app->tpl()->assign("YEAR", "$dateArray[year]");
+    $app->tpl()->display($template);
     exit();
 }
 
 // Get the menu
-$menuitems = $config->readMenu('adminpagelist');
-$tpl->assign("PAGELIST", $menuitems);
+$menuitems = $app->config()->readMenu('adminpagelist');
+$app->tpl()->assign("PAGELIST", $menuitems);
 
 // Get The users groups
-$grouplist = $userGroups->getGroups();
-$tpl->assign("GROUPLIST", $grouplist);
+$grouplist = $app->usergroups()->getGroups();
+$app->tpl()->assign("GROUPLIST", $grouplist);
 
-// $tpl->debugging = true;
+// $app->tpl()->debugging = true;
 //ASSIGN PERMISIONS TO SHOW MENU ITEMS
-$tpl->assign('EDITSETTINGS', $userGroups->checkGroup('admin'));
-$tpl->assign('EDITCONFIG', $userGroups->checkGroup('admin'));
-$tpl->assign('ABOUT', $userGroups->checkGroup('admin'));
-$tpl->assign('EDITUSERS', $userGroups->checkGroup('editusers'));
-$tpl->assign('EDITGROUPS', $userGroups->checkGroup('editgroups'));
+$app->tpl()->assign('EDITSETTINGS', $app->usergroups()->checkGroup('admin'));
+$app->tpl()->assign('EDITCONFIG', $app->usergroups()->checkGroup('admin'));
+$app->tpl()->assign('ABOUT', $app->usergroups()->checkGroup('admin'));
+$app->tpl()->assign('EDITUSERS', $app->usergroups()->checkGroup('editusers'));
+$app->tpl()->assign('EDITGROUPS', $app->usergroups()->checkGroup('editgroups'));
 
 
 // Run the module code.  If this case show the Admin Page
@@ -179,7 +131,7 @@ $template = 'admin/admin.tpl';
 
 // Get the year for the Copyright Statement
 $dateArray = getdate();
-$tpl->assign('YEAR', "$dateArray[year]");
+$app->tpl()->assign('YEAR', "$dateArray[year]");
 
 // Display the Web Page
-$tpl->display($template);
+$app->tpl()->display($template);
