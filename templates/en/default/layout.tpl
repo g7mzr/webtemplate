@@ -59,5 +59,6 @@
 <div id="footer_menu">
 </div>
 <div id="copyright">Copyright {#Author#} {$YEAR} </div>
+{include file="global/floatingfooter.tpl"}
 </body>
 </html>
