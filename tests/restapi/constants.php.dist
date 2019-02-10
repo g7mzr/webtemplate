@@ -1,0 +1,67 @@
+<?php
+/**
+ * This file is part of Webtemplate.
+ *
+ * Its purpose is to set the default Constants needed to test the Webtemplate RestFull
+ * API
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package webtemplate
+ * @subpackage Functional_API_Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
+ */
+
+/**********************************************************************************
+ *          EDIT TEST CONFIGURATION BELOW TO MATCH YOUR SETUP                     *
+ **********************************************************************************/
+
+// URL of the application under test
+define("URL", "");
+
+//Domain for Parameters Cookie Test
+define("COOKIEDOMAIN", "");
+define("COOKIENAME", 'webdatabase');
+
+// Details of the application under test
+define("WEBSITENAME", "Web Database Skeleton");
+define("VERSION", "0.5.0+");
+define("APIVERSION", "0.1.0");
+
+// Define the local ZAP Proxy
+define("HTTPPROXY", "");
+define("SSLPROXY", "");
+
+/**********************************************************************************
+ *                         DO NOT EDIT BELOW THIS POINT                           *
+ **********************************************************************************/
+
+// User and password to run the tests under
+define("USERNAME", "phpunit");
+define("PASSWORD", "phpUnit1");
+define("USERREALNAME", "Phpunit User");
+define("USEREMAIL", "phpunit@example.com");
+
+// Set up the tsst user for POST and PUT Tests
+define("TESTUSERNAME", "phpunit99");
+define("TESTUSERPASSWD", "phpUnit99");
+define("TESTUSERREALNAME", "RestAPI User");
+define("TESTUSEREMAIL", "phpunit99@example.com");
+define("TESTUSERENABLED", "Y");
+define("TESTUSERNOMAIL", "N");
+define("TESTUSERPASWWDCHANGE", "N");
+
+// Set if Tests are to be run through is to use the ZAP PROXY
+if (getenv('SELPROXY') == false) {
+    define("PROXY", false);
+} else {
+    if (getenv("SELPROXY") == 'true') {
+        define("PROXY", true);
+    } else {
+        define("PROXY", false);
+    }
+}
