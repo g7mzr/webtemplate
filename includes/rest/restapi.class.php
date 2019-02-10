@@ -233,7 +233,7 @@ class RESTapi
             $result['data'] = json_encode($data['data']);
         }
         if (key_exists('options', $data)) {
-            $result['options'] = "Options: " . $data['options'];
+            $result['options'] = "Allow: " . $data['options'];
         }
         if (key_exists('head', $data)) {
             $result['head'] = $data['head'];

@@ -17,7 +17,7 @@ require_once "../includes/global.php";
 /**
  * Sent the HTTP Headers to the client.
  */
-header("Access-Control-Allow-Orgin: *");
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: *");
 header("X-Content-Type-Options: nosniff");
 header("Content-Type: application/json");

@@ -146,22 +146,22 @@ trait TraitEndPointCommon
     {
         $optionstring = '';
         if (method_exists($this, 'get')) {
-            $optionstring .= "GET,";
+            $optionstring .= "GET, ";
         }
         if (method_exists($this, 'post')) {
-            $optionstring .= "POST,";
+            $optionstring .= "POST, ";
         }
         if (method_exists($this, 'put')) {
-            $optionstring .= "PUT,";
+            $optionstring .= "PUT, ";
         }
         if (method_exists($this, 'patch')) {
-            $optionstring .= "PATCH,";
+            $optionstring .= "PATCH, ";
         }
         if (method_exists($this, 'delete')) {
-            $optionstring .= "DELETE,";
+            $optionstring .= "DELETE, ";
         }
         if ((method_exists($this, 'head')) and (method_exists($this, 'get'))) {
-            $optionstring .= "HEAD,";
+            $optionstring .= "HEAD, ";
         }
         if (method_exists($this, 'options')) {
             $optionstring .= "OPTIONS";
