@@ -38,8 +38,8 @@ use GetOpt\ArgumentException\Missing;
  * Style Sheets Locations - Can be updated to match your system
  **********************************************************************************/
 
-$db4 = "/usr/share/xml/docbook/stylesheet/nwalsh/1.78.1/";
-$db5 ="/usr/share/xml/docbook/stylesheet/nwalsh5/1.78.1/";
+$db4 = "/usr/share/xml/docbook/stylesheet/nwalsh/1.79.2/";
+$db5 ="/usr/share/xml/docbook/stylesheet/nwalsh5/1.79.2/";
 
 /**********************************************************************************
  * Programme Details  -  Do not change unless you know what you are doing
@@ -57,6 +57,9 @@ $entityfile =  $progname . ".ent";
  * Main Programme
  **********************************************************************************/
 
+// Switch off all error reporting for Production Environment
+//error_reporting(0);
+
 $getOpt = new GetOpt();
 
 // Define the comon options
@@ -70,6 +73,9 @@ $getOpt->addOptions(
 
         Option::create(null, 'clean', GetOpt::NO_ARGUMENT)
             ->setDescription("Remove all generated files and quit"),
+
+        Option::create(null, 'verbose', GetOpt::NO_ARGUMENT)
+            ->setDescription("Show xsl tool output"),
 
         Option::create(null, 'version', GetOpt::NO_ARGUMENT)
             ->setDescription("Show the version information and quit"),
@@ -112,6 +118,7 @@ if ($getOpt->getOption('help')) {
 $clean = $getOpt->getOption('clean');
 $withpdf = $getOpt->getOption('with-pdf');
 $withdevelop = $getOpt->getOption('with-develop');
+$verbose = $getOpt->getOption('verbose');
 
 
 echo "\n" . $progname . " - Build Documentation Set\n\n";
@@ -122,7 +129,7 @@ echo "Configuring makedocs.php to build Documentation............";
 
 try {
     // Create a makedocs object
-    $makedocs = new \webtemplate\application\CreateDocs(__DIR__, $entityfile);
+    $makedocs = new \webtemplate\application\CreateDocs(__DIR__, $entityfile, $verbose);
 } catch (Throwable $ex) {
     echo "\n**** Makedocs Error ****\n";
     echo $ex->getMessage();

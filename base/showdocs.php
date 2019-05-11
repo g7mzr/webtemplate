@@ -64,6 +64,9 @@ if ($headerResult == false) {
     $log->error(basename(__FILE__) . ":  Failed to send HTTP Headers");
 }
 
+/**
+ * Disable USer Logged in check
+
 // Check if the user is logged in.
 if ($app->session()->getUserName() == '') {
     //The user is not logged in. Display a login screen
@@ -75,6 +78,7 @@ if ($app->session()->getUserName() == '') {
     exit();
 }
 
+*/
 
 // Default position. Help not found.
 $foundDoc = false;

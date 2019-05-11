@@ -44,7 +44,7 @@
 {/if}
 <center>
     {if $DOCSAVAILABLE == true}
-        <a href="/docs/en/html/using.html" {if $NEWWINDOW == true}target="_blank"{/if}>Using {#application_name#}</a> |
+        <a href="showdocs.php?page=using" {if $NEWWINDOW == true}target="_blank"{/if}>Using {#application_name#}</a> |
     {/if}
     <a href="page.php?id=release-notes.html">Release Notes</a> |
     <a href="page.php?id=cookie-policy.html">Cookie Policy</a>

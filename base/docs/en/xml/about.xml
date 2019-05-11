@@ -9,7 +9,7 @@
 	<section id="Copyright">
 	  	<title>Copyright Information</title>
     		<para>This document is copyright (c) 2010-&current-year; by Sandy McNeil who wrote it.</para>
-    
+
     		<blockquote>
       			<para>
        				Permission is granted to copy, distribute and/or modify this
@@ -17,29 +17,29 @@
         				License, Version 1.1 or any later version published by the
         				Free Software Foundation; with no Invariant Sections, no
         				Front-Cover Texts, and with no Back-Cover Texts. A copy of
-        				the license is included in <olink targetptr="gfdl" targetdoc="manual" role="crossref"/>
+        				the license is included in the source code or can be found at <ulink url="&url-license;">&url-license;</ulink>.
       			</para>
     		</blockquote>
     		<para>
       			If you have any questions regarding this document, its
       			copyright, or publishing this document in non-electronic form,
      			 please contact the Author. </para>
-	</section>		
+	</section>
 	<section id="Disclaimer">
   		<title>Disclaimer</title>
-		<para>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT 
-		NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-		COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
-		(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
-		HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+		<para>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
+		NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+		COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+		(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+		HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 		ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</para>
 	</section>
 	<section id="NewVersions">
   		<title>New Versions</title>
 		<para>This is the &current-ver; version of &progname;  Guide. It is so named to match the current version of &progname;. </para>
 		<para>
-			The latest version of this guide can always be found at <ulink url="&url-doc;">&url-doc;</ulink>. 
-			However, you should read the version which came with the &progname;  release you are using. 
+			The latest version of this guide can always be found at <ulink url="&url-doc;">&url-doc;</ulink>.
+			However, you should read the version which came with the &progname;  release you are using.
 		</para>
 	</section>
 	<section id="Credits">

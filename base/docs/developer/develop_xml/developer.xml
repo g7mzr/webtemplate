@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE book SYSTEM "../../xsl/webtemplate.dtd" [ 
+<!DOCTYPE book SYSTEM "../../xsl/webtemplate.dtd" [
     <!ENTITY % myents SYSTEM "webtemplate.ent">
    %myents;
 ]>
 
 <book id="develop">
 	<title>&progname; - Version &current-ver; Developers Guide</title>
-	<bookinfo>	
+	<bookinfo>
 		<author>
 			<firstname>Sandy</firstname>
 			<surname>McNeil</surname>
@@ -35,16 +35,15 @@
 			</para>
 		</abstract>
 	</bookinfo>
-	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-introduction.xml" /> 
-	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-philosophy.xml" /> 
-	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-install.xml" /> 
-	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-structure.xml" /> 
-	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-application.xml" /> 
-	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="ci-setup.xml" /> 
-	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="selenium.xml" /> 
-	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-restapi.xml" /> 
-	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="glossary.xml" /> 
-	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-versions.xml" /> 
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-introduction.xml" />
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-philosophy.xml" />
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-install.xml" />
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-structure.xml" />
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-application.xml" />
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="ci-setup.xml" />
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="selenium.xml" />
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-restapi.xml" />
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="glossary.xml" />
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-versions.xml" />
 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-tools.xml" /> 
-	<!--<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="../common_xml/gfdl.xml" /> -->
 </book>

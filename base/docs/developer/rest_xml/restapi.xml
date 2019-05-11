@@ -5,12 +5,18 @@
 ]>
 <book xmlns="http://docbook.org/ns/docbook"   version="5.0" xml:id="restapi">
 	<title>&progname; - Version &current-ver; RESTful API Guide</title>
-	<info>	
-		<author><personname><firstname>Sandy</firstname><surname>McNeil</surname></personname><affiliation>
+	<info>
+		<author>
+		            <personname>
+		                	<firstname>Sandy</firstname>
+		                	<surname>McNeil</surname>
+            		</personname>
+            		<affiliation>
 				<address>
 					<email>g7mzrdev@gmail.com</email>
 				</address>
-			</affiliation></author>
+			</affiliation>
+	        	</author>
 		<copyright>
 			<year>2011 - &current-year;</year>
 			<holder role="mailto:g7mzrdev@gmail.com">Sandy McNeil</holder>
@@ -22,18 +28,18 @@
 			are common across all applications.
 			</para>
 			<para>
-			This handbook tells you as a developer can use the Webtemplate RESTful API to access &progname; 
+			This handbook tells you as a developer can use the Webtemplate RESTful API to access &progname;
 			</para>
 			<para>
-			The most current version of this documentation can be found at TBC
+                		The most current version of this documentation can be found at <ulink url="&url-main;">&url-name;</ulink>.
+            		</para>
 		</abstract>
 	</info>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="introduction.xml"/> 
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="auth.xml"/> 
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="users.xml"/> 
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="groups.xml"/> 
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="introduction.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="auth.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="users.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="groups.xml"/>
 	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="glossary.xml"/>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="restapi-versions.xml"/> 
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="messageformat.xml"/> 
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="gfdl.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="restapi-versions.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="messageformat.xml"/>
 </book>

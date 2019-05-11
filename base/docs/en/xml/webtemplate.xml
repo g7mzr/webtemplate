@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE book SYSTEM "../../xsl/webtemplate.dtd" [ 
+<!DOCTYPE book SYSTEM "../../xsl/webtemplate.dtd" [
     <!ENTITY % myents SYSTEM "webtemplate.ent">
    %myents;
 ]>
 
 <book id="manual">
 	<title>&progname; - Version &current-ver; </title>
-	<bookinfo>	
+	<bookinfo>
 	              <authorgroup>
 		<author>
 			<firstname>Sandy</firstname>
@@ -33,17 +33,16 @@
 			</para>
 		</abstract>
 		</bookinfo>
-	
-	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="about.xml" /> 
+
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="about.xml" />
 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="installation.xml" />
-	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="administration.xml" /> 
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="administration.xml" />
 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="security.xml" />
 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="using.xml" />
 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="customising.xml" />
- 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="glossary.xml" /> 
-	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="versions.xml" /> 
- 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="logging.xml" /> 
- 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="gfdl.xml" /> 
+ 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="glossary.xml" />
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="versions.xml" />
+ 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="logging.xml" />
  	
 </book>
 

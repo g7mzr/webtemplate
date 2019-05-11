@@ -88,14 +88,23 @@ class CreateDocs
     protected $db5stylesheets;
 
     /**
+     * Property: verbose
+     *
+     * @var boolean
+     * @access protected
+     */
+    protected $verbose;
+
+    /**
      * Constructor
      *
-     * @param string $docbase The base directory for all documentation
-     * @param string $entfile Docbook Entities file containing program information
+     * @param string  $docbase The base directory for all documentation
+     * @param string  $entfile Docbook Entities file containing program information
+     * @param boolean $verbose Suppress all command output if false;
      *
      * @access public
      */
-    public function __construct($docbase, $entfile)
+    public function __construct($docbase, $entfile, $verbose=false)
     {
         // Load the base documentaion Directory
         if (file_exists($docbase)) {
@@ -109,6 +118,8 @@ class CreateDocs
         } else {
             throw new AppException("Entity File '". $entfile . "' does not exist");
         }
+
+        $this->verbose = $verbose;
 
         // Look for xsltproc
         $xsltprocpath = $this->checkToolExists('xsltproc');
@@ -215,7 +226,9 @@ class CreateDocs
         $cmd .= " --stringparam targets.filename " . $olinkdb;
         $cmd .= " ". $stylesheet;
         $cmd .= " ". $filename;
-        $cmd .= "  2>&1 > /dev/null";
+        if ($this->verbose != true) {
+            $cmd .= "  2>&1 > /dev/null";
+        }
         $out = "";
         $error = 0;
         exec($cmd, $out, $error);
@@ -254,7 +267,9 @@ class CreateDocs
         $cmd .= " -o " . $output;
         $cmd .= " " . $stylesheet;
         $cmd .= " " . $filename;
-
+        if ($this->verbose != true) {
+            $cmd .= "  2>&1 > /dev/null";
+        }
         $out = "";
         $error = 0;
         exec($cmd, $out, $error);
@@ -295,7 +310,9 @@ class CreateDocs
         $cmd .= " -o " . $fopfile;
         $cmd .= " " . $stylesheet;
         $cmd .= " " . $inputfile;
-        $cmd .= "  2>&1 > /dev/null";
+        if ($this->verbose != true) {
+            $cmd .= "  2>&1 > /dev/null";
+        }
         $out = "";
         $error = 0;
         exec($cmd, $out, $error);
@@ -305,7 +322,9 @@ class CreateDocs
         $cmd2 = $this->fop;
         $cmd2 .= " " . $fopfile;
         $cmd2 .= " " . $outputfile;
-        $cmd2 .= "  2>&1 > /dev/null";
+        if ($this->verbose != true) {
+            $cmd2 .= "  2>&1 > /dev/null";
+        }
         exec($cmd2, $out, $error);
         if ($error === 0) {
             return true;

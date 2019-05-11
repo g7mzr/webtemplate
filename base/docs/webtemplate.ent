@@ -3,13 +3,13 @@
  <!-- Application Details -->
 <!ENTITY progname "Webtemplate">
 <!ENTITY current-ver "0.5.0+">
-<!ENTITY current-year "2018">
-<!ENTITY url-main "http://www.starfleet.g7mzr.ampr.org">
-<!ENTITY url-name "Sandy's Website">
-<!ENTITY url-doc "http://www.starfleet.g7mzr.ampr.org">
-<!ENTITY url-download "http://www.starfleet.g7mzr.ampr.org">
-<!ENTITY url-api "http://help.starfleet.g7mzr.ampr.org/webtemplateapi/">
-
+<!ENTITY current-year "2019">
+<!ENTITY url-main "https://github.com/g7mzr/webtemplate">
+<!ENTITY url-name "Sandy's GITHUB Website">
+<!ENTITY url-doc "https://github.com/g7mzr/webtemplate">
+<!ENTITY url-download "https://github.com/g7mzr/webtemplate">
+<!ENTITY url-api "https://github.com/g7mzr/webtemplate">
+<!ENTITY url-license "https://github.com/g7mzr/webtemplate/blob/master/LICENSE">
 
 <!-- Module Versions -->
 <!ENTITY min-php-ver "7.1.0">
