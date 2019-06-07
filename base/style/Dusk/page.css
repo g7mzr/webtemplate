@@ -1,17 +1,15 @@
 /**
- * Test Suite Cascading Style Sheet
+ * This file is part of Webtemplate.
  *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
- * LICENSE: This source file is subject to version 2.1 of the GPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html.
+ * @package Webtemplate
+ * @subpackage Casacading Style Sheet
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
  *
- * @category  Webtamplate
- * @author    Sandy McNeil <amcneil@iee.org>
- * @copyright 2009 Sandy McNeil
- * @license   http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version   SVN: $Id:
- * @link      http://www.g7mzr.demon.co.uk
  */
 
 #main-body > * {
