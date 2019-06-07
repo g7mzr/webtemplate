@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+/**
+ * This file is part of Webtemplate.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Application Module
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
+ */
+-->
+<html>
+    <head>
+        <title>Webtemplate: Error</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="style/Dusk/main.css">
+    </head>
+    <body>
+        <div id="header">
+            <div id="left">
+                Webtemplate: Error
+            </div>
+            <div id="right">
+                version 0.5.0+
+            </div>
+        </div>
+
+        <div id="main-body">
+            <H2>INTERNAL SERVER ERROR</H2>
+            <P>
+                Webtemplate has encountered an error and cannot complete the task
+                you have requested.
+            </P>
+            <P>
+                The error has been logged.  Please try again later.
+            </P>
+            <P>
+                If the problem continues please report the error to the
+                <a href="mailto:<!--#echo encoding="url" var="SERVER_ADMIN" -->">site administrator</a>.
+            </P>
+        </div>
+        <div id="copyright">
+            <!--#config timefmt="%Y" -->
+            Copyright A McNeil <!--#echo var="DATE_LOCAL" -->
+        </div>
+    </body>
+</html>

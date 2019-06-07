@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../includes/global.php';
 
 // Load the Test Database Configuration File
-require_once dirname(__FILE__) .'/../_data/database.php';
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 
 /**
@@ -63,7 +63,7 @@ class SCHEMATest extends TestCase
      *
      * @return null No return data
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         global $testdsn, $options;
 
@@ -127,7 +127,7 @@ class SCHEMATest extends TestCase
      *
      * @return null No return data
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->db->disconnect();
     }
@@ -147,7 +147,7 @@ class SCHEMATest extends TestCase
             \webtemplate\db\schema\SchemaData::$schema
         );
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'ERROR creating Database Schema',
                 $result->getMessage()
             );
@@ -191,7 +191,7 @@ class SCHEMATest extends TestCase
             $groupNumber
         );
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'ERROR Creating Database Groups',
                 $result->getMessage()
             );
@@ -216,7 +216,7 @@ class SCHEMATest extends TestCase
             $groupNumber
         );
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'ERROR Creating Database Groups',
                 $result->getMessage()
             );
@@ -275,7 +275,7 @@ class SCHEMATest extends TestCase
             $groupNumber
         );
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'ERROR Creating Database users',
                 $result->getMessage()
             );
@@ -299,7 +299,7 @@ class SCHEMATest extends TestCase
             $groupNumber
         );
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'ERROR Creating Database users',
                 $result->getMessage()
             );
@@ -323,7 +323,7 @@ class SCHEMATest extends TestCase
             $groupNumber
         );
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'ERROR Creating Database users',
                 $result->getMessage()
             );
@@ -384,7 +384,7 @@ class SCHEMATest extends TestCase
             $groupNumber
         );
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Unable to create Encrypted Password',
                 $result->getMessage()
             );
@@ -440,7 +440,7 @@ class SCHEMATest extends TestCase
             $groupNumber
         );
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Unable to create preferences for user',
                 $result->getMessage()
             );
@@ -493,7 +493,7 @@ class SCHEMATest extends TestCase
 
         $result = $this->object->updateSchema($testSchemaNew, $testSchemaOld);
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'ERROR Updating Database Schema',
                 $result->getMessage()
             );
@@ -533,7 +533,7 @@ class SCHEMATest extends TestCase
 
         $result = $this->object->updateSchema($testSchemaNew, $testSchemaOld);
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'ERROR Updating Database Schema',
                 $result->getMessage()
             );
@@ -579,7 +579,7 @@ class SCHEMATest extends TestCase
 
         $result = $this->object->updateSchema($testSchemaNew, $testSchemaOld);
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'ERROR Updating Database Schema',
                 $result->getMessage()
             );
@@ -625,7 +625,7 @@ class SCHEMATest extends TestCase
 
         $result = $this->object->updateSchema($testSchemaNew, $testSchemaOld);
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'ERROR Updating Database Schema',
                 $result->getMessage()
             );
@@ -689,7 +689,7 @@ class SCHEMATest extends TestCase
 
         $result = $this->object->updateSchema($testSchemaNew, $testSchemaOld);
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'ERROR Updating Database Schema',
                 $result->getMessage()
             );
@@ -1157,7 +1157,7 @@ class SCHEMATest extends TestCase
         // Fail when Table has never had any indexs.
         $result = $this->object->updateSchema($testSchemaNew, $testSchemaOld);
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'ERROR Updating Database Schema',
                 $result->getMessage()
             );
@@ -1184,7 +1184,7 @@ class SCHEMATest extends TestCase
 
         $result = $this->object->updateSchema($testSchemaNew, $testSchemaOld);
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'ERROR Updating Database Schema',
                 $result->getMessage()
             );
@@ -1298,7 +1298,7 @@ class SCHEMATest extends TestCase
         // Fail when Table has never had any indexs.
         $result = $this->object->updateSchema($testSchemaNew, $testSchemaOld);
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'ERROR Updating Database Schema',
                 $result->getMessage()
             );
@@ -1336,7 +1336,7 @@ class SCHEMATest extends TestCase
         // Fail to update the index
         $result = $this->object->updateSchema($testSchemaNew, $testSchemaOld);
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'ERROR Updating Database Schema',
                 $result->getMessage()
             );
@@ -1370,7 +1370,7 @@ class SCHEMATest extends TestCase
         );
         $result = $this->object->updateGroups($newGroups, $oldGroups);
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'ERROR Updating Database Groups',
                 $result->getMessage()
             );
@@ -1447,7 +1447,7 @@ class SCHEMATest extends TestCase
         );
         $result = $this->object->updateGroups($newGroups, $oldGroups);
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'ERROR Updating Database Groups',
                 $result->getMessage()
             );
@@ -1536,7 +1536,7 @@ class SCHEMATest extends TestCase
 */
         $result = $this->object->updateGroups($newGroups, $oldGroups);
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'ERROR Updating Database Groups',
                 $result->getMessage()
             );

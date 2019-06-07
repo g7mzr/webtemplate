@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage SELENIUM Functional Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace Facebook\WebDriver;
 
 use PHPUnit\Framework\TestCase;
@@ -14,16 +20,12 @@ use PHPUnit\Framework\TestCase;
 require_once "constants.php";
 
 /**
- * About Page Functional Tests
- * Check that the About page can be accessed by a user with the correct permissions
+ * Admin Preferences Page Functional Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
+ * Check that the Admin Preferences page can be accessed by a user with
+ * the correct permissions
+ *
  **/
-
-
 class AdminPreferencesTest extends TestCase
 {
 
@@ -39,9 +41,9 @@ class AdminPreferencesTest extends TestCase
      * BROWSER: The Web browser to be used for the tests
      * URL: The Web location of the test site.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
 
         // Load the Webdriver from constants.php
@@ -51,9 +53,9 @@ class AdminPreferencesTest extends TestCase
     /**
      * Function to close the Webdriver after each test is complete
      *
-     * @return null no return data
+     * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
 
         $status = $this->getStatus();
@@ -97,7 +99,7 @@ class AdminPreferencesTest extends TestCase
      * @group selenium
      * @group admin
      *
-     * @return null No return data
+     * @return void
      */
     public function testAdminPrefsPage()
     {
@@ -160,7 +162,7 @@ class AdminPreferencesTest extends TestCase
      * @group admin
      * @group test
      *
-     * @return null No return data
+     * @return void
      */
     public function testThemeEnabled()
     {
@@ -221,17 +223,17 @@ class AdminPreferencesTest extends TestCase
 
         // Check that theme option has been removed but that the other options
         // remain
-        $this->assertNotContains(
+        $this->assertStringNotContainsString(
             'general appearance',
             $this->webDriver
                 ->findElement(WebDriverBy::cssSelector('body'))->getText()
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Zoom textareas large',
             $this->webDriver
                 ->findElement(WebDriverBy::cssSelector('body'))->getText()
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Search result lines to display',
             $this->webDriver
                 ->findElement(WebDriverBy::cssSelector('body'))->getText()
@@ -276,17 +278,17 @@ class AdminPreferencesTest extends TestCase
 
         // Need to check that app Preferences are shown in case there is a fault that
         // stops some displaying when they should
-        $this->assertContains(
+        $this->assertStringContainsString(
             'general appearance',
             $this->webDriver
                 ->findElement(WebDriverBy::cssSelector('body'))->getText()
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Zoom textareas large',
             $this->webDriver
                 ->findElement(WebDriverBy::cssSelector('body'))->getText()
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Search result lines to display',
             $this->webDriver
                 ->findElement(WebDriverBy::cssSelector('body'))->getText()
@@ -304,7 +306,7 @@ class AdminPreferencesTest extends TestCase
      * @group selenium
      * @group admin
      *
-     * @return null No return data
+     * @return void
      */
     public function testThemeValue()
     {
@@ -387,7 +389,7 @@ class AdminPreferencesTest extends TestCase
      * @group selenium
      * @group admin
      *
-     * @return null No return data
+     * @return void
      */
     public function testZoomTextAreasEnabled()
     {
@@ -451,17 +453,17 @@ class AdminPreferencesTest extends TestCase
 
         // Need to check that app Preferences are shown in case there is a fault that
         // stops some displaying when they should
-        $this->assertContains(
+        $this->assertStringContainsString(
             'general appearance',
             $this->webDriver
                 ->findElement(WebDriverBy::cssSelector('body'))->getText()
         );
-        $this->assertNotContains(
+        $this->assertStringNotContainsString(
             'Zoom textareas large',
             $this->webDriver
                 ->findElement(WebDriverBy::cssSelector('body'))->getText()
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Search result lines to display',
             $this->webDriver
                 ->findElement(WebDriverBy::cssSelector('body'))->getText()
@@ -509,17 +511,17 @@ class AdminPreferencesTest extends TestCase
 
         // Need to check that app Preferences are shown in case there is a fault that
         // stops some displaying when they should
-        $this->assertContains(
+        $this->assertStringContainsString(
             'general appearance',
             $this->webDriver
                 ->findElement(WebDriverBy::cssSelector('body'))->getText()
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Zoom textareas large',
             $this->webDriver
                 ->findElement(WebDriverBy::cssSelector('body'))->getText()
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Search result lines to display',
             $this->webDriver
                 ->findElement(WebDriverBy::cssSelector('body'))->getText()
@@ -539,7 +541,7 @@ class AdminPreferencesTest extends TestCase
      * @group selenium
      * @group admin
      *
-     * @return null No return data
+     * @return void
      */
     public function testZoomTextAreasValue()
     {
@@ -694,7 +696,7 @@ class AdminPreferencesTest extends TestCase
      * @group selenium
      * @group admin
      *
-     * @return null No return data
+     * @return void
      */
     public function testDisplayLinesEnabled()
     {
@@ -754,17 +756,17 @@ class AdminPreferencesTest extends TestCase
 
         // Need to check that app Preferences are shown in case there is a fault that
         // stops some displaying when they should
-        $this->assertContains(
+        $this->assertStringContainsString(
             'general appearance',
             $this->webDriver
                 ->findElement(WebDriverBy::cssSelector('body'))->getText()
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Zoom textareas large',
             $this->webDriver
                 ->findElement(WebDriverBy::cssSelector('body'))->getText()
         );
-        $this->assertNotContains(
+        $this->assertStringNotContainsString(
             'Search result lines to display',
             $this->webDriver
                 ->findElement(WebDriverBy::cssSelector('body'))->getText()
@@ -808,17 +810,17 @@ class AdminPreferencesTest extends TestCase
 
         // Need to check that app Preferences are shown in case there is a fault that
         // stops some displaying when they should
-        $this->assertContains(
+        $this->assertStringContainsString(
             'general appearance',
             $this->webDriver
                 ->findElement(WebDriverBy::cssSelector('body'))->getText()
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Zoom textareas large',
             $this->webDriver
                 ->findElement(WebDriverBy::cssSelector('body'))->getText()
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Search result lines to display',
             $this->webDriver
                 ->findElement(WebDriverBy::cssSelector('body'))->getText()
@@ -836,7 +838,7 @@ class AdminPreferencesTest extends TestCase
      * @group selenium
      * @group admin
      *
-     * @return null No return data
+     * @return void
      */
     public function testDisplayLinesValue()
     {

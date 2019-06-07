@@ -2,31 +2,32 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage SELENIUM Functional Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace Facebook\WebDriver;
 
 use PHPUnit\Framework\TestCase;
 
 // Load the Selenium Driver and Application Data.
 require_once "constants.php";
-require_once dirname(__FILE__) .'/../_data/database.php';
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 // Include the Class Autoloader to load database driver
 require_once __DIR__ . '/../../includes/global.php';
 
 /**
- * Login/Logout Functional Tests
+ * Register New user Functional Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
 class RegisterTest extends TestCase
 {
 
@@ -57,9 +58,9 @@ class RegisterTest extends TestCase
      * BROWSER: The Web browser to be used for the tests
      * URL: The Web location of the test site.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         global $testdsn;
 
@@ -73,7 +74,7 @@ class RegisterTest extends TestCase
         // Delete the test user if they exist in the database
         $db = \webtemplate\db\DB::load($testdsn);
         if (!\webtemplate\general\General::isError($db)) {
-            $searchdata = array('user_name'=> $this->username);
+            $searchdata = array('user_name' => $this->username);
             $result = $db->dbdelete('users', $searchdata);
             if (\webtemplate\general\General::isError($result)) {
                 echo "Error deleting test user";
@@ -86,9 +87,9 @@ class RegisterTest extends TestCase
     /**
      * Function to close the Webdriver after each test is complete
      *
-     * @return null no return data
+     * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
 
         global $testdsn;
@@ -130,7 +131,7 @@ class RegisterTest extends TestCase
         // Delete the test user if they exist in the database
         $db = \webtemplate\db\DB::load($testdsn);
         if (!\webtemplate\general\General::isError($db)) {
-            $searchdata = array('user_name'=> $this->username);
+            $searchdata = array('user_name' => $this->username);
             $result = $db->dbdelete('users', $searchdata);
             if (\webtemplate\general\General::isError($result)) {
                 echo "Error deleting test user";
@@ -423,7 +424,7 @@ class RegisterTest extends TestCase
      * @group selenium
      * @group register
      *
-     * @return null No return data
+     * @return void
      */
     public function testNoSelfRegistrationLink()
     {
@@ -433,7 +434,7 @@ class RegisterTest extends TestCase
         $this->assertEquals(WEBSITENAME . ': Login', $this->webDriver->getTitle());
         $checkCreateAccount = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'));
-        $this->assertNotContains(
+        $this->assertStringNotContainsString(
             '[New Account]',
             $checkCreateAccount->getText()
         );
@@ -448,7 +449,7 @@ class RegisterTest extends TestCase
      *
      * @depends testNoSelfRegistrationLink
      *
-     * @return null No return data
+     * @return void
      */
     public function testSelfRegistrationActive()
     {
@@ -458,7 +459,7 @@ class RegisterTest extends TestCase
         $this->assertEquals(WEBSITENAME . ': Login', $this->webDriver->getTitle());
         $checkNoNewAccount = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'));
-        $this->assertNotContains(
+        $this->assertStringNotContainsString(
             '[New Account]',
             $checkNoNewAccount->getText()
         );
@@ -469,7 +470,7 @@ class RegisterTest extends TestCase
 
         $checkNewAccount = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'));
-        $this->assertContains(
+        $this->assertStringContainsString(
             '[New Account]',
             $checkNewAccount->getText()
         );
@@ -480,7 +481,7 @@ class RegisterTest extends TestCase
 
         $checkCreateAccount = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'));
-        $this->assertNotContains(
+        $this->assertStringNotContainsString(
             '[New Account]',
             $checkCreateAccount->getText()
         );
@@ -493,7 +494,7 @@ class RegisterTest extends TestCase
      * @group selenium
      * @group register
      *
-     * @return null No return data
+     * @return void
      */
     public function testSelfRegistrationDisabled()
     {
@@ -509,7 +510,7 @@ class RegisterTest extends TestCase
      * @group selenium
      * @group register
      *
-     * @return null No return data
+     * @return void
      */
     public function testSelfRegistrationNoEmail()
     {
@@ -561,7 +562,7 @@ class RegisterTest extends TestCase
      * @group selenium
      * @group register
      *
-     * @return null No return data
+     * @return void
      */
     public function testSelfRegistrationInvalidRequest()
     {
@@ -579,7 +580,7 @@ class RegisterTest extends TestCase
         $invalidstring = "hliwqhki";
 
         // Test for a valid token type not in the database
-        $appcomand = $phpscript . "?" . $command . "=" .$validstring;
+        $appcomand = $phpscript . "?" . $command . "=" . $validstring;
         $this->webDriver->get(URL . $appcomand);
         $this->assertEquals(
             WEBSITENAME . ': Invalid Request',
@@ -595,7 +596,7 @@ class RegisterTest extends TestCase
         );
 
         //Test with incorrect Token length
-        $appcomand = $phpscript . "?" . $command . "=" .$invalidstring;
+        $appcomand = $phpscript . "?" . $command . "=" . $invalidstring;
         $this->webDriver->get(URL . $appcomand);
         $this->assertEquals(
             WEBSITENAME . ': Invalid Request',
@@ -624,7 +625,7 @@ class RegisterTest extends TestCase
      * @group selenium
      * @group register
      *
-     * @return null No return data
+     * @return void
      */
     public function testSelfRegistrationInvalidEmail()
     {
@@ -682,7 +683,7 @@ class RegisterTest extends TestCase
      * @group selenium
      * @group register
      *
-     * @return null No return data
+     * @return void
      */
     public function testSelfRegistrationExistingEmail()
     {
@@ -726,11 +727,11 @@ class RegisterTest extends TestCase
 
         // Get the email and make sure it is the the right one
         $email = $this->getEmail();
-        $this->assertContains(
+        $this->assertStringContainsString(
             'which already exists',
             $email
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'This attempt to user your email address to create a new account',
             $email
         );
@@ -752,7 +753,7 @@ class RegisterTest extends TestCase
      * @group selenium
      * @group register
      *
-     * @return null No return data
+     * @return void
      */
     public function testRegistrationEmailSent()
     {
@@ -812,7 +813,7 @@ class RegisterTest extends TestCase
      * @group selenium
      * @group register
      *
-     * @return null No return data
+     * @return void
      */
     public function testRegistrationCancelRequest()
     {
@@ -911,7 +912,7 @@ class RegisterTest extends TestCase
      * @group selenium
      * @group register
      *
-     * @return null No return data
+     * @return void
      */
     public function testRegistrationDuplicateUserName()
     {
@@ -995,7 +996,7 @@ class RegisterTest extends TestCase
             WEBSITENAME . ': Register new user - Enter Details',
             $this->webDriver->getTitle()
         );
-        $checkDupNameMsg= $this->webDriver
+        $checkDupNameMsg = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#msg-box'));
         $this->assertRegExp(
             '/Invalid User Name/',
@@ -1023,7 +1024,7 @@ class RegisterTest extends TestCase
      * @group selenium
      * @group register
      *
-     * @return null No return data
+     * @return void
      */
     public function testRegistrationInvalidUserName()
     {
@@ -1107,7 +1108,7 @@ class RegisterTest extends TestCase
             WEBSITENAME . ': Register new user - Enter Details',
             $this->webDriver->getTitle()
         );
-        $checkInvalidUserNameMsg= $this->webDriver
+        $checkInvalidUserNameMsg = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#msg-box'));
         $this->assertRegExp(
             '/Invalid User Name/',
@@ -1133,7 +1134,7 @@ class RegisterTest extends TestCase
      * @group selenium
      * @group register
      *
-     * @return null No return data
+     * @return void
      */
     public function testRegistrationInvalidRealName()
     {
@@ -1217,7 +1218,7 @@ class RegisterTest extends TestCase
             WEBSITENAME . ': Register new user - Enter Details',
             $this->webDriver->getTitle()
         );
-        $checkInvalidRealNameMsg= $this->webDriver
+        $checkInvalidRealNameMsg = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#msg-box'));
         $this->assertRegExp(
             '/Invalid Real Name/',
@@ -1239,7 +1240,7 @@ class RegisterTest extends TestCase
      * @group selenium
      * @group register
      *
-     * @return null No return data
+     * @return void
      */
     public function testRegistrationInvalidPasswords()
     {
@@ -1321,7 +1322,7 @@ class RegisterTest extends TestCase
             WEBSITENAME . ': Register new user - Enter Details',
             $this->webDriver->getTitle()
         );
-        $checkMissingPasswd1Msg= $this->webDriver
+        $checkMissingPasswd1Msg = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#msg-box'));
         $this->assertRegExp(
             '/Invalid Password/',
@@ -1351,7 +1352,7 @@ class RegisterTest extends TestCase
             WEBSITENAME . ': Register new user - Enter Details',
             $this->webDriver->getTitle()
         );
-        $checkPasswdNotEqualMsg= $this->webDriver
+        $checkPasswdNotEqualMsg = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#msg-box'));
         $this->assertRegExp(
             '/Invalid Password/',
@@ -1382,7 +1383,7 @@ class RegisterTest extends TestCase
             WEBSITENAME . ': Register new user - Enter Details',
             $this->webDriver->getTitle()
         );
-        $checkMissingPasswd1Msg= $this->webDriver
+        $checkMissingPasswd1Msg = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#msg-box'));
         $this->assertRegExp(
             '/Invalid Password/',
@@ -1406,7 +1407,7 @@ class RegisterTest extends TestCase
      * @group selenium
      * @group register
      *
-     * @return null No return data
+     * @return void
      */
     public function testRegistrationSucess()
     {
@@ -1490,7 +1491,7 @@ class RegisterTest extends TestCase
             WEBSITENAME . ': Register new user - Account Created',
             $this->webDriver->getTitle()
         );
-        $checkSuccessMsg= $this->webDriver
+        $checkSuccessMsg = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'));
         $this->assertRegExp(
             '/Your account has been created/',
@@ -1529,7 +1530,7 @@ class RegisterTest extends TestCase
      * @group selenium
      * @group register
      *
-     * @return null No return data
+     * @return void
      */
     public function testResetParameters()
     {

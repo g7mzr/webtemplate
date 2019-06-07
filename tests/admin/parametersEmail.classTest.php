@@ -1,12 +1,16 @@
 <?php
-
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
 
 namespace webtemplate\unittest;
@@ -17,19 +21,15 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../includes/global.php';
 
 /**
- * Parameters Class Unit Tests
+ * Parameters Email Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class ParametersEmailTest extends TestCase
 {
     /**
      * Parameters Class Object
      *
-     * @var ParametersClass
+     * @var \webtemplate\admin\Parameters
      */
     protected $object;
 
@@ -44,9 +44,9 @@ class ParametersEmailTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
 
         // Create configuration Object
@@ -63,11 +63,11 @@ class ParametersEmailTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
-        $configDir = dirname(__FILE__) ."/../_data";
+        $configDir = dirname(__FILE__) . "/../_data";
         $filename = $configDir . '/parameters.php';
         if (file_exists($filename)) {
             unlink($filename);
@@ -76,6 +76,8 @@ class ParametersEmailTest extends TestCase
 
     /**
      * This function sets up the default parameters for testing
+     *
+     * @return void
      */
     protected function defaultParameters()
     {
@@ -112,7 +114,7 @@ class ParametersEmailTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testGetLastMessage()
     {
@@ -127,7 +129,7 @@ class ParametersEmailTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testGetCurrentParameters()
     {
@@ -143,7 +145,7 @@ class ParametersEmailTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testvalidateParameters()
     {
@@ -168,7 +170,7 @@ class ParametersEmailTest extends TestCase
         $result = $this->object->ValidateParameters($inputdata);
         $this->assertFalse($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Invalid E-mail Address", $localStr);
+        $this->assertStringContainsString("Invalid E-mail Address", $localStr);
 
         // SMTP Server name fails validation
         $inputdata['mail_delivery_method'] = 'smtp';
@@ -180,7 +182,7 @@ class ParametersEmailTest extends TestCase
         $result = $this->object->ValidateParameters($inputdata);
         $this->assertFalse($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Invalid SMTP Server", $localStr);
+        $this->assertStringContainsString("Invalid SMTP Server", $localStr);
 
          // SMTP Username  validation
         $inputdata['mail_delivery_method'] = 'smtp';
@@ -192,7 +194,7 @@ class ParametersEmailTest extends TestCase
         $result = $this->object->ValidateParameters($inputdata);
         $this->assertFalse($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Invalid Username", $localStr);
+        $this->assertStringContainsString("Invalid Username", $localStr);
 
          // SMTP password validation
         $inputdata['mail_delivery_method'] = 'smtp';
@@ -204,7 +206,7 @@ class ParametersEmailTest extends TestCase
         $result = $this->object->ValidateParameters($inputdata);
         $this->assertFalse($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Invalid Password", $localStr);
+        $this->assertStringContainsString("Invalid Password", $localStr);
 
         // Check that SMTP Server is defned
         $inputdata = array ();
@@ -213,7 +215,7 @@ class ParametersEmailTest extends TestCase
         $result = $this->object->ValidateParameters($inputdata);
         $this->assertFalse($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains(
+        $this->assertStringContainsString(
             "You must enter the name of your SMTP server",
             $localStr
         );
@@ -227,7 +229,7 @@ class ParametersEmailTest extends TestCase
         $result = $this->object->ValidateParameters($inputdata);
         $this->assertFalse($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains(
+        $this->assertStringContainsString(
             "You must enter both the SMTP Username and Password",
             $localStr
         );
@@ -245,7 +247,7 @@ class ParametersEmailTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testcheckParametersChanged()
     {
@@ -269,7 +271,7 @@ class ParametersEmailTest extends TestCase
         $result = $this->object->checkParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Mail Delivery Method Changed", $localStr);
+        $this->assertStringContainsString("Mail Delivery Method Changed", $localStr);
 
         // E-Mail Address Changed
         $parameters['email']['smtpdeliverymethod'] = 'smtp';
@@ -281,7 +283,7 @@ class ParametersEmailTest extends TestCase
         $result = $this->object->checkParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("E-Mail Address Changed", $localStr);
+        $this->assertStringContainsString("E-Mail Address Changed", $localStr);
 
         // SMTP Server Changed
         $parameters['email']['smtpdeliverymethod'] = 'smtp';
@@ -293,7 +295,7 @@ class ParametersEmailTest extends TestCase
         $result = $this->object->checkParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("SMTP Server Changed", $localStr);
+        $this->assertStringContainsString("SMTP Server Changed", $localStr);
 
         // SMTP User Changed
         $parameters['email']['smtpdeliverymethod'] = 'smtp';
@@ -305,7 +307,7 @@ class ParametersEmailTest extends TestCase
         $result = $this->object->checkParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("SMTP User Name Changed", $localStr);
+        $this->assertStringContainsString("SMTP User Name Changed", $localStr);
 
         // SMTP Password Changed
         $parameters['email']['smtpdeliverymethod'] = 'smtp';
@@ -317,7 +319,7 @@ class ParametersEmailTest extends TestCase
         $result = $this->object->checkParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("SMTP Password Changed", $localStr);
+        $this->assertStringContainsString("SMTP Password Changed", $localStr);
 
         // SMTP DEBUG Changed
         $parameters['email']['smtpdeliverymethod'] = 'smtp';
@@ -329,7 +331,7 @@ class ParametersEmailTest extends TestCase
         $result = $this->object->checkParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("SMTP Debug Changed", $localStr);
+        $this->assertStringContainsString("SMTP Debug Changed", $localStr);
     }
 
     /**
@@ -338,7 +340,7 @@ class ParametersEmailTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testsaveParamFile()
     {
@@ -351,7 +353,7 @@ class ParametersEmailTest extends TestCase
         $result = $this->object->ValidateParameters($inputdata);
         $this->assertTrue($result);
 
-        $configDir = dirname(__FILE__) ."/../_data";
+        $configDir = dirname(__FILE__) . "/../_data";
         $filesaved = $this->object->saveParamFile($configDir);
         $this->assertTrue($filesaved);
         $filename = $configDir . '/parameters.json';
@@ -367,11 +369,11 @@ class ParametersEmailTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testsaveParamFileFail()
     {
-        $configDir = dirname(__FILE__) ."/../data";
+        $configDir = dirname(__FILE__) . "/../data";
         $filesaved = $this->object->saveParamFile($configDir);
         $this->assertFalse($filesaved);
     }

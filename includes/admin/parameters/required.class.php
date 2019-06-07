@@ -2,20 +2,21 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Admin Parameters
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\admin\parameters;
 
 /**
  * Parameters REQUIRED Interface Class
- *
- * @category Webtemplate
- * @package  Admin
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class Required extends ParametersAbstract
 {
@@ -71,11 +72,11 @@ class Required extends ParametersAbstract
     /**
      * Constructor
      *
-     * @param \webtemplate\config\Configure $config Configuration class
+     * @param \webtemplate\config\Configure $config Configuration class.
      *
      * @access public
      */
-    public function __construct($config)
+    public function __construct(\webtemplate\config\Configure $config)
     {
 
         parent::__construct($config);
@@ -95,13 +96,13 @@ class Required extends ParametersAbstract
      * Validate the Required set of parameters input by the user.  Last Msg will
      * contain a list of any parameters which failed validation.
      *
-     * @param array $inputData Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access public
      */
-    final public function validateParameters(&$inputData)
+    final public function validateParameters(array &$inputData)
     {
 
         // Set up Error Message string
@@ -143,17 +144,17 @@ class Required extends ParametersAbstract
 
     /**
     * Check if any of the Required set of Parameters have changed.  The
-    * localy stored parameters created as part of the validation process
+    * locally stored parameters created as part of the validation process
     * are compared to the ones in the $parameters variable.  Last Msg will
-    * contain a list of parameters whioch have changed.
+    * contain a list of parameters which have changed.
     *
-    * @param array $parameters Array of application Parameters
+    * @param array $parameters Array of application Parameters.
     *
     * @return boolean true if data changed
     *
     * @access public
     */
-    final public function checkParametersChanged($parameters)
+    final public function checkParametersChanged(array $parameters)
     {
         // Set the data changed flags to false
         $datachanged = false;
@@ -175,19 +176,19 @@ class Required extends ParametersAbstract
         // Check if the document path has changed
         if ($this->docbase != $parameters['docbase']) {
             $datachanged = true;
-            $msg .= gettext("Docs Base URL Changed") ."\n";
+            $msg .= gettext("Docs Base URL Changed") . "\n";
         }
 
         // Check if the cookie domain has changed
         if ($this->cookiedomain != $parameters['cookiedomain']) {
             $datachanged = true;
-            $msg .= gettext("Cookie Domain Changed") ."\n";
+            $msg .= gettext("Cookie Domain Changed") . "\n";
         }
 
         // Check if the Cookie path has changed.
         if ($this->cookiepath != $parameters['cookiepath']) {
             $datachanged = true;
-            $msg .= gettext("Cookie Path Changed") ."\n";
+            $msg .= gettext("Cookie Path Changed") . "\n";
         }
 
         $this->lastMsg = $msg;
@@ -197,13 +198,13 @@ class Required extends ParametersAbstract
     /**
     * Validate the URL of the application.
     *
-    * @param array $inputData Pointer to an array of User Input Data
+    * @param array $inputData Pointer to an array of User Input Data.
     *
     * @return boolean true if data Validated
     *
     * @access private
     */
-    private function validateURLBase(&$inputData)
+    private function validateURLBase(array &$inputData)
     {
         // Setup the local data ok flag
         $dataok = true;
@@ -225,13 +226,13 @@ class Required extends ParametersAbstract
     /**
     * Validate the maintainers e-mail address
     *
-    * @param array $inputData Pointer to an array of User Input Data
+    * @param array $inputData Pointer to an array of User Input Data.
     *
     * @return boolean true if data Validated
     *
     * @access private
     */
-    private function validateMaintainer(&$inputData)
+    private function validateMaintainer(array &$inputData)
     {
         // Setup the local data ok flag
         $dataok = true;
@@ -253,13 +254,13 @@ class Required extends ParametersAbstract
     /**
     * Validate the Document Base
     *
-    * @param array $inputData Pointer to an array of User Input Data
+    * @param array $inputData Pointer to an array of User Input Data.
     *
     * @return boolean true if data Validated
     *
     * @access private
     */
-    private function validateDOCBase(&$inputData)
+    private function validateDOCBase(array &$inputData)
     {
         // Setup the local data ok flag
         $dataok = true;
@@ -283,13 +284,13 @@ class Required extends ParametersAbstract
     /**
     * Validate the Cookie Domain
     *
-    * @param array $inputData Pointer to an array of User Input Data
+    * @param array $inputData Pointer to an array of User Input Data.
     *
     * @return boolean true if data Validated
     *
     * @access private
     */
-    private function validateCookieDomain(&$inputData)
+    private function validateCookieDomain(array &$inputData)
     {
         // Setup the local data ok flag
         $dataok = true;
@@ -313,13 +314,13 @@ class Required extends ParametersAbstract
     /**
     * Validate the Cookie Path
     *
-    * @param array $inputData Pointer to an array of User Input Data
+    * @param array $inputData Pointer to an array of User Input Data.
     *
     * @return boolean true if data Validated
     *
     * @access private
     */
-    private function validateCookiePath(&$inputData)
+    private function validateCookiePath(array &$inputData)
     {
         // Setup the local data ok flag
         $dataok = true;
@@ -340,7 +341,7 @@ class Required extends ParametersAbstract
 
 
     /**
-     * This function transfers the paramaters stored in this class to the
+     * This function transfers the parameters stored in this class to the
      * Configuration Class.
      *
      * @return boolean True if write is successful

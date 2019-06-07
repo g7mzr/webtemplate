@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
@@ -17,45 +23,41 @@ require_once __DIR__ . '/../../includes/global.php';
 /**
  * MailClass Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class MailTest extends TestCase
 {
     /**
      * Mail Class Object
      *
-     * @var MailClass
+     * @var \webtemplate\general\Mail
      */
     protected $object;
 
     /**
      * Mail Class Object
      *
-     * @var MailClass
+     * @var \webtemplate\general\Mail
      */
     protected $object2;
 
      /**
      * Mail Class Object
      *
-     * @var MailClass
+     * @var \webtemplate\general\Mail
      */
     protected $object3;
 
      /**
      * Mail Class Object
      *
-     * @var MailClass
+     * @var \webtemplate\general\Mail
      */
     protected $object4;
 
      /**
      * Mail Class Object
      *
-     * @var MailClass
+     * @var \webtemplate\general\Mail
      */
     protected $object5;
 
@@ -63,9 +65,9 @@ class MailTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $mailParam['smtpdeliverymethod'] = 'none';
         $mailParam['emailaddress'] = "test@example.com";
@@ -97,9 +99,9 @@ class MailTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
@@ -109,7 +111,7 @@ class MailTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testStatus()
     {
@@ -122,7 +124,7 @@ class MailTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testsendEmail()
     {
@@ -146,7 +148,7 @@ class MailTest extends TestCase
         );
         $this->assertTrue($result);
 
-        $testDir = dirname(__FILE__) ."/../_data";
+        $testDir = dirname(__FILE__) . "/../_data";
         $filename = dirname(dirname(dirname(__FILE__))) . '/logs/mailer.testfile';
         $expectedfilename = $testDir . '/email_test_file.txt';
 
@@ -171,7 +173,7 @@ class MailTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testsendSMTP()
     {
@@ -197,7 +199,7 @@ class MailTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testsendsendmail()
     {
@@ -222,7 +224,7 @@ class MailTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testErrorMsg()
     {

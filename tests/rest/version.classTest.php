@@ -2,28 +2,30 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
-namespace webtemplate\phpunit;
+
+namespace webtemplate\unittest;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
 
 // Include the Test Database Connection details
-require_once dirname(__FILE__) .'/../_data/database.php';
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 use PHPUnit\Framework\TestCase;
 
 /**
  * REST VERSION Resource Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class RestVersionTest extends TestCase
 {
@@ -46,9 +48,9 @@ class RestVersionTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         global $sessiontest;
 
@@ -61,9 +63,9 @@ class RestVersionTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
@@ -74,7 +76,7 @@ class RestVersionTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testpermissions()
     {
@@ -89,7 +91,7 @@ class RestVersionTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testVersionGETNotLoggedIn()
     {
@@ -115,7 +117,7 @@ class RestVersionTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testVersionGetLoggedIn()
     {
@@ -156,7 +158,7 @@ class RestVersionTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testVersionGetArgsExist()
     {
@@ -183,7 +185,7 @@ class RestVersionTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testVersionGetRequestdataExist()
     {
@@ -210,7 +212,7 @@ class RestVersionTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testVersionOptions()
     {
@@ -219,13 +221,13 @@ class RestVersionTest extends TestCase
         $requestdata = array();
         $result = $this->version->endpoint($method, $args, $requestdata);
         $this->assertEquals(200, $result['code']);
-        $this->assertContains('GET', $result['options']);
-        $this->assertContains('HEAD', $result['options']);
-        $this->assertNotContains('POST', $result['options']);
-        $this->assertNotContains('PUT', $result['options']);
-        $this->assertNotContains('PATCH', $result['options']);
-        $this->assertNotContains('DELETE', $result['options']);
-        $this->assertContains('OPTIONS', $result['options']);
+        $this->assertStringContainsString('GET', $result['options']);
+        $this->assertStringContainsString('HEAD', $result['options']);
+        $this->assertStringNotContainsString('POST', $result['options']);
+        $this->assertStringNotContainsString('PUT', $result['options']);
+        $this->assertStringNotContainsString('PATCH', $result['options']);
+        $this->assertStringNotContainsString('DELETE', $result['options']);
+        $this->assertStringContainsString('OPTIONS', $result['options']);
     }
 
 
@@ -235,7 +237,7 @@ class RestVersionTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testVersionHead()
     {
@@ -253,7 +255,7 @@ class RestVersionTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testVersionPost()
     {
@@ -263,9 +265,9 @@ class RestVersionTest extends TestCase
         $result = $this->version->endpoint($method, $args, $requestdata);
         $this->assertEquals(405, $result['code']);
         $this->assertEquals('Method not implemented', $result['data']['ErrorMsg']);
-        $this->assertContains('GET', $result['options']);
-        $this->assertContains('HEAD', $result['options']);
-        $this->assertContains('OPTIONS', $result['options']);
+        $this->assertStringContainsString('GET', $result['options']);
+        $this->assertStringContainsString('HEAD', $result['options']);
+        $this->assertStringContainsString('OPTIONS', $result['options']);
     }
 
     /**
@@ -275,7 +277,7 @@ class RestVersionTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testVersionRemoverequest()
     {
@@ -294,7 +296,7 @@ class RestVersionTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testVersionHEADGetArgsExist()
     {
@@ -321,7 +323,7 @@ class RestVersionTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testVersionHEADRequestdataExist()
     {

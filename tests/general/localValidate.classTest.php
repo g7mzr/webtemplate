@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
@@ -17,17 +23,13 @@ require_once __DIR__ . '/../../includes/global.php';
 /**
  * Local Validate Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class LocalValidateTest extends TestCase
 {
     /**
      * Local Validate Object
      *
-     * @var LocalValidate
+     * @var \webtemplate\general\LocalValidate
      */
     protected $object;
 
@@ -35,20 +37,20 @@ class LocalValidateTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->object = new \webtemplate\general\LocalValidate;
+        $this->object = new \webtemplate\general\LocalValidate();
     }
 
     /**
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
@@ -58,7 +60,7 @@ class LocalValidateTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testDbid()
     {
@@ -68,13 +70,13 @@ class LocalValidateTest extends TestCase
     }
 
     /**
-     * Test that the cusername is between 5 and 12 characters long and contains
+     * Test that the username is between 5 and 12 characters long and contains
      * only letters and numbers.
      *
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testUsername()
     {
@@ -91,7 +93,7 @@ class LocalValidateTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testRegexp()
     {
@@ -100,13 +102,13 @@ class LocalValidateTest extends TestCase
     }
 
     /**
-     * Test that the users realname is between 2 and 60 characters long without
+     * Test that the users real name is between 2 and 60 characters long without
      * invalid characters
      *
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testRealname()
     {
@@ -123,7 +125,7 @@ class LocalValidateTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testPassword()
     {
@@ -183,7 +185,7 @@ class LocalValidateTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testEmail()
     {
@@ -198,7 +200,7 @@ class LocalValidateTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testUrl()
     {
@@ -221,7 +223,7 @@ class LocalValidateTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testPath()
     {
@@ -238,7 +240,7 @@ class LocalValidateTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testDocPath()
     {
@@ -255,7 +257,7 @@ class LocalValidateTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testDomain()
     {
@@ -271,7 +273,7 @@ class LocalValidateTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testGroupname()
     {
@@ -288,7 +290,7 @@ class LocalValidateTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testGroupdescription()
     {
@@ -303,12 +305,12 @@ class LocalValidateTest extends TestCase
     }
 
     /**
-     * Test GeneralText can contain spaces and some puncuation.
+     * Test GeneralText can contain spaces and some punctuation.
      *
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testGeneraltext()
     {
@@ -327,7 +329,7 @@ class LocalValidateTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testToken()
     {
@@ -338,12 +340,12 @@ class LocalValidateTest extends TestCase
     }
 
     /**
-     * Test the HTML File Name validator
+     * Test the HTML File Name validation function
      *
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testhtmlFile()
     {

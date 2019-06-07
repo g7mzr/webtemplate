@@ -2,40 +2,45 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Application
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\application;
 
 /**
 * Webtemplate Class error Handler
-*
-* @category Webtemplate
-* @package  ErrorHandler
-* @author   Sandy McNeil <g7mzrdev@gmail.com>
-* @license  View the license file distributed with this source code
 **/
 class ErrorHandler
 {
     /**
      * Error Handler for Webtemplate so that a blank page is not displayed.
      *
-     * @param int    $errno   The error number
-     * @param string $errstr  The error message
-     * @param string $errfile The file the error occured on
-     * @param string $errline The line the error occured
+     * @param integer $errno   The error number.
+     * @param string  $errstr  The error message.
+     * @param string  $errfile The file the error occur on.
+     * @param integer $errline The line the error occur.
      *
      * @return boolan True if error has been handles
      *
      * @access public
      */
-    public function handleError($errno, $errstr, $errfile, $errline)
-    {
+    public function handleError(
+        int $errno,
+        string $errstr,
+        string $errfile,
+        int $errline
+    ) {
 
         // Set up the Smarty Template Engine
-        $tpl = new \webtemplate\application\SmartyTemplate;
+        $tpl = new \webtemplate\application\SmartyTemplate();
         $template = 'global/phperror.tpl';
 
         //Set up the correct language and associated templates
@@ -88,7 +93,7 @@ class ErrorHandler
     /**
      * Error Handler for Webtemplate so that a blank page is not displayed.
      *
-     * @param Exception $exception Base class for all Exceptions in PHP 5,
+     * @param mixed $exception Base class for all Exceptions in PHP 7.
      *
      * @return boolan True if error has been handles
      *
@@ -98,7 +103,7 @@ class ErrorHandler
     {
 
         // Set up the Smarty Template Engine
-        $tpl = new \webtemplate\application\SmartyTemplate;
+        $tpl = new \webtemplate\application\SmartyTemplate();
         $template = 'global/phperror.tpl';
 
         //Set up the correct language and associated templates
@@ -117,7 +122,8 @@ class ErrorHandler
         $appName = $tpl->getConfigVars('application_name');
 
         //Create new config class
-        $config = new \webtemplate\config\Configure(null);
+        $configdir = $tpl->getConfigDir(0);
+        $config = new \webtemplate\config\Configure($configdir);
 
         // Load the menu and assign it to a SMARTY Variable
         $mainmenu = $config->readMenu('mainmenu');
@@ -150,7 +156,7 @@ class ErrorHandler
         }
 
         // Log the Error to the Apache log file
-        error_log($appName .": Exception");
+        error_log($appName . ": Exception");
         error_log($exception->getMessage());
         error_log($exception->getTraceAsString());
 

@@ -2,22 +2,22 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Users
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\users;
 
 /**
  * Global Edit User Functions
- *
- * @category  Admin
- * @package   Edit_Users
- * @author    Sandy McNeil <g7mzrdev@gmail.com>
- * @license   View the license file distributed with this source code
  */
-
 class EditUserFunctions
 {
     /**
@@ -29,18 +29,23 @@ class EditUserFunctions
      * the user and outputs the result in a table containing username, realname
      * and e-mail address.  If no user is found an error page is displayed.
      *
-     * @param pointer $tpl      Smarty Template class
-     * @param string  $template Template name
-     * @param pointer $editUser Edituser class
-     * @param string  $regexp   Regular expression for valid user names
-     * @param array   $data     The sanitised $_GET super array
+     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Template class.
+     * @param string                                  $template Template name.
+     * @param EditUser                                $editUser Edituser class.
+     * @param string                                  $regexp   Regular expression for valid user names.
+     * @param array                                   $data     The sanitised $_GET super array.
      *
      * @return boolean
      *
      * @access public
      */
-    public static function listUsers($tpl, &$template, $editUser, $regexp, &$data)
-    {
+    public static function listUsers(
+        \webtemplate\application\SmartyTemplate $tpl,
+        string &$template,
+        EditUser $editUser,
+        string $regexp,
+        array &$data
+    ) {
         // Get the type of search the user has chosen.  Valid values are:
         // username, email and realname.  Declare searchType as empty prior
         // to seing if it is set and a valid value has been selected.
@@ -117,27 +122,29 @@ class EditUserFunctions
      *
      * This method displays and empty form to be completed for a new user.
      *
-     * @param pointer $tpl      Smarty Template class
-     * @param string  $template Template name
+     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Template class.
+     * @param string                                  $template Template name.
      *
      * @return boolean
      *
      * @access public
      */
-    public static function newUser($tpl, &$template)
-    {
+    public static function newUser(
+        \webtemplate\application\SmartyTemplate $tpl,
+        string &$template
+    ) {
         // Initialise global variables for this method.
         //global $tpl, $template;
 
         //Set dummy results variable
-        $results[] = array("userid" =>'',
+        $results[] = array("userid" => '',
                                "username" => '',
                                "realname" => '',
                                "useremail" => '',
                                "userenabled" => '',
                                "userdisablemail" => '',
                                "passwd" => '',
-                               "lastseendate" =>''
+                               "lastseendate" => ''
             );
 
         $tpl->assign("RESULTS", $results);
@@ -155,18 +162,23 @@ class EditUserFunctions
      * This method displays the selected user for editing
      * If no user is found an error page is displayed.
      *
-     * @param pointer $tpl      Smarty Template class
-     * @param string  $template Template name
-     * @param pointer $editUser Edituser class
-     * @param pointer $groups   Group Class
-     * @param array   $data     The sanitised $_GET super array
+     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Template class.
+     * @param string                                  $template Template name.
+     * @param EditUser                                $editUser Edituser class.
+     * @param \webtemplate\groups\EditUsersGroups     $groups   Edit Users Group Class.
+     * @param array                                   $data     The sanitised $_GET super array.
      *
-     * @return boolean
+     * @return void
      *
      * @access public
      */
-    public static function editUser($tpl, &$template, $editUser, $groups, &$data)
-    {
+    public static function editUser(
+        \webtemplate\application\SmartyTemplate $tpl,
+        string &$template,
+        EditUser $editUser,
+        \webtemplate\groups\EditUsersGroups $groups,
+        array &$data
+    ) {
         // Initialise global variables for this method.
         //global $tpl, $editUser, $template, $groups;
         // Check that the UserID is a valid number
@@ -180,7 +192,6 @@ class EditUserFunctions
         }
 
         if ($validUserID == true) { //User id is valid
-
             // Get the users information from the database
             $resultArray = $editUser->getuser($userId);
             if (!\webtemplate\general\General::isError($resultArray)) {
@@ -213,14 +224,14 @@ class EditUserFunctions
                 $tpl->assign("READONLY", true);
 
                 // Set the page title
-                $pageTitle = gettext("Edit User") .": ";
+                $pageTitle = gettext("Edit User") . ": ";
                 $pageTitle .= $resultArray[0]['username'];
-                $pageTitle .= ' (' .$resultArray[0]['realname'].')';
+                $pageTitle .= ' (' . $resultArray[0]['realname'] . ')';
                 $tpl->assign("PAGETITLE", $pageTitle);
             } else {
                 // No user information was returned
                 $template = "users/search.tpl";
-                $msg = $resultArray->getMessage(). ". ";
+                $msg = $resultArray->getMessage() . ". ";
                 $msg .= gettext("Please Try Again");
                 $tpl->assign("MSG", $msg);
             }
@@ -237,28 +248,27 @@ class EditUserFunctions
      *
      * This method saves the edited user information in the database.
      *
-     * @param \webtemplate\application\SmartyTemplate $tpl        Template class
-     * @param string                                  $template   Template name
-     * @param \webtemplate\users\EditUser             $editUser   Edituser class
-     * @param \webtemplate\groups\EditUsersGroups     $groups     Group Class
-     * @param array                                   $userparams Configuration vars
-     * @param \webtemplate\users\User                 $user       User Class
-     * @param array                                   $data       sanitised $_POST
+     * @param \webtemplate\application\SmartyTemplate $tpl        Template class.
+     * @param string                                  $template   Template name.
+     * @param EditUser                                $editUser   Edituser class.
+     * @param \webtemplate\groups\EditUsersGroups     $groups     Edit Users Group Class.
+     * @param array                                   $userparams Configuration vars.
+     * @param array                                   $data       Sanitised $_POST.
      *
      * @return boolean
      *
      * @access public
      */
     public static function saveUser(
-        $tpl,
-        &$template,
-        $editUser,
-        $groups,
-        $userparams,
-        &$data
+        \webtemplate\application\SmartyTemplate $tpl,
+        string &$template,
+        EditUser $editUser,
+        \webtemplate\groups\EditUsersGroups $groups,
+        array $userparams,
+        array &$data
     ) {
 
-        $userSaved= true;
+        $userSaved = true;
         $userDataOk = true;
         $userdatatosave = false;
         $groupdatatosave = false;
@@ -289,7 +299,7 @@ class EditUserFunctions
                 }
             }
         }
-        if ($resultArray[0]['userid']== '0') {
+        if ($resultArray[0]['userid'] == '0') {
             $newUser = true;
         } else {
             $newUser = false;
@@ -430,7 +440,7 @@ class EditUserFunctions
             if ($resultArray[0]['userid'] <> '0') {
                 $pagetitle = 'Edit User';
                 $pagetitle .= ": " . $resultArray[0]['username'];
-                $pagetitle .= ' (' .$resultArray[0]['realname'].')';
+                $pagetitle .= ' (' . $resultArray[0]['realname'] . ')';
             } else {
                 $pagetitle = 'New User';
             }

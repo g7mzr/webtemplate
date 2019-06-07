@@ -2,29 +2,28 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Users
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\users;
 
 /**
  * Edit User Class
- *
- * @category Webtemplate
- * @package  Users
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
-
 class EditUser
 {
-     /**
-     * Database MDB2 Database Object
-      *
-     * @var    object
+    /**
+     *  Database Object
+     *
+     * @var    \webtemplate\db\driver\InterfaceDatabaseDriver
      * @access protected
      */
 
@@ -43,11 +42,11 @@ class EditUser
     /**
      * Constructor for the edit user class.
      *
-     * @param array $db MDB2 Database object
+     * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db Database object.
      *
      * @access public
      */
-    public function __construct($db)
+    public function __construct(\webtemplate\db\driver\InterfaceDatabaseDriver $db)
     {
         $this->db       = $db;
         $this->userName = "None";
@@ -57,13 +56,13 @@ class EditUser
     /**
      * This function returns a list of users who meet the search criteria
      *
-     * @param string $searchtype The field to search
-     * @param string $searchstr  The text to search for
+     * @param string $searchtype The field to search.
+     * @param string $searchstr  The text to search for.
      *
      * @return mixed Array with the search results or WEBTEMPLATE error type
      * @access public
      */
-    final public function search($searchtype, $searchstr)
+    final public function search(string $searchtype, string $searchstr)
     {
 
         // Initalise Local Variables
@@ -83,22 +82,22 @@ class EditUser
         switch ($searchtype) {
             case 'username':
                 $searchdata = array(
-                "user_name" => '%' . $searchstr .'%'
+                "user_name" => '%' . $searchstr . '%'
                     );
                 break;
             case 'realname':
                 $searchdata = array(
-                "user_realname" => '%' . $searchstr .'%'
+                "user_realname" => '%' . $searchstr . '%'
                     );
                 break;
             case 'email':
                 $searchdata = array(
-                "user_email" => '%' . $searchstr .'%'
+                "user_email" => '%' . $searchstr . '%'
                     );
                 break;
             default:
                 $searchdata = array(
-                   "user_name" => '%' . $searchstr .'%'
+                   "user_name" => '%' . $searchstr . '%'
                     );
                 break;
         }
@@ -126,7 +125,7 @@ class EditUser
                                     "userdisablemail" => $uao['user_disable_mail'],
                                     "passwd" => '',
                                     "lastseendate" => $uao['date'],
-                                    "passwdchanged" =>$uao['passwd_changed']);
+                                    "passwdchanged" => $uao['passwd_changed']);
             }
         }
         if ($gotdata == true) {
@@ -140,12 +139,12 @@ class EditUser
     /**
      * This function returns the details of a single user
      *
-     * @param integer $userId The Id of the selected user
+     * @param integer $userId The Id of the selected user.
      *
      * @return mixed Array with the search results or WEBTEMPLATE error type
      * @access public
      */
-    final public function getuser($userId)
+    final public function getuser(int $userId)
     {
         $gotdata = true;
         $fieldNames = array(
@@ -164,11 +163,11 @@ class EditUser
 
         if (!\webtemplate\general\General::isError($uao)) {
             $resultarray = array();
-            $resultarray[] = array("userid" =>$uao['user_id'],
-                                   "username" =>$uao['user_name'],
-                                   "realname" =>$uao['user_realname'],
-                                   "useremail" =>$uao['user_email'],
-                                   "userenabled" =>$uao['user_enabled'],
+            $resultarray[] = array("userid" => $uao['user_id'],
+                                   "username" => $uao['user_name'],
+                                   "realname" => $uao['user_realname'],
+                                   "useremail" => $uao['user_email'],
+                                   "userenabled" => $uao['user_enabled'],
                                    "userdisablemail" => $uao['user_disable_mail'],
                                    "passwd" => '',
                                    "lastseendate" => $uao['date'],
@@ -188,28 +187,28 @@ class EditUser
     /**
      * This function is the interface which updates/creates the user in the database
      *
-     * @param integer $userId            Pointer to the Id of the selected user
-     * @param string  $username          The users system name
-     * @param string  $realname          The users realname
-     * @param string  $usermail          The users e-mail address
-     * @param string  $passwd            The users password
-     * @param string  $userdisablemail   Set to Y if user does not want e-mail alerts
-     * @param string  $enabled           Set to Y to enable user
+     * @param integer $userId            Pointer to the Id of the selected user.
+     * @param string  $username          The users system name.
+     * @param string  $realname          The users realname.
+     * @param string  $usermail          The users e-mail address.
+     * @param string  $passwd            The users password.
+     * @param string  $userdisablemail   Set to Y if user does not want e-mail alerts.
+     * @param string  $enabled           Set to Y to enable user.
      * @param string  $forcePasswdChange Set to Y to force the user to change their
-     *                                   password at the next login
+     *                                   password at the next login.
      *
      * @return mixed true if data saved okay or WEBTEMPLATE error type
      * @access public
      */
     final public function saveuser(
-        &$userId,
-        $username,
-        $realname,
-        $usermail,
-        $passwd,
-        $userdisablemail,
-        $enabled,
-        $forcePasswdChange
+        int &$userId,
+        string $username,
+        string $realname,
+        string $usermail,
+        string $passwd,
+        string $userdisablemail,
+        string $enabled,
+        string $forcePasswdChange
     ) {
 
         // Encrypt the users Password
@@ -227,7 +226,7 @@ class EditUser
 
         // Set the text to force a passwd change
         if ($forcePasswdChange == 'Y') {
-            $passwdChangeText = null;
+            $passwdChangeText = '';
         } else {
             $passwdChangeText = 'Now()';
         }
@@ -273,25 +272,25 @@ class EditUser
      /**
      * This function creates a changestring for the users data
      *
-     * @param integer $userId          The Id of the selected user
-     * @param string  $username        The users system name
-     * @param string  $realname        The users realname
-     * @param string  $usermail        The users e-mail address
-     * @param string  $passwd          The users password
-     * @param string  $userdisablemail Set to Y if user does not want e-mail alerts
-     * @param string  $enabled         Set to Y to enable user
+     * @param integer $userId          The Id of the selected user.
+     * @param string  $username        The users system name.
+     * @param string  $realname        The users realname.
+     * @param string  $usermail        The users e-mail address.
+     * @param string  $passwd          The users password.
+     * @param string  $userdisablemail Set to Y if user does not want e-mail alerts.
+     * @param string  $enabled         Set to Y to enable user.
      *
      * @return boolean true if change string created
      * @access public
      */
     final public function datachanged(
-        $userId,
-        $username,
-        $realname,
-        $usermail,
-        $passwd,
-        $userdisablemail,
-        $enabled
+        int $userId,
+        string $username,
+        string $realname,
+        string $usermail,
+        string $passwd,
+        string $userdisablemail,
+        string $enabled
     ) {
         $gotOldData = false;
         $localDataChanged = false;
@@ -352,7 +351,7 @@ class EditUser
      /**
      * This function returns the changestring for the user's data
      *
-     * @return String Change String for the user's data
+     * @return string Change String for the user's data
      * @access public
      */
     final public function getChangeString()
@@ -363,12 +362,12 @@ class EditUser
      /**
      * This function checks if a user exists on the database
      *
-     * @param string $username The users system name
+     * @param string $username The users system name.
      *
      * @return mixed true if user exist. WEBTEMPLATE:Error if error encountered
      * @access public
      */
-    final public function checkUserExists($username)
+    final public function checkUserExists(string $username)
     {
 
         // Set default values for local flags
@@ -407,12 +406,12 @@ class EditUser
      /**
      * This function checks if a user exists on the database
      *
-     * @param string $email The email address to be checked
+     * @param string $email The email address to be checked.
      *
      * @return mixed true if user exist. WEBTEMPLATE:Error if error encountered
      * @access public
      */
-    final public function checkEmailExists($email)
+    final public function checkEmailExists(string $email)
     {
 
         // Set default values for local flags
@@ -452,12 +451,12 @@ class EditUser
     /**
      * This function checks if a user is enabled or disabled
      *
-     * @param string $username The users system name
+     * @param string $username The users system name.
      *
      * @return mixed true if user exist. WEBTEMPLATE:Error if error encountered
      * @access public
      */
-    final public function checkUserEnabled($username)
+    final public function checkUserEnabled(string $username)
     {
 
         // Set default values for local flags
@@ -499,16 +498,20 @@ class EditUser
      /**
      * This function Updates the users Real Name, E-mail and Password
      *
-     * @param string  $realname The users realname
-     * @param string  $passwd   The users password
-     * @param string  $usermail The users e-mail address
-     * @param integer $userId   The Id of the selected user
+     * @param string  $realname The users realname.
+     * @param string  $passwd   The users password.
+     * @param string  $usermail The users e-mail address.
+     * @param integer $userId   The Id of the selected user.
      *
      * @return mixed true id data saved okay. WEBTEMPLATE:Error if error encountered
      * @access public
      */
-    final public function updateUserDetails($realname, $passwd, $usermail, $userId)
-    {
+    final public function updateUserDetails(
+        string $realname,
+        string $passwd,
+        string $usermail,
+        int $userId
+    ) {
 
         // Set local Flags
         $saveok = true;
@@ -564,13 +567,13 @@ class EditUser
      /**
      * This function updated the users password
      *
-     * @param string $username The users system name
-     * @param string $passwd   The users password
+     * @param string $username The users system name.
+     * @param string $passwd   The users password.
      *
      * @return mixed true id data saved okay. WEBTEMPLATE:Error if error encountered
      * @access public
      */
-    final public function updatePasswd($username, $passwd)
+    final public function updatePasswd(string $username, string $passwd)
     {
 
         // Set local Flags
@@ -614,15 +617,18 @@ class EditUser
      * This function validated the user data.
      *
      * @param array   $inputArray Pointer to an Array containing the user
-     *                            data to be validated
+     *                            data to be validated.
      * @param array   $params     The user field of parameters array.
-     * @param boolean $prefsOnly  True when checking user preferences only
+     * @param boolean $prefsOnly  True when checking user preferences only.
      *
      * @return array Validated user data. msg element contains any error message
      * @access public
      */
-    final public function validateUserData(&$inputArray, $params, $prefsOnly = false)
-    {
+    final public function validateUserData(
+        array &$inputArray,
+        array $params,
+        bool $prefsOnly = false
+    ) {
 
         $data = array();
         $data['msg'] = '';
@@ -634,7 +640,7 @@ class EditUser
         }
 
         if (isset($inputArray['userenabled'])) {
-            $data['enabled']= 'Y';
+            $data['enabled'] = 'Y';
         } else {
             $data['enabled'] = 'N';
         }
@@ -655,12 +661,12 @@ class EditUser
 
         $this->validateUserPasswd($data, $inputArray, $params, $prefsOnly);
 
-        $resultArray[] = array("userid" =>$data['userId'],
-                               "username" =>$data['userName'],
-                               "realname" =>$data['realName'],
-                               "useremail" =>$data['userMail'],
+        $resultArray[] = array("userid" => $data['userId'],
+                               "username" => $data['userName'],
+                               "realname" => $data['realName'],
+                               "useremail" => $data['userMail'],
                                "userenabled" => $data['enabled'],
-                               "userdisablemail" =>$data['disableMail'],
+                               "userdisablemail" => $data['disableMail'],
                                "passwd" => $data['passwd'],
                                "passwdchange" => $data['passwdchange'],
                                "lastseendate" => '',
@@ -674,16 +680,19 @@ class EditUser
     /**
      * This function validated the user id
      *
-     * @param array   $data       An array containing the validated input data
-     * @param array   $inputArray The array containing the unvalidated user data
-     * @param boolean $prefsOnly  True when checking user preferences only
+     * @param array   $data       An array containing the validated input data.
+     * @param array   $inputArray The array containing the unvalidated user data.
+     * @param boolean $prefsOnly  True when checking user preferences only.
      *
      * @return boolean True if the data validated false otherwise.
      *
      * @access private
      */
-    private function validateUserId(&$data, &$inputArray, $prefsOnly)
-    {
+    private function validateUserId(
+        array &$data,
+        array &$inputArray,
+        bool $prefsOnly
+    ) {
         $userDataOk = true;
 
         if (isset($inputArray['userid'])) {
@@ -705,17 +714,21 @@ class EditUser
     /**
      * This function validated the username
      *
-     * @param array   $data       An array containing the validated input data
-     * @param array   $inputArray The array containing the unvalidated user data
-     * @param array   $params     The User element of the $parameters array
-     * @param boolean $prefsOnly  True when checking user preferences only
+     * @param array   $data       An array containing the validated input data.
+     * @param array   $inputArray The array containing the unvalidated user data.
+     * @param array   $params     The User element of the $parameters array.
+     * @param boolean $prefsOnly  True when checking user preferences only.
      *
      * @return boolean True if the data validated false otherwise.
      *
      * @access private
      */
-    private function validateUserName(&$data, &$inputArray, $params, $prefsOnly)
-    {
+    private function validateUserName(
+        array &$data,
+        array &$inputArray,
+        array $params,
+        bool $prefsOnly
+    ) {
         $userDataOk = true;
 
         if (isset($inputArray['username'])) {
@@ -740,16 +753,19 @@ class EditUser
     /**
      * This function validated the users realname
      *
-     * @param array   $data       An array containing the validated input data
-     * @param array   $inputArray The array containing the unvalidated user data
-     * @param boolean $prefsOnly  True when checking user preferences only
+     * @param array   $data       An array containing the validated input data.
+     * @param array   $inputArray The array containing the unvalidated user data.
+     * @param boolean $prefsOnly  True when checking user preferences only.
      *
      * @return boolean True if the data validated false otherwise.
      *
      * @access private
      */
-    private function validateUserRealName(&$data, &$inputArray, $prefsOnly)
-    {
+    private function validateUserRealName(
+        array &$data,
+        array &$inputArray,
+        bool $prefsOnly
+    ) {
 
         $userDataOk = true;
 
@@ -771,16 +787,19 @@ class EditUser
     /**
      * This function validated the users email address
      *
-     * @param array   $data       An array containing the validated input data
-     * @param array   $inputArray The array containing the unvalidated user data
-     * @param boolean $prefsOnly  True when checking user preferences only
+     * @param array   $data       An array containing the validated input data.
+     * @param array   $inputArray The array containing the unvalidated user data.
+     * @param boolean $prefsOnly  True when checking user preferences only.
      *
      * @return boolean True if the data validated false otherwise.
      *
      * @access private
      */
-    private function validateUseremail(&$data, &$inputArray, $prefsOnly)
-    {
+    private function validateUseremail(
+        array &$data,
+        array &$inputArray,
+        bool $prefsOnly
+    ) {
         $userDataOk = true;
 
         if (isset($inputArray['useremail'])) {
@@ -800,17 +819,21 @@ class EditUser
     /**
      * This function validated the users password
      *
-     * @param array   $data       An array containing the validated input data
-     * @param array   $inputArray The array containing the unvalidated user data
-     * @param array   $params     The User element of the $parameters array
-     * @param boolean $prefsOnly  True when checking user preferences only
+     * @param array   $data       An array containing the validated input data.
+     * @param array   $inputArray The array containing the unvalidated user data.
+     * @param array   $params     The User element of the $parameters array.
+     * @param boolean $prefsOnly  True when checking user preferences only.
      *
      * @return boolean True if the data validated false otherwise.
      *
      * @access private
      */
-    private function validateUserPasswd(&$data, &$inputArray, $params, $prefsOnly)
-    {
+    private function validateUserPasswd(
+        array &$data,
+        array &$inputArray,
+        array $params,
+        bool $prefsOnly
+    ) {
         $userDataOk = true;
 
         if (isset($inputArray['passwd'])) {
@@ -864,28 +887,28 @@ class EditUser
     /**
      * This function is the interface which updates/creates the user in the database
      *
-     * @param integer $userId           Pointer to the Id of the selected user
-     * @param string  $username         The users system name
-     * @param string  $realname         The users realname
-     * @param string  $usermail         The users e-mail address
-     * @param string  $encryptPasswd    The users encrypted password
-     * @param string  $userdisablemail  Set to Y if user does not want e-mail alerts
-     * @param string  $enabled          Set to Y to enable user
+     * @param integer $userId           Pointer to the Id of the selected user.
+     * @param string  $username         The users system name.
+     * @param string  $realname         The users realname.
+     * @param string  $usermail         The users e-mail address.
+     * @param string  $encryptPasswd    The users encrypted password.
+     * @param string  $userdisablemail  Set to Y if user does not want e-mail alerts.
+     * @param string  $enabled          Set to Y to enable user.
      * @param string  $passwdChangeText Date of last password change Null means
-     *                                   a password change has been forced
+     *                                   a password change has been forced.
      *
      * @return mixed true if data saved okay or WEBTEMPLATE error type
      * @access private
      */
     final private function insertUser(
-        &$userId,
-        $username,
-        $realname,
-        $usermail,
-        $encryptPasswd,
-        $userdisablemail,
-        $enabled,
-        $passwdChangeText
+        int &$userId,
+        string $username,
+        string $realname,
+        string $usermail,
+        string $encryptPasswd,
+        string $userdisablemail,
+        string $enabled,
+        string $passwdChangeText
     ) {
         $saveok = true;
 
@@ -928,28 +951,28 @@ class EditUser
     /**
      * This function is the interface which updates/creates the user in the database
      *
-     * @param integer $userId           Pointer to the Id of the selected user
-     * @param string  $username         The users system name
-     * @param string  $realname         The users realname
-     * @param string  $usermail         The users e-mail address
-     * @param string  $encryptPasswd    The users encrypted password
-     * @param string  $userdisablemail  Set to Y if user does not want e-mail alerts
-     * @param string  $enabled          Set to Y to enable user
+     * @param integer $userId           Pointer to the Id of the selected user.
+     * @param string  $username         The users system name.
+     * @param string  $realname         The users realname.
+     * @param string  $usermail         The users e-mail address.
+     * @param string  $encryptPasswd    The users encrypted password.
+     * @param string  $userdisablemail  Set to Y if user does not want e-mail alerts.
+     * @param string  $enabled          Set to Y to enable user.
      * @param string  $passwdChangeText Date of last password change Null means
-     *                                  a password change has been forced
+     *                                  a password change has been forced.
      *
      * @return mixed true if data saved okay or WEBTEMPLATE error type
      * @access private
      */
     final private function updateUser(
-        &$userId,
-        $username,
-        $realname,
-        $usermail,
-        $encryptPasswd,
-        $userdisablemail,
-        $enabled,
-        $passwdChangeText
+        int &$userId,
+        string $username,
+        string $realname,
+        string $usermail,
+        string $encryptPasswd,
+        string $userdisablemail,
+        string $enabled,
+        string $passwdChangeText
     ) {
         $saveok = true;
 
@@ -973,7 +996,6 @@ class EditUser
 
         if ($saveok) {
             return true;
-            ;
         } else {
             return \webtemplate\general\General::raiseError($errorMsg, 1);
         }

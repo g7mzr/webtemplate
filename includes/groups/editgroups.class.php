@@ -2,23 +2,23 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Admin Parameters
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\groups;
 
 /**
- * Webtemplate Group Class
+ * Webtemplate Edit Group Class
  *
- * @category Webtemplate
- * @package  Groups
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
-
 class EditGroups
 {
     /**
@@ -59,11 +59,11 @@ class EditGroups
     /**
      * Constructor
      *
-     * @param array $db MDB2 Database Object
+     * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db Database Object.
      *
      * @access public
      */
-    public function __construct($db)
+    public function __construct(\webtemplate\db\driver\InterfaceDatabaseDriver $db)
     {
         $this->db = $db;
 
@@ -102,12 +102,12 @@ class EditGroups
      /**
      * This function returns information on a single group
      *
-     * @param integer $groupId Interger containing Group ID No
+     * @param integer $groupId Integer containing Group ID No.
      *
      * @return array Group data if search is ok or webtemplate error type
      * @access public
      */
-    final public function getSingleGroup($groupId)
+    final public function getSingleGroup(int $groupId)
     {
 
         // Initalise local variables
@@ -126,12 +126,12 @@ class EditGroups
         $gao = $this->db->dbselectsingle('groups', $fieldNames, $searchdata);
 
         if (!\webtemplate\general\General::isError($gao)) {
-            $gData[] = array("groupid" =>$gao['group_id'],
-                             "groupname" =>$gao['group_name'],
-                             "description" =>$gao['group_description'],
-                             "useforproduct" =>$gao['group_useforproduct'],
-                             "autogroup" =>$gao["group_autogroup"],
-                             "editable" =>$gao['group_editable']);
+            $gData[] = array("groupid" => $gao['group_id'],
+                             "groupname" => $gao['group_name'],
+                             "description" => $gao['group_description'],
+                             "useforproduct" => $gao['group_useforproduct'],
+                             "autogroup" => $gao["group_autogroup"],
+                             "editable" => $gao['group_editable']);
             $gotdataok = true;
         } else {
             $err = $gao;
@@ -147,17 +147,22 @@ class EditGroups
      * This function checks if a group is updated.  If it is it saves their
      * Change string in the class dataChanged variable and returns true.
      *
-     * @param integer $gid      Integer containing Group ID No
-     * @param string  $gname    Name of Group
-     * @param string  $gdesc    Description od group
-     * @param string  $gproduct Group can be used Product access control
-     * @param string  $gauto    Automatic Group Membership Control
+     * @param integer $gid      Integer containing Group ID No.
+     * @param string  $gname    Name of Group.
+     * @param string  $gdesc    Description od group.
+     * @param string  $gproduct Group can be used Product access control.
+     * @param string  $gauto    Automatic Group Membership Control.
      *
      * @return boolean true if search is ok or webtemplate error type
      * @access public
      */
-    final public function groupDataChanged($gid, $gname, $gdesc, $gproduct, $gauto)
-    {
+    final public function groupDataChanged(
+        int $gid,
+        string $gname,
+        string $gdesc,
+        string $gproduct,
+        string $gauto
+    ) {
 
         // Initialise Local Variables
         $searchok = false;
@@ -204,21 +209,25 @@ class EditGroups
         }
     }
 
-
     /**
      * Function to create the change string for an edited group
      *
-     * @param string $gname    Name of Group
-     * @param string $gdesc    Description od group
-     * @param string $gproduct Group can be used Product access control
-     * @param string $gauto    Automatic Group Membership Control
-     * @param array  $gao      Existing group data
+     * @param string $gname    Name of Group.
+     * @param string $gdesc    Description od group.
+     * @param string $gproduct Group can be used Product access control.
+     * @param string $gauto    Automatic Group Membership Control.
+     * @param array  $gao      Existing group data.
      *
      * @return boolean true if group data hase changed false otherwise
      * @access private
      */
-    private function groupChangeString($gname, $gdesc, $gproduct, $gauto, $gao)
-    {
+    private function groupChangeString(
+        string $gname,
+        string $gdesc,
+        string $gproduct,
+        string $gauto,
+        array $gao
+    ) {
         $groupdatachanged = false;
 
         // Check if the name has changed.
@@ -232,21 +241,21 @@ class EditGroups
         // If is has update the change string
         $grpdesc = chop($gao['group_description']);
         if (strcmp($grpdesc, chop($gdesc)) != 0) {
-            $this->dataChanged .= gettext("Group Description Changed") ."\n";
+            $this->dataChanged .= gettext("Group Description Changed") . "\n";
             $groupdatachanged = true;
         }
 
         // Check if the useforproduct has changed.
         // If is has update the change string
         if ($gao['group_useforproduct'] != $gproduct) {
-            $this->dataChanged .= gettext("Group Use For Product Changed") ."\n";
+            $this->dataChanged .= gettext("Group Use For Product Changed") . "\n";
             $groupdatachanged = true;
         }
 
         // Check if the autogroup has changed.
         // If is has update the change string
         if ($gao['group_autogroup'] != $gauto) {
-            $this->dataChanged .= gettext("Group Auto Membership Changed") ."\n";
+            $this->dataChanged .= gettext("Group Auto Membership Changed") . "\n";
             $groupdatachanged = true;
         }
 
@@ -267,23 +276,23 @@ class EditGroups
     /**
      * This function saves the new group data in the database.
      *
-     * @param integer $gid       Pointer to Group ID No
-     * @param string  $gname     Name of Group
-     * @param string  $gdesc     Description od group
-     * @param string  $gproduct  Group can be used Product access control
-     * @param string  $gauto     Automatic Group Membership Control
-     * @param string  $geditable User can edit the group. (N for a System Group)
+     * @param integer $gid       Group ID No.
+     * @param string  $gname     Name of Group.
+     * @param string  $gdesc     Description of group.
+     * @param string  $gproduct  Group can be used Product access control.
+     * @param string  $gauto     Automatic Group Membership Control.
+     * @param string  $geditable User can edit the group. (N for a System Group).
      *
      * @return boolean true if search is ok or webtemplate error type
      * @access public
      */
     final public function saveGroup(
-        &$gid,
-        $gname,
-        $gdesc,
-        $gproduct,
-        $gauto,
-        $geditable = 'Y'
+        int &$gid,
+        string $gname,
+        string $gdesc,
+        string $gproduct,
+        string $gauto,
+        string $geditable = 'Y'
     ) {
 
         $saveok = true;
@@ -340,25 +349,24 @@ class EditGroups
         }
     }
 
-
     /**
      * This function deletes group data from the database.
      *
-     * @param integer $groupId Integer to Group ID No
-     * @param boolean $sysgrp  Set true to enable deletion of system group
+     * @param integer $groupId Integer to Group ID No.
+     * @param boolean $sysgrp  Set true to enable deletion of system group.
      *
      * @return boolean true if search is ok or webtemplate error type
      * @access public
      */
-    final public function deleteGroup($groupId, $sysgrp = false)
+    final public function deleteGroup(int $groupId, bool $sysgrp = false)
     {
 
         // Initialise Local Variable
         $deleteok = true;
         if ($sysgrp == true) {
-            $searchdata = array('group_id'=> $groupId);
+            $searchdata = array('group_id' => $groupId);
         } else {
-            $searchdata = array('group_id'=> $groupId, 'group_editable' => 'Y');
+            $searchdata = array('group_id' => $groupId, 'group_editable' => 'Y');
         }
         $result = $this->db->dbdelete('groups', $searchdata);
         if (\webtemplate\general\General::isError($result)) {
@@ -373,17 +381,16 @@ class EditGroups
         }
     }
 
-
     /**
      * This function checks if a group exits the database.
      * It returns TRUE if the group exits or false if the group does not exist.
      *
-     * @param string $groupname string containing the group name
+     * @param string $groupname String containing the group name.
      *
      * @return boolean true if group exists, false if not or webtemplate error type
      * @access public
      */
-    final public function checkGroupExists($groupname)
+    final public function checkGroupExists(string $groupname)
     {
 
         // Initalise local variables
@@ -420,16 +427,15 @@ class EditGroups
         }
     }
 
-
      /**
      * This function validated the group data.
      *
-     * @param array $inputArray Array containing the user data to be validated
+     * @param array $inputArray Array containing the user data to be validated.
      *
      * @return array Validated user data.
      * @access public
      */
-    final public function validateGroupData(&$inputArray)
+    final public function validateGroupData(array &$inputArray)
     {
 
         // Initalise Local Variables
@@ -495,12 +501,12 @@ class EditGroups
      * This function gets the groupid from a name
      * It returns the groupid if the group exist or an error.
      *
-     * @param string $groupname string containing the group name
+     * @param string $groupname String containing the group name.
      *
      * @return integer The group ID or a webtemplate error type
      * @access public
      */
-    final public function getGroupid($groupname)
+    final public function getGroupid(string $groupname)
     {
 
         // Initalise the search

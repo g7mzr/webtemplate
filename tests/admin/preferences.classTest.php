@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
@@ -17,17 +23,13 @@ require_once __DIR__ . '/../../includes/global.php';
 /**
  * Preferences Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class PreferencesTest extends TestCase
 {
     /**
      * Preference Class Object
      *
-     * @var PreferencesClass
+     * @var \webtemplate\admin\Preferences
      */
 
     protected $object;
@@ -42,9 +44,9 @@ class PreferencesTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
 
         // Create configuration Object
@@ -66,11 +68,11 @@ class PreferencesTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
-        $configDir = dirname(dirname(__FILE__)) ."/_data";
+        $configDir = dirname(dirname(__FILE__)) . "/_data";
         $filename = $configDir . '/preferences.php';
         //if (file_exists($filename)) {
         //    unlink($filename);
@@ -84,7 +86,7 @@ class PreferencesTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testGetLastMsg()
     {
@@ -98,22 +100,22 @@ class PreferencesTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testLoadThemes()
     {
-        $rootDir = dirname(dirname(__FILE__)) ."/_data";
-        $result= $this->object->loadThemes($rootDir);
+        $rootDir = dirname(dirname(__FILE__)) . "/_data";
+        $result = $this->object->loadThemes($rootDir);
         $this->assertTrue($result);
 
-        $rootDir = dirname(dirname(__FILE__)) ."/_data/stylefail";
-        $result= $this->object->loadThemes($rootDir);
+        $rootDir = dirname(dirname(__FILE__)) . "/_data/stylefail";
+        $result = $this->object->loadThemes($rootDir);
         $this->assertFalse($result);
         $localStr = $this->object->getLastMsg();
         $this->assertEquals('No Theme have been installed', $localStr);
 
-        $rootDir = dirname(dirname(__FILE__)) ."/_data/stylefail/style";
-        $result= $this->object->loadThemes($rootDir);
+        $rootDir = dirname(dirname(__FILE__)) . "/_data/stylefail/style";
+        $result = $this->object->loadThemes($rootDir);
         $this->assertFalse($result);
         $localStr = $this->object->getLastMsg();
         $this->assertEquals('Unable to Open Style Directory', $localStr);
@@ -125,17 +127,17 @@ class PreferencesTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testSetDefaultThemes()
     {
-        $rootDir = dirname(dirname(__FILE__)) ."/_data";
+        $rootDir = dirname(dirname(__FILE__)) . "/_data";
         $result = $this->object->loadThemes($rootDir);
         if ($result == true) {
             $result = $this->object->setDefaultThemes();
             $this->assertTrue($result);
         } else {
-            $this->fail("Unable to load themes: ". $this->object->GetLastMsg());
+            $this->fail("Unable to load themes: " . $this->object->GetLastMsg());
         }
     }
 
@@ -148,13 +150,13 @@ class PreferencesTest extends TestCase
      * @depends testLoadThemes
      * @depends testSetDefaultThemes
      *
-     * @return null
+     * @return void
      */
     public function testGetThemes()
     {
         $duskFound = false;
-        $rootDir = dirname(dirname(__FILE__)) ."/_data";
-        $result= $this->object->loadThemes($rootDir);
+        $rootDir = dirname(dirname(__FILE__)) . "/_data";
+        $result = $this->object->loadThemes($rootDir);
         if ($result == true) {
             $result = $this->object->setDefaultThemes();
             if ($result == true) {
@@ -166,10 +168,10 @@ class PreferencesTest extends TestCase
                 }
                 $this->assertTrue($duskFound);
             } else {
-                $this->fail("Unable to load themes: ". $this->object->GetLastMsg());
+                $this->fail("Unable to load themes: " . $this->object->GetLastMsg());
             }
         } else {
-            $this->fail("Error: ". $this->object->GetLastMsg());
+            $this->fail("Error: " . $this->object->GetLastMsg());
         }
     }
 
@@ -180,7 +182,7 @@ class PreferencesTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testGetCurrentPreferences()
     {
@@ -201,11 +203,11 @@ class PreferencesTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testvalidatePreferences()
     {
-        $rootDir = dirname(dirname(__FILE__)) ."/_data";
+        $rootDir = dirname(dirname(__FILE__)) . "/_data";
         // At present on the theme can cause a failure.
         // Other inputs have non validation default values
         $inputArray['theme'] = 'Dusk';
@@ -214,7 +216,7 @@ class PreferencesTest extends TestCase
         $inputArray['zoom_textareas_enabled'] = 'on';
         $inputArray['display_rows'] = '2';
         $inputArray['display_rows_enabled'] = 'on';
-        $result= $this->object->loadThemes($rootDir);
+        $result = $this->object->loadThemes($rootDir);
         if ($result == true) {
             $result = $this->object->validatePreferences($inputArray);
             $this->assertTrue($result);
@@ -237,12 +239,12 @@ class PreferencesTest extends TestCase
      * @depends testLoadThemes
      * @depends testvalidatePreferences
      *
-     * @return null
+     * @return void
      */
     public function testSavePrefFile()
     {
         // Test using Default Data
-        $configDir = dirname(__FILE__) ."/../_data";
+        $configDir = dirname(__FILE__) . "/../_data";
         $filesaved = $this->object->savePrefFile($configDir);
         $this->assertTrue($filesaved);
         $filename = $configDir . '/preferences.json';
@@ -252,9 +254,9 @@ class PreferencesTest extends TestCase
         $this->assertFileEquals($expectedfilename, $filename);
 
         // test Using NEw Data
-        $rootDir = dirname(dirname(__FILE__)) ."/_data";
+        $rootDir = dirname(dirname(__FILE__)) . "/_data";
         $inputArray['theme'] = 'Dusk';
-        $result= $this->object->loadThemes($rootDir);
+        $result = $this->object->loadThemes($rootDir);
         if ($result == true) {
             $result = $this->object->validatePreferences($inputArray);
             if ($result == true) {
@@ -268,7 +270,7 @@ class PreferencesTest extends TestCase
         }
 
         // Faile to save
-        $configDir = dirname(__FILE__) ."/../data";
+        $configDir = dirname(__FILE__) . "/../data";
         $filesaved = $this->object->savePrefFile($configDir);
         $this->assertFalse($filesaved);
     }
@@ -280,7 +282,7 @@ class PreferencesTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testcheckPreferencesChanged()
     {
@@ -309,7 +311,7 @@ class PreferencesTest extends TestCase
         $result = $this->object->checkPreferencesChanged();
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains('Theme Updated', $localStr);
+        $this->assertStringContainsString('Theme Updated', $localStr);
 
 
         // Theme Enabled Changed
@@ -323,7 +325,7 @@ class PreferencesTest extends TestCase
         $result = $this->object->checkPreferencesChanged();
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains('Theme Enabled Updated', $localStr);
+        $this->assertStringContainsString('Theme Enabled Updated', $localStr);
 
 
 
@@ -338,7 +340,7 @@ class PreferencesTest extends TestCase
         $result = $this->object->checkPreferencesChanged();
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains('Zoom Text Areas Updated', $localStr);
+        $this->assertStringContainsString('Zoom Text Areas Updated', $localStr);
 
 
         //Zoom Text Enabled Changed
@@ -352,7 +354,7 @@ class PreferencesTest extends TestCase
         $result = $this->object->checkPreferencesChanged();
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains('Zoom Text Areas Enabled Updated', $localStr);
+        $this->assertStringContainsString('Zoom Text Areas Enabled Updated', $localStr);
 
 
         // Display rows changed
@@ -366,7 +368,7 @@ class PreferencesTest extends TestCase
         $result = $this->object->checkPreferencesChanged();
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains('Display Rows Updated', $localStr);
+        $this->assertStringContainsString('Display Rows Updated', $localStr);
 
 
 
@@ -381,6 +383,6 @@ class PreferencesTest extends TestCase
         $result = $this->object->checkPreferencesChanged();
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains('Display Rows Enabled Updated', $localStr);
+        $this->assertStringContainsString('Display Rows Enabled Updated', $localStr);
     }
 }

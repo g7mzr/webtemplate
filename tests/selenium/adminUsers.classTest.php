@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage SELENIUM Functional Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace Facebook\WebDriver;
 
 use PHPUnit\Framework\TestCase;
@@ -15,18 +21,12 @@ use PHPUnit\Framework\TestCase;
 require_once "constants.php";
 
 // Include the Test Database Connection details
-require_once dirname(__FILE__) .'/../_data/database.php';
-
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 /**
  * Users Admin Functional Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
 class AdminUsersTest extends TestCase
 {
 
@@ -50,9 +50,9 @@ class AdminUsersTest extends TestCase
      * BROWSER: The Web browser to be used for the tests
      * URL: The Web location of the test site.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
 
         // Load the Webdriver from constants.php
@@ -63,9 +63,11 @@ class AdminUsersTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @throws \Exception If unable to connect to remote database.
+     *
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         global $testdsn, $options;
         if ($this->deleteSeleniumUser == true) {
@@ -137,7 +139,7 @@ class AdminUsersTest extends TestCase
      * @group selenium
      * @group users
      *
-     * @return null No return data
+     * @return void
      */
     public function testSearchUsersPage()
     {
@@ -193,7 +195,7 @@ class AdminUsersTest extends TestCase
      *
      * @depends testSearchUsersPage
      *
-     * @return null No return data
+     * @return void
      */
     public function testSearchUsers()
     {
@@ -261,7 +263,7 @@ class AdminUsersTest extends TestCase
         );
         $main_body = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'));
-        $this->assertNotContains('/admin/', $main_body->getText());
+        $this->assertStringNotContainsString('/admin/', $main_body->getText());
         $this->assertRegExp('/phpunit/', $main_body->getText());
         $this->assertRegExp('/1 users found/', $main_body->getText());
         $this->webDriver
@@ -286,7 +288,7 @@ class AdminUsersTest extends TestCase
         );
         $main_body = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'));
-        $this->assertNotContains('/admin/', $main_body->getText());
+        $this->assertStringNotContainsString('/admin/', $main_body->getText());
         $this->assertRegExp('/phpunit/', $main_body->getText());
         $this->assertRegExp('/1 users found/', $main_body->getText());
         $this->webDriver
@@ -311,7 +313,7 @@ class AdminUsersTest extends TestCase
         );
         $main_body = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'));
-        $this->assertNotContains('/admin/', $main_body->getText());
+        $this->assertStringNotContainsString('/admin/', $main_body->getText());
         $this->assertRegExp('/phpunit/', $main_body->getText());
         $this->assertRegExp('/1 users found/', $main_body->getText());
         $this->webDriver
@@ -332,7 +334,7 @@ class AdminUsersTest extends TestCase
      * @depends testSearchUsersPage
      * @depends testSearchUsers
      *
-     * @return null No return data
+     * @return void
      */
     public function testSearchInvalidUser()
     {
@@ -394,7 +396,7 @@ class AdminUsersTest extends TestCase
      * @depends testSearchUsersPage
      * @depends testSearchUsers
      *
-     * @return null No return data
+     * @return void
      */
     public function testAddUser()
     {
@@ -499,7 +501,7 @@ class AdminUsersTest extends TestCase
      * @depends testSearchUsers
      * @depends testAddUser
      *
-     * @return null No return data
+     * @return void
      */
     public function testAddDuplicateUser()
     {
@@ -581,7 +583,7 @@ class AdminUsersTest extends TestCase
      * @depends testSearchUsers
      * @depends testAddUser
      *
-     * @return null No return data
+     * @return void
      */
     public function testDisableUser()
     {
@@ -730,7 +732,7 @@ class AdminUsersTest extends TestCase
      * @depends testSearchUsers
      * @depends testAddUser
      *
-     * @return null No return data
+     * @return void
      */
     public function testEditRealName()
     {
@@ -870,7 +872,7 @@ class AdminUsersTest extends TestCase
      * @depends testSearchUsers
      * @depends testAddUser
      *
-     * @return null No return data
+     * @return void
      */
     public function testEditEMail()
     {
@@ -996,7 +998,7 @@ class AdminUsersTest extends TestCase
      * @depends testSearchUsers
      * @depends testAddUser
      *
-     * @return null No return data
+     * @return void
      */
     public function testDisableUsersEmail()
     {
@@ -1096,7 +1098,7 @@ class AdminUsersTest extends TestCase
      * @depends testSearchUsers
      * @depends testAddUser
      *
-     * @return null No return data
+     * @return void
      */
     public function testAdminGroup()
     {
@@ -1156,7 +1158,7 @@ class AdminUsersTest extends TestCase
         );
 
         // Add the User to the Admin Group
-        $admin= $this->webDriver->findElement(WebDriverBy::name("admin"));
+        $admin = $this->webDriver->findElement(WebDriverBy::name("admin"));
         $this->assertFalse($admin->isSelected());
         $admin->click();
         $this->webDriver->findElement(WebDriverBy::name('save'))->click();
@@ -1221,7 +1223,7 @@ class AdminUsersTest extends TestCase
      * @depends testSearchUsers
      * @depends testAddUser
      *
-     * @return null No return data
+     * @return void
      */
     public function testEditUsersGroup()
     {
@@ -1279,7 +1281,7 @@ class AdminUsersTest extends TestCase
         );
 
         // Add the User to the Admin Group
-        $editusers= $this->webDriver->findElement(WebDriverBy::name("editusers"));
+        $editusers = $this->webDriver->findElement(WebDriverBy::name("editusers"));
         $this->assertFalse($editusers->isSelected());
         $editusers->click();
         $this->webDriver->findElement(WebDriverBy::name('save'))->click();
@@ -1343,7 +1345,7 @@ class AdminUsersTest extends TestCase
      * @depends testSearchUsers
      * @depends testAddUser
      *
-     * @return null No return data
+     * @return void
      */
     public function testEditGroupsGroup()
     {
@@ -1401,7 +1403,7 @@ class AdminUsersTest extends TestCase
         );
 
         // Add the User to the Edit Group Group
-        $editgroups= $this->webDriver->findElement(WebDriverBy::name("editgroups"));
+        $editgroups = $this->webDriver->findElement(WebDriverBy::name("editgroups"));
         $this->assertFalse($editgroups->isSelected());
         $editgroups->click();
         $this->webDriver->findElement(WebDriverBy::name('save'))->click();
@@ -1473,7 +1475,7 @@ class AdminUsersTest extends TestCase
      * @depends testSearchUsers
      * @depends testAddUser
      *
-     * @return null No return data
+     * @return void
      */
     public function testChangePassword()
     {
@@ -1597,7 +1599,7 @@ class AdminUsersTest extends TestCase
      * @depends testSearchUsers
      * @depends testAddUser
      *
-     * @return null No return data
+     * @return void
      */
     public function testNoChanges()
     {

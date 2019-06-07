@@ -2,33 +2,33 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Install
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\install;
 
 /**
  * DataBase Class is a static class used to setup and update the database
- *
- * @category Webtemplate
- * @package  Install
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
 class DataBase
 {
     /**
      * This function creates or updates the database
      *
-     * @param array   $installConfig Array with info needed to setup the app
-     * @param boolean $unittestdb    True if a test system is to be set up
+     * @param array   $installConfig Array with info needed to setup the app.
+     * @param boolean $unittestdb    True if a test system is to be set up.
      *
      * @return true
      */
-    public function createDatabase($installConfig, $unittestdb)
+    public function createDatabase(array $installConfig, bool $unittestdb)
     {
 
         $installdsn = array(
@@ -132,15 +132,19 @@ class DataBase
      * This function creates the database user.  It terminates the install if it
      * encounters any problems
      *
-     * @param pointer $db         Database class object
-     * @param string  $name       Database User Name
-     * @param string  $passwd     Database Users password
-     * @param boolean $unittestdb True if a test user is being created
+     * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db         Database class object.
+     * @param string                                         $name       Database User Name.
+     * @param string                                         $passwd     Database Users password.
+     * @param boolean                                        $unittestdb True if a test user is being created.
      *
      * @return boolean Always return true
      */
-    private function createDatabaseUser(&$db, $name, $passwd, $unittestdb)
-    {
+    private function createDatabaseUser(
+        \webtemplate\db\driver\InterfaceDatabaseDriver &$db,
+        string $name,
+        string $passwd,
+        bool $unittestdb
+    ) {
         $dbUser = $db->createUser(
             $name,
             $passwd,
@@ -153,6 +157,7 @@ class DataBase
             fwrite(STDERR, "FAILED " . $dbUser->getMessage() . "\n");
             exit(1);
         }
+        return true;
     }
 
 
@@ -161,15 +166,19 @@ class DataBase
      * This function creates the database user.  It terminates the install if it
      * encounters any problems
      *
-     * @param pointer $db         Database class object
-     * @param string  $dbname     Database name
-     * @param string  $name       Database User Name
-     * @param boolean $unittestdb True if a test database is being created
+     * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db         Database class object.
+     * @param string                                         $dbname     Database name.
+     * @param string                                         $name       Database User Name.
+     * @param boolean                                        $unittestdb True if a test database is being created.
      *
      * @return boolean Always return true
      */
-    private function buildDatabase(&$db, $dbname, $name, $unittestdb)
-    {
+    private function buildDatabase(
+        \webtemplate\db\driver\InterfaceDatabaseDriver &$db,
+        string $dbname,
+        string $name,
+        bool $unittestdb
+    ) {
         // Create the blank database owned by the application database user.
         // If $unittestdb is true drop and recreate the test database.
 
@@ -215,13 +224,15 @@ class DataBase
      * This function updates and existing database.  It stops if it encounters
      * a problem
      *
-     * @param pointer $db              Database object
-     * @param pointer $schemaFunctions Schemafunctions class object
+     * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db              Database object.
+     * @param \webtemplate\db\schema\SchemaFunctions         $schemaFunctions Schemafunctions class object.
      *
      * @return boolean Always return true
      */
-    private function updateDatabase(&$db, &$schemaFunctions)
-    {
+    private function updateDatabase(
+        \webtemplate\db\driver\InterfaceDatabaseDriver& $db,
+        \webtemplate\db\schema\SchemaFunctions &$schemaFunctions
+    ) {
 
         // The database exists so check the schema and update if necessary
         $oldschema = $db->getSchema();
@@ -249,13 +260,15 @@ class DataBase
      * This function adds the tables to the new database. It stops if it encounters
      * a problem
      *
-     * @param pointer $schemaFunctions Schemafunctions class object
-     * @param array   $groupNumber     GroupID/Name cross reference
+     * @param \webtemplate\db\schema\SchemaFunctions $schemaFunctions Schemafunctions class object.
+     * @param array                                  $groupNumber     GroupID/Name cross reference.
      *
      * @return boolean Always return true
      */
-    private function createSchema(&$schemaFunctions, &$groupNumber)
-    {
+    private function createSchema(
+        \webtemplate\db\schema\SchemaFunctions &$schemaFunctions,
+        array &$groupNumber
+    ) {
 
         // The database does not exists so create a new one
         $result = $schemaFunctions->newSchema(
@@ -265,19 +278,22 @@ class DataBase
             fwrite(STDERR, "Failed to create database schema\n");
             exit(1);
         }
+        return true;
     }
 
     /**
      * This function adds the groups to the new database. It stops if it encounters
      * a problem
      *
-     * @param pointer $schemaFunctions Schemafunctions class object
-     * @param array   $groupNumber     GroupID/Name cross reference
+     * @param \webtemplate\db\schema\SchemaFunctions $schemaFunctions Schemafunctions class object.
+     * @param array                                  $groupNumber     GroupID/Name cross reference.
      *
      * @return boolean Always return true
      */
-    private function createGroups(&$schemaFunctions, &$groupNumber)
-    {
+    private function createGroups(
+        \webtemplate\db\schema\SchemaFunctions &$schemaFunctions,
+        array &$groupNumber
+    ) {
 
         // Add Default system groups from the groups array in schema.php
         $result = $schemaFunctions->createGroups(
@@ -290,6 +306,7 @@ class DataBase
             fwrite(STDERR, $result->getMessage() . "\n\n");
             exit(1);
         }
+        return true;
     }
 
 
@@ -297,14 +314,17 @@ class DataBase
      * This function adds the groups to the new database. It stops if it encounters
      * a problem
      *
-     * @param pointer $db              Database object
-     * @param pointer $schemaFunctions Schema functions class object
-     * @param array   $groupNumber     GroupID/Name cross reference
+     * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db              Database object.
+     * @param \webtemplate\db\schema\SchemaFunctions         $schemaFunctions Schema functions class object.
+     * @param array                                          $groupNumber     GroupID/Name cross reference.
      *
      * @return boolean Always return true
      */
-    private function updateGroups(&$db, &$schemaFunctions, &$groupNumber)
-    {
+    private function updateGroups(
+        \webtemplate\db\driver\InterfaceDatabaseDriver &$db,
+        \webtemplate\db\schema\SchemaFunctions&$schemaFunctions,
+        array &$groupNumber
+    ) {
 
         $oldschema = $db->getSchema();
         if (\webtemplate\general\General::isError($oldschema)) {
@@ -320,6 +340,7 @@ class DataBase
             fwrite(STDERR, "Error Updating the Groups\n");
             exit(1);
         }
+        return true;
     }
 
 
@@ -327,13 +348,15 @@ class DataBase
      * This function adds the user to the new database. It stops if it encounters
      * a problem
      *
-     * @param pointer $schemaFunctions Schemafunctions class object
-     * @param array   $groupNumber     GroupID/Name cross reference
+     * @param \webtemplate\db\schema\SchemaFunctions $schemaFunctions Schemafunctions class object.
+     * @param array                                  $groupNumber     GroupID/Name cross reference.
      *
      * @return boolean Always return true
      */
-    private function createDatabaseUsers(&$schemaFunctions, &$groupNumber)
-    {
+    private function createDatabaseUsers(
+        \webtemplate\db\schema\SchemaFunctions &$schemaFunctions,
+        array &$groupNumber
+    ) {
         // Create Default User
         $result = $schemaFunctions->createUsers(
             \webtemplate\db\schema\SchemaData::$defaultUsers,
@@ -343,19 +366,22 @@ class DataBase
             fwrite(STDERR, "Error creating main users");
             exit(1);
         }
+        return true;
     }
 
     /**
      * This function sets up the test system  It stops if it encounters
      * a problem
      *
-     * @param pointer $schemaFunctions Schemafunctions class object
-     * @param array   $groupNumber     GroupID/Name cross reference
+     * @param \webtemplate\db\schema\SchemaFunctions $schemaFunctions Schemafunctions class object.
+     * @param array                                  $groupNumber     GroupID/Name cross reference.
      *
      * @return boolean Always return true
      */
-    private function initaliseTestSystem(&$schemaFunctions, &$groupNumber)
-    {
+    private function initaliseTestSystem(
+        \webtemplate\db\schema\SchemaFunctions &$schemaFunctions,
+        array &$groupNumber
+    ) {
 
         // Setup the test Groups if required
         $result = $schemaFunctions->createGroups(
@@ -376,6 +402,7 @@ class DataBase
             fwrite(STDERR, "Error creating test users");
             exit(1);
         }
+        return true;
     }
 
 
@@ -383,11 +410,11 @@ class DataBase
      * This function saves the schema to the database.  It stops if it encounters
      * a problem
      *
-     * @param pointer $db Database class object
+     * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db Database class object.
      *
      * @return boolean Always return true
      */
-    private function saveSchema(&$db)
+    private function saveSchema(\webtemplate\db\driver\InterfaceDatabaseDriver &$db)
     {
         $result = $db->saveSchema(
             \webtemplate\db\schema\SchemaData::$schema_version,
@@ -398,5 +425,6 @@ class DataBase
             fwrite(STDERR, "Error Saving the new Schema to the database\n");
             exit(1);
         }
+        return true;
     }
 }

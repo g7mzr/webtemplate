@@ -1,33 +1,23 @@
 <?php
 /**
- * This module is used to create the webtemplate error class
+ * This file is part of Webtemplate.
  *
- * PHP version  5
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
- * LICENSE: This source file is subject to version 2.1 of the GPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html.
+ * @package Webtemplate
+ * @subpackage Application
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
  *
- * @category  Webtemplate
- * @package   General
- * @author    Sandy McNeil <g7mzrdev@gmail.com>
- * @copyright 2012 Sandy McNeil
- * @license   View the license file distributed with this source code
- * @version   SVN: $Id$
- * @link      http://www.g7mzr.demon.co.uk/
  */
+
 namespace webtemplate\application;
 
 /**
  * This module is used to create the webtemplate error class
- *
- * @category Webtemplate
- * @package  General
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
-
-**/
-
+ **/
 class Error
 {
 
@@ -43,16 +33,15 @@ class Error
      */
     protected $errorCode = 0;
 
-
     /**
      * Constructor
      *
-     * @param string  $errorMsg  The error message the exception has thrown
-     * @param integer $errorCode The code of the error
+     * @param string  $errorMsg  The error message the exception has thrown.
+     * @param integer $errorCode The code of the error.
      *
      * @access public
      */
-    public function __construct($errorMsg = null, $errorCode = null)
+    public function __construct(string $errorMsg = '', int $errorCode = 0)
     {
         $this->errorMsg = $errorMsg;
         $this->errorCode = $errorCode;
@@ -68,10 +57,8 @@ class Error
     */
     public function getMessage()
     {
-
         return $this->errorMsg;
     }
-
 
     /**
     * This function returns the error code
@@ -82,7 +69,6 @@ class Error
     */
     public function getCode()
     {
-
         return $this->errorCode;
     }
 }

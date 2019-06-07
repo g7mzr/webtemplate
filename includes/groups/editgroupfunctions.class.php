@@ -2,42 +2,42 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Admin Parameters
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\groups;
 
 /**
  * Global GroupFunctions
- *
- * @category  Admin
- * @package   Edit_Groups
- * @author    Sandy McNeil <g7mzrdev@gmail.com>
- * @copyright 2010 Sandy McNeil
- * @license   View the license file distributed with this source code
  */
-
 class EditGroupFunctions
 {
-
-
     /**
      * The listGroups method
      *
      * This method lists the database groups.
      *
-     * @param \webtemplate\application\SmartTemplate $tpl      Smarty Object
-     * @param \webtemplate\groups\EditGroups         $groups   Edit Group Object
-     * @param string                                 $template Name of template
+     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Object.
+     * @param EditGroups                              $groups   Edit Group Object.
+     * @param string                                  $template Name of template.
      *
-     * @return boolean
+     * @return void
      *
      * @access public
      */
-    public static function listGroups($tpl, $groups, &$template)
-    {
+    public static function listGroups(
+        \webtemplate\application\SmartyTemplate $tpl,
+        EditGroups $groups,
+        string &$template
+    ) {
         // Get the list of current Groups
         $groupArray = $groups->getGroupList();
 
@@ -65,15 +65,17 @@ class EditGroupFunctions
      *
      * This method displays an empty form to create a new group.
      *
-     * @param \webtemplate\application\SmartTemplate $tpl      Smarty Object
-     * @param string                                 $template Name of template
+     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Object.
+     * @param string                                  $template Name of template.
      *
      * @return boolean
      *
      * @access public
      */
-    public static function newGroup($tpl, &$template)
-    {
+    public static function newGroup(
+        \webtemplate\application\SmartyTemplate $tpl,
+        string &$template
+    ) {
         //Set default blank results
         $resultArray[] = array(
             "groupid" => '',
@@ -95,17 +97,21 @@ class EditGroupFunctions
      *
      * This method displays a group for editing.
      *
-     * @param \webtemplate\application\SmartTemplate $tpl      Smarty Object
-     * @param \webtemplate\groups\EditGroups         $groups   Edit Group Object
-     * @param string                                 $template Name of template
-     * @param string                                 $groupId  Group to be edited
+     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Object.
+     * @param EditGroups                              $groups   Edit Group Object.
+     * @param string                                  $template Name of template.
+     * @param string                                  $groupId  Group to be edited.
      *
      * @return boolean
      *
      * @access public
      */
-    public static function editGroup($tpl, $groups, &$template, $groupId)
-    {
+    public static function editGroup(
+        \webtemplate\application\SmartyTemplate $tpl,
+        EditGroups $groups,
+        string &$template,
+        string $groupId
+    ) {
         if (!EditGroupFunctions::getGroupData($tpl, $groups, $template, $groupId)) {
             return false;
         }
@@ -120,17 +126,21 @@ class EditGroupFunctions
      *
      * This method displays the group to be deleted for confirmation
      *
-     * @param \webtemplate\application\SmartTemplate $tpl      Smarty Object
-     * @param \webtemplate\groups\EditGroups         $groups   Edit Group Object
-     * @param string                                 $template Name of template
-     * @param string                                 $groupId  Group to be edited
+     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Object.
+     * @param EditGroups                              $groups   Edit Group Object.
+     * @param string                                  $template Name of template.
+     * @param string                                  $groupId  Group to be edited.
      *
      * @return boolean
      *
      * @access public
      */
-    public static function confirmDeleteGroup($tpl, $groups, &$template, $groupId)
-    {
+    public static function confirmDeleteGroup(
+        \webtemplate\application\SmartyTemplate $tpl,
+        EditGroups $groups,
+        string &$template,
+        string $groupId
+    ) {
         if (!EditGroupFunctions::getGroupData($tpl, $groups, $template, $groupId)) {
             return false;
         }
@@ -139,23 +149,26 @@ class EditGroupFunctions
         return true;
     }
 
-
     /**
      * The deleteGroup method
      *
      * This method deletes the selected group.
      *
-     * @param \webtemplate\application\SmartTemplate $tpl      Smarty Object
-     * @param \webtemplate\groups\EditGroups         $groups   Edit Group Object
-     * @param string                                 $template Name of template
-     * @param string                                 $groupId  Group to be edited
+     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Object.
+     * @param EditGroups                              $groups   Edit Group Object.
+     * @param string                                  $template Name of template.
+     * @param string                                  $groupId  Group to be edited.
      *
      * @return boolean
      *
      * @access public
      */
-    public static function deleteGroup($tpl, $groups, &$template, $groupId)
-    {
+    public static function deleteGroup(
+        \webtemplate\application\SmartyTemplate $tpl,
+        EditGroups $groups,
+        string &$template,
+        string $groupId
+    ) {
         // Check the user has sent a valid group id.
         // For this check it does not matter if the group exists.
         if (\webtemplate\general\LocalValidate::dbid($groupId) === false) {
@@ -201,17 +214,21 @@ class EditGroupFunctions
      *
      * This method saves the selected group.
      *
-     * @param \webtemplate\application\SmartTemplate $tpl      Smarty Object
-     * @param \webtemplate\groups\EditGroups         $groups   Edit Group Object
-     * @param string                                 $template Name of template
-     * @param array                                  $data     Data to be saved
+     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Object.
+     * @param EditGroups                              $groups   Edit Group Object.
+     * @param string                                  $template Name of template.
+     * @param array                                   $data     Data to be saved.
      *
      * @return boolean
      *
      * @access public
      */
-    public static function saveGroup($tpl, $groups, &$template, $data)
-    {
+    public static function saveGroup(
+        \webtemplate\application\SmartyTemplate $tpl,
+        EditGroups $groups,
+        string &$template,
+        array $data
+    ) {
         // Initalise the local variables
         $groupExists = false;
         $groupDataOk = true;
@@ -347,17 +364,21 @@ class EditGroupFunctions
     /**
      * This function covers common code in editGroup and confirm delete
      *
-     * @param \webtemplate\application\SmartTemplate $tpl      Smarty Object
-     * @param \webtemplate\groups\EditGroups         $groups   Edit Group Object
-     * @param string                                 $template Name of template
-     * @param string                                 $groupId  Group to be edited
+     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Object.
+     * @param EditGroups                              $groups   Edit Group Object.
+     * @param string                                  $template Name of template.
+     * @param string                                  $groupId  Group to be edited.
      *
      * @return boolean
      *
      * @access private
      */
-    private static function getGroupData($tpl, $groups, &$template, $groupId)
-    {
+    private static function getGroupData(
+        \webtemplate\application\SmartyTemplate $tpl,
+        EditGroups $groups,
+        string &$template,
+        string $groupId
+    ) {
 
             // Check the user has sent a valid group id.
         // For this check it does not matter if the group exists.

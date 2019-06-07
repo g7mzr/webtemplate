@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage SELENIUM Functional Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace Facebook\WebDriver;
 
 use PHPUnit\Framework\TestCase;
@@ -14,15 +20,9 @@ use PHPUnit\Framework\TestCase;
 require_once "constants.php";
 
 /**
- * Autentication Parameters Functional Tests
+ * Authentication Parameters Functional Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
-
 class AdminParametersAuthenticationTest extends TestCase
 {
 
@@ -38,9 +38,9 @@ class AdminParametersAuthenticationTest extends TestCase
      * BROWSER: The Web browser to be used for the tests
      * URL: The Web location of the test site.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
 
         // Load the Webdriver from constants.php
@@ -50,9 +50,9 @@ class AdminParametersAuthenticationTest extends TestCase
     /**
      * Function to close the Webdriver after each test is complete
      *
-     * @return null no return data
+     * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
 
         $status = $this->getStatus();
@@ -99,7 +99,7 @@ class AdminParametersAuthenticationTest extends TestCase
      * @group selenium
      * @group admin
      *
-     * @return null No return data
+     * @return void
      */
     public function testUserAuthenticationPageContents()
     {
@@ -223,7 +223,7 @@ class AdminParametersAuthenticationTest extends TestCase
      *
      * @depends testUserAuthenticationPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testUserAuthenticationPageNoChanges()
     {
@@ -297,7 +297,7 @@ class AdminParametersAuthenticationTest extends TestCase
      *
      * @depends testUserAuthenticationPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testUserAuthenticationPageCreateAccount()
     {
@@ -307,7 +307,7 @@ class AdminParametersAuthenticationTest extends TestCase
         $this->assertEquals(WEBSITENAME . ': Login', $this->webDriver->getTitle());
         $checkCreateAccount = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'));
-        $this->assertNotContains(
+        $this->assertStringNotContainsString(
             '[New Account]',
             $checkCreateAccount->getText()
         );
@@ -382,7 +382,7 @@ class AdminParametersAuthenticationTest extends TestCase
 
         $checkCreateAccount = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'));
-        $this->assertContains(
+        $this->assertStringContainsString(
             '[New Account]',
             $checkCreateAccount->getText()
         );
@@ -457,7 +457,7 @@ class AdminParametersAuthenticationTest extends TestCase
         // Check the link has been removed
         $checkCreateAccount = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'));
-        $this->assertNotContains(
+        $this->assertStringNotContainsString(
             '[New Account]',
             $checkCreateAccount->getText()
         );
@@ -474,7 +474,7 @@ class AdminParametersAuthenticationTest extends TestCase
      *
      * @depends testUserAuthenticationPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testUserAuthenticationPageNewPassword()
     {
@@ -483,7 +483,7 @@ class AdminParametersAuthenticationTest extends TestCase
         $this->webDriver->get(URL);
         $checkNewPassword = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'));
-        $this->assertNotContains(
+        $this->assertStringNotContainsString(
             '[Forgot Your Password?]',
             $checkNewPassword->getText()
         );
@@ -559,7 +559,7 @@ class AdminParametersAuthenticationTest extends TestCase
 
         $checkNewPassword = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'));
-        $this->assertContains(
+        $this->assertStringContainsString(
             '[Forgot Your Password?]',
             $checkNewPassword->getText()
         );
@@ -633,7 +633,7 @@ class AdminParametersAuthenticationTest extends TestCase
         // Check the link has been removed
         $checkNewPassword = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'));
-        $this->assertNotContains(
+        $this->assertStringNotContainsString(
             '[Forgot Your Password?]',
             $checkNewPassword->getText()
         );
@@ -649,7 +649,7 @@ class AdminParametersAuthenticationTest extends TestCase
      *
      * @depends testUserAuthenticationPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testUserAuthenticationPagePasswordStrength()
     {
@@ -794,7 +794,7 @@ class AdminParametersAuthenticationTest extends TestCase
      *
      * @depends testUserAuthenticationPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testUserAuthenticationPageUserRegExp()
     {
@@ -900,7 +900,7 @@ class AdminParametersAuthenticationTest extends TestCase
      *
      * @depends testUserAuthenticationPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testUserAuthenticationPageRegExDescription()
     {
@@ -1017,7 +1017,7 @@ class AdminParametersAuthenticationTest extends TestCase
      *
      * @depends testUserAuthenticationPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testUserAuthenticationPagePasswordAging()
     {
@@ -1133,7 +1133,7 @@ class AdminParametersAuthenticationTest extends TestCase
      *
      * @depends testUserAuthenticationPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testUserAuthenticationPageAutoComplete()
     {
@@ -1222,7 +1222,7 @@ class AdminParametersAuthenticationTest extends TestCase
      *
      * @depends testUserAuthenticationPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testUserAuthenticationPageAutoLogout()
     {

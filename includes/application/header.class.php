@@ -2,22 +2,23 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Application
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\application;
 
 /**
- * Session Code Class is a static class used to set up PHP Session Variables
+ * Header Class is a static class used to send HTTP Headers to the client.
  *
- * @category Webtemplate
- * @package  General
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
 **/
-
 class Header
 {
     /**
@@ -74,14 +75,14 @@ class Header
     * This function send the redirect HTTP Header
     * is secure.
     *
-    * @param string $url  The URL to be redirected to
-    * @param string $data Any Data to be sent as part of the redirect
+    * @param string $url  The URL to be redirected to.
+    * @param string $data Any Data to be sent as part of the redirect.
     *
     * @return boolean Function run okay
     *
     * @since Method available since Release 1.0.0
     */
-    public static function sendRedirect($url, $data = '')
+    public static function sendRedirect(string $url, string $data = '')
     {
         // Set Local Variables
         $sendRedirect = false;

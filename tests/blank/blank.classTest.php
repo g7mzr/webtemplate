@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
@@ -15,15 +21,11 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../includes/global.php';
 
 // Load the Test Database Configuration File
-require_once dirname(__FILE__) .'/../_data/database.php';
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 /**
  * Blank Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class BlankClassTest extends TestCase
 {
@@ -38,7 +40,7 @@ class BlankClassTest extends TestCase
     /**
      * Mock Database Driver Class
      *
-     * @var Database Connection object
+     * @var \webtemplate\db\DB
      */
     protected $mockDB;
 
@@ -46,9 +48,9 @@ class BlankClassTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp():void
     {
         global $testdsn, $options;
 
@@ -65,9 +67,9 @@ class BlankClassTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown():void
     {
     }
 
@@ -77,7 +79,7 @@ class BlankClassTest extends TestCase
      * @group unittest
      * @group blank
      *
-     * @return null
+     * @return void
      */
     public function testGetChangeString()
     {
@@ -91,7 +93,7 @@ class BlankClassTest extends TestCase
      * @group unittest
      * @group blank
      *
-     * @return null
+     * @return void
      */
     public function testDataChanged()
     {
@@ -107,7 +109,7 @@ class BlankClassTest extends TestCase
      * @group unittest
      * @group blank
      *
-     * @return null
+     * @return void
      */
     public function testFetch()
     {
@@ -123,7 +125,7 @@ class BlankClassTest extends TestCase
      * @group unittest
      * @group blank
      *
-     * @return null
+     * @return void
      */
     public function testDataSaved()
     {
@@ -140,7 +142,7 @@ class BlankClassTest extends TestCase
      * @group unittest
      * @group blank
      *
-     * @return null
+     * @return void
      */
     public function testSearch()
     {
@@ -155,7 +157,7 @@ class BlankClassTest extends TestCase
      * @group unittest
      * @group blank
      *
-     * @return null
+     * @return void
      */
     public function testValidateData()
     {

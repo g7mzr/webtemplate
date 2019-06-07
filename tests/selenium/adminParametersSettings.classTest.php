@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage SELENIUM Functional Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace Facebook\WebDriver;
 
 use PHPUnit\Framework\TestCase;
@@ -16,13 +22,7 @@ require_once "constants.php";
 /**
  * Settings Parameters Functional Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
-
 class AdminParametersSettingsTest extends TestCase
 {
 
@@ -38,9 +38,9 @@ class AdminParametersSettingsTest extends TestCase
      * BROWSER: The Web browser to be used for the tests
      * URL: The Web location of the test site.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
 
         // Load the Webdriver from constants.php
@@ -50,9 +50,9 @@ class AdminParametersSettingsTest extends TestCase
     /**
      * Function to close the Webdriver after each test is complete
      *
-     * @return null no return data
+     * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
 
         $status = $this->getStatus();
@@ -98,7 +98,7 @@ class AdminParametersSettingsTest extends TestCase
      * @group selenium
      * @group admin
      *
-     * @return null No return data
+     * @return void
      */
     public function testRequiredSettingPageContents()
     {
@@ -174,7 +174,7 @@ class AdminParametersSettingsTest extends TestCase
      *
      * @depends testRequiredSettingPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testRequiredSettingNoChanges()
     {
@@ -240,7 +240,7 @@ class AdminParametersSettingsTest extends TestCase
      *
      * @depends testRequiredSettingPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testRequiredSettingURL()
     {
@@ -328,7 +328,7 @@ class AdminParametersSettingsTest extends TestCase
      *
      * @depends testRequiredSettingPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testRequiredSettingMaintainer()
     {
@@ -416,7 +416,7 @@ class AdminParametersSettingsTest extends TestCase
      *
      * @depends testRequiredSettingPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testRequiredSettingDocbase()
     {
@@ -501,7 +501,7 @@ class AdminParametersSettingsTest extends TestCase
      *
      * @depends testRequiredSettingPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testRequiredSettingCookieDomain()
     {
@@ -587,7 +587,7 @@ class AdminParametersSettingsTest extends TestCase
      *
      * @depends testRequiredSettingPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testRequiredSettingCookiePath()
     {
@@ -673,7 +673,7 @@ class AdminParametersSettingsTest extends TestCase
      *
      * @depends testRequiredSettingPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testRequiredSettingPageInvalidDataURL()
     {
@@ -748,7 +748,7 @@ class AdminParametersSettingsTest extends TestCase
      *
      * @depends testRequiredSettingPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testRequiredSettingPageInvalidDataMaintainer()
     {
@@ -825,7 +825,7 @@ class AdminParametersSettingsTest extends TestCase
      *
      * @depends testRequiredSettingPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testRequiredSettingPageInvalidDataDocBase()
     {
@@ -900,7 +900,7 @@ class AdminParametersSettingsTest extends TestCase
      *
      * @depends testRequiredSettingPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testRequiredSettingPageInvalidDataCookieDomain()
     {
@@ -975,7 +975,7 @@ class AdminParametersSettingsTest extends TestCase
      *
      * @depends testRequiredSettingPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testRequiredSettingPageInvalidDataCookiePath()
     {

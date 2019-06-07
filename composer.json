@@ -1,22 +1,14 @@
 {
     "require": {
-        "smarty/smarty": "~3.1",
+        "smarty/smarty": "3.*",
         "phpmailer/phpmailer" :"^6.0",
-        "league/oauth2-google" : "^2.0",
         "ulrichsg/getopt-php" : "^3.0"
     },
 
     "require-dev": {
         "facebook/webdriver": "~1.5",
-        "mikey179/vfsStream": "~1",
-        "squizlabs/php_codesniffer": "2.*",
-        "phpunit/phpunit": "^6",
-        "phpunit/php-invoker": "*",
-        "phploc/phploc": "*",
-        "phpmd/phpmd" : "@stable",
-        "sebastian/phpcpd": "*",
-        "pdepend/pdepend" : "2.5.2",
-        "theseer/phpdox" : "0.11.2",
-        "phpmetrics/phpmetrics": "*"
+        "mikey179/vfsstream": "~1",
+        "squizlabs/php_codesniffer": "3.*",
+        "phpunit/phpunit": "8.*"
     }
 }

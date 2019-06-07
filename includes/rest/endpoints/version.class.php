@@ -2,22 +2,23 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage RestFul Interface
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\rest\endpoints;
 
 /**
- *  WebtemplateAPI example endpoint class
+ *  Webtemplate RestFul API version endpoint class
  *
- * @category Webtemplate
- * @package  API
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
 class Version
 {
      /**
@@ -38,11 +39,11 @@ class Version
     /**
      * Constructor
      *
-     * @param pointer $webtemplate Pointer to Webtemplate Application Class
+     * @param \webtemplate\application\Application $webtemplate Webtemplate Application Class Object.
      *
      * @access public
      */
-    public function __construct(&$webtemplate)
+    public function __construct(\webtemplate\application\Application  &$webtemplate)
     {
         $this->webtemplate = $webtemplate;
     }
@@ -60,16 +61,16 @@ class Version
 
         if ((count($this->args) > 0) or (count($this->requestdata) > 0 )) {
             $dataarr = array(
-                'ErrorMsg'=>'version: Invalid number of arguments',
+                'ErrorMsg' => 'version: Invalid number of arguments',
                 "args" => $this->args,
                 "requestdata" => $this->requestdata
             );
             $code = 400;
         } else {
             $dataarr = array(
-                "name"=>$this->webtemplate->appname(),
-                "Version"=>$this->webtemplate->appversion(),
-                "API"=>$this->webtemplate->apiversion()
+                "name" => $this->webtemplate->appname(),
+                "Version" => $this->webtemplate->appversion(),
+                "API" => $this->webtemplate->apiversion()
             );
 
             if ($this->webtemplate->usergroups()->getAdminAccess()) {

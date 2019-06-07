@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
@@ -15,15 +21,11 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../includes/global.php';
 
 // Load the Test Database Configuration File
-require_once dirname(__FILE__) .'/../_data/database.php';
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 /**
- * Blank Class Unit Tests
+ * Configure Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class ConfigureClassTest extends TestCase
 {
@@ -38,7 +40,7 @@ class ConfigureClassTest extends TestCase
     /**
      * Database Driver Class
      *
-     * @var Database Connection object
+     * @var \webtemplate\db\DB::load
      */
     protected $db;
 
@@ -46,9 +48,9 @@ class ConfigureClassTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         /**
          * Database object is currently not used.  Disable from tests
@@ -69,11 +71,11 @@ class ConfigureClassTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown():void
     {
-        $configDir = dirname(__FILE__) ."/../_data";
+        $configDir = dirname(__FILE__) . "/../_data";
         $filename = $configDir . '/parameters.php';
         if (file_exists($filename)) {
             unlink($filename);
@@ -86,7 +88,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testRead()
     {
@@ -108,7 +110,7 @@ class ConfigureClassTest extends TestCase
         $this->assertEquals("none", $parameters["email"]["smtpdeliverymethod"]);
 
         // Check that we can read the Preferences array
-        $preferences= $this->object->read('pref');
+        $preferences = $this->object->read('pref');
         $this->assertTrue(is_array($preferences));
         $this->assertEquals("Dusk", $preferences['theme']['value']);
 
@@ -145,7 +147,7 @@ class ConfigureClassTest extends TestCase
         } catch (\Throwable $ex) {
             $msg = $ex->getMessage();
         }
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Invalid Argument fail, should be param or pref",
             $msg
         );
@@ -157,7 +159,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testReadPathNotString()
     {
@@ -169,7 +171,7 @@ class ConfigureClassTest extends TestCase
             $msg = $ex->getMessage();
         }
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "should be a dot seperated path",
             $msg
         );
@@ -181,7 +183,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testReadPathTooLong()
     {
@@ -193,7 +195,7 @@ class ConfigureClassTest extends TestCase
             $msg = $ex->getMessage();
         }
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "path must contain less than 5 items",
             $msg
         );
@@ -206,7 +208,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testWriteParameters()
     {
@@ -251,7 +253,7 @@ class ConfigureClassTest extends TestCase
         } catch (\Throwable $ex) {
             $msg = $ex->getMessage();
         }
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Invalid Argument fail, should be param or pref",
             $msg
         );
@@ -263,7 +265,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testWritePreferences()
     {
@@ -305,7 +307,7 @@ class ConfigureClassTest extends TestCase
         } catch (\Throwable $ex) {
             $msg = $ex->getMessage();
         }
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Invalid Argument fail, should be param or pref",
             $msg
         );
@@ -317,7 +319,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testWritePathNotString()
     {
@@ -329,7 +331,7 @@ class ConfigureClassTest extends TestCase
             $msg = $ex->getMessage();
         }
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "should be a dot seperated path",
             $msg
         );
@@ -341,7 +343,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testWritePathTooLong()
     {
@@ -354,7 +356,7 @@ class ConfigureClassTest extends TestCase
             $msg = $ex->getMessage();
         }
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "path must contain less than 5 items",
             $msg
         );
@@ -368,7 +370,7 @@ class ConfigureClassTest extends TestCase
             $msg = $ex->getMessage();
         }
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "path must contain less than 5 items",
             $msg
         );
@@ -380,7 +382,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testCheckParameter()
     {
@@ -403,7 +405,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testCheckPreference()
     {
@@ -426,7 +428,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testDeleteParameter()
     {
@@ -448,7 +450,7 @@ class ConfigureClassTest extends TestCase
         } catch (\Throwable $ex) {
             $msg = $ex->getMessage();
         }
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Invalid Argument fail, should be param or pref",
             $msg
         );
@@ -460,7 +462,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testDeleteParameterArray()
     {
@@ -482,7 +484,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testDeleteParameterPathTooLong()
     {
@@ -495,7 +497,7 @@ class ConfigureClassTest extends TestCase
             $msg = $ex->getMessage();
         }
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "path must contain less than 5 items",
             $msg
         );
@@ -508,7 +510,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testDeleteItemfrom3dimensionalArray()
     {
@@ -537,7 +539,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testDeleteInvalidParameter()
     {
@@ -553,7 +555,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testDeletePreference()
     {
@@ -575,7 +577,7 @@ class ConfigureClassTest extends TestCase
         } catch (\Throwable $ex) {
             $msg = $ex->getMessage();
         }
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Invalid Argument fail, should be param or pref",
             $msg
         );
@@ -587,7 +589,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testDeletePreferenceArray()
     {
@@ -611,7 +613,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testDeletePreferencePathTooLong()
     {
@@ -624,19 +626,19 @@ class ConfigureClassTest extends TestCase
             $msg = $ex->getMessage();
         }
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "path must contain less than 5 items",
             $msg
         );
     }
 
     /**
-     * Test deleteing an Invalid Preference
+     * Test deleting an Invalid Preference
      *
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testDeleteInvalidPref()
     {
@@ -651,7 +653,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testReloadParams()
     {
@@ -674,7 +676,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testReloadPrefs()
     {
@@ -697,7 +699,7 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testSaveParams()
     {
@@ -729,8 +731,8 @@ class ConfigureClassTest extends TestCase
         $this->object->write('param.email.smtpdebug', false);
 
         // SET UP VALID FILE NAMES
-        $configDir = dirname(__FILE__) ."/../_data";
-        $faultyconfigDir = dirname(__FILE__) ."/../data";
+        $configDir = dirname(__FILE__) . "/../_data";
+        $faultyconfigDir = dirname(__FILE__) . "/../data";
         $filename = $configDir . '/parameters.json';
         $expectedfilename = $configDir . '/parameters_test_file.json';
 
@@ -764,13 +766,13 @@ class ConfigureClassTest extends TestCase
      * @group unittest
      * @group config
      *
-     * @return null
+     * @return void
      */
     public function testSavePref()
     {
         // SET UP VALID FILE NAMES
-        $configDir = dirname(__FILE__) ."/../_data";
-        $faultyconfigDir = dirname(__FILE__) ."/../data";
+        $configDir = dirname(__FILE__) . "/../_data";
+        $faultyconfigDir = dirname(__FILE__) . "/../data";
         $filename = $configDir . '/preferences.json';
         $expectedfilename = $configDir . '/preferences_test_file.json';
 

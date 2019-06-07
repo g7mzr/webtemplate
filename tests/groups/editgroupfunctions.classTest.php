@@ -1,4 +1,18 @@
 <?php
+/**
+ * This file is part of Webtemplate.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
+ */
+
 namespace webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
@@ -7,15 +21,11 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../includes/global.php';
 
 // Load the Test Database Configuration File
-require_once __DIR__ .'/../_data/database.php';
+require_once __DIR__ . '/../_data/database.php';
 
 /**
- * Help Class Unit Tests
+ * Edit Group Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class EditGroupFunctionsClassTest extends TestCase
 {
@@ -70,11 +80,11 @@ class EditGroupFunctionsClassTest extends TestCase
     /**
      * This function sets up the variables and objects for the test
      *
-     * @return null No data is returned
+     * @return void
      *
      * @access protected
      */
-    protected function setup()
+    protected function setup(): void
     {
         global $testdsn;
 
@@ -97,9 +107,9 @@ class EditGroupFunctionsClassTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->deleteTestGroup();
         $this->db->disconnect();
@@ -113,7 +123,9 @@ class EditGroupFunctionsClassTest extends TestCase
      * called by both the setup and teardown functions to ensure that test data
      * is not available to cause tests to fail
      *
-     * @return null
+     * @throws \Exception If unable to connect to the remote database.
+     *
+     * @return void
      */
     protected function deleteTestGroup()
     {
@@ -152,7 +164,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testListGroups()
     {
@@ -161,7 +173,7 @@ class EditGroupFunctionsClassTest extends TestCase
             $this->editgroup,
             $this->template
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'groups/list.tpl',
             $this->template
         );
@@ -178,7 +190,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testListGroupsDatabaseError()
     {
@@ -187,7 +199,7 @@ class EditGroupFunctionsClassTest extends TestCase
             $this->mockeditgroup,
             $this->template
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'global/error.tpl',
             $this->template
         );
@@ -208,7 +220,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testNewGroup()
     {
@@ -216,7 +228,7 @@ class EditGroupFunctionsClassTest extends TestCase
             $this->tpl,
             $this->template
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'groups/edit.tpl',
             $this->template
         );
@@ -236,7 +248,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testEditGroup()
     {
@@ -247,7 +259,7 @@ class EditGroupFunctionsClassTest extends TestCase
             "1"
         );
         $this->assertTrue($result);
-        $this->assertContains(
+        $this->assertStringContainsString(
             'groups/edit.tpl',
             $this->template
         );
@@ -267,7 +279,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testEditGroupInvalidGroup()
     {
@@ -289,7 +301,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testEditGroupDoesnotExist()
     {
@@ -310,7 +322,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testEditGroupDatabaseError()
     {
@@ -320,7 +332,7 @@ class EditGroupFunctionsClassTest extends TestCase
             $this->template,
             "1"
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'global/error.tpl',
             $this->template
         );
@@ -341,7 +353,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testConfirmDeleteGroup()
     {
@@ -352,7 +364,7 @@ class EditGroupFunctionsClassTest extends TestCase
             "1"
         );
         $this->assertTrue($result);
-        $this->assertContains(
+        $this->assertStringContainsString(
             'groups/delete.tpl',
             $this->template
         );
@@ -372,7 +384,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testConfirmDeleteGroupInvalidGroup()
     {
@@ -394,7 +406,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testConfirmDeleteGroupDoesnotExist()
     {
@@ -414,7 +426,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testConfirmDeleteGroupDatabaseError()
     {
@@ -424,7 +436,7 @@ class EditGroupFunctionsClassTest extends TestCase
             $this->template,
             "1"
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'global/error.tpl',
             $this->template
         );
@@ -449,7 +461,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testDeleteGroup()
     {
@@ -485,7 +497,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testDeleteGroupInvalidGroup()
     {
@@ -507,7 +519,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testDeleteGroupDoesnotExist()
     {
@@ -528,7 +540,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testDeleteGroupDatabaseError()
     {
@@ -538,7 +550,7 @@ class EditGroupFunctionsClassTest extends TestCase
             $this->template,
             "1"
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'global/error.tpl',
             $this->template
         );
@@ -546,7 +558,7 @@ class EditGroupFunctionsClassTest extends TestCase
             'Database Error',
             $this->tpl->getTemplateVars('HEADERMSG')
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Error encountered when deleting group.',
             $this->tpl->getTemplateVars('ERRORMSG')
         );
@@ -559,7 +571,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testSaveGroup()
     {
@@ -577,7 +589,7 @@ class EditGroupFunctionsClassTest extends TestCase
             $inputdata
         );
         $this->assertTrue($result);
-        $this->assertContains('Created', $this->tpl->getTemplateVars('MSG'));
+        $this->assertStringContainsString('Created', $this->tpl->getTemplateVars('MSG'));
         $groupdata = $this->tpl->getTemplateVars('RESULTS');
         $this->assertNotEquals($inputdata['groupid'], $groupdata[0]['groupid']);
         $this->assertEquals($inputdata['groupname'], $groupdata[0]['groupname']);
@@ -591,7 +603,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testSaveGroupExistingGroup()
     {
@@ -609,7 +621,7 @@ class EditGroupFunctionsClassTest extends TestCase
             $inputdata
         );
         $this->assertFalse($result);
-        $this->assertContains(
+        $this->assertStringContainsString(
             'admin already exists in the database',
             $this->tpl->getTemplateVars('MSG')
         );
@@ -626,7 +638,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testSaveNewGroupDataInvalid()
     {
@@ -644,11 +656,11 @@ class EditGroupFunctionsClassTest extends TestCase
             $inputdata
         );
         $this->assertFalse($result);
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Invalid Group Name',
             $this->tpl->getTemplateVars('MSG')
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Invalid Group Description',
             $this->tpl->getTemplateVars('MSG')
         );
@@ -665,7 +677,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testSaveExistingGroupDataInvalid()
     {
@@ -683,7 +695,7 @@ class EditGroupFunctionsClassTest extends TestCase
             $inputdata
         );
         $this->assertFalse($result);
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Invalid Group Description',
             $this->tpl->getTemplateVars('MSG')
         );
@@ -699,7 +711,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testSaveGroupNoChanges()
     {
@@ -717,7 +729,7 @@ class EditGroupFunctionsClassTest extends TestCase
             $inputdata
         );
         $this->assertTrue($result);
-        $this->assertContains('Created', $this->tpl->getTemplateVars('MSG'));
+        $this->assertStringContainsString('Created', $this->tpl->getTemplateVars('MSG'));
         $groupdata = $this->tpl->getTemplateVars('RESULTS');
         $groupid = $groupdata[0]['groupid'];
         $inputdata['groupid'] = $groupid;
@@ -728,7 +740,7 @@ class EditGroupFunctionsClassTest extends TestCase
             $inputdata
         );
         $this->assertFalse($nochangeresult);
-        $this->assertContains(
+        $this->assertStringContainsString(
             'You have not made any changes',
             $this->tpl->getTemplateVars('MSG')
         );
@@ -742,7 +754,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testSaveGroupDescriptionChanges()
     {
@@ -760,7 +772,7 @@ class EditGroupFunctionsClassTest extends TestCase
             $inputdata
         );
         $this->assertTrue($result);
-        $this->assertContains('Created', $this->tpl->getTemplateVars('MSG'));
+        $this->assertStringContainsString('Created', $this->tpl->getTemplateVars('MSG'));
         $groupdata = $this->tpl->getTemplateVars('RESULTS');
         $groupid = $groupdata[0]['groupid'];
         $inputdata['groupid'] = $groupid;
@@ -772,7 +784,7 @@ class EditGroupFunctionsClassTest extends TestCase
             $inputdata
         );
         $this->assertTrue($changeresult);
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Group Description Changed',
             $this->tpl->getTemplateVars('MSG')
         );
@@ -786,7 +798,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testSaveGroupDatabaseFailGroupExists()
     {
@@ -807,11 +819,11 @@ class EditGroupFunctionsClassTest extends TestCase
         $this->assertEquals('global/error.tpl', $this->template);
         //Check the Page Title
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Database Error",
             $this->tpl->getTemplateVars('HEADERMSG')
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             "An error occured checking if the group exists",
             $this->tpl->getTemplateVars('ERRORMSG')
         );
@@ -826,7 +838,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testSaveGroupDatabaseFailGroupSave()
     {
@@ -871,11 +883,11 @@ class EditGroupFunctionsClassTest extends TestCase
         $this->assertEquals('global/error.tpl', $this->template);
         //Check the Page Title
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Database Error",
             $this->tpl->getTemplateVars('HEADERMSG')
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             "An error occured when saving the group details",
             $this->tpl->getTemplateVars('ERRORMSG')
         );
@@ -889,7 +901,7 @@ class EditGroupFunctionsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testSaveGroupDatabaseFailGroupRetrieve()
     {
@@ -948,11 +960,11 @@ class EditGroupFunctionsClassTest extends TestCase
         $this->assertEquals('global/error.tpl', $this->template);
         //Check the Page Title
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Database Error",
             $this->tpl->getTemplateVars('HEADERMSG')
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             "An error occured retrieving the group details",
             $this->tpl->getTemplateVars('ERRORMSG')
         );

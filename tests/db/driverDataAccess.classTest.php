@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../includes/global.php';
 
 // Include the test Database configuration values
-require_once dirname(__FILE__) .'/../_data/database.php';
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 /**
  * Postgresql Database Driver Class Unit Tests
@@ -40,7 +40,7 @@ class DriverTest extends TestCase
      *
      * @return null No return data
      */
-    protected function setUp()
+    protected function setUp(): void
     {
     }
 
@@ -50,7 +50,7 @@ class DriverTest extends TestCase
      *
      * @return null No return data
      */
-    protected function tearDown()
+    protected function tearDown():void
     {
     }
 
@@ -216,7 +216,7 @@ class DriverTest extends TestCase
         if (!\webtemplate\general\General::isError($db)) {
             $result = $db->getDBVersion();
             $db->disconnect();
-            $this->assertContains($expectedresult, $result);
+            $this->assertStringContainsString($expectedresult, $result);
         } else {
             $this->fail("Error Connecting to the Database");
         }
@@ -238,7 +238,7 @@ class DriverTest extends TestCase
         $db = \webtemplate\db\DB::load($testdsn);
         if (!\webtemplate\general\General::isError($db)) {
             $result = $db->dbinsertid("dummy", "dummy", "dummy", "dummy");
-            $this->assertContains('Error getting record ID', $result->getMessage());
+            $this->assertStringContainsString('Error getting record ID', $result->getMessage());
             $db->disconnect();
         } else {
             $this->fail("Error Connecting to the Database");
@@ -260,7 +260,7 @@ class DriverTest extends TestCase
         $db = \webtemplate\db\DB::load($testdsn);
         if (!\webtemplate\general\General::isError($db)) {
             $result = $db->dbinsert("dummy", array("column" => "test"));
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Error running the Database INSERT Statement',
                 $result->getMessage()
             );

@@ -1,7 +1,8 @@
 #Git Ignore File
 *~
-*.pdf
-*.html
+/pdf/
+/html/
+index.html
 config.php
 local.conf
 parameters.json
@@ -13,3 +14,4 @@ cache.properties
 /nbproject/
 /vendor/
 composer.phar
+.phpunit.result.cache

@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
@@ -15,15 +21,11 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../includes/global.php';
 
 // Load the Test Database Configuration File
-require_once dirname(__FILE__) .'/../_data/database.php';
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 /**
- * Help Class Unit Tests
+ * Edit Groups Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class EditGroupsClassTest extends TestCase
 {
@@ -65,9 +67,9 @@ class EditGroupsClassTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         global $testdsn, $options;
 
@@ -95,9 +97,9 @@ class EditGroupsClassTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown():void
     {
         if ($this->databaseconnection === true) {
             $this->object2->disconnect();
@@ -110,7 +112,7 @@ class EditGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testGetMessage()
     {
@@ -125,7 +127,7 @@ class EditGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testGetGroupList()
     {
@@ -149,7 +151,7 @@ class EditGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testMockGetGroupList()
     {
@@ -167,7 +169,7 @@ class EditGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testGetChangeString()
     {
@@ -182,7 +184,7 @@ class EditGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testGetSingleGroup()
     {
@@ -215,7 +217,7 @@ class EditGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testGroupDataChanged()
     {
@@ -233,7 +235,7 @@ class EditGroupsClassTest extends TestCase
             } else {
                 $this->assertFalse($group);
                 $changestring = $this->object->getChangeString();
-                $this->assertContains('System', $changestring);
+                $this->assertStringContainsString('System', $changestring);
             }
 
             // New Group Test
@@ -249,7 +251,7 @@ class EditGroupsClassTest extends TestCase
             } else {
                 $this->assertTrue($group);
                 $changestring = $this->object->getChangeString();
-                $this->assertContains('New Group', $changestring);
+                $this->assertStringContainsString('New Group', $changestring);
             }
         } else {
             $this->markTestSkipped('No Database Connection Available');
@@ -262,7 +264,7 @@ class EditGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testMockGroupDataChanged()
     {
@@ -337,7 +339,7 @@ class EditGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testSaveGroup()
     {
@@ -378,7 +380,7 @@ class EditGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testMockSaveGroup()
     {
@@ -461,7 +463,7 @@ class EditGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testDeleteGroup()
     {
@@ -486,7 +488,7 @@ class EditGroupsClassTest extends TestCase
                 }
             } else {
                 $msg = "PHPUNIT Group does not exist in the database";
-                $this->fail("Group Delete Test. ". $msg);
+                $this->fail("Group Delete Test. " . $msg);
             }
         } else {
             $this->markTestSkipped('No Database Connection Available');
@@ -499,7 +501,7 @@ class EditGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testCheckGroupExists()
     {
@@ -523,7 +525,7 @@ class EditGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testMockCheckGroupExists()
     {
@@ -562,7 +564,7 @@ class EditGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testValidateGroupData()
     {
@@ -585,7 +587,7 @@ class EditGroupsClassTest extends TestCase
                                "useforproduct" => 'Y',
                                "autogroup" => 'Y');
             $groupdata = $this->object->ValidateGroupData($inputData);
-            $this->assertContains("Invalid Group Id", $groupdata[0]['msg']);
+            $this->assertStringContainsString("Invalid Group Id", $groupdata[0]['msg']);
 
             // Test for A Group Name Fail
             $inputData = array("groupid" => '1',
@@ -594,7 +596,7 @@ class EditGroupsClassTest extends TestCase
                                "useforproduct" => 'Y',
                                "autogroup" => 'Y');
             $groupdata = $this->object->ValidateGroupData($inputData);
-            $this->assertContains("Invalid Group Name", $groupdata[0]['msg']);
+            $this->assertStringContainsString("Invalid Group Name", $groupdata[0]['msg']);
 
              // Test for A Group Description Fail
             $inputData = array("groupid" => '1',
@@ -603,7 +605,7 @@ class EditGroupsClassTest extends TestCase
                                "useforproduct" => 'Y',
                                "autogroup" => 'Y');
             $groupdata = $this->object->ValidateGroupData($inputData);
-            $this->assertContains("Invalid Group Description", $groupdata[0]['msg']);
+            $this->assertStringContainsString("Invalid Group Description", $groupdata[0]['msg']);
 
              // Test that useforproduct and autogroup are not set
             $inputData = array("groupidi" => '1',
@@ -622,7 +624,7 @@ class EditGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testGetGroupID()
     {
@@ -643,7 +645,7 @@ class EditGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testGetGroupIDFail()
     {
@@ -652,7 +654,7 @@ class EditGroupsClassTest extends TestCase
             if (!\webtemplate\general\General::isError($groupid)) {
                 $this->fail("Test getGroupIDfailed did nor return an error object");
             } else {
-                $this->assertContains("SQL Query Error", $groupid->getMessage());
+                $this->assertStringContainsString("SQL Query Error", $groupid->getMessage());
             }
         }
     }

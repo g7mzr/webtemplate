@@ -2,23 +2,23 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage RestFul Interface
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\rest\endpoints;
 
 /**
- *  WebtemplateAPI example endpoint class
+ *  Webtemplate RestFul API Login endpoint class
  *
- * @category Webtemplate
- * @package  API
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
-
  **/
-
 class Login
 {
     /**
@@ -39,11 +39,11 @@ class Login
     /**
      * Constructor
      *
-     * @param pointer $webtemplate Pointer to Webtemplate Application Class
+     * @param \webtemplate\application\Application $webtemplate Webtemplate Application Class Object.
      *
      * @access public
      */
-    public function __construct(&$webtemplate)
+    public function __construct(\webtemplate\application\Application  &$webtemplate)
     {
         $this->webtemplate = $webtemplate;
     }
@@ -58,7 +58,7 @@ class Login
     protected function post()
     {
         if (\count($this->args) > 0) {
-            $errmsg = array('ErrorMsg'=>'login: Invalid number of arguments');
+            $errmsg = array('ErrorMsg' => 'login: Invalid number of arguments');
             return array('data' => $errmsg, 'code' => 400);
         }
         $validusername = false;
@@ -89,21 +89,21 @@ class Login
                     false
                 );
                 $dataarr = array(
-                    'Msg' =>"Logged in",
-                    'user'=> $this->webtemplate->user()->getUserName(),
+                    'Msg' => "Logged in",
+                    'user' => $this->webtemplate->user()->getUserName(),
                     'realname' => $this->webtemplate->user()->getRealName(),
                     'email' => $this->webtemplate->user()->getUserEmail(),
-                    'lastlogin'=> $this->webtemplate->user()->getLastSeenDate(),
+                    'lastlogin' => $this->webtemplate->user()->getLastSeenDate(),
                     'passwdagemsg' => $this->webtemplate->user()->getPasswdAgeMsg(),
                     'displayrows' => $this->webtemplate->user()->getDisplayRows()
                 );
                 $code = 200;
             } else {
-                $dataarr = array('ErrorMsg' =>"Invalid username and password");
+                $dataarr = array('ErrorMsg' => "Invalid username and password");
                 $code = 403;
             }
         } else {
-            $dataarr = array('ErrorMsg' =>"Invalid username and password");
+            $dataarr = array('ErrorMsg' => "Invalid username and password");
             $code = 403;
         }
 

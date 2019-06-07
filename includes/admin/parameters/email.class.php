@@ -2,20 +2,22 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Admin Parameters
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\admin\parameters;
 
 /**
  * Parameters Interface Class
  *
- * @category Webtemplate
- * @package  Admin
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class Email extends ParametersAbstract
 {
@@ -63,11 +65,11 @@ class Email extends ParametersAbstract
     /**
      * Constructor
      *
-     * @param \webtemplate\config\Configure $config Configuration class
+     * @param \webtemplate\config\Configure $config Configuration class.
      *
      * @access public
      */
-    public function __construct($config)
+    public function __construct(\webtemplate\config\Configure $config)
     {
 
         parent::__construct($config);
@@ -89,13 +91,13 @@ class Email extends ParametersAbstract
      * Validate the E-Mail set of parameters input by the user.  Last Msg will
      * contain a list of any parameters which failed validation.
      *
-     * @param array $inputData Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access public
      */
-    final public function validateParameters(&$inputData)
+    final public function validateParameters(array &$inputData)
     {
         // Set up the validation variables.
         $dataok = true;
@@ -155,17 +157,17 @@ class Email extends ParametersAbstract
 
     /**
      * Check if any of the e-mail set of Parameters have changed.  The
-     * localy stored parameters created as part of the validation process
+     * locally stored parameters created as part of the validation process
      * are compared to the ones in the $parameters variable.  Last Msg will
-     * contain a list of parameters whioch have changed.
+     * contain a list of parameters which have changed.
      *
-     * @param array $parameters Array of application Parameters
+     * @param array $parameters Array of application Parameters.
      *
      * @return boolean true if data changed
      *
      * @access public
      */
-    final public function checkParametersChanged($parameters)
+    final public function checkParametersChanged(array $parameters)
     {
 
         // Set the data changed flags to false
@@ -220,13 +222,13 @@ class Email extends ParametersAbstract
     /**
      * Validate the mail delivery method
      *
-     * @param array $inputData Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access private
      */
-    private function validateMailDeliveryMethod(&$inputData)
+    private function validateMailDeliveryMethod(array &$inputData)
     {
         $dataok = true;
 
@@ -246,13 +248,13 @@ class Email extends ParametersAbstract
     /**
      * Validate the Fromm address for sent e-mails
      *
-     * @param array $inputData Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access private
      */
-    private function validateFromAddress(&$inputData)
+    private function validateFromAddress(array &$inputData)
     {
         $dataok = true;
 
@@ -263,7 +265,7 @@ class Email extends ParametersAbstract
         }
 
         if (!\webtemplate\general\LocalValidate::email($this->fromaddress)) {
-            $this->lastMsg .= gettext("Invalid E-mail Address") ."\n";
+            $this->lastMsg .= gettext("Invalid E-mail Address") . "\n";
             $dataok = false;
         }
 
@@ -273,13 +275,13 @@ class Email extends ParametersAbstract
     /**
      * Validate the SMTP address
      *
-     * @param array $inputData Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access private
      */
-    private function validateSMTPServer(&$inputData)
+    private function validateSMTPServer(array &$inputData)
     {
         $dataok = true;
 
@@ -302,13 +304,13 @@ class Email extends ParametersAbstract
     /**
      * Validate the SMTP Server User name
      *
-     * @param array $inputData Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access private
      */
-    private function validateSMTPUserName(&$inputData)
+    private function validateSMTPUserName(array &$inputData)
     {
         $dataok = true;
 
@@ -329,13 +331,13 @@ class Email extends ParametersAbstract
     /**
      * Validate the SMTP Server Password
      *
-     * @param array $inputData Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access private
      */
-    private function validateSMTPPasswd(&$inputData)
+    private function validateSMTPPasswd(array &$inputData)
     {
         $dataok = true;
 
@@ -356,13 +358,13 @@ class Email extends ParametersAbstract
     /**
      * Validate the SMTP Debug status
      *
-     * @param array $inputData Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access private
      */
-    private function validateSMTPDebug(&$inputData)
+    private function validateSMTPDebug(array &$inputData)
     {
         $dataok = true;
 

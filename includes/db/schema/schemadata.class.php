@@ -91,7 +91,7 @@ class SchemaData
         'logindata' => array(
             'COLUMNS' => array(
                 'user_id' => array('TYPE' => 'int', 'NOTNULL' => '1', 'CONSTRAINTS' => array('table' => 'users', 'column' => 'user_id')),
-                'cookie' => array('TYPE'=>'varchar(32)', 'NOTNULL' => '1', 'PRIMARY' => '1'),
+                'cookie' => array('TYPE' => 'varchar(32)', 'NOTNULL' => '1', 'PRIMARY' => '1'),
                 'lastused' => array('TYPE' => 'DATETIME', 'NOTNULL' => '1'),
                 'ipaddr' => array('TYPE' => 'varchar(40)'),
                 'user_name' => array('TYPE' => 'varchar(64)', 'NOTNULL' => '1', 'CONSTRAINTS' => array('table' => 'users', 'column' => 'user_name')),

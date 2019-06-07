@@ -2,22 +2,23 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage RestFul Interface
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\rest\endpoints;
 
 /**
- *  WebtemplateAPI example endpoint class
+ *  Webtemplate RestFul API users endpoint class
  *
- * @category Webtemplate
- * @package  API
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
 class Users
 {
 
@@ -37,7 +38,7 @@ class Users
 
     /**
      * Property: accessgroup
-     * This is the group a user must be a member of to access this resource
+     * This is the group a user must be a member of to access this resource.
      *
      * @var    string
      * @access protected
@@ -48,11 +49,11 @@ class Users
     /**
      * Constructor
      *
-     * @param pointer $webtemplate Pointer to Webtemplate Application Class
+     * @param \webtemplate\application\Application $webtemplate Webtemplate Application Class Object.
      *
      * @access public
      */
-    public function __construct(&$webtemplate)
+    public function __construct(\webtemplate\application\Application  &$webtemplate)
     {
             $this->webtemplate = $webtemplate;
     }
@@ -68,7 +69,7 @@ class Users
     {
 
         if (\count($this->args) > 2) {
-            $errmsg = array('ErrorMsg'=>'users: Invalid number of arguments');
+            $errmsg = array('ErrorMsg' => 'users: Invalid number of arguments');
             return array('data' => $errmsg, 'code' => 400);
         }
 
@@ -201,7 +202,7 @@ class Users
         if ($fieldspresent !== true) {
             $data = array('ErrorMsg' => $fieldspresent);
             $code = 400;
-            return array('data'=>$data, 'code'=>$code);
+            return array('data' => $data, 'code' => $code);
         }
 
         $resultArray = $this->webtemplate->edituser()->validateUserData(
@@ -210,22 +211,22 @@ class Users
         );
 
         if ($resultArray[0]['msg'] != '') {
-            $data = array('ErrorMsg'=>$resultArray[0]['msg']);
-            return array('data'=>$data, 'code'=>400);
+            $data = array('ErrorMsg' => $resultArray[0]['msg']);
+            return array('data' => $data, 'code' => 400);
         }
 
         // Check if the username already exists.  If it does report an error
         $username = $resultArray[0]['username'];
         if ($this->webtemplate->edituser()->checkUserExists($username)) {
-            $data = array('ErrorMsg'=>'User ' . $username . ' already exists.');
-            return array('data'=>$data, 'code'=>409);
+            $data = array('ErrorMsg' => 'User ' . $username . ' already exists.');
+            return array('data' => $data, 'code' => 409);
         }
 
         // Check if the emailaddress already exists.  If it does report an error
         $email = $resultArray[0]['useremail'];
         if ($this->webtemplate->edituser()->checkEmailExists($email)) {
-            $data = array('ErrorMsg'=>'Email ' . $email . ' already exists.');
-            return array('data'=>$data, 'code'=>409);
+            $data = array('ErrorMsg' => 'Email ' . $email . ' already exists.');
+            return array('data' => $data, 'code' => 409);
         }
 
 
@@ -240,8 +241,8 @@ class Users
             $resultArray[0]['passwdchange']
         );
         if (\webtemplate\general\General::isError($result)) {
-            $data = array('ErrorMsg'=>$result->getMessage());
-            return array('data'=>$data, 'code'=>500);
+            $data = array('ErrorMsg' => $result->getMessage());
+            return array('data' => $data, 'code' => 500);
         }
 
         $data = $this->webtemplate->edituser()->getuser($resultArray[0]['userid']);
@@ -252,7 +253,7 @@ class Users
         }
 
 
-        return array('data'=>$data, 'code'=>201);
+        return array('data' => $data, 'code' => 201);
     }
 
     /**
@@ -266,7 +267,7 @@ class Users
     {
 
         if ((\count($this->args) == 0) or (\count($this->args) > 2)) {
-            $errmsg = array('ErrorMsg'=>'users: Invalid number of arguments');
+            $errmsg = array('ErrorMsg' => 'users: Invalid number of arguments');
             return array('data' => $errmsg, 'code' => 400);
         }
 
@@ -315,7 +316,7 @@ class Users
             if ($fieldspresent !== true) {
                 $data = array('ErrorMsg' => $fieldspresent);
                 $code = 400;
-                return array('data'=>$data, 'code'=>$code);
+                return array('data' => $data, 'code' => $code);
             }
 
             // Validate the data
@@ -325,8 +326,8 @@ class Users
             );
 
             if ($resultArray[0]['msg'] != '') {
-                $data = array('ErrorMsg'=>$resultArray[0]['msg']);
-                return array('data'=>$data, 'code'=>400);
+                $data = array('ErrorMsg' => $resultArray[0]['msg']);
+                return array('data' => $data, 'code' => 400);
             }
 
             $result = $this->webtemplate->edituser()->saveUser(
@@ -340,8 +341,8 @@ class Users
                 $resultArray[0]['passwdchange']
             );
             if (\webtemplate\general\General::isError($result)) {
-                $data = array('ErrorMsg'=>$result->getMessage());
-                return array('data'=>$data, 'code'=>500);
+                $data = array('ErrorMsg' => $result->getMessage());
+                return array('data' => $data, 'code' => 500);
             }
 
             $data = $this->webtemplate
@@ -393,7 +394,7 @@ class Users
             return array('data' =>  $errmsg, 'code' => 400);
         }
 
-        return array('data'=>$data, 'code'=>201);
+        return array('data' => $data, 'code' => 201);
     }
 
     /**

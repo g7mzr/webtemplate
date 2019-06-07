@@ -2,20 +2,22 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Configuration
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\config;
 
 /**
  * Configuration Class
  *
- * @category Webtemplate
- * @package  Configuration
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class Configure
 {
@@ -78,11 +80,11 @@ class Configure
     /**
      * Constructor for the edit user class.
      *
-     * @param string $configDir Location of the parameter file
+     * @param string $configDir Location of the parameter file.
      *
      * @access public
      */
-    public function __construct($configDir)
+    public function __construct(string $configDir)
     {
 
         $this->configDir = $configDir;
@@ -123,12 +125,18 @@ class Configure
      * not exist.  Dot notation can be used.  The first name in the path should be
      * param for $parameters of pref for $preferences.
      *
-     * @param string $config The Parameter key being requested
+     * @param string $config The Parameter key being requested.
+     *
+     * @throws \InvalidArgumentException If the Parameter key is not a dot
+     *                                   notation string.
+     * @throws \InvalidArgumentException If 1st key item is not param or pref .
+     * @throws \InvalidArgumentException If more than 4 items in the key.
      *
      * @return mixed The vale of the Parameter requested or null if it does not exist
+     *
      * @access public
      */
-    final public function read($config = null)
+    final public function read(string $config = '')
     {
 
         // Set up an array for working with.
@@ -137,12 +145,12 @@ class Configure
         $configarray['preferences'] = $this->preferences;
 
         // If the Key is null return the whole array
-        if ($config === null) {
+        if ($config === '') {
             return $configarray;
         }
 
         // Return the individual result
-        if (is_string($config)) {
+        if (!is_numeric($config)) {
             $key = explode(".", $config);
         } else {
             throw new \InvalidArgumentException(
@@ -198,15 +206,21 @@ class Configure
     /**
      * This function returns the details of a single XXX
      *
-     * @param string $config The Parameter key being updated
-     * @param mixed  $data   The value of the parameter being updated
+     * @param string $config The Parameter key being updated.
+     * @param mixed  $data   The value of the parameter being updated.
+     *
+     * @throws \InvalidArgumentException If the Parameter key is not a dot
+     *                                   notation string.
+     * @throws \InvalidArgumentException If param list is more than 4 items.
+     * @throws \InvalidArgumentException If pref list is more than 4 items.
+     * @throws \InvalidArgumentException If 1st key item is not param or pref .
      *
      * @return boolean Always returns true
      * @access public
      */
-    final public function write($config, $data)
+    final public function write(string $config, $data)
     {
-        if (is_string($config)) {
+        if (!is_numeric($config)) {
             $key = explode(".", $config);
         } else {
             throw new \InvalidArgumentException(
@@ -263,18 +277,19 @@ class Configure
                 )
             );
         }
+        return true;
     }
 
     /**
      * This function checks if a configuration value exists and is not null
      * Dot notation can be used.
      *
-     * @param string $config The Parameter key being requested
+     * @param string $config The Parameter key being requested.
      *
      * @return boolean True if the parameter exists False otherwise.
      * @access public
      */
-    final public function check($config)
+    final public function check(string $config)
     {
         $result = false;
         if (empty($config)) {
@@ -291,12 +306,12 @@ class Configure
      * This function deletes a configuration value
      * Dot notation can be used.
      *
-     * @param string $config The Parameter key to be deleted
+     * @param string $config The Parameter key to be deleted.
      *
      * @return boolean True if the parameter exists and is deleted.
      * @access public
      */
-    final public function delete($config)
+    final public function delete(string $config)
     {
         // Check if the entered key exists.
         if ($this->check($config) == false) {
@@ -333,11 +348,11 @@ class Configure
     /**
      * This function is used to reload the parameters into the class
      *
-     * @param array $parameters Parameters to reload into the classs
+     * @param array $parameters Parameters to reload into the class.
      *
      * @return boolean Returns true
      */
-    final public function reloadParams($parameters)
+    final public function reloadParams(array $parameters)
     {
         $this->parameters = $parameters;
         return true;
@@ -347,11 +362,11 @@ class Configure
     /**
      * This function is used to reload the preferences into the class
      *
-     * @param array $preferences preferences to reload into the classs
+     * @param array $preferences Preferences to reload into the class.
      *
      * @return boolean Returns true
      */
-    final public function reloadpref($preferences)
+    final public function reloadpref(array $preferences)
     {
         $this->preferences = $preferences;
         return true;
@@ -359,16 +374,16 @@ class Configure
 
 
     /**
-    * Save the current parameters to a file called parameters.php.  The
+    * Save the current parameters to a file called parameters.json  The
     * file is located in the $config directory,
     *
-    * @param string $configDir Location of the parameter file
+    * @param string $configDir Location of the parameter file.
     *
     * @return boolean true if parameterfile saved false otherwise
     *
     * @access public
     */
-    final public function saveParams($configDir)
+    final public function saveParams(string $configDir)
     {
 
         $filename = $configDir . "/parameters.json";
@@ -389,16 +404,16 @@ class Configure
     }
 
     /**
-    * Save the current preferences to a file called preferences.php.  The
+    * Save the current preferences to a file called preferences.json.  The
     * file is located in the $config directory,
     *
-    * @param string $configDir Location of the parameter file
+    * @param string $configDir Location of the parameter file.
     *
     * @return boolean true if preferences file saved false otherwise
     *
     * @access public
     */
-    final public function savePrefs($configDir)
+    final public function savePrefs(string $configDir)
     {
         $filename = $configDir . "/preferences.json";
         $jsonstr = json_encode($this->preferences, JSON_PRETTY_PRINT);
@@ -420,12 +435,12 @@ class Configure
     /**
      * This function returns the menu specified in menu
      *
-     * @param string $menu The menu being requested
+     * @param string $menu The menu being requested.
      *
      * @return mixed The menu being requested or an empty array if it does not exist
      * @access public
      */
-    final public function readMenu($menu)
+    final public function readMenu(string $menu)
     {
         // Set up the super array containing all menus
         $menulist = array();

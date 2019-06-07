@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
@@ -17,10 +23,6 @@ require_once __DIR__ . '/../../includes/global.php';
 /**
  * LogClass Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class LogTest extends TestCase
 {
@@ -46,9 +48,9 @@ class LogTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->dailyobject = new \webtemplate\general\Log(5, 1);
         $this->weeklyobject = new \webtemplate\general\Log(5, 2);
@@ -57,17 +59,17 @@ class LogTest extends TestCase
 
         $dirName =  dirname(__FILE__) . "/../../logs/";
         $this->dailyName = $dirName . "daily-" . date("Ymd_", time()) . "main.log";
-        $this->weeklyName = $dirName ."weekly-" .date("YW_", time()) . "main.log";
-        $this->monthlyName = $dirName ."monthly-".date("Ym_", time()) . "main.log";
+        $this->weeklyName = $dirName . "weekly-" . date("YW_", time()) . "main.log";
+        $this->monthlyName = $dirName . "monthly-" . date("Ym_", time()) . "main.log";
     }
 
     /**
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $dirName = dirname(__FILE__) . "/../../logs/";
         array_map('unlink', glob($dirName . "*.log"));
@@ -79,7 +81,7 @@ class LogTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testerror()
     {
@@ -100,7 +102,7 @@ class LogTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testWarn()
     {
@@ -114,7 +116,7 @@ class LogTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testIinfo()
     {
@@ -128,7 +130,7 @@ class LogTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testDebug()
     {
@@ -142,7 +144,7 @@ class LogTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testTrace()
     {
@@ -156,7 +158,7 @@ class LogTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testSecurity()
     {

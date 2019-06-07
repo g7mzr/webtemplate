@@ -2,29 +2,28 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage General
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\general;
 
 /**
  * Tokens Class
- *
- * @category Webtemplate
- * @package  General
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
-
 class Tokens
 {
     /**
-     * Database MDB2 Database object
+     * Database webtemplate\db\driver\pgsql
      *
-     * @var    object
+     * @var    webtemplate\db\driver\pgsql
      * @access protected
      */
     protected $db = null;
@@ -48,13 +47,15 @@ class Tokens
     /**
      * Constructor for the edit user class.
      *
-     * @param pointer $tpl Smarty Template variable
-     * @param array   $db  MDB2 Database Connection Object
+     * @param \webtemplate\application\SmartyTemplate        $tpl Smarty Template variable.
+     * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db  Database Connection Object.
      *
      * @access public
      */
-    public function __construct(&$tpl, $db)
-    {
+    public function __construct(
+        \webtemplate\application\SmartyTemplate &$tpl,
+        \webtemplate\db\driver\InterfaceDatabaseDriver $db
+    ) {
         $this->db = $db;
 
         // Get Garbage collectior Information
@@ -62,7 +63,7 @@ class Tokens
         $this->_gc_probability = intval($tpl->getConfigVars("gc_probibility"));
 
         // Check if Stale Tokens are to be deleted
-        if (lcg_value() < ($this->_gc_probability/$this->_gc_divisor)) {
+        if (lcg_value() < ($this->_gc_probability / $this->_gc_divisor)) {
             $this->deleteStaleTokens();
         }
     } // end constructor
@@ -71,23 +72,23 @@ class Tokens
     /**
      * This function creates the token for user changes
      *
-     * @param string  $userid    The Id of the user making the change
-     * @param string  $tokentype The type of token being created
-     * @param integer $life      The life of the token in hours
-     * @param string  $data      Additional data stored in the token
-     * @param Boolean $type      If false create token for e-mail authentication
-     *                           If True create token for webpage authentication
+     * @param string  $userid    The Id of the user making the change.
+     * @param string  $tokentype The type of token being created.
+     * @param integer $life      The life of the token in hours.
+     * @param string  $data      Additional data stored in the token.
+     * @param boolean $type      If false create token for e-mail authentication
+     *                           If True create token for webpage authentication.
      *
      * @return mixed token string if created okay. WEBTEMPLATE:Error if error
      *               encountered
      * @access public
      */
     public function createToken(
-        $userid,
-        $tokentype,
-        $life = 24,
-        $data = '',
-        $type = true
+        string $userid,
+        string $tokentype,
+        int $life = 24,
+        string $data = '',
+        bool $type = true
     ) {
         // Set local Flags
         $saveok = true;
@@ -101,7 +102,7 @@ class Tokens
             $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
 
             for ($p = 0; $p < $length; $p++) {
-                $token .= $characters[mt_rand(0, strlen($characters)-1)];
+                $token .= $characters[mt_rand(0, strlen($characters) - 1)];
             }
         }
 
@@ -161,13 +162,13 @@ class Tokens
      /**
      * This function validates the token for user changes
      *
-     * @param string $userToken The users token for validation
-     * @param string $tokentype The type of token being validated
+     * @param string $userToken The users token for validation.
+     * @param string $tokentype The type of token being validated.
      *
      * @return integer userid if token valid. 0 otherwise.
      * @access public
      */
-    public function getTokenUserid($userToken, $tokentype)
+    public function getTokenUserid(string $userToken, string $tokentype)
     {
         $tokenok = false;
         $tokenchecked = true;
@@ -206,8 +207,8 @@ class Tokens
     /**
      * This function validates the token exists for the required user
      *
-     * @param string $userToken The users token for validation
-     * @param string $tokentype The type of token being validated
+     * @param string $userToken The users token for validation.
+     * @param string $tokentype The type of token being validated.
      * @param string $uid       The Id of the user whose token is being validated.
      *
      * @return boolean true if token valid. False if token invalid or if error e
@@ -215,7 +216,7 @@ class Tokens
      *
      * @access public
      */
-    public function verifyToken($userToken, $tokentype, $uid)
+    public function verifyToken(string $userToken, string $tokentype, string $uid)
     {
         $tokenok = false;
         $tokenchecked = true;
@@ -257,12 +258,12 @@ class Tokens
     /**
      * This function deletes the token for user changes
      *
-     * @param string $userToken The users token for validation
+     * @param string $userToken The users token for validation.
      *
-     * @return mixed true if token deleted . General::Error if error encountered
+     * @return mixed true if token deleted . Webtemplate Error if error encountered
      * @access public
      */
-    public function deleteToken($userToken)
+    public function deleteToken(string $userToken)
     {
         $tokendeleted = true;
 

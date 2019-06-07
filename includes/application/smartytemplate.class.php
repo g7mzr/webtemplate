@@ -2,22 +2,23 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Application
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\application;
 
 /**
  * Extended SMARTY Class to set up local variables
  *
- * @category Webtemplate
- * @package  General
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
 **/
-
 class SmartyTemplate extends \Smarty
 {
     /**
@@ -55,11 +56,10 @@ class SmartyTemplate extends \Smarty
     /**
      * Displays a Smarty template
      *
-     * @param string $template   the resource handle of the template file or
-     *                           template object
-     * @param mixed  $cache_id   cache id to be used with this template
-     * @param mixed  $compile_id compile id to be used with this template
-     * @param object $parent     next higher level of Smarty variables
+     * @param mixed $template   The resource handle of the template file.
+     * @param mixed $cache_id   Cache id to be used with this template.
+     * @param mixed $compile_id Compile id to be used with this template.
+     * @param mixed $parent     Next higher level of Smarty variables.
      *
      * @return void
      *
@@ -78,11 +78,10 @@ class SmartyTemplate extends \Smarty
     /**
      * Fetches a Smarty template
      *
-     * @param string $template   the resource handle of the template file or
-     *                           template object
-     * @param mixed  $cache_id   cache id to be used with this template
-     * @param mixed  $compile_id compile id to be used with this template
-     * @param object $parent     next higher level of Smarty variables
+     * @param mixed $template   The resource handle of the template file.
+     * @param mixed $cache_id   Cache id to be used with this template.
+     * @param mixed $compile_id Compile id to be used with this template.
+     * @param mixed $parent     Next higher level of Smarty variables.
      *
      * @return string rendered template output
      *
@@ -100,8 +99,8 @@ class SmartyTemplate extends \Smarty
     /**
      * Set template directory
      *
-     * @param  string|array $template_dir directory(s) of template sources
-     * @param bool          $isConfig     true for config_dir
+     * @param mixed $template_dir Directory(s) of template sources.
+     * @param mixed $isConfig     True for configuration_dir.
      *
      * @return \Smarty current Smarty instance for chaining
      */
@@ -129,7 +128,7 @@ class SmartyTemplate extends \Smarty
      * This function sets the base template directory before any languages and
      * the default and custom directories are added
      *
-     * @param  string|array $template_dir directory(s) of template sources
+     * @param mixed $template_dir Directory(s) of template sources.
      *
      * @return \Smarty current Smarty instance for chaining
      */

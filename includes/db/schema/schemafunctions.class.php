@@ -24,7 +24,7 @@ class SchemaFunctions
 {
 
     /**
-     * Database driver object
+     * Database driver class
      *
      * @var webtemplate\db\driver\pgsql
      *
@@ -35,10 +35,10 @@ class SchemaFunctions
     /**
      * Constructor
      *
-     * Creates a SchemaFunctions object for processing the Schema description
+     * Creates a SchemaFunctions class for processing the Schema description
      * arrays
      *
-     * @param object $db Database object
+     * @param webtemplate\db\driver\pgsql $db Database Class
      *
      * @access public
      */
@@ -599,7 +599,7 @@ class SchemaFunctions
     private function schemaEcho($msg = "")
     {
         if (!isset($GLOBALS['unittest'])) {
-            echo $msg. "\n";
+            echo $msg . "\n";
         }
         return true;
     }
@@ -640,7 +640,7 @@ class SchemaFunctions
             if (\webtemplate\general\General::isError($result)) {
                 $errorMsg = "Error Creating Indexes ";
                 $errorMsg .= "on Table ";
-                $errorMsg .= $key ." during update\n";
+                $errorMsg .= $key . " during update\n";
                 $schemaupdated = false;
             }
         }
@@ -721,7 +721,7 @@ class SchemaFunctions
                     $result = $this->db->dropIndex($key, $idxname);
                     if (\webtemplate\general\General::isError($result)) {
                         $errorMsg = "Error Dropping Indexes ";
-                        $errorMsg .= "on Table " . $key ."\n";
+                        $errorMsg .= "on Table " . $key . "\n";
                         $schemaupdated = false;
                     }
                 }

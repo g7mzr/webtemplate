@@ -2,22 +2,21 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage General
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
-namespace webtemplate\general;
 
-//require_once 'Mail.php';
+namespace webtemplate\general;
 
 /**
  * Webtemplate Application Mail Class
- *
- * @category Webtemplate
- * @package  General
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class Mail
 {
@@ -157,12 +156,11 @@ class Mail
     /**
      * Constructor
      *
-     * @param array $mailParam Mail Section of the applications Parameters
-     * array ($parameters['email'])
+     * @param array $mailParam Mail Section of the applications Parameters.
      *
      * @access public
      */
-    public function __construct($mailParam)
+    public function __construct(array $mailParam)
     {
         $this->smtpdeliverymethod = $mailParam['smtpdeliverymethod'];
         $this->emailaddress       = $mailParam['emailaddress'];
@@ -212,19 +210,25 @@ class Mail
      * delivery method chosen in the application configuraion it will
      * choose one of its helper functions.
      *
-     * @param string $toAddr  Receiver(s) of the mail. Comma separated
-     * @param string $ccAddr  Copy addressee(s) of the mail. Comma separated
-     * @param string $bccAddr Blind copy addressee(s) of the mail. Comma separated
+     * @param string $toAddr  Receiver(s) of the mail. Comma separated.
+     * @param string $ccAddr  Copy addressee(s) of the mail. Comma separated.
+     * @param string $bccAddr Blind copy addressee(s) of the mail. Comma separated.
      * @param string $subject Subject of the email to be sent.
      * @param string $message Message to be sent. Each line should be separated
-     * with a LF (\n). Lines should not be larger than 70 characters.
+     *                        with a LF (\n). Lines should not be larger than
+     *                        70 characters.
      *
      * @return boolean True if e-mail sent, false otherwise
      *
      * @access public
      */
-    final public function sendEmail($toAddr, $ccAddr, $bccAddr, $subject, $message)
-    {
+    final public function sendEmail(
+        string $toAddr,
+        string $ccAddr,
+        string $bccAddr,
+        string $subject,
+        string $message
+    ) {
         // Set up local flags.
         $mailsent      = false;
 
@@ -337,7 +341,7 @@ class Mail
             return false;
         }
 
-        $mail = new \PHPmailer;
+        $mail = new \PHPmailer();
         $mail->isSMTP();
         $mail->isHTML(false);
 

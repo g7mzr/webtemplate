@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../includes/global.php';
 
 // Load the Test Database Configuration File
-require_once dirname(__FILE__) .'/../_data/database.php';
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 
 /**
@@ -42,7 +42,7 @@ class DatabaseDriverMockTest extends TestCase
      *
      * @return null No return data
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         global $testdsn, $options;
 
@@ -60,7 +60,7 @@ class DatabaseDriverMockTest extends TestCase
      *
      * @return null No return data
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->object);
     }
@@ -127,7 +127,7 @@ class DatabaseDriverMockTest extends TestCase
     {
         $result = $this->object->dropIndex('table', 'index');
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Error Dropping Index table:index',
                 $result->getMessage()
             );
@@ -148,7 +148,7 @@ class DatabaseDriverMockTest extends TestCase
     {
         $result = $this->object->createUser('phpunit', 'password', false);
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Error Creating Database User',
                 $result->getMessage()
             );
@@ -169,7 +169,7 @@ class DatabaseDriverMockTest extends TestCase
     {
         $result = $this->object->dropUser('phpunit');
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Error Dropping Database User',
                 $result->getMessage()
             );
@@ -190,7 +190,7 @@ class DatabaseDriverMockTest extends TestCase
     {
         $result = $this->object->createDatabase('phpunit', 'phpunit', false);
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Error Creating the database',
                 $result->getMessage()
             );
@@ -212,7 +212,7 @@ class DatabaseDriverMockTest extends TestCase
     {
         $result = $this->object->databaseExists("database");
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "Error checking the database exists",
                 $result->getMessage()
             );
@@ -234,7 +234,7 @@ class DatabaseDriverMockTest extends TestCase
     {
         $result = $this->object->dropDatabase('phpunit');
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Error Dropping Database',
                 $result->getMessage()
             );
@@ -253,10 +253,10 @@ class DatabaseDriverMockTest extends TestCase
      */
     public function testCreatetable()
     {
-        $table= array();
+        $table = array();
         $result = $this->object->createTable('phpunit', $table);
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Error Creating the Table',
                 $result->getMessage()
             );
@@ -277,7 +277,7 @@ class DatabaseDriverMockTest extends TestCase
     {
         $result = $this->object->dropTable('phpunit');
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Error Dropping Table phpunit',
                 $result->getMessage()
             );
@@ -298,7 +298,7 @@ class DatabaseDriverMockTest extends TestCase
     {
         $result = $this->object->addColumn('phpunit', 'name', 'data');
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Error adding column to phpunit',
                 $result->getMessage()
             );
@@ -319,7 +319,7 @@ class DatabaseDriverMockTest extends TestCase
     {
         $result = $this->object->dropColumn('phpunit', 'column');
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Error dropping column on phpunit',
                 $result->getMessage()
             );
@@ -340,7 +340,7 @@ class DatabaseDriverMockTest extends TestCase
     {
         $result = $this->object->alterColumn('phpunit', 'name', 'old', 'new');
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Error changing column Type',
                 $result->getMessage()
             );
@@ -361,7 +361,7 @@ class DatabaseDriverMockTest extends TestCase
     {
         $result = $this->object->saveSchema('1.1', 'phpunit', 'groups');
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Error Deleteting Previous Schema',
                 $result->getMessage()
             );
@@ -382,7 +382,7 @@ class DatabaseDriverMockTest extends TestCase
     {
         $result = $this->object->getSchema();
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Schema Not Found',
                 $result->getMessage()
             );
@@ -416,7 +416,7 @@ class DatabaseDriverMockTest extends TestCase
     {
         $result = $this->object->createFK('keydata');
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "Error Creating Forign Keys.",
                 $result->getMessage()
             );
@@ -438,7 +438,7 @@ class DatabaseDriverMockTest extends TestCase
         $keydata = array("Table", "Column");
         $result = $this->object->createUniqueConstraint($keydata);
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "Error creating Unique Constraint Column on Table",
                 $result->getMessage()
             );
@@ -459,7 +459,7 @@ class DatabaseDriverMockTest extends TestCase
     {
         $result = $this->object->dropFK('table', 'key');
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "Error deleteting Foreign Key key on table",
                 $result->getMessage()
             );
@@ -566,7 +566,7 @@ class DatabaseDriverMockTest extends TestCase
         // Test for Failure
         $result = $this->object->Dbinsert('table', 'data');
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "SQL Query Error",
                 $result->getMessage()
             );
@@ -604,7 +604,7 @@ class DatabaseDriverMockTest extends TestCase
         // Test for Failure
         $result = $this->object->Dbinsertid('table', 'fields', 'namefield', 'name');
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "Error Getting record ID.",
                 $result->getMessage()
             );
@@ -641,7 +641,7 @@ class DatabaseDriverMockTest extends TestCase
     {
         $result = $this->object->Dbupdate('table', 'data', 'searchdata');
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'SQL Query Error',
                 $result->getMessage()
             );
@@ -662,7 +662,7 @@ class DatabaseDriverMockTest extends TestCase
     {
         $result = $this->object->Dbselectsingle('table', 'fields', 'searchdata');
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'SQL Query Error',
                 $result->getMessage()
             );
@@ -710,7 +710,7 @@ class DatabaseDriverMockTest extends TestCase
     {
         $result = $this->object->Dbselectmultiple('table', 'fields', 'searchdata');
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'SQL Query Error',
                 $result->getMessage()
             );
@@ -767,7 +767,7 @@ class DatabaseDriverMockTest extends TestCase
         // Test FAILURE
         $result = $this->object->Dbdelete('table', 'searchdata');
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'SQL Query Error',
                 $result->getMessage()
             );
@@ -804,7 +804,7 @@ class DatabaseDriverMockTest extends TestCase
     {
         $result = $this->object->Dbdeletemultiple('table', 'searchdata');
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'SQL Query Error',
                 $result->getMessage()
             );

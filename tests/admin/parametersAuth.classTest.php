@@ -1,12 +1,16 @@
 <?php
-
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
 
 namespace webtemplate\unittest;
@@ -17,19 +21,15 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../includes/global.php';
 
 /**
- * Parameters Class Unit Tests
+ * Parameters Auth Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class ParametersAuthTest extends TestCase
 {
     /**
      * Parameters Class Object
      *
-     * @var ParametersClass
+     * @var \webtemplate\admin\Parameters
      */
     protected $object;
 
@@ -44,9 +44,9 @@ class ParametersAuthTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
 
         // Create configuration Object
@@ -63,11 +63,11 @@ class ParametersAuthTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
-        $configDir = dirname(__FILE__) ."/../_data";
+        $configDir = dirname(__FILE__) . "/../_data";
         $filename = $configDir . '/parameters.php';
         if (file_exists($filename)) {
             unlink($filename);
@@ -76,6 +76,8 @@ class ParametersAuthTest extends TestCase
 
     /**
      * This function sets up the default parameters for testing
+     *
+     * @return void
      */
     protected function defaultParameters()
     {
@@ -112,7 +114,7 @@ class ParametersAuthTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testGetLastMessage()
     {
@@ -127,7 +129,7 @@ class ParametersAuthTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testGetCurrentParameters()
     {
@@ -142,7 +144,7 @@ class ParametersAuthTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testvalidateParameters()
     {
@@ -210,7 +212,7 @@ class ParametersAuthTest extends TestCase
         $result = $this->object->validateParameters($inputData);
         $this->assertFalse($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains(
+        $this->assertStringContainsString(
             "User name Regular Expression contains invalid characters",
             $localStr
         );
@@ -222,7 +224,7 @@ class ParametersAuthTest extends TestCase
         $result = $this->object->validateParameters($inputData);
         $this->assertFalse($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains(
+        $this->assertStringContainsString(
             "User name Regular Expression Description contains invalid characters",
             $localStr
         );
@@ -404,7 +406,7 @@ class ParametersAuthTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testcheckParametersChanged()
     {
@@ -434,7 +436,7 @@ class ParametersAuthTest extends TestCase
         $result = $this->object->checkParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Create Accounts Parameter Changed", $localStr);
+        $this->assertStringContainsString("Create Accounts Parameter Changed", $localStr);
 
         // New Password Changed
         $parameters['users']['newaccount'] = false;
@@ -449,7 +451,7 @@ class ParametersAuthTest extends TestCase
         $result = $this->object->checkParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("New Password Parameter Changed", $localStr);
+        $this->assertStringContainsString("New Password Parameter Changed", $localStr);
 
         // regexp Changed
         $parameters['users']['newaccount'] = false;
@@ -464,7 +466,7 @@ class ParametersAuthTest extends TestCase
         $result = $this->object->checkParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("User Name Regexp Parameter Changed", $localStr);
+        $this->assertStringContainsString("User Name Regexp Parameter Changed", $localStr);
 
         // New Description
         $parameters['users']['newaccount'] = false;
@@ -479,7 +481,7 @@ class ParametersAuthTest extends TestCase
         $result = $this->object->checkParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains(
+        $this->assertStringContainsString(
             "User Name Regexp Description Parameter Changed",
             $localStr
         );
@@ -497,7 +499,7 @@ class ParametersAuthTest extends TestCase
         $result = $this->object->checkParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Password Strength has changed", $localStr);
+        $this->assertStringContainsString("Password Strength has changed", $localStr);
 
         // Password Aging has changed
         $parameters['users']['newaccount'] = false;
@@ -512,7 +514,7 @@ class ParametersAuthTest extends TestCase
         $result = $this->object->checkParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Password Ageing has changed", $localStr);
+        $this->assertStringContainsString("Password Ageing has changed", $localStr);
 
         // Auto Complete has changed
         $parameters['users']['newaccount'] = false;
@@ -527,7 +529,7 @@ class ParametersAuthTest extends TestCase
         $result = $this->object->checkParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Autocomplete has changed", $localStr);
+        $this->assertStringContainsString("Autocomplete has changed", $localStr);
 
         // Auto Logout has changed
         $parameters['users']['newaccount'] = false;
@@ -542,7 +544,7 @@ class ParametersAuthTest extends TestCase
         $result = $this->object->checkParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Auto Logout has changed", $localStr);
+        $this->assertStringContainsString("Auto Logout has changed", $localStr);
     }
 
     /**
@@ -551,7 +553,7 @@ class ParametersAuthTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testsaveParamFile()
     {
@@ -566,7 +568,7 @@ class ParametersAuthTest extends TestCase
         $inputData['autologout'] = '1';
 
         $this->object->validateParameters($inputData);
-        $configDir = dirname(__FILE__) ."/../_data";
+        $configDir = dirname(__FILE__) . "/../_data";
         $filesaved = $this->object->saveParamFile($configDir);
         $this->assertTrue($filesaved);
         $filename = $configDir . '/parameters.json';
@@ -582,11 +584,11 @@ class ParametersAuthTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testsaveParamFileFail()
     {
-        $configDir = dirname(__FILE__) ."/../data";
+        $configDir = dirname(__FILE__) . "/../data";
         $filesaved = $this->object->saveParamFile($configDir);
         $this->assertFalse($filesaved);
     }

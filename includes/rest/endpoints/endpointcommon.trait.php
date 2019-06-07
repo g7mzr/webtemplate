@@ -2,20 +2,21 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage RestFul Interface
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\rest\endpoints;
 
 /**
- * Webtemplate Group Traits
- *
- * @category Webtemplate
- * @package  API
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
+ * Webtemplate RestFul API Traits
  **/
 trait TraitEndPointCommon
 {
@@ -47,15 +48,15 @@ trait TraitEndPointCommon
      * This function processes the endpoint by calling the appropriate method which
      * is stored in the endpoint file as a function based on the method name
      *
-     * @param string $method      HTTP method such as GET, DELETE, POST
-     * @param array  $args        Additional URI components
-     * @param array  $requestdata Contents of the GET or POST request
+     * @param string $method      HTTP method such as GET, DELETE, POST.
+     * @param array  $args        Additional URI components.
+     * @param array  $requestdata Contents of the GET or POST request.
      *
      * @return array The result of the action undertaken by the API end point.
      *
      * @access public
      */
-    public function endpoint($method, $args, $requestdata)
+    public function endpoint(string $method, array $args, array $requestdata)
     {
 
         // Save the $args to the class variable
@@ -83,7 +84,7 @@ trait TraitEndPointCommon
 
         // If the HTTP method does not exist return an invalid command
         $dataarr = array(
-            'ErrorMsg' =>"Method not implemented",
+            'ErrorMsg' => "Method not implemented",
             'method' => $method,
             'args' => $args
         );
@@ -115,7 +116,7 @@ trait TraitEndPointCommon
     {
         if (method_exists($this, 'get')  === false) {
             $dataarr = array(
-                'ErrorMsg' =>"Method not implemented",
+                'ErrorMsg' => "Method not implemented",
                 'method' => "HEAD",
                 'args' => $this->args
             );

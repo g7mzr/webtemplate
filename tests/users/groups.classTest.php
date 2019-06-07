@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
@@ -15,36 +21,32 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../includes/global.php';
 
 // include the test database connection configuration
-require_once dirname(__FILE__) .'/../_data/database.php';
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 /**
- * UserPrefClass Unit Tests
+ * User Groups Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class GroupsClassTest extends TestCase
 {
     /**
-     * User Grups Object - Admin
+     * User Groups Object - Admin
      *
-     * @var UsersGroups
+     * @var \webtemplate\users\Groups
      */
     protected $object;
 
     /**
-     * User Grups Object - Normal
+     * User Groups Object - Normal
      *
-     * @var UsersGroups
+     * @var \webtemplate\users\Groups
      */
     protected $object2;
 
     /**
-     * MDB2 Database Connection Object
+     * Database Connection Object
      *
-     * @var MDB2 Database Connection Object
+     * @var \webtemplate\db\DB
      *
      * @access protected
      */
@@ -62,7 +64,7 @@ class GroupsClassTest extends TestCase
     /**
      * MOCK Database Connection
      *
-     * @var Mock MDB2 Connection
+     * @var \webtemplate\db\DB
      *
      * @access protected
      */
@@ -72,9 +74,9 @@ class GroupsClassTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         global $testdsn, $sitePreferences;
 
@@ -93,9 +95,9 @@ class GroupsClassTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if ($this->databaseconnection === true) {
             $this->object3->disconnect();
@@ -108,7 +110,7 @@ class GroupsClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testGetLastMsg()
     {
@@ -122,7 +124,7 @@ class GroupsClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testgetAdminAccess()
     {
@@ -136,7 +138,7 @@ class GroupsClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testCheckGroup()
     {
@@ -151,7 +153,7 @@ class GroupsClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testgetGroups()
     {
@@ -166,7 +168,7 @@ class GroupsClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testgetGroupDescription()
     {
@@ -182,7 +184,7 @@ class GroupsClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testConstructorErrors()
     {

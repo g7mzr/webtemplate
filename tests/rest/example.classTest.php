@@ -2,28 +2,30 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
-namespace webtemplate\phpunit;
+
+namespace webtemplate\unittest;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
 
 // Include the Test Database Connection details
-require_once dirname(__FILE__) .'/../_data/database.php';
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 use PHPUnit\Framework\TestCase;
 
 /**
  * REST EXAMPLE Resource Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class RestExampleTest extends TestCase
 {
@@ -46,9 +48,9 @@ class RestExampleTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         global $sessiontest;
 
@@ -61,9 +63,9 @@ class RestExampleTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
@@ -71,15 +73,15 @@ class RestExampleTest extends TestCase
      * This function is a common function used to test the following methods:
      * POST, PUT, PATCH, DELETE
      *
-     * @param string $method The HTTP Method being tested
+     * @param string $method The HTTP Method being tested.
      *
-     * @return null
+     * @return boolean The result of the test.
      */
-    protected function generalTest($method)
+    protected function generalTest(string $method)
     {
         $testresult = true;
         $args = array(1, 'Test');
-        $requestdata = array("name"=>"phpunit", "passwd"=>"mypassword");
+        $requestdata = array("name" => "phpunit", "passwd" => "mypassword");
         $result = $this->example->endpoint($method, $args, $requestdata);
         if ($result['code'] != 200) {
             $testresult = false;
@@ -112,7 +114,7 @@ class RestExampleTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testpermissions()
     {
@@ -126,7 +128,7 @@ class RestExampleTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testExampleOptions()
     {
@@ -135,13 +137,13 @@ class RestExampleTest extends TestCase
         $requestdata = array();
         $result = $this->example->endpoint($method, $args, $requestdata);
         $this->assertEquals(200, $result['code']);
-        $this->assertContains('GET', $result['options']);
-        $this->assertContains('HEAD', $result['options']);
-        $this->assertContains('POST', $result['options']);
-        $this->assertContains('PUT', $result['options']);
-        $this->assertContains('PATCH', $result['options']);
-        $this->assertContains('DELETE', $result['options']);
-        $this->assertContains('OPTIONS', $result['options']);
+        $this->assertStringContainsString('GET', $result['options']);
+        $this->assertStringContainsString('HEAD', $result['options']);
+        $this->assertStringContainsString('POST', $result['options']);
+        $this->assertStringContainsString('PUT', $result['options']);
+        $this->assertStringContainsString('PATCH', $result['options']);
+        $this->assertStringContainsString('DELETE', $result['options']);
+        $this->assertStringContainsString('OPTIONS', $result['options']);
     }
 
 
@@ -151,7 +153,7 @@ class RestExampleTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testExampleHead()
     {
@@ -170,7 +172,7 @@ class RestExampleTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testExampleGETNoArguments()
     {
@@ -190,9 +192,9 @@ class RestExampleTest extends TestCase
      * argument sent to it
      *
      * @group unittest
-     * @group rest
+     * @group void
      *
-     * @return null
+     * @return void
      */
     public function testExampleGETOneArgument()
     {
@@ -217,13 +219,13 @@ class RestExampleTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testExampleGETOneRequestData()
     {
         $method = "GET";
         $args = array();
-        $requestdata = array("name"=>"phpunit");
+        $requestdata = array("name" => "phpunit");
         $result = $this->example->endpoint($method, $args, $requestdata);
         $this->assertEquals(400, $result['code']);
         $this->assertEquals(
@@ -241,7 +243,7 @@ class RestExampleTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testExamplePOST()
     {
@@ -255,7 +257,7 @@ class RestExampleTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testExamplePUT()
     {
@@ -269,7 +271,7 @@ class RestExampleTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testExamplePATCH()
     {
@@ -283,7 +285,7 @@ class RestExampleTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testExampleDELETE()
     {

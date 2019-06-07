@@ -1,12 +1,16 @@
 <?php
-
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
 
 namespace webtemplate\unittest;
@@ -19,17 +23,13 @@ require_once __DIR__ . '/../../includes/global.php';
 /**
  * Parameters Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class ParametersTest extends TestCase
 {
     /**
      * Parameters Class Object
      *
-     * @var ParametersClass
+     * @var \webtemplate\admin\Parameters
      */
     protected $object;
 
@@ -44,9 +44,9 @@ class ParametersTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
 
         // Create configuration Object
@@ -61,9 +61,9 @@ class ParametersTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
@@ -73,7 +73,7 @@ class ParametersTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testSetSection()
     {
@@ -87,7 +87,7 @@ class ParametersTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testSetSectionFail()
     {
@@ -97,7 +97,7 @@ class ParametersTest extends TestCase
             $this->fail(__Function__ . "No exeption thrown");
         } catch (\throwable $ex) {
             $this->assertTrue(is_a($ex, $classname));
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "Invalid Parameter Section: faulty",
                 $ex->getMessage()
             );
@@ -111,7 +111,7 @@ class ParametersTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testGetLastMessageFail()
     {
@@ -121,7 +121,7 @@ class ParametersTest extends TestCase
             $this->fail(__Function__ . "No exeption thrown");
         } catch (\throwable $ex) {
             $this->assertTrue(is_a($ex, $classname));
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "Invalid Class.",
                 $ex->getMessage()
             );
@@ -134,7 +134,7 @@ class ParametersTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testGetPageList()
     {
@@ -152,7 +152,7 @@ class ParametersTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testGetCurrentParametersFail()
     {
@@ -162,7 +162,7 @@ class ParametersTest extends TestCase
             $this->fail(__Function__ . "No exeption thrown");
         } catch (\throwable $ex) {
             $this->assertTrue(is_a($ex, $classname));
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "Invalid Class.",
                 $ex->getMessage()
             );
@@ -176,7 +176,7 @@ class ParametersTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testsaveParamFileFail()
     {
@@ -186,7 +186,7 @@ class ParametersTest extends TestCase
             $this->fail(__Function__ . "No exeption thrown");
         } catch (\throwable $ex) {
             $this->assertTrue(is_a($ex, $classname));
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "Invalid Class.",
                 $ex->getMessage()
             );
@@ -200,18 +200,18 @@ class ParametersTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testvalidateParametersFail()
     {
         $classname = "\\webtemplate\\application\\exceptions\\AppException";
         try {
-            $data = array("test"=>"one");
+            $data = array("test" => "one");
             $this->object->validateParameters($data);
             $this->fail(__Function__ . "No exeption thrown");
         } catch (\throwable $ex) {
             $this->assertTrue(is_a($ex, $classname));
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "Invalid Class.",
                 $ex->getMessage()
             );
@@ -225,18 +225,18 @@ class ParametersTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testcheckParametersChangedFail()
     {
         $classname = "\\webtemplate\\application\\exceptions\\AppException";
         try {
-            $data = array("test"=>"one");
+            $data = array("test" => "one");
             $this->object->checkParametersChanged($data);
             $this->fail(__Function__ . "No exeption thrown");
         } catch (\throwable $ex) {
             $this->assertTrue(is_a($ex, $classname));
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "Invalid Class.",
                 $ex->getMessage()
             );

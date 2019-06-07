@@ -2,22 +2,23 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Users
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\users;
 
 /**
- * Webtemplate Config Class
+ * Webtemplate User Class
  *
- * @category Webtemplate
- * @package  Users
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
 class User
 {
     /**
@@ -70,9 +71,9 @@ class User
     protected $encryptedPasswd = '';
 
     /**
-     * Database MDB2 Database connection object
+     * Database connection object
      *
-     * @var    object
+     * @var    \webtemplate\db\driver\InterfaceDatabaseDriver
      * @access protected
      */
     protected $db  = null;
@@ -136,11 +137,11 @@ class User
     /**
     * User Class Constructor
     *
-    * @param array $db MDB2 Database Connection Object
+    * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db Database Connection Object.
     *
     * @access public
     */
-    public function __construct($db)
+    public function __construct(\webtemplate\db\driver\InterfaceDatabaseDriver $db)
     {
         $this->db      = $db ;
         $this->userName = "None";
@@ -153,9 +154,9 @@ class User
      * register function needs to be called.
      *
      * @param string  $userName  Name of user to be logged in.
-     * @param string  $passwd    Password for user
+     * @param string  $passwd    Password for user.
      * @param integer $passwdage Control Parameter for password aging.
-     * @param array   $config    Array containing the site preferences
+     * @param array   $config    Array containing the site preferences.
      *
      * @return mixed True if user logged in.  Returns WEBTEMPLATE::Error if unable
      *               to complete login
@@ -164,10 +165,13 @@ class User
      *
      * @access public
      */
-    final public function login($userName, $passwd, $passwdage, $config)
-    {
-
-         //date_default_timezone_set('Europe/London');
+    final public function login(
+        string $userName,
+        string $passwd,
+        int $passwdage,
+        array $config
+    ) {
+        //date_default_timezone_set('Europe/London');
         // Set Passwd Age Msg to default value
         $this->passwdagemsg = '';
 
@@ -181,8 +185,8 @@ class User
         // Default WEBTEMPLATE Error Code
         $errorCode = 1;
 
-        $fields = array('
-            user_name',
+        $fields = array(
+            'user_name',
             'last_seen_date',
             'user_enabled',
             'user_passwd',
@@ -271,17 +275,17 @@ class User
 
 
     /**
-     * Register a currently logged in user.  Stire their realname, userid,
+     * Register a currently logged in user.  Store their realname, userid,
      * encrypted password, permissions and preferences in the USER Class object.
      *
      * @param string $userName    Name of user logged in.
-     * @param array  $preferences Array containing the site preferences
+     * @param array  $preferences Array containing the site preferences.
      *
      * @return mixed True if user registered.  Returns WEBTEMPLATE::Error on error.
      *
      * @access public
      */
-    final public function register($userName, $preferences)
+    final public function register(string $userName, array $preferences)
     {
 
         // Flush all data
@@ -359,15 +363,15 @@ class User
     /**
     * Return the current users realname
     *
-    * @param string $realName value to set a new real name
+    * @param string $realName Value to set a new real name.
     *
     * @return string Real Name
     *
     * @access public
     */
-    final public function getRealName($realName = null)
+    final public function getRealName(string $realName = '')
     {
-        if (isset($realName)) {
+        if ($realName != '') {
             $this->realName = $realName;
         }
         return $this->realName;
@@ -389,15 +393,15 @@ class User
     /**
     * Return the current users e-mail address
     *
-    * @param string $email value to set a new email address
+    * @param string $email Value to set a new email address.
     *
     * @return string email
     *
     * @access public
     */
-    final public function getUserEmail($email = null)
+    final public function getUserEmail(string $email = '')
     {
-        if (isset($email)) {
+        if ($email != '') {
             $this->userEmail = $email;
         }
         return $this->userEmail;
@@ -407,13 +411,13 @@ class User
     * Check if the supplied password is the same as the current
     * users encrypted password
     *
-    * @param string $passwd The password that needs to be verified
+    * @param string $passwd The password that needs to be verified.
     *
     * @return boolean true if $passwd_to_check = $encryptedPasswd otherwise false
     *
     * @access public
     */
-    final public function checkPasswd($passwd)
+    final public function checkPasswd(string $passwd)
     {
         return \webtemplate\general\General::verifyPasswd(
             $passwd,
@@ -425,15 +429,15 @@ class User
     * Either set the current users theme is $themeName is set or return
     * the users current theme.
     *
-    * @param string $themeName = NULL The users new theme.
+    * @param string $themeName The users new theme.
     *
     * @return string theme
     *
     * @access public
     */
-    final public function getUserTheme($themeName = null)
+    final public function getUserTheme(string $themeName = '')
     {
-        if (isset($themeName)) {
+        if ($themeName != '') {
             $this->theme = $themeName;
         }
         return $this->theme; //$sitePreferences['theme']['value'];
@@ -443,16 +447,18 @@ class User
     * Set the number of rows to display is $setVariable is true
     * otherwise return the number of rows to display
     *
-    * @param boolean $zoomText    = null Zoom in text boxes if true
-    * @param boolean $setVariable = null Set the xoom Variable if true
+    * @param boolean $zoomText    Zoom in text boxes if true.
+    * @param boolean $setVariable Set the zoom Variable if true.
     *
     * @return boolean
     *
     * @access public
     */
-    final public function getUserZoom($zoomText = null, $setVariable = null)
-    {
-        if (isset($setVariable)) {
+    final public function getUserZoom(
+        bool $zoomText = false,
+        bool $setVariable = false
+    ) {
+        if ($setVariable === true) {
             $this->zoomText = $zoomText;
         }
         return $this->zoomText;
@@ -463,15 +469,15 @@ class User
     * If $displayRows = null return the number of results to display on
     * a single page. Other wise set the number.
     *
-    * @param string $displayRows = NULL The number of results to display.
+    * @param string $displayRows The number of results to display.
     *
     * @return string
     *
     * @access public
     */
-    final public function getDisplayRows($displayRows = null)
+    final public function getDisplayRows(string $displayRows = '')
     {
-        if (isset($displayRows)) {
+        if ($displayRows != '') {
             $this->displayrows = $displayRows;
         }
         return $this->displayrows;
@@ -508,13 +514,13 @@ class User
      * This function gets the users preferences from the database.  If no preferences
      * are found or there is a database error the default preferences are used.
      *
-     * @param array $preferences Array containing the site preferences
+     * @param array $preferences Array containing the site preferences.
      *
      * @return boolen True
      *
      * @access private
      */
-    private function getPreferences($preferences)
+    private function getPreferences(array $preferences)
     {
 
         // Set the users preferences
@@ -553,15 +559,15 @@ class User
     }
 
     /**
-     * Function to get the user's prefered theme.
+     * Function to get the user's preferred theme.
      * It is called by getPreferences
      *
-     * @param array   $value   The array holding the users preferences
-     * @param boolean $enabled True if user selectable theme is enabled
+     * @param array   $value   The array holding the users preferences.
+     * @param boolean $enabled True if user selectable theme is enabled.
      *
      * @return boolean True in all cases
      */
-    private function getTheme($value, $enabled)
+    private function getTheme(array $value, bool $enabled)
     {
         // Check the theme preference
         if ((chop($value['settingname']) == 'theme') and ($enabled == true)) {
@@ -586,12 +592,12 @@ class User
      * Function to get the user's text area zoom flag
      * It is called by getPreferences
      *
-     * @param array   $value   The array holding the users preferences
-     * @param boolean $enabled True if user selectable theme is enabled
+     * @param array   $value   The array holding the users preferences.
+     * @param boolean $enabled True if user selectable theme is enabled.
      *
      * @return boolean True in all cases
      */
-    private function getZoomArea($value, $enabled)
+    private function getZoomArea(array $value, bool $enabled)
     {
         if ((chop($value['settingname']) == 'zoomtext') and ($enabled == true)) {
             // The user has set their own zoon text.
@@ -605,15 +611,15 @@ class User
         return true;
     }
     /**
-     * Function to get the user's prefered theme.
+     * Function to get the user's preferred theme.
      * It is called by getPreferences
      *
-     * @param array   $value   The array holding the users preferences
-     * @param boolean $enabled True if user selectable theme is enabled
+     * @param array   $value   The array holding the users preferences.
+     * @param boolean $enabled True if user selectable theme is enabled.
      *
      * @return boolean True in all cases
      */
-    private function getRows($value, $enabled)
+    private function getRows(array $value, bool $enabled)
     {
         if ((chop($value['settingname']) == 'displayrows') and ($enabled == true)) {
             // The user has set the number of sata rows to display
@@ -630,14 +636,14 @@ class User
      * This function checks if a users password has expired
      *
      * @param integer $passwdage  Control Parameter for password aging.
-     * @param string  $changedate The date the users password was last changed.
+     * @param integer $changedate The date the users password was last changed.
      *
-     * @return mixed true if password does not need imediate changing
+     * @return mixed true if password does not need immediate changing
      *                    or WEBTEMPLATE Error object if the password must be changed
      *
      * @access private
      */
-    private function passwordAge($passwdage, $changedate)
+    private function passwordAge(int $passwdage, int $changedate)
     {
         switch ($passwdage) {
             case 2:
@@ -684,15 +690,15 @@ class User
      *
      * This function will override the default style directory which is set by
      * the constructor.  Parameter 1 must contain a valid directory which contains
-     * directories containg the css files.  The Path must finish with a "/".
+     * directories containing the css files.  The Path must finish with a "/".
      *
      * @param string $styleDir The new Style Directory.
      *
-     * @return boolean true
+     * @return void
      *
      * @access public
      */
-    public function setDefaultStyleDir($styleDir)
+    public function setDefaultStyleDir(string $styleDir)
     {
         $this->styleDir = $styleDir;
     }

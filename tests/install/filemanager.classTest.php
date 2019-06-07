@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
@@ -20,12 +26,8 @@ use \org\bovigo\vfs\vfsStreamDirectory;
 use \org\bovigo\vfs\vfsStreamWrapper;
 
 /**
- * Parameters Class Unit Tests
+ * Install File Manager Class Unit Test
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class FileManagerTest extends TestCase
 {
@@ -52,11 +54,11 @@ class FileManagerTest extends TestCase
 
     /**
      * This function is called prior to any tests being run.
-     * Its prpose is to set up any variables that are needed to tun the tests.
+     * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->vsffilestream = vfsStream::setup($this->rootdir);
         $this->filemanager = new \webtemplate\install\FileManager(
@@ -68,9 +70,9 @@ class FileManagerTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
@@ -80,13 +82,14 @@ class FileManagerTest extends TestCase
      * @group unittest
      * @group install
      *
-     * @return null
+     * @return void
      */
     public function testcheckInstallConfigNoFile()
     {
+        $installConfig = array();
         $testresult = $this->filemanager->checkInstallConfig($installConfig);
         if (\webtemplate\general\General::isError($testresult)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Please copy config.php.dist',
                 $testresult->getMessage()
             );
@@ -102,7 +105,7 @@ class FileManagerTest extends TestCase
      * @group unittest
      * @group install
      *
-     * @return null
+     * @return void
      */
     public function testcheckInstallConfigEmptyFile()
     {
@@ -122,7 +125,7 @@ class FileManagerTest extends TestCase
 
         $testresult = $this->filemanager->checkInstallConfig($installConfig);
         if (\webtemplate\general\General::isError($testresult)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Please update config.php to match your installation',
                 $testresult->getMessage()
             );
@@ -137,7 +140,7 @@ class FileManagerTest extends TestCase
      * @group unittest
      * @group install
      *
-     * @return null
+     * @return void
      */
     public function testcheckInstallConfig()
     {
@@ -170,7 +173,7 @@ class FileManagerTest extends TestCase
      * @group unittest
      * @group install
      *
-     * @return null
+     * @return void
      */
     public function testcreateLocalConfig()
     {
@@ -190,7 +193,7 @@ class FileManagerTest extends TestCase
         // This should fail as the directory does not exist to put the file in.
         $testresult = $this->filemanager->createLocalConf($installConfig);
         if (\webtemplate\general\General::isError($testresult)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Error creating local.conf',
                 $testresult->getMessage()
             );
@@ -207,7 +210,7 @@ class FileManagerTest extends TestCase
         if (!\webtemplate\general\General::isError($testresult)) {
             $this->assertTrue($testresult);
             $this->assertFileEquals(
-                __DIR__ .'/../../configs/local.conf',
+                __DIR__ . '/../../configs/local.conf',
                 vfsStream::url($this->rootdir . "/configs/local.conf")
             );
         } else {
@@ -229,7 +232,7 @@ class FileManagerTest extends TestCase
      * @group unittest
      * @group install
      *
-     * @return null
+     * @return void
      */
     public function testcreateTestConf()
     {
@@ -249,7 +252,7 @@ class FileManagerTest extends TestCase
         // Test with the incorrect directory structure for failure
         $testresult = $this->filemanager->createTestConf($installConfig);
         if (\webtemplate\general\General::isError($testresult)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Error creating tests/_data/database.php',
                 $testresult->getMessage()
             );
@@ -299,17 +302,18 @@ class FileManagerTest extends TestCase
 
 
     /**
-     * Test the parameters.jason file can be created
+     * Test the parameters.json file can be created
      *
      * @group unittest
      * @group install
      *
-     * @return null
+     * @return void
      */
     public function testcreateParameters()
     {
         $parametersfile = vfsStream::url($this->rootdir . "/configs/parameters.json");
         // Test with the configs directory missing.  It should report back false
+        $parameters = array();
         $result = $this->filemanager->createParameters($parameters);
         $this->assertFalse($result);
 
@@ -330,7 +334,7 @@ class FileManagerTest extends TestCase
      * @group unittest
      * @group install
      *
-     * @return null
+     * @return void
      */
     public function testcreatePreferences()
     {
@@ -338,6 +342,7 @@ class FileManagerTest extends TestCase
             $this->rootdir . "/configs/preferences.json"
         );
         // Test with the configs directory missing.  It should report back false
+        $sitePreferences = array();
         $result = $this->filemanager->createPreferences($sitePreferences);
         $this->assertFalse($result);
 
@@ -359,7 +364,7 @@ class FileManagerTest extends TestCase
      * @group unittest
      * @group install
      *
-     * @return null
+     * @return void
      */
     public function testdeleteCompiledTemplates()
     {
@@ -397,7 +402,7 @@ class FileManagerTest extends TestCase
      * @group unittest
      * @group install
      *
-     * @return null
+     * @return void
      */
     public function testsetPermissions()
     {
@@ -452,7 +457,7 @@ class FileManagerTest extends TestCase
                     )
                 )
             ),
-            "templates_c" =>array(
+            "templates_c" => array(
                 "template1.php" => " Some Text"
             ),
             "includes" => array(
@@ -475,11 +480,11 @@ class FileManagerTest extends TestCase
 
         // Set Up the Webserver group incorrectly and test for error message
         $installConfig = array();
-        $installConfig['webservergroup'] = 'wwwrun';
+        $installConfig['webservergroup'] = 'wwwran';
 
         $result = $this->filemanager->setPermissions($installConfig);
         if (\webtemplate\general\General::isError($result)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 'Invalid Web Server Group',
                 $result->getMessage()
             );
@@ -488,7 +493,7 @@ class FileManagerTest extends TestCase
         }
 
         // Set up the correct Webserver Group
-        $installConfig['webservergroup'] = 'www';
+        $installConfig['webservergroup'] = 'wwwrun';
         $result = $this->filemanager->setPermissions($installConfig);
         $this->assertTrue($result);
 

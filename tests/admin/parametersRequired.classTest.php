@@ -1,12 +1,16 @@
 <?php
-
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
 
 namespace webtemplate\unittest;
@@ -17,19 +21,15 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../includes/global.php';
 
 /**
- * Parameters Class Unit Tests
+ * Parameters Required Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class ParametersRequiredTest extends TestCase
 {
     /**
      * Parameters Class Object
      *
-     * @var ParametersClass
+     * @var \webtemplate\admin\Parameters
      */
     protected $object;
 
@@ -44,9 +44,9 @@ class ParametersRequiredTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
 
         // Create configuration Object
@@ -63,11 +63,11 @@ class ParametersRequiredTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
-        $configDir = dirname(__FILE__) ."/../_data";
+        $configDir = dirname(__FILE__) . "/../_data";
         $filename = $configDir . '/parameters.php';
         if (file_exists($filename)) {
             unlink($filename);
@@ -76,6 +76,8 @@ class ParametersRequiredTest extends TestCase
 
     /**
      * This function sets up the default parameters for testing
+     *
+     * @return void
      */
     protected function defaultParameters()
     {
@@ -112,7 +114,7 @@ class ParametersRequiredTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testGetLastMessage()
     {
@@ -127,7 +129,7 @@ class ParametersRequiredTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testGetCurrentParameters()
     {
@@ -142,7 +144,7 @@ class ParametersRequiredTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testvalidateParameters()
     {
@@ -164,7 +166,7 @@ class ParametersRequiredTest extends TestCase
         $result = $this->object->validateParameters($inputData);
         $this->assertFalse($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains('Invalid URL Base', $localStr);
+        $this->assertStringContainsString('Invalid URL Base', $localStr);
 
         // Maintainer Fails
         $inputData['url_base_id'] = 'http://www.example.com';
@@ -175,7 +177,7 @@ class ParametersRequiredTest extends TestCase
         $result = $this->object->validateParameters($inputData);
         $this->assertFalse($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Invalid Maintainer's Email Address", $localStr);
+        $this->assertStringContainsString("Invalid Maintainer's Email Address", $localStr);
 
         // Doc Base Fails
         $inputData['url_base_id'] = 'http://www.example.com';
@@ -186,7 +188,7 @@ class ParametersRequiredTest extends TestCase
         $result = $this->object->validateParameters($inputData);
         $this->assertFalse($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Invalid Document Path", $localStr);
+        $this->assertStringContainsString("Invalid Document Path", $localStr);
 
         // Cookie Domain Fails
         $inputData['url_base_id'] = 'http://www.example.com';
@@ -197,7 +199,7 @@ class ParametersRequiredTest extends TestCase
         $result = $this->object->validateParameters($inputData);
         $this->assertFalse($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Invalid Cookie Domain", $localStr);
+        $this->assertStringContainsString("Invalid Cookie Domain", $localStr);
 
         // Cookie Path Fails
         $inputData['url_base_id'] = 'http://www.example.com';
@@ -208,7 +210,7 @@ class ParametersRequiredTest extends TestCase
         $result = $this->object->validateParameters($inputData);
         $this->assertFalse($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Invalid Cookie Path", $localStr);
+        $this->assertStringContainsString("Invalid Cookie Path", $localStr);
 
         // No Input Data
         $testData['Test'] = 'http://www.example.com';
@@ -222,7 +224,7 @@ class ParametersRequiredTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testcheckParametersChanged()
     {
@@ -248,7 +250,7 @@ class ParametersRequiredTest extends TestCase
         $result = $this->object->CheckParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Base URL Changed", $localStr);
+        $this->assertStringContainsString("Base URL Changed", $localStr);
 
         // Maintainer Changed
         $parameters['urlbase'] = 'http://www.example.com';
@@ -259,7 +261,7 @@ class ParametersRequiredTest extends TestCase
         $result = $this->object->CheckParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Maintainer's Address Changed", $localStr);
+        $this->assertStringContainsString("Maintainer's Address Changed", $localStr);
 
         // DOCBASE Changed
         $parameters['urlbase'] = 'http://www.example.com';
@@ -270,7 +272,7 @@ class ParametersRequiredTest extends TestCase
         $result = $this->object->CheckParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Docs Base URL Changed", $localStr);
+        $this->assertStringContainsString("Docs Base URL Changed", $localStr);
 
          // Cookie Domain Changed
         $parameters['urlbase'] = 'http://www.example.com';
@@ -281,7 +283,7 @@ class ParametersRequiredTest extends TestCase
         $result = $this->object->CheckParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Cookie Domain Changed", $localStr);
+        $this->assertStringContainsString("Cookie Domain Changed", $localStr);
 
         // Cookie Path Changed
         $parameters['urlbase'] = 'http://www.example.com';
@@ -292,7 +294,7 @@ class ParametersRequiredTest extends TestCase
         $result = $this->object->CheckParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Cookie Path Changed", $localStr);
+        $this->assertStringContainsString("Cookie Path Changed", $localStr);
     }
 
     /**
@@ -301,11 +303,11 @@ class ParametersRequiredTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testsaveParamFile()
     {
-        $configDir = dirname(__FILE__) ."/../_data";
+        $configDir = dirname(__FILE__) . "/../_data";
         $filesaved = $this->object->saveParamFile($configDir);
         $this->assertTrue($filesaved);
         $filename = $configDir . '/parameters.json';
@@ -321,11 +323,11 @@ class ParametersRequiredTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testsaveParamFileFail()
     {
-        $configDir = dirname(__FILE__) ."/../data";
+        $configDir = dirname(__FILE__) . "/../data";
         $filesaved = $this->object->saveParamFile($configDir);
         $this->assertFalse($filesaved);
     }

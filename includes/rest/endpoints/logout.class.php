@@ -2,22 +2,22 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage RestFul Interface
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\rest\endpoints;
 
 /**
- *  WebtemplateAPI example endpoint class
- *
- * @category Webtemplate
- * @package  API
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
+ *  Webtemplate RestFull API logout endpoint class
  **/
-
 class Logout
 {
     /**
@@ -38,11 +38,11 @@ class Logout
     /**
      * Constructor
      *
-     * @param pointer $webtemplate Pointer to Webtemplate Application Class
+     * @param \webtemplate\application\Application $webtemplate Webtemplate Application Class Object.
      *
      * @access public
      */
-    public function __construct(&$webtemplate)
+    public function __construct(\webtemplate\application\Application  &$webtemplate)
     {
         $this->webtemplate = $webtemplate;
     }
@@ -58,13 +58,13 @@ class Logout
     protected function post()
     {
         if (\count($this->args) > 0) {
-            $errmsg = array('ErrorMsg'=>'logout: Invalid number of arguments');
+            $errmsg = array('ErrorMsg' => 'logout: Invalid number of arguments');
             return array('data' => $errmsg, 'code' => 400);
         }
 
         $this->webtemplate->session()->destroy();
 
-        $dataarr = array('Msg' =>"Logged out");
+        $dataarr = array('Msg' => "Logged out");
         $code = 200;
         return array('data' => $dataarr, 'code' => $code);
     }

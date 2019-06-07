@@ -6,8 +6,19 @@
     <description>Webtemplate Coding Standard</description>
 
     <!-- Rule Sets -->
-        <!--  Default Standard is PSR2 -->
-        <rule ref="PSR2"/>
+        <!--  Default Standard is PSR12 -->
+        <rule ref="PSR12"/>
+
+        <rule ref="Squiz.Commenting.FunctionComment" />
+        <rule ref="Squiz.Commenting.FunctionCommentThrowTag" />
+        <rule ref="Squiz.Commenting.ClassComment">
+            <exclude name="Squiz.Commenting.ClassComment.TagNotAllowed" />
+        </rule>q
+        <rule ref="Squiz.Commenting.FileComment">
+            <exclude name="Squiz.Commenting.FileComment.IncorrectAuthor" />
+            <exclude name="Squiz.Commenting.FileComment.IncorrectCopyright" />
+        </rule>
+        <!--<rule ref="Squiz.Commenting.VariableComment" /> -->
 
         <!-- Rules to exclude from Specific files -->
         <rule ref="Generic.Files.LineLength">
@@ -25,4 +36,5 @@
         <exclude-pattern>*/templates_c/*</exclude-pattern>
         <exclude-pattern>*/config.php</exclude-pattern>
         <exclude-pattern>*/vendor/*</exclude-pattern>
+        <exclude-pattern>*/db/*</exclude-pattern>
 </ruleset>

@@ -2,10 +2,15 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Application Module
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
 
 /**
@@ -18,18 +23,8 @@ require_once "../includes/global.php";
 try {
     $app = new \webtemplate\application\Application();
 } catch (\Throwable $e) {
-    // Create the Smart Template object
-    $tpl = new \webtemplate\application\SmartyTemplate;
-    $template = 'global/error.tpl';
-    $msg = $e->getMessage();
-    $msg .= "\n\n";
-    $msg .= gettext("Please Contact your Adminstrator");
-    $header =  gettext("Application Error");
-    $tpl->assign('ERRORMSG', $msg);
-    $tpl->assign('HEADERMSG', $header);
-    $dateArray = getdate();
-    $tpl->assign("YEAR", "$dateArray[year]");
-    $tpl->display($template);
+    error_log(basename(__FILE__) . ": " . $e->getMessage());
+    header('Location: syserror.html');
     exit();
 }
 
@@ -93,7 +88,7 @@ $app->tpl()->assign("DOCSAVAILABLE", $docsAvailable);
 
 $app->tpl()->assign(
     "PAGETITLE",
-    gettext("User Preferences")  . ": " .$app->user()->getUserName()
+    gettext("User Preferences")  . ": " . $app->user()->getUserName()
 );
 
 //Set up the page array.  This is a tempory location.
@@ -302,7 +297,7 @@ if ($tab == 'account') {
                 } else {
                     // Error saving data.
                     $msg = gettext("Error updating your user preferences.");
-                    $app->tpl()->assign("MSG", $msg . "\n". $result->getMessage());
+                    $app->tpl()->assign("MSG", $msg . "\n" . $result->getMessage());
                 }
             } else {
                 // Data not validated.  Create an error string and reload the page.

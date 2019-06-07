@@ -2,23 +2,23 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Admin
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\admin;
 
 /**
  * Preferences Interface Class
  *
- * @category Webtemplate
- * @package  Admin
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license View the license file distributed with this source code
  **/
-
-
 class Preferences
 {
 
@@ -98,11 +98,11 @@ class Preferences
     /**
      * Constructor
      *
-     * @param \webtemplate\config\Configure $config Configuration class
+     * @param \webtemplate\config\Configure $config Configuration class.
      *
      * @access public
      */
-    public function __construct($config)
+    public function __construct(\webtemplate\config\Configure $config)
     {
 
         $this->config = $config;
@@ -115,16 +115,16 @@ class Preferences
     }
 
     /**
-     * Load the list of Themes installed on this system by scaning the styles
+     * Load the list of Themes installed on this system by scanning the styles
      * directory which is located in the $rootDir.
      *
-     * @param string $rootDir Web Server Root Directory
+     * @param string $rootDir Web Server Root Directory.
      *
      * @return mixed Containing all installed themes or WEBTEMPLATE error
      *
      * @access public
      */
-    final public function loadThemes($rootDir)
+    final public function loadThemes(string $rootDir)
     {
         $styleDir = $rootDir . "/style";
         $installedThemes = array();
@@ -149,7 +149,7 @@ class Preferences
         } else {
             // Unable to read the contents of the style directory
             $gotThemes = false;
-            $this->lastMsg= gettext("Unable to Open Style Directory");
+            $this->lastMsg = gettext("Unable to Open Style Directory");
         }
         $this->installedThemes = $installedThemes;
         return $gotThemes;
@@ -177,8 +177,6 @@ class Preferences
         return $defaultThemeFound;
     }
 
-
-
     /**
     * Return the array of installed themes
     *
@@ -191,7 +189,6 @@ class Preferences
         return $this->installedThemes;
     }
 
-
     /**
     * Get the last message created by the class
     *
@@ -203,9 +200,6 @@ class Preferences
     {
         return $this->lastMsg;
     }
-
-
-
 
     /**
     * Returns the current values of the preferences is an array.
@@ -226,18 +220,17 @@ class Preferences
         return $preferences;
     }
 
-
     /**
      * Save the current Preferences to a file called preferences.php
      * located in the $configDir.
      *
-     * @param string $configDir Directory Containging Configuration Files
+     * @param string $configDir Directory Containing Configuration Files.
      *
      * @return boolean true if Preferences Saved
      *
      * @access public
      */
-    final public function savePrefFile($configDir)
+    final public function savePrefFile(string $configDir)
     {
         // Write the data to the config class
         $this->savetoConfigurationClass();
@@ -247,18 +240,17 @@ class Preferences
         return $result;
     } // End of savePreferences
 
-
     /**
      * Validate the Preferences input by the users. lastMsg contains a list of
      * preferences which failed validation
      *
-     * @param array $inputArray Pointer to an array containing users input
+     * @param array $inputArray Pointer to an array containing users input.
      *
      * @return boolean true if all input Preferences Validated
      *
      * @access public
      */
-    final public function validatePreferences(&$inputArray)
+    final public function validatePreferences(array &$inputArray)
     {
 
         // Set Default validation variables
@@ -291,23 +283,19 @@ class Preferences
         // Allow users to select the number of rows to be displayed.
         $this->displayRowsEnabled = isset($inputArray['display_rows_enabled']);
 
-
-
-
         return $dataValid;
     } // End of validatePrefrences
-
 
     /**
      * Validate the chosen theme
      *
-     * @param array $inputArray Pointer to an array containing users input
+     * @param array $inputArray Pointer to an array containing users input.
      *
      * @return boolean true if all theme is Validated
      *
      * @access private
      */
-    private function validateTheme(&$inputArray)
+    private function validateTheme(array $inputArray)
     {
         $themeOK = false;
 
@@ -329,17 +317,16 @@ class Preferences
         return $themeOK;
     }
 
-
     /**
      * Validate the text area zoom flag
      *
-     * @param array $inputArray Pointer to an array containing users input
+     * @param array $inputArray Pointer to an array containing users input.
      *
      * @return boolean true
      *
      * @access private
      */
-    private function validateTextAreaZoom(&$inputArray)
+    private function validateTextAreaZoom(array &$inputArray)
     {
         $this->zoomtextValue = false;
         if (isset($inputArray['zoom_textareas'])) {
@@ -352,18 +339,16 @@ class Preferences
         return true;
     }
 
-
-
     /**
      * Validate the the number of records to display
      *
-     * @param array $inputArray Pointer to an array containing users input
+     * @param array $inputArray Pointer to an array containing users input.
      *
      * @return boolean true
      *
      * @access private
      */
-    private function validateDisplayRows(&$inputArray)
+    private function validateDisplayRows(array &$inputArray)
     {
         $this->displayRowsValue = '2';
         if (isset($inputArray['display_rows'])) {
@@ -373,9 +358,6 @@ class Preferences
         }
         return true;
     }
-
-
-
 
     /**
      * Check if any of the prefernces have changed by comparing the locally
@@ -428,10 +410,10 @@ class Preferences
     }
 
     /**
-     * This function transfers the paramaters stored in this class to the
+     * This function transfers the prefernces stored in this class to the
      * Configuration Class.
      *
-     * @return boolean True if write is successful
+     * @return void
      *
      * @access private
      */

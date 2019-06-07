@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
@@ -15,29 +21,25 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../includes/global.php';
 
 // include the test database connection configuration
-require_once dirname(__FILE__) .'/../_data/database.php';
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 /**
- * UserPrefClass Unit Tests
+ * Edit User Pref Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class EditUserPrefClassTest extends TestCase
 {
     /**
      * User Prefs Object
      *
-     * @var UserPrefClass
+     * @var \webtemplate\users\EditUserPref
      */
     protected $object;
 
     /**
-     * MDB2 Database Connection Object
+     * Database Connection Object
      *
-     * @var MDB2 Database Connection Object
+     * @var \webtemplate\db\DB
      *
      * @access protected
      */
@@ -55,7 +57,7 @@ class EditUserPrefClassTest extends TestCase
     /**
      * MOCK Database Connection
      *
-     * @var Mock MDB2 Connection
+     * @var \webtemplate\db\DB
      *
      * @access protected
      */
@@ -64,7 +66,7 @@ class EditUserPrefClassTest extends TestCase
     /**
      * User Pref Object Using the Mock Connection
      *
-     * @var UserPrefClass
+     * @var \webtemplate\users\EditUserPref
      *
      * @access protected
      */
@@ -74,9 +76,9 @@ class EditUserPrefClassTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         global $testdsn, $sitePreferences;
 
@@ -111,9 +113,9 @@ class EditUserPrefClassTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if ($this->databaseconnection === true) {
             $this->object2->disconnect();
@@ -126,7 +128,7 @@ class EditUserPrefClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testGetLastMsg()
     {
@@ -141,7 +143,7 @@ class EditUserPrefClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testloadPreferences()
     {
@@ -157,7 +159,7 @@ class EditUserPrefClassTest extends TestCase
             $rootDir = __DIR__ . "/../_data/stylefail";
             $result = $this->object->loadPreferences($rootDir, $sitePreferences);
             $this->assertFalse($result);
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "No Theme have been installed",
                 $this->object->getLastMsg()
             );
@@ -166,7 +168,7 @@ class EditUserPrefClassTest extends TestCase
             $rootDir = __DIR__;
             $result = $this->object->loadPreferences($rootDir, $sitePreferences);
             $this->assertFalse($result);
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "Unable to Open Style Directory",
                 $this->object->getLastMsg()
             );
@@ -185,7 +187,7 @@ class EditUserPrefClassTest extends TestCase
      *
      * @depends testloadPreferences
      *
-     * @return null
+     * @return void
      */
     public function testgetInstalledThemes()
     {
@@ -193,7 +195,7 @@ class EditUserPrefClassTest extends TestCase
 
         if ($this->databaseconnection == true) {
             // Get   Preferences;
-            $rootDir = dirname(__FILE__) ."/../_data";
+            $rootDir = dirname(__FILE__) . "/../_data";
             $result = $this->object->loadPreferences($rootDir, $sitePreferences);
             if ($result) {
                 $themeArray = $this->object->getInstalledThemes();
@@ -216,7 +218,7 @@ class EditUserPrefClassTest extends TestCase
      *
      * @depends testloadPreferences
      *
-     * @return null
+     * @return void
      */
     public function testZoomTextOptions()
     {
@@ -224,7 +226,7 @@ class EditUserPrefClassTest extends TestCase
 
         if ($this->databaseconnection == true) {
             // Get   Preferences;
-            $rootDir = dirname(__FILE__) ."/../_data";
+            $rootDir = dirname(__FILE__) . "/../_data";
             $result = $this->object->loadPreferences($rootDir, $sitePreferences);
             if ($result) {
                 $zoomTextArray = $this->object->getZoomTextOptions();
@@ -266,7 +268,7 @@ class EditUserPrefClassTest extends TestCase
      *
      * @depends testloadPreferences
      *
-     * @return null
+     * @return void
      */
     public function testgetDisplayRowsOptions()
     {
@@ -274,7 +276,7 @@ class EditUserPrefClassTest extends TestCase
 
         if ($this->databaseconnection == true) {
             // Get   Preferences;
-            $rootDir = dirname(__FILE__) ."/../_data";
+            $rootDir = dirname(__FILE__) . "/../_data";
             $result = $this->object->loadPreferences($rootDir, $sitePreferences);
             if ($result) {
                 $displayRowsArray = $this->object->getDisplayRowsOptions();
@@ -300,14 +302,14 @@ class EditUserPrefClassTest extends TestCase
      *
      * @depends testloadPreferences
      *
-     * @return null
+     * @return void
      */
     public function testValidateUserPreferences()
     {
         global $sitePreferences;
 
         // Get Preferences;
-        $rootDir = dirname(__FILE__) ."/../_data";
+        $rootDir = dirname(__FILE__) . "/../_data";
         $result = $this->object->loadPreferences($rootDir, $sitePreferences);
         if ($result) {
             $inputArray = array();
@@ -329,7 +331,7 @@ class EditUserPrefClassTest extends TestCase
             $result = $this->object->validateUserPreferences($inputArray);
             $this->assertFalse($result);
             $msg = $this->object->getLastMsg();
-            $this->assertContains('The chosen theme', $msg);
+            $this->assertStringContainsString('The chosen theme', $msg);
 
             // Test with invalid zoom Text Areas
             $inputArray['theme'] = 'Dusk';
@@ -338,7 +340,7 @@ class EditUserPrefClassTest extends TestCase
             $result = $this->object->validateUserPreferences($inputArray);
             $this->assertFalse($result);
             $msg = $this->object->getLastMsg();
-            $this->assertContains('The ZoomTextArea', $msg);
+            $this->assertStringContainsString('The ZoomTextArea', $msg);
 
             // Test with invalid Display Rows
             $inputArray['theme'] = 'Dusk';
@@ -347,7 +349,7 @@ class EditUserPrefClassTest extends TestCase
             $result = $this->object->validateUserPreferences($inputArray);
             $this->assertFalse($result);
             $msg = $this->object->getLastMsg();
-            $this->assertContains('display rows', $msg);
+            $this->assertStringContainsString('display rows', $msg);
         } else {
             $this->fail("Unable to load Preferences");
         }
@@ -362,14 +364,14 @@ class EditUserPrefClassTest extends TestCase
      * @depends testloadPreferences
      * @depends testValidateUserPreferences
      *
-     * @return null
+     * @return void
      */
     public function testCheckUserPreferencesUpdated()
     {
         global $sitePreferences;
 
         // Get Preferences;
-        $rootDir = dirname(__FILE__) ."/../_data";
+        $rootDir = dirname(__FILE__) . "/../_data";
         $result = $this->object->loadPreferences($rootDir, $sitePreferences);
         if ($result) {
             // Create input array
@@ -405,7 +407,7 @@ class EditUserPrefClassTest extends TestCase
                 $result = $this->object->checkUserPreferencesChanged();
                 $this->assertTrue($result);
                 $msg = $this->object->getLastMsg();
-                $this->assertContains('Theme Updated', $msg);
+                $this->assertStringContainsString('Theme Updated', $msg);
             } else {
                 $this->fail("Failed to Validate Preferences");
             }
@@ -419,7 +421,7 @@ class EditUserPrefClassTest extends TestCase
                 $result = $this->object->checkUserPreferencesChanged();
                 $this->assertTrue($result);
                 $msg = $this->object->getLastMsg();
-                $this->assertContains('Text Area Zoom Updated', $msg);
+                $this->assertStringContainsString('Text Area Zoom Updated', $msg);
             } else {
                 $this->fail("Failed to Validate Preferences");
             }
@@ -434,7 +436,7 @@ class EditUserPrefClassTest extends TestCase
                 $result = $this->object->checkUserPreferencesChanged();
                 $this->assertTrue($result);
                 $msg = $this->object->getLastMsg();
-                $this->assertContains('Text Area Zoom Updated', $msg);
+                $this->assertStringContainsString('Text Area Zoom Updated', $msg);
             } else {
                 $this->fail("Failed to Validate Preferences");
             }
@@ -450,7 +452,7 @@ class EditUserPrefClassTest extends TestCase
                 $result = $this->object->checkUserPreferencesChanged();
                 $this->assertTrue($result);
                 $msg = $this->object->getLastMsg();
-                $this->assertContains('Number of Data Rows', $msg);
+                $this->assertStringContainsString('Number of Data Rows', $msg);
             } else {
                 $this->fail("Failed to Validate Preferences");
             }
@@ -481,21 +483,21 @@ class EditUserPrefClassTest extends TestCase
      * @depends testValidateUserPreferences
      * @depends testCheckUserPreferencesUpdated
      *
-     * @return null
+     * @return void
      */
     public function testSaveUserPreferences()
     {
         global $sitePreferences;
 
         // Get Preferences;
-        $rootDir = dirname(__FILE__) ."/../_data";
+        $rootDir = dirname(__FILE__) . "/../_data";
         $result = $this->object->loadPreferences($rootDir, $sitePreferences);
         if ($result) {
             // Try and save preferences before validation etc
             $result = $this->object->saveUserPreferences();
             $this->assertFalse($result);
             $msg = $this->object->getLastMsg();
-            $this->assertContains('No Changes Made.', $msg);
+            $this->assertStringContainsString('No Changes Made.', $msg);
 
             //Create input array
             $inputArray = array();
@@ -579,21 +581,21 @@ class EditUserPrefClassTest extends TestCase
      * @depends testValidateUserPreferences
      * @depends testCheckUserPreferencesUpdated
      *
-     * @return null
+     * @return void
      */
     public function testMockSaveUserPreferencesNoValidation()
     {
         global $sitePreferences;
 
         // Get Preferences;
-        $rootDir = dirname(__FILE__) ."/../_data";
+        $rootDir = dirname(__FILE__) . "/../_data";
         $result = $this->mockPrefClass->loadPreferences($rootDir, $sitePreferences);
         if ($result) {
             // Try and save preferences before validation etc
             $result = $this->mockPrefClass->saveUserPreferences();
             $this->assertFalse($result);
             $msg = $this->mockPrefClass->getLastMsg();
-            $this->assertContains('No Changes Made.', $msg);
+            $this->assertStringContainsString('No Changes Made.', $msg);
         } else {
             $this->fail("Mock Driver: Unable to load Preferences");
         }
@@ -612,14 +614,14 @@ class EditUserPrefClassTest extends TestCase
      * @depends testValidateUserPreferences
      * @depends testCheckUserPreferencesUpdated
      *
-     * @return null
+     * @return void
      */
     public function testMockSaveUserPreferencesTransactionFail()
     {
         global $sitePreferences;
 
         // Get Preferences;
-        $rootDir = dirname(__FILE__) ."/../_data";
+        $rootDir = dirname(__FILE__) . "/../_data";
         $result = $this->mockPrefClass->loadPreferences($rootDir, $sitePreferences);
         if ($result) {
             //Create input array
@@ -657,14 +659,14 @@ class EditUserPrefClassTest extends TestCase
      * @depends testValidateUserPreferences
      * @depends testCheckUserPreferencesUpdated
      *
-     * @return null
+     * @return void
      */
     public function testMockSaveUserPreferences()
     {
         global $sitePreferences;
 
         // Get Preferences;
-        $rootDir = dirname(__FILE__) ."/../_data";
+        $rootDir = dirname(__FILE__) . "/../_data";
         $result = $this->mockPrefClass->loadPreferences($rootDir, $sitePreferences);
         if ($result) {
             //Create input array
@@ -827,7 +829,7 @@ class EditUserPrefClassTest extends TestCase
      * @depends testValidateUserPreferences
      * @depends testCheckUserPreferencesUpdated
      *
-     * @return null
+     * @return void
      */
     public function testGetNewTheme()
     {
@@ -838,7 +840,7 @@ class EditUserPrefClassTest extends TestCase
         $this->assertEquals('Dusk', $localStr);
 
         // Set Up Preferences for Test
-        $rootDir = dirname(__FILE__) ."/../_data";
+        $rootDir = dirname(__FILE__) . "/../_data";
         $result = $this->object->loadPreferences($rootDir, $sitePreferences);
         if ($result) {
             // Run using Default Input

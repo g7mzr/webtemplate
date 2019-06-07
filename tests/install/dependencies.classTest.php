@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
@@ -19,14 +25,10 @@ require_once __DIR__ . '/../../config.php';
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 /**
- * Test the Schema creation and update functions
+ * Install Dependencies Class Unit Test
  *
  * @backupGlobals disabled
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class DependenciesTest extends TestCase
 {
@@ -43,9 +45,9 @@ class DependenciesTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
     }
 
@@ -53,9 +55,9 @@ class DependenciesTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
@@ -65,7 +67,7 @@ class DependenciesTest extends TestCase
      * @group install
      * @group unittest
      *
-     * @return null No return data
+     * @return void
      */
     public function testCreateClass()
     {
@@ -82,7 +84,7 @@ class DependenciesTest extends TestCase
      *
      * @depends testCreateClass
      *
-     * @return null No return data
+     * @return void
      */
     public function testPHPVersionPass()
     {
@@ -102,7 +104,7 @@ class DependenciesTest extends TestCase
      *
      * @depends testCreateClass
      *
-     * @return null No return data
+     * @return void
      */
     public function testPHPVersionFail()
     {
@@ -122,7 +124,7 @@ class DependenciesTest extends TestCase
      *
      * @depends testCreateClass
      *
-     * @return null No return data
+     * @return void
      */
     public function testPHPModulesPass()
     {
@@ -149,7 +151,7 @@ class DependenciesTest extends TestCase
      *
      * @depends testCreateClass
      *
-     * @return null No return data
+     * @return void
      */
     public function testPHPModulesFail()
     {
@@ -181,7 +183,7 @@ class DependenciesTest extends TestCase
      *
      * @depends testCreateClass
      *
-     * @return null No return data
+     * @return void
      */
     public function testOtherModulesPass()
     {
@@ -216,7 +218,7 @@ class DependenciesTest extends TestCase
      *
      * @depends testCreateClass
      *
-     * @return null No return data
+     * @return void
      */
     public function testOtherModulesPassAny()
     {
@@ -250,7 +252,7 @@ class DependenciesTest extends TestCase
      *
      * @depends testCreateClass
      *
-     * @return null No return data
+     * @return void
      */
     public function testOtherModulesNotFound()
     {
@@ -284,7 +286,7 @@ class DependenciesTest extends TestCase
      *
      * @depends testCreateClass
      *
-     * @return null No return data
+     * @return void
      */
     public function testOtherModulesWrongVersion()
     {
@@ -319,7 +321,7 @@ class DependenciesTest extends TestCase
      *
      * @depends testCreateClass
      *
-     * @return null No return data
+     * @return void
      */
     public function testDBMSDriverNotFound()
     {
@@ -347,7 +349,7 @@ class DependenciesTest extends TestCase
      *
      * @depends testCreateClass
      *
-     * @return null No return data
+     * @return void
      */
     public function testDBMSPDONotFound()
     {
@@ -391,7 +393,7 @@ class DependenciesTest extends TestCase
      *
      * @depends testCreateClass
      *
-     * @return null No return data
+     * @return void
      */
     public function testDBMSWrongVersion()
     {
@@ -434,7 +436,7 @@ class DependenciesTest extends TestCase
      *
      * @depends testCreateClass
      *
-     * @return null No return data
+     * @return void
      */
     public function testDBMSValidVersion()
     {
@@ -487,7 +489,7 @@ class DependenciesTest extends TestCase
      *
      * @depends testCreateClass
      *
-     * @return null No return data
+     * @return void
      */
     public function testDBMSInValidDatabase()
     {

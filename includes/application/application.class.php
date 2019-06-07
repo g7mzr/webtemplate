@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Application
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\application;
 
 use webtemplate\application\exceptions\AppException;
@@ -15,18 +21,12 @@ use webtemplate\application\WebTemplateCommon;
 
 /**
  *  Webtemplate Application
- *
- * @category Webtemplate
- * @package  General
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
 class Application
 {
     /**
      * Property: db
-     * PHP PDO object
+     * PHP PDO class
      *
      * @var    \webtemplate\db\DB
      * @access protected
@@ -35,7 +35,7 @@ class Application
 
     /**
      * Property: tpl
-     * SMARTY Template object
+     * SMARTY Template class
      *
      * @var    \webtemplate\application\SmartyTemplate
      * @access protected
@@ -89,7 +89,7 @@ class Application
 
     /**
      * Property: config
-     * Webtemplate config object
+     * Webtemplate config class
      *
      * @var    \webtemplate\config\Configure
      * @access protected
@@ -107,7 +107,7 @@ class Application
 
     /**
      * Property: session
-     * Webtemplate Session object
+     * Webtemplate Session class
      *
      * @var    \webtemplate\application\Session
      * @access protected
@@ -116,7 +116,7 @@ class Application
 
     /**
      * Property: user
-     * Webtemplate User object
+     * Webtemplate User class
      *
      * @var    \webtemplate\users\User
      * @access protected
@@ -125,7 +125,7 @@ class Application
 
     /**
      * Property: usergroups
-     * Webtemplate Usergroups object
+     * Webtemplate Usergroups class
      *
      * @var    \webtemplate\users\Groups
      * @access protected
@@ -134,7 +134,7 @@ class Application
 
     /**
      * Property: editusers
-     * Webtemplate edituser object
+     * Webtemplate edituser class
      *
      * @var    \webtemplate\users\Edituser
      * @access protected
@@ -144,7 +144,7 @@ class Application
 
     /**
      * Property: editusersgroups
-     * Webtemplate editusers groups object
+     * Webtemplate editusers groups class
      *
      * @var    \webtemplate\groups\EditUsersGroups
      * @access protected
@@ -153,7 +153,7 @@ class Application
 
     /**
      * Property: editgroups
-     * Webtemplate edit groups object
+     * Webtemplate edit groups class
      *
      * @var    \webtemplate\groups\EditGroups
      * @access protected
@@ -208,6 +208,8 @@ class Application
     /**
      * Constructor
      *
+     * @throws AppException If unable to connect to database.
+     *
      * @access public
      */
     public function __construct()
@@ -222,8 +224,8 @@ class Application
         );
 
 
-        // Create the Smart Template object
-        $this->var_tpl = new \webtemplate\application\SmartyTemplate;
+        // Create the Smart Template class
+        $this->var_tpl = new \webtemplate\application\SmartyTemplate();
 
 
         //Set up the correct language and associated templates
@@ -273,22 +275,22 @@ class Application
             $this->var_db
         );
 
-        // Create a user object
+        // Create a user class
         $this->var_user = new \webtemplate\users\User($this->var_db);
 
-        // Initalise an Edit User object
+        // Initalise an Edit User class
         $this->var_edituser = new \webtemplate\users\EditUser($this->var_db);
 
         // Initalise an Usergrpups class
         $this->var_usergroups = new \webtemplate\users\Groups($this->var_db);
 
 
-        // Initalise an edutusers groups object
+        // Initalise an edutusers groups class
         $this->var_editusersgroups = new \webtemplate\groups\EditUsersGroups(
             $this->var_db
         );
 
-        // Initalise edit groups object
+        // Initalise edit groups class
         $this->var_editgroups = new \webtemplate\groups\EditGroups($this->var_db);
 
         // Initalise the Parameters Object
@@ -391,7 +393,7 @@ class Application
     }
 
     /**
-     * This function returns the config object
+     * This function returns the config class
      *
      * @return \webtemplate\config\Configure
      *
@@ -404,7 +406,7 @@ class Application
 
 
     /**
-     * This function returns the database object
+     * This function returns the database class
      *
      * @return \webtemplate\db\DB
      *
@@ -416,7 +418,7 @@ class Application
     }
 
     /**
-     * This function returns the edituser object
+     * This function returns the edituser class
      *
      * @return \webtemplate\users\Edituser
      *
@@ -428,7 +430,7 @@ class Application
     }
 
     /**
-     * This function returns the user object
+     * This function returns the user class
      *
      * @return \webtemplate\users\EditUsersGroups
      *
@@ -452,7 +454,7 @@ class Application
     }
 
     /**
-     * This function returns the log object
+     * This function returns the log class
      *
      * @return \webtemplate\general\Log
      *
@@ -464,7 +466,7 @@ class Application
     }
 
     /**
-     * This function returns the session object
+     * This function returns the session class
      *
      * @return \webtemplate\application\Session
      *
@@ -476,7 +478,7 @@ class Application
     }
 
     /**
-     * This function returns the tpl object
+     * This function returns the tpl class
      *
      * @return \webtemplate\application\SmartyTemplate
      *
@@ -489,7 +491,7 @@ class Application
 
 
     /**
-     * This function returns the user object
+     * This function returns the user class
      *
      * @return \webtemplate\users\User
      *
@@ -501,7 +503,7 @@ class Application
     }
 
     /**
-     * This function returns the users groups object
+     * This function returns the users groups class
      *
      * @return \webtemplate\users\Groups
      *
@@ -513,7 +515,7 @@ class Application
     }
 
     /**
-     * This function returns the users groups object
+     * This function returns the users groups class
      *
      * @return \webtemplate\groups\EditGroups
      *
@@ -525,7 +527,7 @@ class Application
     }
 
     /**
-     * This function returns the parameters object
+     * This function returns the parameters class
      *
      * @return \webtemplate\admin\Parameters
      *
@@ -538,7 +540,7 @@ class Application
 
 
     /**
-     * This function returns the preferences object
+     * This function returns the preferences class
      *
      * @return \webtemplate\admin\Preferences
      *
@@ -550,7 +552,7 @@ class Application
     }
 
     /**
-     * This function returns the mail object
+     * This function returns the mail class
      *
      * @return \webtemplate\general\Mail
      *
@@ -562,7 +564,7 @@ class Application
     }
 
     /**
-     * This function returns the tokens object
+     * This function returns the tokens class
      *
      * @return \webtemplate\general\tokens
      *
@@ -574,7 +576,7 @@ class Application
     }
 
     /**
-     * This function returns the edituserpref object
+     * This function returns the edituserpref class
      *
      * @return \webtemplate\users\EditUserPref
      *

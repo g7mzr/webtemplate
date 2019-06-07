@@ -2,18 +2,24 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\phpunit;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
 
 // Include the Test Database Connection details
-require_once dirname(__FILE__) .'/../_data/database.php';
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 use PHPUnit\Framework\TestCase;
 
@@ -26,10 +32,6 @@ DEFINE("LANGUAGE", "en");
 /**
  * Application Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class ApplicationTest extends TestCase
 {
@@ -45,9 +47,9 @@ class ApplicationTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         global $sessiontest;
 
@@ -65,9 +67,9 @@ class ApplicationTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->object->session()->destroy();
     }
@@ -79,7 +81,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testApplicationName()
     {
@@ -93,7 +95,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testApplicationVersion()
     {
@@ -107,7 +109,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testAPIVersion()
     {
@@ -121,7 +123,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testLanguage()
     {
@@ -135,7 +137,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testProduction()
     {
@@ -149,7 +151,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testConfigObject()
     {
@@ -166,7 +168,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testDBObject()
     {
@@ -183,7 +185,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testEditUserobject()
     {
@@ -200,7 +202,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testEditUsersGroupsObject()
     {
@@ -218,7 +220,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testLogObject()
     {
@@ -235,7 +237,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testSessionObject()
     {
@@ -253,7 +255,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testTPLObject()
     {
@@ -270,7 +272,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testUserObject()
     {
@@ -288,7 +290,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testUsersGroupsObject()
     {
@@ -305,7 +307,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testEditGroupsObject()
     {
@@ -322,7 +324,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testParametersObject()
     {
@@ -339,7 +341,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testPreferencesObject()
     {
@@ -356,7 +358,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testMailObject()
     {
@@ -373,7 +375,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testTokensObject()
     {
@@ -390,7 +392,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testEditUserPrefObject()
     {
@@ -407,7 +409,7 @@ class ApplicationTest extends TestCase
      * @group unittest
      * @group application
      *
-     * @return null
+     * @return void
      */
     public function testUserRetrieved()
     {

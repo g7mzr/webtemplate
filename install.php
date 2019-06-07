@@ -3,10 +3,15 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Installer
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
 
 //System Files
@@ -24,15 +29,19 @@ use GetOpt\ArgumentException\Missing;
 // Load the following files if they exist
 // If not they will be created later
 $preferencesfile = __DIR__ . "/configs/preferences.json";
-if (file_exists('./configs/preferences.php')) {
+if (file_exists($preferencesfile)) {
     $preferencesstr = file_get_contents($preferencesfile);
-    $sitepreferences = json_decode($preferencesstr, true);
+    $sitePreferences = json_decode($preferencesstr, true);
+} else {
+    $sitePreferences = array();
 }
 
 $parametersfile = __DIR__ . "/configs/parameters.json";
 if (file_exists($parametersfile)) {
     $parameterstr = file_get_contents($parametersfile);
     $parameters = json_decode($parameterstr, true);
+} else {
+    $parameters = array();
 }
 
 

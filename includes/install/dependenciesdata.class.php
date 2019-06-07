@@ -2,23 +2,25 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Install
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\install;
 
 /**
- * DependenciesData Class is the class that contains the dependancies for webtemplate
- * It is managed using the Dependencies class.
+ * Dependencies Data Class
  *
- * @category Webtemplate
- * @package  General
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
+ * DependenciesData Class is the class that contains the dependencies for webtemplate
+ * It is managed using the Dependencies class.
  **/
-
 class DependenciesData
 {
 

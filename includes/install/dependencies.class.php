@@ -2,26 +2,29 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Install
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\install;
 
 /**
- * Dependencies Class is the class used to manage webtemplate dependancies for PHP
- * and other modules
+ * Dependencies Class
  *
- * @category Webtemplate
- * @package  General
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
+ * Dependencies Class is the class used to manage webtemplate dependencies for PHP
+ * and other modules
  **/
 class Dependencies
 {
     /**
-     * Dependancy errors found flag
+     * Dependency errors found flag
      *
      * @var    boolean
      * @access protected
@@ -78,12 +81,12 @@ class Dependencies
             echo "\n\n";
 
             if (count($this->phpErrors) > 0) {
-                for ($i= 0; $i < count($this->phpErrors); $i++) {
+                for ($i = 0; $i < count($this->phpErrors); $i++) {
                     echo $this->phpErrors[$i] . "\n";
                 }
             }
             if (count($this->moduleErrors) > 0) {
-                for ($i= 0; $i < count($this->moduleErrors); $i++) {
+                for ($i = 0; $i < count($this->moduleErrors); $i++) {
                     echo $this->moduleErrors[$i] . "\n";
                 }
             }
@@ -94,11 +97,11 @@ class Dependencies
     /**
      * Function to validate the version of PHP being used.
      *
-     * @param string $version The Minimum version required
+     * @param string $version The Minimum version required.
      *
      * @return boolean True if the PHP version is equal or greater to one needed
      */
-    public function checkPHP($version)
+    public function checkPHP(string $version)
     {
         echo "PHP Version:\n";
         echo substr("Checking for PHP (v$version)              ", 0, 35);
@@ -110,17 +113,18 @@ class Dependencies
             $this->errorsFound = true;
             $this->phpErrors[] = "Install PHP Version: $version";
         }
+        return $this->errorsFound;
     }
 
 
     /**
      * Function to validate that all the PHP Modules are present.
      *
-     * @param array $modules Arry of modules to be tested.
+     * @param array $modules Array of modules to be tested.
      *
      * @return boolean True if all the modules are present
      */
-    public function checkPHPModules($modules)
+    public function checkPHPModules(array $modules)
     {
         echo "\nPHP Extensions:\n";
         $modulesFound = true;
@@ -142,11 +146,11 @@ class Dependencies
      * Function to validate that all the modules installed via composer are installed
      * and at the correct version.
      *
-     * @param array $modules Arry of modules to be tested.
+     * @param array $modules Array of modules to be tested.
      *
      * @return boolean True if all the modules are present
      */
-    public function checkComposerModules($modules)
+    public function checkComposerModules(array $modules)
     {
         echo "\nComposer Modules:\n";
         $modulesFound = true;
@@ -172,7 +176,7 @@ class Dependencies
                 $version = $data['version'];
                 $cmd = $data['versionvar'];
                 $substr = $data['versionsubstr'];
-                $foundVersion = substr(eval('return ' . $cmd .';'), $substr);
+                $foundVersion = substr(eval('return ' . $cmd . ';'), $substr);
                 if ($data['version'] == 'any') {
                     echo "Ok: Found: v$foundVersion\n";
                 } elseif (version_compare($foundVersion, $version) > -1) {
@@ -193,14 +197,17 @@ class Dependencies
      * Function to validate that one of the supported databases and drivers are
      * present at the correct versions
      *
-     * @param string $database      The type of database being used
+     * @param string $database      The type of database being used.
      * @param array  $modules       Array of modules to be tested.
-     * @param array  $installConfig Database login details used during configuration
+     * @param array  $installConfig Database login details used during configuration.
      *
      * @return boolean True if all the database and drivers are present
      */
-    public function checkDatabases($database, $modules, $installConfig)
-    {
+    public function checkDatabases(
+        string $database,
+        array $modules,
+        array $installConfig
+    ) {
         $errorMsg = array();
 
         echo "\nChecking for Database and Drivers:\n";
@@ -229,7 +236,7 @@ class Dependencies
         if ($modulesFound == false) {
             echo "\n\nDatabase not configured correctly. ";
             echo "Please use the instructions below:\n\n";
-            for ($i= 0; $i < count($errorMsg); $i++) {
+            for ($i = 0; $i < count($errorMsg); $i++) {
                 echo $errorMsg[$i] . "\n";
             }
         }
@@ -238,16 +245,19 @@ class Dependencies
 
 
     /**
-     * Function to check that the seleceted dbms is supported by php
+     * Function to check that the selected dbms is supported by php
      *
-     * @param string $database The type of database being used
+     * @param string $database The type of database being used.
      * @param array  $modules  Array of modules to be tested.
-     * @param array  $errorMsg Error message if database not found
+     * @param array  $errorMsg Error message if database not found.
      *
      * @return boolean True if dbms is supported by php
      */
-    private function dbmsSupportedPHP($database, $modules, &$errorMsg)
-    {
+    private function dbmsSupportedPHP(
+        string $database,
+        array $modules,
+        array &$errorMsg
+    ) {
 
         // Check that th PHP database module is loaded
         echo substr("Checking for PDO:$database                        ", 0, 35);
@@ -277,15 +287,19 @@ class Dependencies
     /**
      * Function to check that the is at the right version and is running
      *
-     * @param string $database      The type of database being used
+     * @param string $database      The type of database being used.
      * @param array  $modules       Array of modules to be tested.
-     * @param array  $installConfig Database login details used during configuration
-     * @param array  $errorMsg      Error message if database not found
+     * @param array  $installConfig Database login details used during configuration.
+     * @param array  $errorMsg      Error message if database not found.
      *
      * @return boolean True if dbms is supported by php
      */
-    private function dbmsVersion($database, $modules, $installConfig, &$errorMsg)
-    {
+    private function dbmsVersion(
+        string $database,
+        array $modules,
+        array $installConfig,
+        array &$errorMsg
+    ) {
 
         $dbversion = $modules[$database]['dbversion'];
         if ($dbversion == 'any') {

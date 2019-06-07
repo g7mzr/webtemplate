@@ -2,33 +2,27 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Install
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\install;
-
-/**
- * Define the file permissions
- */
-
 
 /**
  * FileManger Class is a static class used to setup and modify the required
  * configuration files and directory permissions
- *
- * @category Webtemplate
- * @package  Install
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class FileManager
 {
-
-
     /**
-     * This array contains the inital contents of the Parameters array.  It is also
+     * This array contains the initial contents of the Parameters array.  It is also
      * used to update the parameters file.
      *
      * @var    array
@@ -71,7 +65,7 @@ class FileManager
 
 
     /**
-     * This array contains the inital contents of the preferences array.  It is also
+     * This array contains the initial contents of the preferences array.  It is also
      * used to update the preferences file.
      *
      * @var    array
@@ -98,7 +92,7 @@ class FileManager
      * @var    array
      * @access private
      */
-    private $filePermissions =array (
+    private $filePermissions = array (
         array('dir', 'templates_c', 0770, 0660),
         array('dir', 'configs', 0770, 0660),
         array('dir', 'cache', 0770, 0660),
@@ -127,28 +121,33 @@ class FileManager
     /**
      * Constructor
      *
-     * @param string $homeDir The base directory for webtemplate
+     * @param string $homeDir The base directory for webtemplate.
      */
-    public function __construct($homeDir)
+    public function __construct(string $homeDir)
     {
         $this->homeDir = $homeDir;
     }
 
     /**
-    * This function modifies the permissions of the selected directory and its files
-    *
-    * @param string $dirName  Directory name
-    * @param string $owner    Directory Owner
-    * @param string $group    Directory Group
-    * @param string $filemode File permissions
-    * @param string $dirmode  Directory Permissions
-    *
-    * @return nil
-    *
-    * @access private
-    */
-    private function fixDirs($dirName, $owner, $group, $filemode, $dirmode)
-    {
+     * This function modifies the permissions of the selected directory and its files
+     *
+     * @param string $dirName  Directory name.
+     * @param string $owner    Directory Owner.
+     * @param string $group    Directory Group.
+     * @param string $filemode File permissions.
+     * @param string $dirmode  Directory Permissions.
+     *
+     * @return void
+     *
+     * @access private
+     */
+    private function fixDirs(
+        string $dirName,
+        string $owner,
+        string $group,
+        string $filemode,
+        string $dirmode
+    ) {
         //global $installConfig;
 
         chown($dirName, $owner);
@@ -181,17 +180,21 @@ class FileManager
     /**
     * This function modifies the permissions of the selected directory and its files
     *
-    * @param string $fileName Directory name
-    * @param string $owner    Directory Owner
-    * @param string $group    Directory Group
-    * @param string $filemode File permissions
+    * @param string $fileName Directory name.
+    * @param string $owner    Directory Owner.
+    * @param string $group    Directory Group.
+    * @param string $filemode File permissions.
     *
-    * @return nil
+    * @return void
     *
     * @access private
     */
-    private function fixFile($fileName, $owner, $group, $filemode)
-    {
+    private function fixFile(
+        string $fileName,
+        string $owner,
+        string $group,
+        string $filemode
+    ) {
 
         chown($fileName, $owner);
         chgrp($fileName, $group);
@@ -202,13 +205,13 @@ class FileManager
     /**
      * This function creates the config.php file
      *
-     * @param pointer $installConfig Configuration array for setting up application
+     * @param array $installConfig Configuration array for setting up application.
      *
      * @return mixed boolean true if complete.  Webtemplate error otherwise;
      *
      * @access public
      */
-    public function checkInstallConfig(&$installConfig)
+    public function checkInstallConfig(array $installConfig)
     {
         //global $installConfig;
 
@@ -232,13 +235,13 @@ class FileManager
     /**
      * This function creates/modifies the local.conf file
      *
-     * @param pointer $installConfig Configuration array for setting up application
+     * @param array $installConfig Configuration array for setting up application.
      *
      * @return nil
      *
      * @access public
      */
-    public function createLocalConf(&$installConfig)
+    public function createLocalConf(array &$installConfig)
     {
 
         $errorcreatingfile = false;
@@ -279,13 +282,13 @@ class FileManager
     /**
     * This function creates the Unittest Databse configuration file
     *
-    * @param pointer $installConfig Configuration array for setting up application
+    * @param array $installConfig Configuration array for setting up application.
     *
     * @return nil
     *
     * @access public
     */
-    public function createTestConf(&$installConfig)
+    public function createTestConf(array &$installConfig)
     {
         $errorcreatingfile = false;
         $handle = @fopen($this->homeDir . "/tests/_data/database.php", "w");
@@ -329,13 +332,13 @@ class FileManager
     /**
     * This function creates/modifies the preferences.json file
     *
-    * @param pointer $parameters Applications Configuration Parameters
+    * @param array $parameters Applications Configuration Parameters.
     *
-    * @return nil
+    * @return boolean Result of creating or updating parameter file
     *
     * @access public
     */
-    public function createParameters(&$parameters)
+    public function createParameters(array &$parameters)
     {
         //global $installConfig, $parameters;
 
@@ -350,13 +353,13 @@ class FileManager
     /**
     * This function creates/modifies the preferences.php file
     *
-    * @param pointer $sitePreferences Applications customisation preferences
+    * @param array $sitePreferences Applications customisation preferences.
     *
-    * @return nil
+    * @return boolean Result of creating or updating Preferences file
     *
     * @access public
     */
-    public function createPreferences(&$sitePreferences)
+    public function createPreferences(array &$sitePreferences)
     {
         //global $installConfig, $sitePreferences;
 
@@ -371,18 +374,16 @@ class FileManager
     /**
     * This function updates the installations file permissions
     *
-    * @param pointer $installConfig Configuration array for setting up application
+    * @param array $installConfig Configuration array for setting up application.
     *
-    * @return nil
+    * @return boolean True
     *
     * @access public
     */
-    public function setPermissions(&$installConfig)
+    public function setPermissions(array &$installConfig)
     {
-
-
-
-        if (posix_getgrnam($installConfig['webservergroup']) == false) {
+        $webservergroupdetails = posix_getgrnam($installConfig['webservergroup']) ;
+        if ($webservergroupdetails === false) {
             $msg = "Invalid Web Server Group.  Unable to set file permissions\n\n";
             return \webtemplate\general\General::raiseError($msg);
         }
@@ -414,16 +415,16 @@ class FileManager
     }
 
     /**
-    * This function deletes all existing compilled templates
+    * This function deletes all existing compiled templates
     *
-    * @return nil
+    * @return void
     *
     * @access public
     */
     public function deleteCompiledTemplates()
     {
 
-        $dirName = $this->homeDir ."/templates_c/";
+        $dirName = $this->homeDir . "/templates_c/";
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($dirName),
             \RecursiveIteratorIterator::SELF_FIRST
@@ -441,7 +442,7 @@ class FileManager
     /**
      * This function creates the Parameters file
      *
-     * @return nil
+     * @return boolean True if parameter file created; False otherwise.
      *
      * @access private
      */
@@ -483,13 +484,13 @@ class FileManager
     /**
      * This function updates the Parameters file
      *
-     * @param pointer $parameters The existing Parameter array
+     * @param array $parameters The existing Parameter array.
      *
      * @return boolean True if file updated
      *
      * @access private
      */
-    private function updateParameters(&$parameters)
+    private function updateParameters(array &$parameters)
     {
         // Create the ne parameters array
         $tempParameters = array();
@@ -542,7 +543,7 @@ class FileManager
     /**
      * This function creates the Preference file
      *
-     * @return nil
+     * @return boolean True if preference file created; false otherwise.
      *
      * @access private
      */
@@ -576,13 +577,14 @@ class FileManager
     /**
      * This function updates the Preferences file
      *
-     * @param array $sitePreferences Array containg the preferences auser can change
+     * @param array $sitePreferences Array containing the preferences a user can
+     *                               change.
      *
-     * @return nil
+     * @return boolean True if Preference File updated; False otherwise
      *
      * @access private
      */
-    private function updatePreferences(&$sitePreferences)
+    private function updatePreferences(array &$sitePreferences)
     {
        // set up the temp preferences array
         $tempPreferences = array();
@@ -617,13 +619,13 @@ class FileManager
     /**
      * This function checks that config file is configured
      *
-     * @param array $installConfig Configuration array for setting up application
+     * @param array $installConfig Configuration array for setting up application.
      *
-     * @return mixed Boolean true if all set.  General::error otherwise
+     * @return mixed Boolean true if all set.  Webtemplate error object otherwise
      *
      * @access private
      */
-    private function checkConfigFileConfigured($installConfig)
+    private function checkConfigFileConfigured(array $installConfig)
     {
 
         // Set Variables
@@ -649,7 +651,7 @@ class FileManager
      * This function creates the secret key used by the application to encrypt and
      * decrypt tokens
      *
-     * @return mixed Secret key on success. General::error otherwise
+     * @return mixed Secret key on success. Webtemplate error object otherwise
      */
     private function createSecretkey()
     {
@@ -660,7 +662,7 @@ class FileManager
         $chars = '0123456789abcdef';
         $randstring = '';
         for ($i = 0; $i < 64; $i++) {
-            $randstring .= $chars[rand(0, strlen($chars)-1)];
+            $randstring .= $chars[rand(0, strlen($chars) - 1)];
         }
         $secret = $randstring;
 

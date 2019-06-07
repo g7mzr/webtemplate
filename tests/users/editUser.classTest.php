@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
@@ -15,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../includes/global.php';
 
 // Include the Test Database Connection details
-require_once dirname(__FILE__) .'/../_data/database.php';
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 // Include Parameters File
 //require_once dirname(__FILE__) ."/../../configs/parameters.php";
@@ -23,38 +29,34 @@ require_once dirname(__FILE__) .'/../_data/database.php';
 /**
  * EditUser Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class EditUserClassTest extends TestCase
 {
     /**
      * Edit User Class
      *
-     * @var Edituser Class
+     * @var \webtemplate\users\EditUser
      */
     protected $object;
 
     /**
-     * MDB2 Database Connection Object
+     * Database Connection Object
      *
-     * @var MDB2 Database Connection Object
+     * @var \webtemplate\db\DB
      */
     protected $object2;
 
      /**
-     * User Class Object for MOCK database Class
+     * Edit User Class Object for MOCK database Class
      *
-     * @var UserClass
+     * @var \webtemplate\users\EditUser
      */
     protected $object3;
 
     /**
      * User Class
      *
-     * @var User_class
+     * @var \webtemplate\users\User
      */
     protected $userclass;
 
@@ -68,7 +70,7 @@ class EditUserClassTest extends TestCase
     /**
      * MOCK Database connection
      *
-     * @var MOCK Database connection
+     * @var \webtemplate\db\DB
      */
     protected $mockdatabaseconnection;
 
@@ -90,9 +92,9 @@ class EditUserClassTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         global $testdsn;
          // Check that we can connect to the database
@@ -130,9 +132,11 @@ class EditUserClassTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @throws \Exception If unable to connect to remote database.
+     *
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         global $testdsn, $options;
 
@@ -173,7 +177,7 @@ class EditUserClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testSearch()
     {
@@ -249,7 +253,7 @@ class EditUserClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testGetuser()
     {
@@ -301,12 +305,12 @@ class EditUserClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testSaveuser()
     {
         if ($this->databaseconnection == true) {
-            $userId= 0;
+            $userId = 0;
 
             // Create User
             $usersaved = $this->object->saveuser(
@@ -380,7 +384,7 @@ class EditUserClassTest extends TestCase
                     $msg = "Update User (Password) : Saved testing password fail" ;
                     $this->fail($msg);
                 } else {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         'Unable to create Encrypted Password',
                         $usersaved->getMessage()
                     );
@@ -396,12 +400,12 @@ class EditUserClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testMockSaveuser()
     {
         if ($this->databaseconnection == true) {
-            $userId= 0;
+            $userId = 0;
 
             // Fail Saving User
             // Create User
@@ -502,7 +506,7 @@ class EditUserClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testDatachanged()
     {
@@ -613,7 +617,7 @@ class EditUserClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testGetChangeString()
     {
@@ -627,7 +631,7 @@ class EditUserClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testCheckUserExists()
     {
@@ -659,7 +663,7 @@ class EditUserClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testMockCheckUserExists()
     {
@@ -682,7 +686,7 @@ class EditUserClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testCheckUserEnabled()
     {
@@ -707,7 +711,7 @@ class EditUserClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testMockCheckUserEnabled()
     {
@@ -730,7 +734,7 @@ class EditUserClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testCheckemailExists()
     {
@@ -762,7 +766,7 @@ class EditUserClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testMockCheckEmailExists()
     {
@@ -786,7 +790,7 @@ class EditUserClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testUpdateUserDetails()
     {
@@ -882,7 +886,7 @@ class EditUserClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testUpdateUsersDetailsPassedFail()
     {
@@ -906,7 +910,7 @@ class EditUserClassTest extends TestCase
                     $msg = "Update User: Saved testing Password fail";
                     $this->fail($msg);
                 } else {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         'Unable to create Encrypted Password',
                         $updateuser->getMessage()
                     );
@@ -922,7 +926,7 @@ class EditUserClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testUpdatePasswd()
     {
@@ -961,7 +965,7 @@ class EditUserClassTest extends TestCase
             if (!\webtemplate\general\General::isError($passwordupdated)) {
                 $this->fail("Update Password :  Saved testing password fail");
             } else {
-                $this->assertContains(
+                $this->assertStringContainsString(
                     'Unable to create Encrypted Password',
                     $passwordupdated->getMessage()
                 );
@@ -979,7 +983,7 @@ class EditUserClassTest extends TestCase
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testValidateUserData()
     {
@@ -998,12 +1002,12 @@ class EditUserClassTest extends TestCase
 
             //All Data Ok
             $inputArray = array(
-                "userid" =>'1',
-                "username" =>'phpuser',
-                "realname" =>'PHP Unit User',
-                "useremail" =>'phpunit@example.com',
-                "userenabled" =>'Y',
-                "userdisablemail" =>'N',
+                "userid" => '1',
+                "username" => 'phpuser',
+                "realname" => 'PHP Unit User',
+                "useremail" => 'phpunit@example.com',
+                "userenabled" => 'Y',
+                "userdisablemail" => 'N',
                 "passwd" => 'Password123',
                 "passwdchange" => 'Y'
             );
@@ -1012,116 +1016,116 @@ class EditUserClassTest extends TestCase
                 $parameters['users']
             );
             $this->assertEquals("", $resultArray[0]['msg']);
-            $this->assertContains("Y", $resultArray[0]['userdisablemail']);
+            $this->assertStringContainsString("Y", $resultArray[0]['userdisablemail']);
 
             //Invalid User ID
             $inputArray = array(
-                "userid" =>'1111111111111',
-                "username" =>'phpuser',
-                "realname" =>'PHP Unit User',
-                "useremail" =>'phpunit@example.com',
-                "enabled" =>'N',
-                "userdisablemail" =>'N',
+                "userid" => '1111111111111',
+                "username" => 'phpuser',
+                "realname" => 'PHP Unit User',
+                "useremail" => 'phpunit@example.com',
+                "enabled" => 'N',
+                "userdisablemail" => 'N',
                 "passwd" => 'Password123'
             );
             $resultArray = $this->object->validateUserData(
                 $inputArray,
                 $parameters['users']
             );
-            $this->assertContains("Invalid User ID", $resultArray[0]['msg']);
+            $this->assertStringContainsString("Invalid User ID", $resultArray[0]['msg']);
 
             //Invalid User name
             $inputArray = array(
-                "userid" =>'11',
-                "username" =>'php user',
-                "realname" =>'PHP Unit User',
-                "useremail" =>'phpunit@example.com',
-                "enabled" =>'N',
-                "userdisablemail" =>'N',
+                "userid" => '11',
+                "username" => 'php user',
+                "realname" => 'PHP Unit User',
+                "useremail" => 'phpunit@example.com',
+                "enabled" => 'N',
+                "userdisablemail" => 'N',
                 "passwd" => 'Password123'
             );
             $resultArray = $this->object->validateUserData(
                 $inputArray,
                 $parameters['users']
             );
-            $this->assertContains("Invalid User Name", $resultArray[0]['msg']);
+            $this->assertStringContainsString("Invalid User Name", $resultArray[0]['msg']);
 
             //Invalid User real name
             $inputArray = array(
-                "userid" =>'11',
-                "username" =>'phpuser',
-                "realname" =>'PHP Unit User1',
-                "useremail" =>'phpunit@example.com',
-                "enabled" =>'N',
-                "userdisablemail" =>'N',
+                "userid" => '11',
+                "username" => 'phpuser',
+                "realname" => 'PHP Unit User1',
+                "useremail" => 'phpunit@example.com',
+                "enabled" => 'N',
+                "userdisablemail" => 'N',
                 "passwd" => 'Password123'
             );
             $resultArray = $this->object->validateUserData(
                 $inputArray,
                 $parameters['users']
             );
-            $this->assertContains("Invalid Real Name", $resultArray[0]['msg']);
+            $this->assertStringContainsString("Invalid Real Name", $resultArray[0]['msg']);
 
             //Invalid email address
             $inputArray = array(
-                "userid" =>'11',
-                "username" =>'phpuser',
-                "realname" =>'PHP Unit User',
-                "useremail" =>'phpunitexample.com',
-                "enabled" =>'N',
-                "userdisablemail" =>'N',
+                "userid" => '11',
+                "username" => 'phpuser',
+                "realname" => 'PHP Unit User',
+                "useremail" => 'phpunitexample.com',
+                "enabled" => 'N',
+                "userdisablemail" => 'N',
                 "passwd" => 'Password123'
             );
             $resultArray = $this->object->validateUserData(
                 $inputArray,
                 $parameters['users']
             );
-            $this->assertContains("Invalid Email Address", $resultArray[0]['msg']);
+            $this->assertStringContainsString("Invalid Email Address", $resultArray[0]['msg']);
 
             //Invalid Password
             $inputArray = array(
-                "userid" =>'11',
-                "username" =>'phpuser',
-                "realname" =>'PHP Unit User',
-                "useremail" =>'phpunit@example.com',
-                "enabled" =>'N',
-                "userdisablemail" =>'N',
+                "userid" => '11',
+                "username" => 'phpuser',
+                "realname" => 'PHP Unit User',
+                "useremail" => 'phpunit@example.com',
+                "enabled" => 'N',
+                "userdisablemail" => 'N',
                 "passwd" => 'Password'
             );
             $resultArray = $this->object->validateUserData(
                 $inputArray,
                 $parameters['users']
             );
-            $this->assertContains("Invalid Password", $resultArray[0]['msg']);
+            $this->assertStringContainsString("Invalid Password", $resultArray[0]['msg']);
 
             // Check User Diable e-mail not set
             $inputArray = array(
-                "userid" =>'11',
-                "username" =>'phpuser',
-                "realname" =>'PHP Unit User',
-                "useremail" =>'phpunit@example.com',
-                "enabled" =>'N',
+                "userid" => '11',
+                "username" => 'phpuser',
+                "realname" => 'PHP Unit User',
+                "useremail" => 'phpunit@example.com',
+                "enabled" => 'N',
                 "passwd" => 'Password123'
             );
             $resultArray = $this->object->validateUserData(
                 $inputArray,
                 $parameters['users']
             );
-            $this->assertContains("N", $resultArray[0]['userdisablemail']);
+            $this->assertStringContainsString("N", $resultArray[0]['userdisablemail']);
 
             // Check empty array
-            $inputArray = array("userid2" =>'11',
+            $inputArray = array("userid2" => '11',
                                 );
             $resultArray = $this->object->validateUserData(
                 $inputArray,
                 $parameters['users']
             );
-            $this->assertContains("Invalid", $resultArray[0]['msg']);
+            $this->assertStringContainsString("Invalid", $resultArray[0]['msg']);
 
             //Check for 2 equal passwords
             $inputArray = array(
-                "realname" =>'PHP Unit User',
-                "useremail" =>'phpunit@example.com',
+                "realname" => 'PHP Unit User',
+                "useremail" => 'phpunit@example.com',
                 "passwd" => 'Password123',
                 "passwd2" => 'Password123'
             );
@@ -1134,8 +1138,8 @@ class EditUserClassTest extends TestCase
 
             //Check for 2 unequal passwords
             $inputArray = array(
-                "useremail" =>'phpunit@example.com',
-                "realname" =>'PHP Unit User',
+                "useremail" => 'phpunit@example.com',
+                "realname" => 'PHP Unit User',
                 "passwd" => 'Password123',
                 "passwd2" => 'Password12'
             );
@@ -1144,15 +1148,15 @@ class EditUserClassTest extends TestCase
                 $parameters['users'],
                 true
             );
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "Passwords are not the same",
                 $resultArray[0]['msg']
             );
 
             //Password2 Fails
             $inputArray = array(
-                "useremail" =>'phpunit@example.com',
-                "realname" =>'PHP Unit User',
+                "useremail" => 'phpunit@example.com',
+                "realname" => 'PHP Unit User',
                 "passwd" => 'Password123',
                 "passwd2" => 'Password'
             );
@@ -1161,7 +1165,7 @@ class EditUserClassTest extends TestCase
                 $parameters['users'],
                 true
             );
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "Invaild Confirmation Password",
                 $resultArray[0]['msg']
             );

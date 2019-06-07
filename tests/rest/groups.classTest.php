@@ -2,18 +2,24 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
-namespace webtemplate\phpunit;
+
+namespace webtemplate\unittest;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
 
 // Include the Test Database Connection details
-require_once dirname(__FILE__) .'/../_data/database.php';
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 use PHPUnit\Framework\TestCase;
 
@@ -55,24 +61,24 @@ class RestGroupsTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         global $sessiontest;
 
         $sessiontest = array(true);
         $this->webtemplate = new \webtemplate\application\Application();
-        $this->groups= new \webtemplate\rest\endpoints\Groups($this->webtemplate);
+        $this->groups = new \webtemplate\rest\endpoints\Groups($this->webtemplate);
     }
 
     /**
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->webtemplate->session()->destroy();
         if ($this->groupid <> 0) {
@@ -92,7 +98,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupPermissionsNotloggedIn()
     {
@@ -118,7 +124,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupPermissionsLoggedinNoAccess()
     {
@@ -163,7 +169,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupPermissionsLoggedinwithAccess()
     {
@@ -201,7 +207,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsOptions()
     {
@@ -210,13 +216,13 @@ class RestGroupsTest extends TestCase
         $requestdata = array();
         $result = $this->groups->endpoint($method, $args, $requestdata);
         $this->assertEquals(200, $result['code']);
-        $this->assertContains('GET', $result['options']);
-        $this->assertContains('HEAD', $result['options']);
-        $this->assertContains('POST', $result['options']);
-        $this->assertContains('PUT', $result['options']);
-        $this->assertNotContains('PATCH', $result['options']);
-        $this->assertContains('DELETE', $result['options']);
-        $this->assertContains('OPTIONS', $result['options']);
+        $this->assertStringContainsString('GET', $result['options']);
+        $this->assertStringContainsString('HEAD', $result['options']);
+        $this->assertStringContainsString('POST', $result['options']);
+        $this->assertStringContainsString('PUT', $result['options']);
+        $this->assertStringNotContainsString('PATCH', $result['options']);
+        $this->assertStringContainsString('DELETE', $result['options']);
+        $this->assertStringContainsString('OPTIONS', $result['options']);
     }
 
     /**
@@ -225,7 +231,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsHead()
     {
@@ -244,7 +250,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsHeadInValidID()
     {
@@ -265,7 +271,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsGetTooManyArgs()
     {
@@ -289,7 +295,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsGetNoArgs()
     {
@@ -314,7 +320,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsGetNumericalArg()
     {
@@ -343,7 +349,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsGetGroupNameArg()
     {
@@ -370,7 +376,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsGetInvalidGroupIDArg()
     {
@@ -388,7 +394,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsGetInvalidGroupNameArg()
     {
@@ -407,7 +413,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsPostMissingFields()
     {
@@ -418,23 +424,23 @@ class RestGroupsTest extends TestCase
         );
         $result = $this->groups->endpoint($method, $args, $requestdata);
         $this->assertEquals(400, $result['code']);
-        $this->assertContains(
+        $this->assertStringContainsString(
             'The following mandatory fields are missing:',
             $result['data']['ErrorMsg']
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'groupname',
             $result['data']['ErrorMsg']
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'description',
             $result['data']['ErrorMsg']
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'useforproduct',
             $result['data']['ErrorMsg']
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'autogroup',
             $result['data']['ErrorMsg']
         );
@@ -446,7 +452,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsPostInvalidFields()
     {
@@ -460,23 +466,23 @@ class RestGroupsTest extends TestCase
         );
         $result = $this->groups->endpoint($method, $args, $requestdata);
         $this->assertEquals(400, $result['code']);
-        $this->assertContains(
+        $this->assertStringContainsString(
             'The following fields are invalid:',
             $result['data']['ErrorMsg']
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'groupname',
             $result['data']['ErrorMsg']
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'description',
             $result['data']['ErrorMsg']
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'useforproduct',
             $result['data']['ErrorMsg']
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             'autogroup',
             $result['data']['ErrorMsg']
         );
@@ -488,7 +494,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsPostDuplicateGroup()
     {
@@ -514,7 +520,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsPostValidGroup()
     {
@@ -558,7 +564,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsPutValidDataGroupID()
     {
@@ -625,7 +631,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsPutValidDataGroupName()
     {
@@ -692,7 +698,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsPutInValidDataGroupName()
     {
@@ -739,7 +745,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsPutMissingArgument()
     {
@@ -787,7 +793,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsPutGroupDataNoChange()
     {
@@ -835,7 +841,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testGroupsPutGroupInvalidID()
     {
@@ -865,7 +871,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testDeleteGroupNoArgs()
     {
@@ -886,7 +892,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testDeleteSystemGroup()
     {
@@ -908,7 +914,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testDeleteGroupBadID()
     {
@@ -925,7 +931,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testDeleteGroupBadName()
     {
@@ -942,7 +948,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testDeleteGroupUsingID()
     {
@@ -980,7 +986,7 @@ class RestGroupsTest extends TestCase
      * @group unittest
      * @group rest
      *
-     * @return null
+     * @return void
      */
     public function testDeleteGroupUsingName()
     {

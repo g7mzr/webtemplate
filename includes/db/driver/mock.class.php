@@ -171,7 +171,7 @@ class DatabaseDrivermock implements InterfaceDatabaseDriver
     public function dropIndex($tableName, $indexName)
     {
         $msg = gettext("Error Dropping Index ");
-        $msg .= $tableName .":" .$indexName . "\n";
+        $msg .= $tableName . ":" . $indexName . "\n";
         return \webtemplate\general\General::raiseError($msg, DB_ERROR);
     }
 
@@ -420,7 +420,7 @@ class DatabaseDrivermock implements InterfaceDatabaseDriver
             return true;
         } else {
             $errorMsg = gettext("Error changing column Type on ");
-            $errorMsg .= $tableName .":" . $columnName . "\n";
+            $errorMsg .= $tableName . ":" . $columnName . "\n";
             return \webtemplate\general\General::raiseError($errorMsg, DB_ERROR);
         }
     }

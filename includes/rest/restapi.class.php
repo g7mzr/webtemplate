@@ -2,24 +2,24 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage RestFul Interface
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\rest;
 
 use webtemplate\application\exceptions\AppException;
 
 /**
  *  Webtemplate REST API
- *
- * @category Webtemplate
- * @package  API
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View License file distributed with this source code
  **/
-
 class RESTapi
 {
     /**
@@ -33,7 +33,7 @@ class RESTapi
 
     /**
      * Property: endpoint
-     * The Model requested in the URI. eg: /files
+     * The Model requested in the URI. e.g.: /files
      *
      * @var    string
      * @access protected
@@ -44,7 +44,7 @@ class RESTapi
      * Property: args
      * Any additional URI components after the endpoint and verb have been removed,
      * in our case, an integer ID for the resource.
-     * eg: /<endpoint>/<verb>/<arg0>/<arg1> or /<endpoint>/<arg0>
+     * e.g.: /<endpoint>/<verb>/<arg0>/<arg1> or /<endpoint>/<arg0>
      *
      * @var    array
      * @access protected
@@ -68,7 +68,7 @@ class RESTapi
      * @var    array
      * @access protected
      */
-    protected $requestdata= array();
+    protected $requestdata = array();
 
     /**
      * Property: webtemplate
@@ -91,26 +91,30 @@ class RESTapi
     /**
      * Constructor
      *
-     * @param string $args        Client request string /<endpoint>/<arg0>/<arg1>
-     * @param string $method      The HTTP method used to call the api
-     * @param array  $post        The contents of the $_POST super global array
-     * @param array  $get         The contents of the $_GET super global array
-     * @param string $file        The contents of php://input
-     * @param string $contenttype HTTP body content type i.e. application/json
-     * @param string $accepttype  HTTP body content type that client can accept
-     * @param object $webtemplate Webtemplate object containing all app classes
+     * @param string                               $args        Client request string /<endpoint>/<arg0>/<arg1>.
+     * @param string                               $method      The HTTP method used to call the api.
+     * @param array                                $post        The contents of the $_POST super global array.
+     * @param array                                $get         The contents of the $_GET super global array.
+     * @param string                               $file        The contents of php://input.
+     * @param string                               $contenttype HTTP body content type i.e. application/json.
+     * @param string                               $accepttype  HTTP body content type that client can accept.
+     * @param \webtemplate\application\Application $webtemplate Webtemplate object containing all app classes.
+     *
+     * @throws AppException If an invalid HTTP Method is called.
+     * @throws AppException If an invalid HTTP Content Type is received.
+     * @throws AppException If an invalid HTTP Accept header is received.
      *
      * @access public
      */
     public function __construct(
-        $args,
-        $method,
-        $post,
-        $get,
-        $file,
-        $contenttype,
-        $accepttype,
-        &$webtemplate
+        string $args,
+        string $method,
+        array $post,
+        array $get,
+        string $file,
+        string $contenttype,
+        string $accepttype,
+        \webtemplate\application\Application  &$webtemplate
     ) {
 
         $this->args = explode('/', rtrim($args, '/'));
@@ -122,7 +126,7 @@ class RESTapi
                 $request = $this->cleanInputs($post);
 
                 // Convert $file from JSON to an PHP array
-                $filearray =json_decode($file, true);
+                $filearray = json_decode($file, true);
                 break;
             case 'GET':
             case 'DELETE':
@@ -171,7 +175,7 @@ class RESTapi
         if (strpos($accepttype, 'application/json') !== false) {
             $this->acceptjson = true;
         } else {
-            throw new \Exception("Invalid header Accept: " . $accepttype, 400);
+            throw new AppException("Invalid header Accept: " . $accepttype, 400);
         }
 
         $this->webtemplate = $webtemplate;
@@ -190,7 +194,7 @@ class RESTapi
         $classFile = __DIR__ . "/endpoints/" . $this->endpoint . ".class.php";
         if (file_exists($classFile)) {
             include $classFile;
-            $classname = 'webtemplate\\rest\\endpoints\\'. ucfirst($this->endpoint);
+            $classname = 'webtemplate\\rest\\endpoints\\' . ucfirst($this->endpoint);
             if (class_exists('webtemplate\\rest\\endpoints\\' . $this->endpoint)) {
                 $endpointclass = new $classname($this->webtemplate);
                 $permissionsresult = $endpointclass->permissions();
@@ -216,20 +220,19 @@ class RESTapi
     /**
      * This function sends the HTTP response and encodes the data in JSON
      *
-     * @param array   $data   The data to be json encoded and returned to the user
-     * @param integer $status The status of the request
+     * @param array $data The data to be json encoded and returned to the user.
      *
      * @return string The JSON encoded result of the API request.
      *
      * @access private
      */
-    private function response($data)
+    private function response(array $data)
     {
         $status = $data['code'];
         $result = array();
         $result['header'] = "HTTP/1.1 " . $status . " ";
         $result['header'] .= $this->requestStatus($status);
-        if ((key_exists('data', $data)) and $this->acceptjson== true) {
+        if ((key_exists('data', $data)) and $this->acceptjson == true) {
             $result['data'] = json_encode($data['data']);
         }
         if (key_exists('options', $data)) {
@@ -244,7 +247,7 @@ class RESTapi
     /**
      * This function processes the input data and returns it in an array
      *
-     * @param mixed $data The data to be processed
+     * @param mixed $data The data to be processed.
      *
      * @return array An Array containing the request data from the client
      *
@@ -266,13 +269,13 @@ class RESTapi
     /**
      * This function translates error codes to error strings.
      *
-     * @param integer $code The http status code of the request
+     * @param integer $code The http status code of the request.
      *
      * @return string containing the text version of the error code
      *
      * @access private
      */
-    private function requestStatus($code)
+    private function requestStatus(int $code)
     {
         $status = array(
             200 => 'OK',
@@ -287,6 +290,6 @@ class RESTapi
             500 => 'Internal Server Error',
             501 => 'Not Implemented'
         );
-        return ($status[$code])?$status[$code]:$status[500];
+        return ($status[$code]) ? $status[$code] : $status[500];
     }
 }

@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
@@ -15,15 +21,11 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../includes/global.php';
 
 // Load the Test Database Configuration File
-require_once __DIR__ .'/../_data/database.php';
+require_once __DIR__ . '/../_data/database.php';
 
 /**
- * Help Class Unit Tests
+ * Edit USer Functions Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class EditUserFunctionsClassTest extends TestCase
 {
@@ -94,11 +96,11 @@ class EditUserFunctionsClassTest extends TestCase
     /**
      * This function sets up the variables and objects for the test
      *
-     * @return null No data is returned
+     * @return void
      *
      * @access protected
      */
-    protected function setup()
+    protected function setup(): void
     {
         global $testdsn;
 
@@ -128,9 +130,9 @@ class EditUserFunctionsClassTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->deleteTestUser();
         $this->db->disconnect();
@@ -143,7 +145,9 @@ class EditUserFunctionsClassTest extends TestCase
      * called by both the setup and teardown functions to ensure that test data
      * is not available to cause tests to fail
      *
-     * @return null
+     * @throws \Exception If unable to connect to the remote database.
+     *
+     * @return void
      */
     protected function deleteTestUser()
     {
@@ -176,13 +180,13 @@ class EditUserFunctionsClassTest extends TestCase
         }
     }
 
-    /*
+    /**
      * This function tests the list user function when no searchtype is present
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testListUsersNoSearchType()
     {
@@ -202,13 +206,13 @@ class EditUserFunctionsClassTest extends TestCase
         );
     }
 
-    /*
+    /**
      * This function tests the list user function when no searchtype is present
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testListUsersNInvalidSearchType()
     {
@@ -229,14 +233,14 @@ class EditUserFunctionsClassTest extends TestCase
         );
     }
 
-    /*
+    /**
      * This function tests the list user function with searchtype username and no
      * searchstr
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testListUsersBlankUserName()
     {
@@ -255,14 +259,14 @@ class EditUserFunctionsClassTest extends TestCase
         $this->assertEquals(10, $this->tpl->getTemplateVars('USERSFOUND'));
     }
 
-    /*
+    /**
      * This function tests the list user function with searchtype username and
      * searchstr equal to a valid user
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testListUserWithUsername()
     {
@@ -284,14 +288,14 @@ class EditUserFunctionsClassTest extends TestCase
          $this->assertEquals("Phpunit User", $memberdata[0]['realname']);
     }
 
-    /*
+    /**
      * This function tests the list user functionwith searchtype username and
      * searchstr equal to an invalid user
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testListUserWithinvalidUsername()
     {
@@ -310,14 +314,14 @@ class EditUserFunctionsClassTest extends TestCase
         $this->assertEquals('Not Found', $this->tpl->getTemplateVars('ERRORMSG'));
     }
 
-    /*
+    /**
      * This function tests the list user function with searchtype email and no
      * searchstr
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testListUsersBlankEmail()
     {
@@ -336,14 +340,14 @@ class EditUserFunctionsClassTest extends TestCase
         $this->assertEquals(10, $this->tpl->getTemplateVars('USERSFOUND'));
     }
 
-    /*
+    /**
      * This function tests the list user function with searchtype email and
      * searchstr equal to a valid user
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testListUserWithEmail()
     {
@@ -365,14 +369,14 @@ class EditUserFunctionsClassTest extends TestCase
          $this->assertEquals("Phpunit User", $memberdata[0]['realname']);
     }
 
-    /*
+    /**
      * This function tests the list user functionwith searchtype email and
      * searchstr equal to an invalid user
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testListUserWithinvalidEmail()
     {
@@ -391,19 +395,14 @@ class EditUserFunctionsClassTest extends TestCase
         $this->assertEquals('Not Found', $this->tpl->getTemplateVars('ERRORMSG'));
     }
 
-
-
-
-
-
-    /*
+    /**
      * This function tests the list user function with searchtype realname and no
      * searchstr
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testListUsersBlankRealName()
     {
@@ -422,14 +421,14 @@ class EditUserFunctionsClassTest extends TestCase
         $this->assertEquals(10, $this->tpl->getTemplateVars('USERSFOUND'));
     }
 
-    /*
+    /**
      * This function tests the list user function with searchtype  realname and
      * searchstr equal to a valid user
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testListUserWithrealname()
     {
@@ -451,14 +450,14 @@ class EditUserFunctionsClassTest extends TestCase
         $this->assertEquals("Phpunit User", $memberdata[0]['realname']);
     }
 
-    /*
+    /**
      * This function tests the list user functionwith searchtype email and
      * searchstr equal to an invalid user
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testListUserWithinvalidRealName()
     {
@@ -477,14 +476,14 @@ class EditUserFunctionsClassTest extends TestCase
         $this->assertEquals('Not Found', $this->tpl->getTemplateVars('ERRORMSG'));
     }
 
-    /*
+    /**
      * This function tests the newuser function to check a blank user form is
      * displayed
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testNewUser()
     {
@@ -502,14 +501,14 @@ class EditUserFunctionsClassTest extends TestCase
         $this->assertEquals("", $memberdata[0]['realname']);
     }
 
-    /*
+    /**
      * This function tests the Edituser function to check if an invalid user id
      * format fails.  i.e. Letters rather than numbers
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testEditUserInvalidID()
     {
@@ -529,14 +528,14 @@ class EditUserFunctionsClassTest extends TestCase
         );
     }
 
-   /*
+    /**
      * This function tests the Edituser function to check if an invalid user id
      * fails.  i.e. The user does not exit
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testEditUserIDDoesNotExist()
     {
@@ -557,14 +556,14 @@ class EditUserFunctionsClassTest extends TestCase
     }
 
 
-    /*
+    /**
      * This function tests the Edituser function to check if a valid user id
      * and their groups can be retrieved from the database
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testEditUserValidUserID()
     {
@@ -599,14 +598,14 @@ class EditUserFunctionsClassTest extends TestCase
     }
 
 
-    /*
+    /**
      * This function tests the Edituser function to check if the correct response is
      * given if the group list cannot be obtained from the database
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testEditUserFailedtoRetriveGroupList()
     {
@@ -636,16 +635,14 @@ class EditUserFunctionsClassTest extends TestCase
         $this->assertEquals('SQL Query Error', $this->tpl->getTemplateVars('MSG'));
     }
 
-
-
-    /*
+    /**
      * This function tests the Edituser function to check if a valid user id
      * and their groups can be retrieved from the database
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testEditUserFailedtoRetriveUsersGroup()
     {
@@ -698,14 +695,14 @@ class EditUserFunctionsClassTest extends TestCase
     }
 
 
-    /*
+    /**
      * This function tests the Edituser function to check if the correct response is
      * given if the user data cannot be validated
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testSaveUserInvalidData()
     {
@@ -725,33 +722,33 @@ class EditUserFunctionsClassTest extends TestCase
         );
         $this->assertEquals('users/edit.tpl', $this->template);
         //Check the Page Title
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Invalid User Name",
             $this->tpl->getTemplateVars('MSG')
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Invalid Real Name",
             $this->tpl->getTemplateVars('MSG')
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Invalid Email Address",
             $this->tpl->getTemplateVars('MSG')
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Invalid Password",
             $this->tpl->getTemplateVars('MSG')
         );
     }
 
 
-    /*
+    /**
      * This function tests the Edituser function to check if the correct response is
      * given if the user data cannot be validated
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testSaveExistingUserInvalidData()
     {
@@ -776,24 +773,24 @@ class EditUserFunctionsClassTest extends TestCase
         );
         $this->assertEquals('users/edit.tpl', $this->template);
         //Check the Page Title
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Edit User: admin (Administrator)",
             $this->tpl->getTemplateVars('PAGETITLE')
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Invalid Email Address",
             $this->tpl->getTemplateVars('MSG')
         );
     }
 
-    /*
+    /**
      * This function tests the Edituser function to check if the correct response is
      * given if the user already exists in the database
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testSaveUserUserExists()
     {
@@ -813,7 +810,7 @@ class EditUserFunctionsClassTest extends TestCase
         );
         $this->assertEquals('users/edit.tpl', $this->template);
         //Check the Page Title
-        $this->assertContains(
+        $this->assertStringContainsString(
             "User phpunit exists in the database",
             $this->tpl->getTemplateVars('MSG')
         );
@@ -823,14 +820,14 @@ class EditUserFunctionsClassTest extends TestCase
         $this->assertEquals("Phpunit User", $memberdata[0]['realname']);
     }
 
-    /*
+    /**
      * This function tests the Edituser function to check that a new user can be
      * created in the database
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testSaveUserNewUser()
     {
@@ -850,7 +847,7 @@ class EditUserFunctionsClassTest extends TestCase
         );
         $this->assertEquals('users/edit.tpl', $this->template);
         //Check the Page Title
-        $this->assertContains(
+        $this->assertStringContainsString(
             "User Created phpunit2",
             $this->tpl->getTemplateVars('MSG')
         );
@@ -867,14 +864,14 @@ class EditUserFunctionsClassTest extends TestCase
     }
 
 
-    /*
+    /**
      * This function tests the Edituser function to check that an existing user can
      * be modified
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testModifyUser()
     {
@@ -895,7 +892,7 @@ class EditUserFunctionsClassTest extends TestCase
         );
         $this->assertEquals('users/edit.tpl', $this->template);
         //Check the Page Title
-        $this->assertContains(
+        $this->assertStringContainsString(
             "User Created phpunit2",
             $this->tpl->getTemplateVars('MSG')
         );
@@ -921,7 +918,7 @@ class EditUserFunctionsClassTest extends TestCase
         );
         $this->assertEquals('users/edit.tpl', $this->template);
         //Check the Page Title
-        $this->assertContains(
+        $this->assertStringContainsString(
             "E-Mail Address Changed",
             $this->tpl->getTemplateVars('MSG')
         );
@@ -940,16 +937,14 @@ class EditUserFunctionsClassTest extends TestCase
         }
     }
 
-
-
-    /*
+    /**
      * This function tests the Edituser function to check that a duplicate user
      * cannot be created in the database
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testSaveDuplicateUserDatabasefail()
     {
@@ -970,21 +965,20 @@ class EditUserFunctionsClassTest extends TestCase
         $this->assertEquals('global/error.tpl', $this->template);
         //Check the Page Title
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Database Error",
             $this->tpl->getTemplateVars('HEADERMSG')
         );
     }
 
-
-    /*
+    /**
      * This function tests the Edituser function to check that an existing user can
      * be modified
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testModifyUserNoChanges()
     {
@@ -1005,7 +999,7 @@ class EditUserFunctionsClassTest extends TestCase
         );
         $this->assertEquals('users/edit.tpl', $this->template);
         //Check the Page Title
-        $this->assertContains(
+        $this->assertStringContainsString(
             "User Created phpunit2",
             $this->tpl->getTemplateVars('MSG')
         );
@@ -1031,20 +1025,20 @@ class EditUserFunctionsClassTest extends TestCase
         );
         $this->assertEquals('users/edit.tpl', $this->template);
         //Check the Page Title
-        $this->assertContains(
+        $this->assertStringContainsString(
             "You have not made any changes",
             $this->tpl->getTemplateVars('MSG')
         );
     }
 
-    /*
+    /**
      * This function tests the Edituser function to check that an existing user can
      * be modified
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testAddUserPlusGroups()
     {
@@ -1065,7 +1059,7 @@ class EditUserFunctionsClassTest extends TestCase
         );
         $this->assertEquals('users/edit.tpl', $this->template);
         //Check the Page Title
-        $this->assertContains(
+        $this->assertStringContainsString(
             "User Created phpunit2",
             $this->tpl->getTemplateVars('MSG')
         );
@@ -1092,20 +1086,20 @@ class EditUserFunctionsClassTest extends TestCase
         );
         $this->assertEquals('users/edit.tpl', $this->template);
         //Check the Page Title
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Added to group: admin",
             $this->tpl->getTemplateVars('MSG')
         );
     }
 
-    /*
+    /**
      * This function tests that an error is returned if the group array cannot be
      * populated.
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testFailGettingGroups()
     {
@@ -1140,23 +1134,23 @@ class EditUserFunctionsClassTest extends TestCase
             $this->config->read("param.users"),
             $testdata
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Database Error",
             $this->tpl->getTemplateVars('HEADERMSG')
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             "An error occured when retrieving the groups.",
             $this->tpl->getTemplateVars('ERRORMSG')
         );
     }
 
-    /*
+    /**
      * This function tests that an error is returned if user cannot be saved
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testFailSavingUser()
     {
@@ -1191,24 +1185,24 @@ class EditUserFunctionsClassTest extends TestCase
             $this->config->read("param.users"),
             $testdata
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Database Error",
             $this->tpl->getTemplateVars('HEADERMSG')
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             "An error occured when saving the user's details.",
             $this->tpl->getTemplateVars('ERRORMSG')
         );
     }
 
-    /*
+    /**
      * This function tests that an error is returned if the user's details cannot
      * be retrieved after the save
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testFailRetrievingUserAfterSave()
     {
@@ -1235,7 +1229,7 @@ class EditUserFunctionsClassTest extends TestCase
         $mockdata = array (
             'checkUserExists' => $testdata,
             'insertUser' => array(
-                'user_id' =>100,
+                'user_id' => 100,
                 'user_name' => "phpunit2",
                 'real_name' => "Phpunit User",
                 'password' => "Password77",
@@ -1255,26 +1249,24 @@ class EditUserFunctionsClassTest extends TestCase
             $this->config->read("param.users"),
             $testdata
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Database Error",
             $this->tpl->getTemplateVars('HEADERMSG')
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             "An error occured retrieving the user's details",
             $this->tpl->getTemplateVars('ERRORMSG')
         );
     }
 
-
-
-    /*
+    /**
      * This function tests that an error is returned if the user'sgroups cannot
      * be save
      *
      * @group unittest
      * @group users
      *
-     * @return null
+     * @return void
      */
     public function testFailSavingUsersGroups()
     {
@@ -1311,7 +1303,7 @@ class EditUserFunctionsClassTest extends TestCase
         $mockdata = array (
             'checkUserExists' => $testdata,
             'updateUser' => array(
-                'user_id' =>100,
+                'user_id' => 100,
                 'user_name' => "phpunit2",
                 'user_realname' => "Phpunit User",
                 'user_email' => "phpunit@example.com",
@@ -1320,7 +1312,7 @@ class EditUserFunctionsClassTest extends TestCase
                 'admin' => 'Y'
             ),
            'getuser' => array(
-                'user_id' =>100,
+                'user_id' => 100,
                 'user_name' => "phpunit2",
                 'user_realname' => "Phpunit User",
                 'password' => "Password77",
@@ -1354,11 +1346,11 @@ class EditUserFunctionsClassTest extends TestCase
             $this->config->read("param.users"),
             $testdata
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Database Error",
             $this->tpl->getTemplateVars('HEADERMSG')
         );
-        $this->assertContains(
+        $this->assertStringContainsString(
             "An error occured when saving the user's groups",
             $this->tpl->getTemplateVars('ERRORMSG')
         );

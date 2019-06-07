@@ -2,31 +2,32 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage SELENIUM Functional Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace Facebook\WebDriver;
 
 use PHPUnit\Framework\TestCase;
 
 // Load the Selenium Driver and Application Data.
 require_once "constants.php";
-require_once dirname(__FILE__) .'/../_data/database.php';
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 // Include the Class Autoloader to load database driver
 require_once __DIR__ . '/../../includes/global.php';
 
 /**
- * Login/Logout Functional Tests
+ * Password Reset Functional Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
 class PasswordResetTest extends TestCase
 {
 
@@ -57,9 +58,9 @@ class PasswordResetTest extends TestCase
      * BROWSER: The Web browser to be used for the tests
      * URL: The Web location of the test site.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         global $testdsn;
 
@@ -72,7 +73,7 @@ class PasswordResetTest extends TestCase
             $encryptPasswd = \webtemplate\general\General::encryptPasswd(
                 SECUSERPASSWORD
             );
-            $insertdata = array('user_passwd'=> $encryptPasswd);
+            $insertdata = array('user_passwd' => $encryptPasswd);
             $searchdata = array('user_name' => SECUSERUSERNAME);
             $result = $db->dbupdate('users', $insertdata, $searchdata);
             if (\webtemplate\general\General::isError($result)) {
@@ -86,9 +87,9 @@ class PasswordResetTest extends TestCase
     /**
      * Function to close the Webdriver after each test is complete
      *
-     * @return null no return data
+     * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
 
         global $testdsn;
@@ -132,7 +133,7 @@ class PasswordResetTest extends TestCase
             $encryptPasswd = \webtemplate\general\General::encryptPasswd(
                 SECUSERPASSWORD
             );
-            $insertdata = array('user_passwd'=> $encryptPasswd);
+            $insertdata = array('user_passwd' => $encryptPasswd);
             $searchdata = array('user_name' => SECUSERUSERNAME);
             $result = $db->dbupdate('users', $insertdata, $searchdata);
             if (\webtemplate\general\General::isError($result)) {
@@ -423,7 +424,7 @@ class PasswordResetTest extends TestCase
      * @group selenium
      * @group resetpassword
      *
-     * @return null No return data
+     * @return void
      */
     public function testNoResetPasswdLink()
     {
@@ -433,7 +434,7 @@ class PasswordResetTest extends TestCase
         $this->assertEquals(WEBSITENAME . ': Login', $this->webDriver->getTitle());
         $checkCreateAccount = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'));
-        $this->assertNotContains(
+        $this->assertStringNotContainsString(
             '[Forgot Your Password?]',
             $checkCreateAccount->getText()
         );
@@ -448,7 +449,7 @@ class PasswordResetTest extends TestCase
      *
      * @depends testNoResetPasswdLink
      *
-     * @return null No return data
+     * @return void
      */
     public function testSelfRegistrationActive()
     {
@@ -458,7 +459,7 @@ class PasswordResetTest extends TestCase
         $this->assertEquals(WEBSITENAME . ': Login', $this->webDriver->getTitle());
         $checkNoNewAccount = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'));
-        $this->assertNotContains(
+        $this->assertStringNotContainsString(
             '[New Account]',
             $checkNoNewAccount->getText()
         );
@@ -469,7 +470,7 @@ class PasswordResetTest extends TestCase
 
         $checkNewAccount = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'));
-        $this->assertContains(
+        $this->assertStringContainsString(
             '[Forgot Your Password?]',
             $checkNewAccount->getText()
         );
@@ -480,7 +481,7 @@ class PasswordResetTest extends TestCase
 
         $checkCreateAccount = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'));
-        $this->assertNotContains(
+        $this->assertStringNotContainsString(
             '[Forgot Your Password?]',
             $checkCreateAccount->getText()
         );
@@ -493,7 +494,7 @@ class PasswordResetTest extends TestCase
      * @group selenium
      * @group resetpassword
      *
-     * @return null No return data
+     * @return void
      */
     public function testPasswdResetDisabled()
     {
@@ -509,7 +510,7 @@ class PasswordResetTest extends TestCase
      * @group selenium
      * @group resetpassword
      *
-     * @return null No return data
+     * @return void
      */
     public function testPasswdResetNoEmail()
     {
@@ -560,7 +561,7 @@ class PasswordResetTest extends TestCase
      * @group selenium
      * @group resetpassword
      *
-     * @return null No return data
+     * @return void
      */
     public function testInvalidRequest()
     {
@@ -579,7 +580,7 @@ class PasswordResetTest extends TestCase
         $invalidstring = "hliwqhki";
 
         // Test for a valid token type not in the database
-        $appcomand = $phpscript . "?" . $command . "=" .$validstring;
+        $appcomand = $phpscript . "?" . $command . "=" . $validstring;
         $this->webDriver->get(URL . $appcomand);
         $this->assertEquals(
             WEBSITENAME . ': Invalid Request',
@@ -595,7 +596,7 @@ class PasswordResetTest extends TestCase
         );
 
         //Test with incorrect Token length
-        $appcomand = $phpscript . "?" . $command . "=" .$invalidstring;
+        $appcomand = $phpscript . "?" . $command . "=" . $invalidstring;
         $this->webDriver->get(URL . $appcomand);
         $this->assertEquals(
             WEBSITENAME . ': Invalid Request',
@@ -625,7 +626,7 @@ class PasswordResetTest extends TestCase
      * @group selenium
      * @group resetpassword
      *
-     * @return null No return data
+     * @return void
      */
     public function testInvalidUsernameFormat()
     {
@@ -677,7 +678,7 @@ class PasswordResetTest extends TestCase
      * @group selenium
      * @group resetpassword
      *
-     * @return null No return data
+     * @return void
      */
     public function testInvalidUsername()
     {
@@ -727,7 +728,7 @@ class PasswordResetTest extends TestCase
      * @group selenium
      * @group resetpassword
      *
-     * @return null No return data
+     * @return void
      */
     public function testEmailSent()
     {
@@ -771,8 +772,8 @@ class PasswordResetTest extends TestCase
         );
 
         $email = $this->getEmail();
-        $this->assertContains(SECUSEREMAIL, $email);
-        $this->assertContains("Password Request", $email);
+        $this->assertStringContainsString(SECUSEREMAIL, $email);
+        $this->assertStringContainsString("Password Request", $email);
 
         // Reset to normal
         $this->webDriver->findElement(WebDriverBy::linkText("Home"))->click();
@@ -788,7 +789,7 @@ class PasswordResetTest extends TestCase
      * @group selenium
      * @group resetpassword
      *
-     * @return null No return data
+     * @return void
      */
     public function testCancelRequest()
     {
@@ -885,7 +886,7 @@ class PasswordResetTest extends TestCase
      * @group selenium
      * @group resetpassword
      *
-     * @return null No return data
+     * @return void
      */
     public function testInvalidPasswordFormat()
     {
@@ -974,7 +975,7 @@ class PasswordResetTest extends TestCase
      * @group selenium
      * @group resetpassword
      *
-     * @return null No return data
+     * @return void
      */
     public function testDifferentPasswords()
     {
@@ -1063,7 +1064,7 @@ class PasswordResetTest extends TestCase
      * @group selenium
      * @group resetpassword
      *
-     * @return null No return data
+     * @return void
      */
     public function testPasswdResetSuccess()
     {
@@ -1157,7 +1158,7 @@ class PasswordResetTest extends TestCase
      * @group selenium
      * @group resetpassword
      *
-     * @return null No return data
+     * @return void
      */
     public function testResetParameters()
     {

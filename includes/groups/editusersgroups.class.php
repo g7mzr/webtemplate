@@ -2,23 +2,22 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Admin Parameters
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\groups;
 
 /**
- * Webtemplate Group Class
- *
- * @category Webtemplate
- * @package  Groups
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
+ * Webtemplate Edit Users Group Class
  **/
-
-
 class EditUsersGroups
 {
     /**
@@ -47,11 +46,11 @@ class EditUsersGroups
     /**
      * Constructor
      *
-     * @param array $db MDB2 Database Object
+     * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db Database Object.
      *
      * @access public
      */
-    public function __construct($db)
+    public function __construct(\webtemplate\db\driver\InterfaceDatabaseDriver $db)
     {
         $this->db = $db;
     } // end constructor
@@ -68,19 +67,17 @@ class EditUsersGroups
         return $this->dataChanged;
     }
 
-
-
     /**
      * This function returns the list of groups the user identified $userid
      * is a member off.  The array is returned in Parameter 2.
      *
-     * @param integer $userid    Interger containing users ID No
-     * @param pointer $grouplist Pointer to array containing list of users group
+     * @param integer $userid    Integer containing users ID No.
+     * @param array   $grouplist Array containing list of users group.
      *
      * @return boolean true if search is ok or WEBTEMPLATE error type
      * @access public
      */
-    final public function getUsersGroups($userid, &$grouplist)
+    final public function getUsersGroups(int $userid, array &$grouplist)
     {
         $searchok = true;
 
@@ -100,19 +97,17 @@ class EditUsersGroups
         }
     }
 
-
-
     /**
      * Function to get the list of groups a user is currently a member of
      *
-     * @param integer $userid    Interger containing users ID No
-     * @param pointer $grouplist Pointer to array containing list of users group
+     * @param integer $userid    Integer containing users ID No.
+     * @param array   $grouplist Array containing list of users group.
      *
      * @return boolean true if search is ok or WEBTEMPLATE error type
      *
      * @access private
      */
-    private function getUsersExplicitGroups($userid, &$grouplist)
+    private function getUsersExplicitGroups(int $userid, array &$grouplist)
     {
          // Set default variable values
         $searchok = false;
@@ -167,13 +162,13 @@ class EditUsersGroups
     /**
      * Function to get the list of groups a user is automatically a member of
      *
-     * @param pointer $grouplist Pointer to array containing list of users group
+     * @param array $grouplist Array containing list of users group.
      *
      * @return boolean true if search is ok or WEBTEMPLATE error type
      *
      * @access private
      */
-    private function getUsersImplicitGroups(&$grouplist)
+    private function getUsersImplicitGroups(array &$grouplist)
     {
         // Need to add user the groups they are automatically
         // members of if not explicitly
@@ -197,13 +192,13 @@ class EditUsersGroups
      * This function creates the Change String to show which groups a user
      * has been added to or removed from.
      *
-     * @param integer $userid     Interger containing users ID No
-     * @param array   $grouparray Pointer to array containing list of users group
+     * @param integer $userid     Integer containing users ID No.
+     * @param array   $grouparray Array containing list of users group.
      *
      * @return boolean true if search is ok or \WEBTEMPLATE error type
      * @access public
      */
-    final public function groupsChanged($userid, $grouparray)
+    final public function groupsChanged(int $userid, array $grouparray)
     {
 
         // Set default variable data.
@@ -250,13 +245,13 @@ class EditUsersGroups
      * This function updates the user_group_map with a list of
      * groups a user is in.
      *
-     * @param integer $userid     Interger containing users ID No
-     * @param array   $grouparray Pointer to array containing list of users group
+     * @param integer $userid     Integer containing users ID No.
+     * @param array   $grouparray Array containing list of users group.
      *
      * @return boolean true if search is ok or \WEBTEMPLATE error type
      * @access public
      */
-    final public function saveUsersGroups($userid, $grouparray)
+    final public function saveUsersGroups(int $userid, array $grouparray)
     {
 
         // Initialise variables

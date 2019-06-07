@@ -2,28 +2,30 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\unittest;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
 
 // Include the Test Database Connection details
-require_once __DIR__  .'/../_data/database.php';
+require_once __DIR__  . '/../_data/database.php';
 
 use PHPUnit\Framework\TestCase;
 
 /**
- * WebTemplateClass Unit Tests
+ * WebTemplate Common Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class WebTemplateCommonTest extends TestCase
 {
@@ -38,9 +40,9 @@ class WebTemplateCommonTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new \webtemplate\application\SmartyTemplate();
     }
@@ -49,9 +51,9 @@ class WebTemplateCommonTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
@@ -62,10 +64,11 @@ class WebTemplateCommonTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testLoadDSN()
     {
+        $dsn = array();
         \webtemplate\application\WebTemplateCommon::loadDSN($this->object, $dsn);
         $this->assertEquals($dsn["phptype"], 'pgsql');
     }
@@ -76,7 +79,7 @@ class WebTemplateCommonTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testgetDatabaseName()
     {

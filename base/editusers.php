@@ -2,10 +2,15 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Application Module
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
 
 /**
@@ -18,18 +23,8 @@ require_once "../includes/global.php";
 try {
     $app = new \webtemplate\application\Application();
 } catch (\Throwable $e) {
-    // Create the Smart Template object
-    $tpl = new \webtemplate\application\SmartyTemplate;
-    $template = 'global/error.tpl';
-    $msg = $e->getMessage();
-    $msg .= "\n\n";
-    $msg .= gettext("Please Contact your Adminstrator");
-    $header =  gettext("Application Error");
-    $tpl->assign('ERRORMSG', $msg);
-    $tpl->assign('HEADERMSG', $header);
-    $dateArray = getdate();
-    $tpl->assign("YEAR", "$dateArray[year]");
-    $tpl->display($template);
+    error_log(basename(__FILE__) . ": " . $e->getMessage());
+    header('Location: syserror.html');
     exit();
 }
 
@@ -200,7 +195,7 @@ if ($tempAction != '') {
 }
 
 // Create the token for checking the page authenticition
-$localtoken = $app->tokens()->createToken($app->user()->getUserId(), 'USERS', 1, ''. true);
+$localtoken = $app->tokens()->createToken($app->user()->getUserId(), 'USERS', 1, '' . true);
 $app->tpl()->assign("TOKEN", $localtoken);
 
 // Get the year for the Copyright Statement at

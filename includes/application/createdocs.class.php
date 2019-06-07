@@ -2,24 +2,28 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Application
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\application;
 
 use webtemplate\application\exceptions\AppException;
 
 /**
- * This module is used to create the webtemplate error class
+ * Create Documentation
  *
- * @category Webtemplate
- * @package  Application
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
-**/
-
+ * This module is used to create the webtemplate documentation.  It is called by
+ * Makedocs.php which is located in the "base\docs" directory
+ *
+ **/
 class CreateDocs
 {
 
@@ -45,7 +49,7 @@ class CreateDocs
      * @var    array
      * @access protected
      */
-    protected $development =array();
+    protected $development = array();
 
     /*
      * Property: languages
@@ -98,14 +102,19 @@ class CreateDocs
     /**
      * Constructor
      *
-     * @param string  $docbase The base directory for all documentation
-     * @param string  $entfile Docbook Entities file containing program information
-     * @param boolean $verbose Suppress all command output if false;
+     * @param string  $docbase The base directory for all documentation.
+     * @param string  $entfile Docbook Entities file containing program information.
+     * @param boolean $verbose Suppress all command output if false.
+     *
+     * @throws AppException If documentation base directory or ENT files don't exist.
      *
      * @access public
      */
-    public function __construct($docbase, $entfile, $verbose=false)
-    {
+    public function __construct(
+        string $docbase,
+        string $entfile,
+        bool $verbose = false
+    ) {
         // Load the base documentaion Directory
         if (file_exists($docbase)) {
             $this->DocBase = $docbase;
@@ -116,7 +125,7 @@ class CreateDocs
         if (file_exists($this->DocBase . '/' . $entfile)) {
             $this->entfile = $entfile;
         } else {
-            throw new AppException("Entity File '". $entfile . "' does not exist");
+            throw new AppException("Entity File '" . $entfile . "' does not exist");
         }
 
         $this->verbose = $verbose;
@@ -159,18 +168,18 @@ class CreateDocs
      * This function strips the exist extension from the filename and replaces it
      * with the one specified in $new_extension
      *
-     * @param string  $filename      The original filename
-     * @param string  $new_extension The new extension
-     * @param boolean $includepath   Include the path in the returned filename
+     * @param string  $filename      The original filename.
+     * @param string  $new_extension The new extension.
+     * @param boolean $includepath   Include the path in the returned filename.
      *
      * @return string the new filename and extension
      *
      * @access protected.
      */
     protected function replaceExtension(
-        $filename,
-        $new_extension,
-        $includepath = false
+        string $filename,
+        string $new_extension,
+        bool $includepath = false
     ) {
         $info = pathinfo($filename);
         $newfilename = '';
@@ -184,22 +193,22 @@ class CreateDocs
     /**
      * This function checks to see if the Documentation application is available
      *
-     * @param string $tool The name of the application to be checked for
+     * @param string $tool The name of the application to be checked for.
      *
      * @return string Fully qualified path to $tool
      *
      * @since  Method available since Release 1.0.0
      * @access protected
      */
-    protected function checkToolExists($tool)
+    protected function checkToolExists(string $tool)
     {
         $toolpath = '';
         if (file_exists('/bin/' . $tool)) {
-            $toolpath = '/bin/' .$tool;
+            $toolpath = '/bin/' . $tool;
         } elseif (file_exists('/usr/bin/' . $tool)) {
-            $toolpath = '/usr/bin/' .$tool;
-        } elseif (file_exists('/usr/local/bin/' .$tool)) {
-            $toolpath = '/usr/local/bin/' .$tool;
+            $toolpath = '/usr/bin/' . $tool;
+        } elseif (file_exists('/usr/local/bin/' . $tool)) {
+            $toolpath = '/usr/local/bin/' . $tool;
         }
         return $toolpath;
     }
@@ -207,16 +216,19 @@ class CreateDocs
     /**
      * This function creates the olink database in the required directory
      *
-     * @param string $olinkdb    The name of the OLINK Database
-     * @param string $stylesheet The name of the Dockbook Stylesheet to use
-     * @param string $filename   The name of the base XML file
+     * @param string $olinkdb    The name of the OLINK Database.
+     * @param string $stylesheet The name of the Dockbook style sheet to use.
+     * @param string $filename   The name of the base XML file.
      *
      * @return boolean true if db is created
      *
      * @access protected
      */
-    protected function createolinkdb($olinkdb, $stylesheet, $filename)
-    {
+    protected function createolinkdb(
+        string $olinkdb,
+        string $stylesheet,
+        string $filename
+    ) {
         // create olink databases
         $cmd = $this->xsltproc;
         $cmd .= " --stringparam collect.xref.targets only";
@@ -224,8 +236,8 @@ class CreateDocs
         $cmd .= " --stringparam chunk.first.sections 1";
         $cmd .= " --xinclude";
         $cmd .= " --stringparam targets.filename " . $olinkdb;
-        $cmd .= " ". $stylesheet;
-        $cmd .= " ". $filename;
+        $cmd .= " " . $stylesheet;
+        $cmd .= " " . $filename;
         if ($this->verbose != true) {
             $cmd .= "  2>&1 > /dev/null";
         }
@@ -242,21 +254,21 @@ class CreateDocs
     /**
      * This function runs the XMLTO command
      *
-     * @param string $chunks       The local stylesheet
-     * @param string $dbstylesheet The main Docbook Style Sheets
+     * @param string $chunks       The local style sheet.
+     * @param string $dbstylesheet The main Docbook Style Sheets.
      * @param string $output       The output directory or filename of transformed
-     *                             document
-     * @param string $filename     The base XML File
+     *                             document.
+     * @param string $filename     The base XML File.
      *
      * @return boolean True if the command is completed successfully
      *
      * @acces protected
      */
     protected function createhtmldocs(
-        $chunks,
-        $dbstylesheet,
-        $output,
-        $filename
+        string $chunks,
+        string $dbstylesheet,
+        string $output,
+        string $filename
     ) {
         $stylesheet = $this->DocBase . '/tmp/stylesheet.xsl';
         $this->stylesheetcombiner($stylesheet, $dbstylesheet, $chunks);
@@ -281,19 +293,23 @@ class CreateDocs
     }
 
     /**
-     * This function creates pdf files fom the docbook xml input
+     * This function creates pdf files from the docbook xml input
      *
-     * @param string $template     The local xsl customisation file
-     * @param string $dbstylesheet The NWALSH Docbook stylesheet to be used
-     * @param string $outputfile   The location and name of the output pdf file
-     * @param string $inputfile    The location and name of the input PDF file
+     * @param string $template     The local xsl customisation file.
+     * @param string $dbstylesheet The NWALSH Docbook style sheet to be used.
+     * @param string $outputfile   The location and name of the output pdf file.
+     * @param string $inputfile    The location and name of the input PDF file.
      *
      * @return boolean
      *
      * @access protected
      */
-    protected function createpdf($template, $dbstylesheet, $outputfile, $inputfile)
-    {
+    protected function createpdf(
+        string $template,
+        string $dbstylesheet,
+        string $outputfile,
+        string $inputfile
+    ) {
         $fopfile = $this->DocBase;
         $fopfile .= '/tmp/';
         $fopfile .= $this->ReplaceExtension($outputfile, 'fo');
@@ -334,26 +350,26 @@ class CreateDocs
     }
 
     /**
-     * This function creates a temporary stylesheet file which is used to load
-     * both the user XSL customisation fragment and NWALSH Docbook stylesheet
+     * This function creates a temporary styles heet file which is used to load
+     * both the user XSL customisation fragment and NWALSH Docbook style sheet
      *
-     * @param string $filename   The name of the temporary stylesheet
-     * @param string $stylesheet The name of the DocBook stylesheet to be used
-     * @param string $fragment   The name of the fragment stylesheet holding user
-     *                           customisations
+     * @param string $filename   The name of the temporary style sheet.
+     * @param string $stylesheet The name of the DocBook style sheet to be used.
+     * @param string $fragment   The name of the fragment style sheet holding user
+     *                           customisations.
      * @param string $imagedir   The name of the directory holding the image files.
      *                           This is used to create an absolute path when
-     *                           creating PDF files
+     *                           creating PDF files.
      *
-     * @return boolean True if the stylesheet has been created
+     * @return boolean True if the style sheet has been created
      *
      * @access protected
      */
     protected function stylesheetcombiner(
-        $filename,
-        $stylesheet,
-        $fragment,
-        $imagedir = null
+        string $filename,
+        string $stylesheet,
+        string $fragment,
+        string $imagedir = null
     ) {
 
         $handle = @fopen($filename, "w");
@@ -440,37 +456,39 @@ class CreateDocs
      * This function is used to register a language for creating documentation.  All
      * languages are in their own directory
      *
-     * @param string  $language  The language to be added to the array
-     * @param string  $filename  The name of the base xml file
-     * @param string  $xml       The directory containing the source documents
-     * @param string  $html      The output directory for HTML Files
-     * @param string  $pdf       The output directory for the PDF file
-     * @param integer $dbversion The version of docbook dtd to use
+     * @param string  $language  The language to be added to the array.
+     * @param string  $filename  The name of the base xml file.
+     * @param string  $xml       The directory containing the source documents.
+     * @param string  $html      The output directory for HTML Files.
+     * @param string  $pdf       The output directory for the PDF file.
+     * @param integer $dbversion The version of docbook dtd to use.
+     *
+     * @throws AppException If the language source files do not exist.
      *
      * @return boolean true if language is registered false otherwise
      *
      * @access public
      */
     public function registerLanguage(
-        $language,
-        $filename,
-        $xml,
-        $html,
-        $pdf,
-        $dbversion
+        string $language,
+        string $filename,
+        string $xml,
+        string $html,
+        string $pdf,
+        int $dbversion
     ) {
         if (\strlen($language) != 2) {
-            $errorStr = "Language '" .$language . "' is not 2 characters long";
+            $errorStr = "Language '" . $language . "' is not 2 characters long";
             throw new AppException($errorStr);
         }
 
         if (key_exists($language, $this->languages)) {
-            $errorStr = "Language '" .$language . "' is already registered";
+            $errorStr = "Language '" . $language . "' is already registered";
             throw new AppException($errorStr);
         }
 
         if (!file_exists($this->DocBase . '/' . $language . '/' . $xml)) {
-            $errorStr = "Language '" .$language . "' source files do not exist";
+            $errorStr = "Language '" . $language . "' source files do not exist";
             throw new AppException($errorStr);
         }
 
@@ -485,15 +503,15 @@ class CreateDocs
 
 
     /**
-     * This function sets the location of the DB4 stylesheets
+     * This function sets the location of the DB4 style sheets
      *
-     * @param string $db4path Path to the DB4 Stylesheets
+     * @param string $db4path Path to the DB4 Style sheets.
      *
-     * @return boolean Returns true if the stylesheets exist
+     * @return boolean Returns true if the style sheets exist
      *
      * @since Method available since Release 1.0.0
      */
-    public function setDB4StyleSheets($db4path)
+    public function setDB4StyleSheets(string $db4path)
     {
         // Check if the file exist by seeing if html/chunk.xsl exists
         if (file_exists($db4path . "html/chunk.xsl")) {
@@ -508,15 +526,15 @@ class CreateDocs
 
 
     /**
-     * This function sets the location of the DB5 stylesheets
+     * This function sets the location of the DB5 style sheets
      *
-     * @param string $db5path Path to the DB4 Stylesheets
+     * @param string $db5path Path to the DB4 Style sheets.
      *
-     * @return boolean Returns true if the stylesheets exist
+     * @return boolean Returns true if the style sheets exist
      *
      * @since Method available since Release 1.0.0
      */
-    public function setDB5StyleSheets($db5path)
+    public function setDB5StyleSheets(string $db5path)
     {
         // Check if the file exist by seeing if html/chunk.xsl exists
         if (file_exists($db5path . "html/chunk.xsl")) {
@@ -533,6 +551,8 @@ class CreateDocs
      * Remove all the output file and Directories
      *
      * @return True when all work completed
+     *
+     * @throws AppException If unable to delete HTML directories.
      *
      * @access public
      */
@@ -569,6 +589,8 @@ class CreateDocs
      * Remove all the output file and Directories
      *
      * @return True when all work completed
+     *
+     * @throws AppException If unable to delete PDF directories.
      *
      * @access public
      */
@@ -695,6 +717,8 @@ class CreateDocs
      *
      * @return boolean true if directory created
      *
+     * @throws AppException If unable to create directory.
+     *
      * @access public
      */
     public function createworkingdirectory()
@@ -708,12 +732,15 @@ class CreateDocs
                 );
             }
         }
+        return true;
     }
 
     /**
      * Delete the temporary working directory
      *
-     * @return boolean true if directory created
+     * @return boolean true if directory deleted
+     *
+     * @throws AppException If unable to delete directory.
      *
      * @access public
      */
@@ -727,12 +754,15 @@ class CreateDocs
                 throw new AppException('Unable to delete dir ' . $workingdir);
             }
         }
+        return true;
     }
 
     /**
      * Prepare to create user documentation
      *
      * @return True when all work completed
+     *
+     * @throws AppException If unable to copt ENT or CSS files.
      *
      * @access public
      */
@@ -743,7 +773,7 @@ class CreateDocs
             $workdir = $this->DocBase . '/' . $langdir;
 
             // Make the HTML and PDF Directories
-            $htmldir = $workdir . '/' .$directory['html'];
+            $htmldir = $workdir . '/' . $directory['html'];
             if (!file_exists($htmldir)) {
                 $htmlcomplete  = mkdir($htmldir);
                 if ($htmlcomplete == false) {
@@ -752,9 +782,9 @@ class CreateDocs
                     );
                 }
             }
-            $pdfdir = $workdir . '/' .$directory['pdf'];
+            $pdfdir = $workdir . '/' . $directory['pdf'];
             if (!file_exists($pdfdir)) {
-                $pdfcomplete = mkdir($workdir . '/' .$directory['pdf']);
+                $pdfcomplete = mkdir($workdir . '/' . $directory['pdf']);
                 if ($pdfcomplete == false) {
                     throw new AppException(
                         'Unable to create pdf directory in ' . $langdir
@@ -765,7 +795,7 @@ class CreateDocs
             // Copy the ENT file to the XML Dir.
             $cpresult = copy(
                 $this->DocBase . '/' . $this->entfile,
-                $workdir . '/' . $directory['xml'] .'/' . $this->entfile
+                $workdir . '/' . $directory['xml'] . '/' . $this->entfile
             );
             if ($cpresult == false) {
                  throw new AppException('Unable to copy ENT file for ' . $langdir);
@@ -791,6 +821,8 @@ class CreateDocs
      * This function creates the multiple html file user documentation for all
      * languages.  It will  true when it completes its task.  It will throw an
      * exception if an error  is encountered
+     *
+     * @throws AppException If unable to create documentation.
      *
      * @return boolean True when the function completes
      *
@@ -848,6 +880,7 @@ class CreateDocs
                 );
             }
         }
+        return true;
     }
 
 
@@ -858,6 +891,8 @@ class CreateDocs
      * This function creates a single html file user documentation for all
      * languages.  It will  true when it completes its task.  It will throw an
      * exception if an error  is encountered
+     *
+     * @throws AppException If unable to create documentation.
      *
      * @return boolean True when the function completes
      *
@@ -916,6 +951,7 @@ class CreateDocs
                 );
             }
         }
+        return true;
     }
 
     /**
@@ -925,6 +961,8 @@ class CreateDocs
      * This function creates a PDF file user documentation for all
      * languages.  It will  true when it completes its task.  It will throw an
      * exception if an error  is encountered
+     *
+     * @throws AppException If unable to create documentation.
      *
      * @return boolean True when the function completes
      *
@@ -970,6 +1008,7 @@ class CreateDocs
                 );
             }
         }
+        return true;
     }
 
 
@@ -977,6 +1016,8 @@ class CreateDocs
      * Prepare to create development documentation
      *
      * @return True when all work completed
+     *
+     * @throws AppException If unable to copy ENT or CSS files.
      *
      * @access public
      */
@@ -987,7 +1028,7 @@ class CreateDocs
             $workdir = $this->DocBase . '/developer';
 
             // Make the HTML and PDF Directories
-            $htmldir = $workdir . '/' .$directory['html'];
+            $htmldir = $workdir . '/' . $directory['html'];
             if (!file_exists($htmldir)) {
                 $htmlcomplete  = mkdir($htmldir);
                 if ($htmlcomplete == false) {
@@ -997,7 +1038,7 @@ class CreateDocs
                 }
             }
 
-            $pdfdir = $workdir . '/' .$directory['pdf'];
+            $pdfdir = $workdir . '/' . $directory['pdf'];
             if (!file_exists($pdfdir)) {
                 $pdfcomplete = mkdir($pdfdir);
                 if ($pdfcomplete == false) {
@@ -1010,7 +1051,7 @@ class CreateDocs
             // Copy the ENT file to the XML Dir.
             $cpresult = copy(
                 $this->DocBase . '/' . $this->entfile,
-                $workdir . '/' . $directory['xml'] .'/' . $this->entfile
+                $workdir . '/' . $directory['xml'] . '/' . $this->entfile
             );
             if ($cpresult == false) {
                  throw new AppException('Unable to copy ENT file for ' . $langdir);
@@ -1035,6 +1076,8 @@ class CreateDocs
      * This function creates the multiple html file developer documentation.
      * It will  true when it completes its task.  It will throw an exception if an
      * error  is encountered
+     *
+     * @throws AppException If unable to create documentation.
      *
      * @return boolean True when the function completes
      *
@@ -1080,7 +1123,7 @@ class CreateDocs
             }
 
             // Set the output directory filename
-            $outputdir = $this->DocBase . '/developer/' . $directory['html'] .'/';
+            $outputdir = $this->DocBase . '/developer/' . $directory['html'] . '/';
 
             $nochunckresult = $this->createhtmldocs(
                 $chunks,
@@ -1094,6 +1137,7 @@ class CreateDocs
                 );
             }
         }
+        return true;
     }
 
 
@@ -1104,6 +1148,8 @@ class CreateDocs
      * This function creates a single html file user documentation for all
      * languages.  It will  true when it completes its task.  It will throw an
      * exception if an error  is encountered
+     *
+     * @throws AppException If unable to create documentation.
      *
      * @return boolean True when the function completes
      *
@@ -1158,6 +1204,7 @@ class CreateDocs
                 );
             }
         }
+        return true;
     }
 
 
@@ -1169,6 +1216,8 @@ class CreateDocs
      * This function creates a sPDF file user documentation for all both the
      * developer and rest api manuals.  It will  true when it completes its task.
      * It will throw an exception if an error is encountered
+     *
+     * @throws AppException If unable to create documentation.
      *
      * @return boolean True when the function completes
      *
@@ -1217,5 +1266,6 @@ class CreateDocs
                 );
             }
         }
+        return true;
     }
 }

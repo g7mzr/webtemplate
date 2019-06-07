@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage SELENIUM Functional Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace Facebook\WebDriver;
 
 use PHPUnit\Framework\TestCase;
@@ -15,14 +21,9 @@ use PHPUnit\Framework\TestCase;
 require_once "constants.php";
 
 /**
- * Group Admin Functional Tests
+ * Admin Groups Functional Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
 class AdminGroupsTest extends TestCase
 {
 
@@ -45,9 +46,9 @@ class AdminGroupsTest extends TestCase
      * BROWSER: The Web browser to be used for the tests
      * URL: The Web location of the test site.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
 
         // Load the Webdriver from constants.php
@@ -57,9 +58,9 @@ class AdminGroupsTest extends TestCase
     /**
      * Function to close the Webdriver after each test is complete
      *
-     * @return null no return data
+     * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
 
         $status = $this->getStatus();
@@ -104,7 +105,7 @@ class AdminGroupsTest extends TestCase
      * @group selenium
      * @group groups
      *
-     * @return null No return data
+     * @return void
      */
     public function testListGroups()
     {
@@ -183,7 +184,7 @@ class AdminGroupsTest extends TestCase
      *
      * @depends testListGroups
      *
-     * @return null No return data
+     * @return void
      */
     public function testAddGroup()
     {
@@ -302,7 +303,7 @@ class AdminGroupsTest extends TestCase
      *
      * @depends testAddGroup
      *
-     * @return null No return data
+     * @return void
      */
     public function testEditGroup()
     {
@@ -551,7 +552,7 @@ class AdminGroupsTest extends TestCase
      *
      * @depends testAddGroup
      *
-     * @return null No return data
+     * @return void
      */
     public function testAddDuplicateGroup()
     {
@@ -640,7 +641,7 @@ class AdminGroupsTest extends TestCase
      *
      * @depends testAddGroup
      *
-     * @return null No return data
+     * @return void
      */
     public function testDeleteGroup()
     {

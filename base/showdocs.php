@@ -2,10 +2,15 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Application Module
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
 
 /**
@@ -21,18 +26,8 @@ require_once "../includes/general/help.class.php";
 try {
     $app = new \webtemplate\application\Application();
 } catch (\Throwable $e) {
-    // Create the Smart Template object
-    $tpl = new \webtemplate\application\SmartyTemplate;
-    $template = 'global/error.tpl';
-    $msg = $e->getMessage();
-    $msg .= "\n\n";
-    $msg .= gettext("Please Contact your Adminstrator");
-    $header =  gettext("Application Error");
-    $tpl->assign('ERRORMSG', $msg);
-    $tpl->assign('HEADERMSG', $header);
-    $dateArray = getdate();
-    $tpl->assign("YEAR", "$dateArray[year]");
-    $tpl->display($template);
+    error_log(basename(__FILE__) . ": " . $e->getMessage());
+    header('Location: syserror.html');
     exit();
 }
 
@@ -106,7 +101,7 @@ if ($docsAvailable == true) {
                 }
 
                 // Check the file actually exists
-                $pagefilename = $docroot . '/' . $docBase . '/'.$pagename;
+                $pagefilename = $docroot . '/' . $docBase . '/' . $pagename;
                 if (file_exists($pagefilename)) {
                     // Check if there is a bookmark to use
                     if ($helpMap[$pageid]['section'] != '') {
@@ -116,7 +111,7 @@ if ($docsAvailable == true) {
 
                     // Create the fully qualified URL and flag the document found
                     $helpurl = $app->config()->read('param.urlbase');
-                    if ($helpurl[strlen($helpurl)-1] == '/') {
+                    if ($helpurl[strlen($helpurl) - 1] == '/') {
                         $helpurl .= $docBase;
                     } else {
                         $helpurl .= '/' . $docBase;
@@ -134,7 +129,7 @@ if ($foundDoc == true) {
     header("Location: $helpurl");
 } else {
     // Show the error page.
-    header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+    header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
     $app->tpl()->assign("URLBASE", $app->config()->read('param.urlbase'));
     $app->tpl()->assign("EMAILADDRESS", $app->config()->read('param.maintainer'));
     $app->tpl()->display("admin/helpfilenotfound.tpl");

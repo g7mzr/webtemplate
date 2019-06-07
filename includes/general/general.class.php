@@ -2,22 +2,23 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage General
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\general;
 
  /**
- * GeneralCode Class is a static class used to validate user input
+ * GeneralCode Class is a static class containing common application functions.
  *
- * @category Webtemplate
- * @package  General
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
 class General
 {
     /**
@@ -25,13 +26,13 @@ class General
      * browser to select the correct language to display
      * If the language file is not available it defaults to English
      *
-     * @param string $configDirectory SMARTY Config directory
+     * @param array $configDirectory SMARTY Config directory.
      *
      * @return string config file name
      *
      * @access public
      */
-    public static function getconfigfile($configDirectory)
+    public static function getconfigfile(array $configDirectory)
     {
         // Get the browsers language
         if (array_key_exists('HTTP_ACCEPT_LANGUAGE', $_SERVER)) {
@@ -103,13 +104,13 @@ class General
      * should contain based on the 'users.passwdstrength'
      * parameter.
      *
-     * @param string $strength Password strength
+     * @param string $strength Password strength.
      *
      * @return string containing the password format description
      *
      * @access public
      */
-    public static function passwdFormat($strength)
+    public static function passwdFormat(string $strength)
     {
         $passwdstr = gettext("Password must be between 8 and 20 characters. ");
         $str1 = gettext("No other checks");
@@ -139,13 +140,13 @@ class General
     /**
      * This method returns the encrypted users password
      *
-     * @param string $passwd The users plain text password
+     * @param string $passwd The users plain text password.
      *
      * @return string containing the encrypted password
      *
      * @access public
      */
-    public static function encryptPasswd($passwd)
+    public static function encryptPasswd(string $passwd)
     {
         if (isset($GLOBALS['passwdfail'])) {
             return false;
@@ -159,14 +160,14 @@ class General
     /**
      * This method checks if a user password and hash are the same
      *
-     * @param string $passwd The users plain text password
-     * @param string $hash   The password hash from the database
+     * @param string $passwd The users plain text password.
+     * @param string $hash   The password hash from the database.
      *
      * @return string containing the encrypted password
      *
      * @access public
      */
-    public static function verifyPasswd($passwd, $hash)
+    public static function verifyPasswd(string $passwd, string $hash)
     {
         return password_verify($passwd, $hash);
     }
@@ -178,16 +179,19 @@ class General
      * application have been set by the maintainer.  If they have not
      * an error message is returned.
      *
-     * @param string $urlbase      Fully qualified domain name for the application
-     * @param string $emailaddress The applications email address for sending mail
-     * @param string $maintainer   The maintainers email address
+     * @param string $urlbase      Fully qualified domain name for the application.
+     * @param string $emailaddress The applications email address for sending mail.
+     * @param string $maintainer   The maintainers email address.
      *
      * @return string Error Message
      *
      * @access public
      */
-    public static function checkkeyParameters($urlbase, $emailaddress, $maintainer)
-    {
+    public static function checkkeyParameters(
+        string $urlbase,
+        string $emailaddress,
+        string $maintainer
+    ) {
         // Set the flag to its default value
         $paramnotset = false;
 
@@ -213,7 +217,7 @@ class General
         // Check if the maintainer's e-mail address is set
         if ($maintainer == '') {
             // If not set update the error message and flag to true
-            $msg .= gettext("Maintainer's E-mail Address") ."\n";
+            $msg .= gettext("Maintainer's E-mail Address") . "\n";
             $paramnotset = true;
         }
 
@@ -235,14 +239,14 @@ class General
     /**
      * This method is used to check if documentation is available
      *
-     * @param string $docBase  The base directory the documents are in
-     * @param string $language The users chosen language
+     * @param string $docBase  The base directory the documents are in.
+     * @param string $language The users chosen language.
      *
      * @return boolean True if application documents are available
      *
      * @access public
      */
-    public static function checkdocs($docBase, $language)
+    public static function checkdocs(string $docBase, string $language)
     {
         // Set the flag to its default value
         $docsfound = false;
@@ -258,7 +262,7 @@ class General
             }
 
             // If docbase is set check if the index file is there
-            if (file_exists($docroot . "/" . $docBase ."index.html")) {
+            if (file_exists($docroot . "/" . $docBase . "index.html")) {
                 // Documentation is available
                 $docsfound = true;
             }
@@ -272,13 +276,13 @@ class General
      *
      * This function returns the size of the $dir
      *
-     * @param string $path Directory name
+     * @param string $path Directory name.
      *
      * @return array containing total bytes, files and directories
      *
      * @access public
      */
-    public static function getDirectorySize($path)
+    public static function getDirectorySize(string $path)
     {
         $totalsize = 0;
         $totalcount = 0;
@@ -313,34 +317,34 @@ class General
      *
      * This function returns the size of the $dir
      *
-     * @param integer $size The number to be converted
+     * @param integer $size The number to be converted.
      *
      * @return string The Size as bytes, KB, MB or GB
      *
      * @access public
      */
-    public static function sizeFormat($size)
+    public static function sizeFormat(int $size)
     {
-        if ($size<1024) {
-            return $size." bytes";
-        } elseif ($size<(1024*1024)) {
-            $size=round($size/1024, 1);
-            return $size." KB";
-        } elseif ($size<(1024*1024*1024)) {
-            $size=round($size/(1024*1024), 1);
-            return $size." MB";
+        if ($size < 1024) {
+            return $size . " bytes";
+        } elseif ($size < (1024 * 1024)) {
+            $size = round($size / 1024, 1);
+            return $size . " KB";
+        } elseif ($size < (1024 * 1024 * 1024)) {
+            $size = round($size / (1024 * 1024), 1);
+            return $size . " MB";
         } else {
-            $size=round($size/(1024*1024*1024), 1);
-            return $size." GB";
+            $size = round($size / (1024 * 1024 * 1024), 1);
+            return $size . " GB";
         }
     }
 
     /**
      * This method is used to check if the supplied variable is an error type
      *
-     * @param mixed $data The value to test
+     * @param mixed $data The value to test.
      *
-     * @return boolean True if $data is an error object
+     * @return boolean True if $data is an error class
      *
      * @access public
      */
@@ -352,14 +356,14 @@ class General
     /**
      * This method is raise an error
      *
-     * @param mixed $message a text message or error object
-     * @param int   $code    The error code
+     * @param string  $message A text message or error class.
+     * @param integer $code    The error code.
      *
-     * @return object an Error object
+     * @return class an Error class
      *
      * @access public
      */
-    public static function raiseError($message = null, $code = null)
+    public static function raiseError(string $message = "", int $code = 0)
     {
         return new \webtemplate\application\Error($message, $code);
     }

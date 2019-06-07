@@ -10,8 +10,6 @@
     convertNoticesToExceptions="true"
     convertWarningsToExceptions="true"
     forceCoversAnnotation="false"
-    mapTestClassNameToCoveredClassName="false"
-
     processIsolation="false"
     stopOnError="false"
     stopOnFailure="false"
@@ -53,6 +51,12 @@
             <file>../tests/selenium/register.classTest.php</file>
             <file>../tests/selenium/passwdReset.classTest.php</file>
         </testsuite>
+        
+        <testsuite name="restapi">
+            <file>../tests/login.classTest.php</file>
+            <file>../tests/version.classTest.php</file>
+            <file>../tests/users.classTest.php</file>
+         </testsuite>
 
     </testsuites>
     <filter>
@@ -69,11 +73,10 @@
         <var name="unittest" value="true" />
     </php>
     <logging>
-      <log type="coverage-html" target="coverage" title="Webtemplate"
-            charset="UTF-8" yui="true" highlight="true"/>
+      <log type="coverage-html" target="coverage" />
       <log type="coverage-clover" target="logs/clover.xml"/>
       <log type="coverage-crap4j" target="logs/crap4j.xml"/>
       <log type="coverage-xml" target="logs/coverage"/>
-      <log type="junit" target="logs/junit.xml" logIncompleteSkipped="false"/>
+      <log type="junit" target="logs/junit.xml"/>
     </logging>
 </phpunit>

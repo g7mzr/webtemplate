@@ -2,22 +2,23 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage General
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\general;
 
 /**
  * Webtemplate Application Logging Class
  *
- * @category Webtemplate
- * @package  General
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
 class Log
 {
      /**
@@ -61,12 +62,12 @@ class Log
     /**
      * Constructor
      *
-     * @param integer $errorLevel  Type of message to be logged
-     * @param integer $rotateLevel When to rotate logfiles
+     * @param integer $errorLevel  Type of message to be logged.
+     * @param integer $rotateLevel When to rotate logfiles.
      *
      * @access public
      */
-    public function __construct($errorLevel = 0, $rotateLevel = 2)
+    public function __construct(int $errorLevel = 0, int $rotateLevel = 2)
     {
         settype($errorLevel, "integer");
         settype($rotateLevel, "integer");
@@ -81,19 +82,19 @@ class Log
     /**
      * Open Logging File
      *
-     * @param string $fileName The name of the file to be logged to
+     * @param string $fileName The name of the file to be logged to.
      *
      * @return pointer  File Handle
      * @access protected
      */
-    final protected function openLogFile($fileName)
+    final protected function openLogFile(string $fileName)
     {
         if ($this->rotateLevel == 1) {
             $rotateName = "daily-" . date("Ymd_", time());
         } elseif ($this->rotateLevel == 2) {
-            $rotateName = "weekly-" .date("YW_", time());
+            $rotateName = "weekly-" . date("YW_", time());
         } else {
-            $rotateName = "monthly-".date("Ym_", time());
+            $rotateName = "monthly-" . date("Ym_", time());
         }
         $localFileName = $this->logDir . $rotateName . $fileName;
         $handle = fopen($localFileName, "a");
@@ -106,12 +107,12 @@ class Log
     /**
      * This function logs Errors messages
      *
-     * @param string $data The message to get logged
+     * @param string $data The message to get logged.
      *
      * @return boolean currently always returns true.
      * @access public
      */
-    final public function error($data)
+    final public function error(string $data)
     {
         $result = true;
         if ($this->errorLevel > 0) {
@@ -136,12 +137,12 @@ class Log
     /**
      * This function logs warning messages
      *
-     * @param string $data The message to get logged
+     * @param string $data The message to get logged.
      *
      * @return boolean currently always returns true.
      * @access public
      */
-    final public function warn($data)
+    final public function warn(string $data)
     {
         $result = true;
         if ($this->errorLevel > 1) {
@@ -165,12 +166,12 @@ class Log
     /**
      * This function logs information messages
      *
-     * @param string $data The message to get logged
+     * @param string $data The message to get logged.
      *
      * @return boolean currently always returns true.
      * @access public
      */
-    final public function info($data)
+    final public function info(string $data)
     {
         $result = true;
         if ($this->errorLevel > 2) {
@@ -194,12 +195,12 @@ class Log
     /**
      * This function logs debug messages
      *
-     * @param string $data The message to get logged
+     * @param string $data The message to get logged.
      *
      * @return boolean currently always returns true.
      * @access public
      */
-    final public function debug($data)
+    final public function debug(string $data)
     {
         $result = true;
         if ($this->errorLevel > 3) {
@@ -221,12 +222,12 @@ class Log
     /**
      * This function logs trace messages
      *
-     * @param string $data The message to get logged
+     * @param string $data The message to get logged.
      *
      * @return boolean currently always returns true.
      * @access public
      */
-    final public function trace($data)
+    final public function trace(string $data)
     {
         $result = true;
         if ($this->errorLevel > 4) {
@@ -247,12 +248,12 @@ class Log
     /**
      * This function logs security messages
      *
-     * @param string $data The message to get logged
+     * @param string $data The message to get logged.
      *
      * @return boolean currently always returns true.
      * @access public
      */
-    final public function security($data)
+    final public function security(string $data)
     {
         $result = true;
 

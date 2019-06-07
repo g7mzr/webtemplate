@@ -1,12 +1,16 @@
 <?php
-
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
 
 namespace webtemplate\unittest;
@@ -17,19 +21,15 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../includes/global.php';
 
 /**
- * Parameters Class Unit Tests
+ * Parameters Admin Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class ParametersAdminTest extends TestCase
 {
     /**
      * Parameters Class Object
      *
-     * @var ParametersClass
+     * @var \webtemplate\admin\Parameters
      */
     protected $object;
 
@@ -44,9 +44,9 @@ class ParametersAdminTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
 
         // Create configuration Object
@@ -63,11 +63,11 @@ class ParametersAdminTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
-        $configDir = dirname(__FILE__) ."/../_data";
+        $configDir = dirname(__FILE__) . "/../_data";
         $filename = $configDir . '/parameters.php';
         if (file_exists($filename)) {
             unlink($filename);
@@ -76,6 +76,8 @@ class ParametersAdminTest extends TestCase
 
     /**
      * This function sets up the default parameters for testing
+     *
+     * @return void
      */
     protected function defaultParameters()
     {
@@ -112,7 +114,7 @@ class ParametersAdminTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testGetLastMessage()
     {
@@ -127,7 +129,7 @@ class ParametersAdminTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testGetCurrentParameters()
     {
@@ -142,7 +144,7 @@ class ParametersAdminTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testvalidateParameters()
     {
@@ -223,7 +225,7 @@ class ParametersAdminTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testcheckParametersChanged()
     {
@@ -247,7 +249,7 @@ class ParametersAdminTest extends TestCase
         $result = $this->object->checkParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Logging Level Parameter Changed", $localStr);
+        $this->assertStringContainsString("Logging Level Parameter Changed", $localStr);
 
         // LogRotate Changed
         $parameters['admin']['logging'] = '1';
@@ -257,7 +259,7 @@ class ParametersAdminTest extends TestCase
         $result = $this->object->checkParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Log Rotate Parameter Changed", $localStr);
+        $this->assertStringContainsString("Log Rotate Parameter Changed", $localStr);
 
         // New Window Changed
         $parameters['admin']['logging'] = '1';
@@ -267,7 +269,7 @@ class ParametersAdminTest extends TestCase
         $result = $this->object->checkParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("New Window Parameter Changed", $localStr);
+        $this->assertStringContainsString("New Window Parameter Changed", $localStr);
 
          // Max Records Changed
         $parameters['admin']['logging'] = '1';
@@ -277,7 +279,7 @@ class ParametersAdminTest extends TestCase
         $result = $this->object->checkParametersChanged($parameters);
         $this->assertTrue($result);
         $localStr = $this->object->GetLastMsg();
-        $this->assertContains("Max Records Parameter Changed", $localStr);
+        $this->assertStringContainsString("Max Records Parameter Changed", $localStr);
     }
 
     /**
@@ -286,11 +288,11 @@ class ParametersAdminTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testsaveParamFile()
     {
-        $configDir = dirname(__FILE__) ."/../_data";
+        $configDir = dirname(__FILE__) . "/../_data";
         $filesaved = $this->object->saveParamFile($configDir);
         $this->assertTrue($filesaved);
         $filename = $configDir . '/parameters.json';
@@ -306,11 +308,11 @@ class ParametersAdminTest extends TestCase
      * @group unittest
      * @group admin
      *
-     * @return null
+     * @return void
      */
     public function testsaveParamFileFail()
     {
-        $configDir = dirname(__FILE__) ."/../data";
+        $configDir = dirname(__FILE__) . "/../data";
         $filesaved = $this->object->saveParamFile($configDir);
         $this->assertFalse($filesaved);
     }

@@ -2,10 +2,15 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Application Module
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
 
 /**
@@ -18,18 +23,8 @@ require_once "../includes/global.php";
 try {
     $app = new \webtemplate\application\Application();
 } catch (\Throwable $e) {
-    // Create the Smart Template object
-    $tpl = new \webtemplate\application\SmartyTemplate;
-    $template = 'global/error.tpl';
-    $msg = $e->getMessage();
-    $msg .= "\n\n";
-    $msg .= gettext("Please Contact your Adminstrator");
-    $header =  gettext("Application Error");
-    $tpl->assign('ERRORMSG', $msg);
-    $tpl->assign('HEADERMSG', $header);
-    $dateArray = getdate();
-    $tpl->assign("YEAR", "$dateArray[year]");
-    $tpl->display($template);
+    error_log(basename(__FILE__) . ": " . $e->getMessage());
+    header('Location: syserror.html');
     exit();
 }
 
@@ -192,7 +187,7 @@ if ($action == "new") {
 
         $msg = gettext("Unable to create new password request. ");
         $msg .= gettext("Please contact the system Administrator ");
-        $msg .= "(" . $app->config()->read('param.maintainer') .")";
+        $msg .= "(" . $app->config()->read('param.maintainer') . ")";
         $template = "global/error.tpl";
         $msg = gettext("System Error. Unable to complete request");
         $header = gettext("System Error");
@@ -212,7 +207,7 @@ if ($action == "new") {
 
         $msg = gettext("Unable to create new password request. ");
         $msg .= gettext("Please contact the system Administrator ");
-        $msg .= "(" . $app->config()->read('param.maintainer') .")";
+        $msg .= "(" . $app->config()->read('param.maintainer') . ")";
         $template = "global/error.tpl";
         $msg = gettext("System Error. Unable to complete request");
         $header = gettext("System Error");
@@ -243,7 +238,7 @@ if ($action == "new") {
 
 
     $tempURL = $app->config()->read('param.urlbase');
-    $tempURL .= "resetpasswd.php?passwdreq=".$usertoken;
+    $tempURL .= "resetpasswd.php?passwdreq=" . $usertoken;
     $app->tpl()->assign("EMAILUSERNAME", $app->user()->getRealName());
     $app->tpl()->assign("PASSWODRESETLINK", $tempURL);
     $passwdstrength = $app->config()->read('param.users.passwdstrength');
@@ -268,7 +263,7 @@ if ($action == "new") {
         // Unable to send email record error
         $msg = gettext("Unable to create new password request. ");
         $msg .= gettext("Please contact the system Administrator ");
-        $msg .= "(" . $app->config()->read("param.maintainer") .")";
+        $msg .= "(" . $app->config()->read("param.maintainer") . ")";
         $template = "global/error.tpl";
         $msg = gettext("System Error. Unable to complete request");
         $header = gettext("System Error");
@@ -520,7 +515,7 @@ $app->tpl()->assign("REQUESTCANCELLED", $requestcancelled);
 $template = "users/resetpasswd.tpl";
 
 // Create the token for checking the page authenticition
-$localtoken = $app->tokens()->createToken("1", 'RESETPASS', 1, ''. true);
+$localtoken = $app->tokens()->createToken("1", 'RESETPASS', 1, '' . true);
 $app->tpl()->assign("TOKEN", $localtoken);
 
 // Get the year for the Copyright Statement

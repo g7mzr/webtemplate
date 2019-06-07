@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage SELENIUM Functional Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace Facebook\WebDriver;
 
 use PHPUnit\Framework\TestCase;
@@ -17,12 +23,7 @@ require_once "constants.php";
 /**
  * Login/Logout Functional Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
 class HomePageTest extends TestCase
 {
 
@@ -38,9 +39,9 @@ class HomePageTest extends TestCase
      * BROWSER: The Web browser to be used for the tests
      * URL: The Web location of the test site.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
 
         // Load the Webdriver from constants.php
@@ -50,9 +51,9 @@ class HomePageTest extends TestCase
     /**
      * Function to close the Webdriver after each test is complete
      *
-     * @return null no return data
+     * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
 
         $status = $this->getStatus();
@@ -98,7 +99,7 @@ class HomePageTest extends TestCase
      * @group selenium
      * @group login
      *
-     * @return null No return data
+     * @return void
      */
     public function testTitle()
     {
@@ -117,7 +118,7 @@ class HomePageTest extends TestCase
         $checkVersion = $this->webDriver->findElement(
             WebDriverBy::cssSelector('div#right')
         );
-        $this->assertRegExp('/'. VERSION . '/', $checkVersion->getText());
+        $this->assertRegExp('/' . VERSION . '/', $checkVersion->getText());
     }
 
     /**
@@ -126,7 +127,7 @@ class HomePageTest extends TestCase
      * @group selenium
      * @group login
      *
-     * @return null No return data
+     * @return void
      */
     public function testLoginLogout()
     {
@@ -163,7 +164,7 @@ class HomePageTest extends TestCase
      * @group selenium
      * @group login
      *
-     * @return null No return data
+     * @return void
      */
     public function testBadLogin()
     {
@@ -260,7 +261,7 @@ class HomePageTest extends TestCase
      * @group seleniun
      * @group login
      *
-     * @return null No return data
+     * @return void
      */
     public function testLoginWait()
     {
@@ -340,7 +341,7 @@ class HomePageTest extends TestCase
      * @group selenium
      * @group login
      *
-     * @return null No return data
+     * @return void
      */
     public function testLockedAccount()
     {
@@ -376,7 +377,7 @@ class HomePageTest extends TestCase
      * @group selenium
      * @group login
      *
-     * @return null No return data
+     * @return void
      */
     public function testReleaseNotes()
     {
@@ -425,7 +426,7 @@ class HomePageTest extends TestCase
      * @group selenium
      * @group login
      *
-     * @return null No return data
+     * @return void
      */
     public function testHelpFiles()
     {

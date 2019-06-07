@@ -1,21 +1,17 @@
 #!/usr/bin/php
 <?php
 /**
- * Document Generation for Webtemplate
+ * This file is part of Webtemplate.
  *
- * PHP version  5
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
- * LICENSE: This source file is subject to version 2.1 of the GPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html.
+ * @package Webtemplate
+ * @subpackage Documentation
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
  *
- * @category  Webtemplate
- * @package   Documentation
- * @author    Sandy McNeil <g7mzrdev@gmail.com>
- * @copyright 2012 Sandy McNeil
- * @license   View the license file distributed with this source code
- * @version   SVN: $Id$
- * @link      http://www.g7mzr.demon.co.uk
  */
 
 /**********************************************************************************
@@ -39,7 +35,7 @@ use GetOpt\ArgumentException\Missing;
  **********************************************************************************/
 
 $db4 = "/usr/share/xml/docbook/stylesheet/nwalsh/1.79.2/";
-$db5 ="/usr/share/xml/docbook/stylesheet/nwalsh5/1.79.2/";
+$db5 = "/usr/share/xml/docbook/stylesheet/nwalsh5/1.79.2/";
 
 /**********************************************************************************
  * Programme Details  -  Do not change unless you know what you are doing
@@ -115,10 +111,14 @@ if ($getOpt->getOption('help')) {
 }
 
 // Set the control variables so that makedocs knows what to do
+$clean = false;
+$verbose = false;
 $clean = $getOpt->getOption('clean');
 $withpdf = $getOpt->getOption('with-pdf');
 $withdevelop = $getOpt->getOption('with-develop');
-$verbose = $getOpt->getOption('verbose');
+if ($getOpt->getOption('verbose')  === true) {
+    $verbose = true;
+}
 
 
 echo "\n" . $progname . " - Build Documentation Set\n\n";

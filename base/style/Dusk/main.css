@@ -266,10 +266,10 @@ dl {
 #line {
     padding : 0px;
     padding-right: 5px;
-	height: 5px;
+    height: 5px;
     bottom:25px;
-	width: 100%;
-	background: #929bb1;
+    width: 100%;
+    background: #929bb1;
     position: fixed;
 }
 

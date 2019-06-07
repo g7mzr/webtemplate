@@ -2,20 +2,22 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Admin Parameters
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\admin\parameters;
 
 /**
  * Parameters Interface Class
  *
- * @category Webtemplate
- * @package  Admin
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class Auth extends ParametersAbstract
 {
@@ -89,11 +91,11 @@ class Auth extends ParametersAbstract
     /**
      * Constructor
      *
-     * @param \webtemplate\config\Configure $config Configuration class
+     * @param \webtemplate\config\Configure $config Configuration class.
      *
      * @access public
      */
-    public function __construct($config)
+    public function __construct(\webtemplate\config\Configure $config)
     {
 
         parent::__construct($config);
@@ -114,13 +116,13 @@ class Auth extends ParametersAbstract
      * Validate the Auth set of parameters input by the user.  Last Msg will
      * contain a list of any parameters which failed validation.
      *
-     * @param array $inputData Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access public
      */
-    final public function validateParameters(&$inputData)
+    final public function validateParameters(array &$inputData)
     {
 
         // Check the data which has a default value if the user input is invalid
@@ -161,17 +163,17 @@ class Auth extends ParametersAbstract
 
     /**
      * Check if any of the Auth set of Parameters have changed.  The
-     * localy stored parameters created as part of the validation process
+     * locally stored parameters created as part of the validation process
      * are compared to the ones in the $parameters variable.  Last Msg will
-     * contain a list of parameters whioch have changed.
+     * contain a list of parameters which have changed.
      *
-     * @param array $parameters Array of application Parameters
+     * @param array $parameters Array of application Parameters.
      *
      * @return boolean true if data changed
      *
      * @access public
      */
-    final public function checkParametersChanged($parameters)
+    final public function checkParametersChanged(array $parameters)
     {
 
         // Set the data changed flags to false
@@ -238,13 +240,13 @@ class Auth extends ParametersAbstract
     /**
      * Validate if users can create their own accounts
      *
-     * @param array $inputData Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access private
      */
-    private function validateNewAccount(&$inputData)
+    private function validateNewAccount(array &$inputData)
     {
         $dataok = true;
 
@@ -265,13 +267,13 @@ class Auth extends ParametersAbstract
     /**
      * Validate if users can reset their own passwords
      *
-     * @param array $inputData Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access private
      */
-    private function validateNewPassword(&$inputData)
+    private function validateNewPassword(array &$inputData)
     {
         $dataok = true;
 
@@ -293,13 +295,13 @@ class Auth extends ParametersAbstract
     /**
      * Validate the password strength
      *
-     * @param array $inputData Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access private
      */
-    private function validatePasswdStrength(&$inputData)
+    private function validatePasswdStrength(array &$inputData)
     {
         $dataok = true;
 
@@ -322,13 +324,13 @@ class Auth extends ParametersAbstract
     /**
      * Validate the maximum password age
      *
-     * @param array $inputData Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access private
      */
-    private function validatePasswdAge(&$inputData)
+    private function validatePasswdAge(array &$inputData)
     {
         $dataok = true;
 
@@ -346,13 +348,13 @@ class Auth extends ParametersAbstract
     /**
      * Validate auto complete
      *
-     * @param array $inputData Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access private
      */
-    private function validateAutoComplete(&$inputData)
+    private function validateAutoComplete(array &$inputData)
     {
         $dataok = true;
 
@@ -373,13 +375,13 @@ class Auth extends ParametersAbstract
     /**
      * Validate auto logout
      *
-     * @param array $inputData Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access private
      */
-    private function validateAutoLogout(&$inputData)
+    private function validateAutoLogout(array &$inputData)
     {
         $dataok = true;
 
@@ -402,13 +404,13 @@ class Auth extends ParametersAbstract
     /**
      * Validate the user name regular expression
      *
-     * @param array $inputData Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access private
      */
-    private function validateUserNameRegEx(&$inputData)
+    private function validateUserNameRegEx(array &$inputData)
     {
         $dataok = true;
 
@@ -435,13 +437,13 @@ class Auth extends ParametersAbstract
     /**
      * Validate the user name regular expression description
      *
-     * @param array $inputData Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access private
      */
-    private function validateUserNameRegExDesc(&$inputData)
+    private function validateUserNameRegExDesc(array &$inputData)
     {
         $dataok = true;
 
@@ -466,7 +468,7 @@ class Auth extends ParametersAbstract
     }
 
     /**
-     * This function transfers the paramaters stored in this class to the
+     * This function transfers the parameters stored in this class to the
      * Configuration Class.
      *
      * @return boolean True if write is successful

@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage SELENIUM Functional Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace Facebook\WebDriver;
 
 use PHPUnit\Framework\TestCase;
@@ -14,16 +20,11 @@ use PHPUnit\Framework\TestCase;
 require_once "constants.php";
 
 /**
- * About Page Functional Tests
- * Check that the About page can be accessed by a user with the correct permissions
+ * Security Functional Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
+ * Check that users can only access pages that they have permission to.
+ *
  **/
-
-
 class SecurityTest extends TestCase
 {
 
@@ -39,9 +40,9 @@ class SecurityTest extends TestCase
      * BROWSER: The Web browser to be used for the tests
      * URL: The Web location of the test site.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
 
         // Load the Webdriver from constants.php
@@ -51,9 +52,9 @@ class SecurityTest extends TestCase
     /**
      * Function to close the Webdriver after each test is complete
      *
-     * @return null no return data
+     * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
 
         $status = $this->getStatus();
@@ -98,7 +99,7 @@ class SecurityTest extends TestCase
      * @group selenium
      * @group security
 
-     * @return null No return data
+     * @return void
      */
     public function testNoPermissions()
     {
@@ -120,19 +121,19 @@ class SecurityTest extends TestCase
         $menuBarText = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#menu_bar'))
             ->getText();
-        $this->assertNotContains('Administration', $menuBarText);
+        $this->assertStringNotContainsString('Administration', $menuBarText);
 
         // Check the Adminstration Link is missing on the footer menu bar
         $menuBarText = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#footer_menu'))
             ->getText();
-        $this->assertNotContains('Administration', $menuBarText);
+        $this->assertStringNotContainsString('Administration', $menuBarText);
 
         // Try to Open Each Page without Using the Menu
         // Go back to the Home Page and test editsettings.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'editsettings.php';
+        $testPage = URL . 'editsettings.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': Authorisation Required',
@@ -148,7 +149,7 @@ class SecurityTest extends TestCase
         // Go back to the Home Page and test editconfig.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'editconfig.php';
+        $testPage = URL . 'editconfig.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': Authorisation Required',
@@ -164,7 +165,7 @@ class SecurityTest extends TestCase
         // Go back to the Home Page and test about.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'about.php';
+        $testPage = URL . 'about.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': Authorisation Required',
@@ -180,7 +181,7 @@ class SecurityTest extends TestCase
         // Go back to the Home Page and test editusers.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'editusers.php';
+        $testPage = URL . 'editusers.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': Authorisation Required',
@@ -196,7 +197,7 @@ class SecurityTest extends TestCase
         // Go back to the Home Page and test editgroups.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'editgroups.php';
+        $testPage = URL . 'editgroups.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': Authorisation Required',
@@ -221,7 +222,7 @@ class SecurityTest extends TestCase
      * @group selenium
      * @group security
 
-     * @return null No return data
+     * @return void
      */
     public function testUserPermissions()
     {
@@ -243,13 +244,13 @@ class SecurityTest extends TestCase
         $menuBarText = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#menu_bar'))
             ->getText();
-        $this->assertContains('Administration', $menuBarText);
+        $this->assertStringContainsString('Administration', $menuBarText);
 
         // Check the Adminstration Link is missing on the footer menu bar
         //$menuBarText = $this->webDriver
         //    ->findElement(WebDriverBy::cssSelector('div#footer_menu'))
         //    ->getText();
-        //$this->assertContains('Administration', $menuBarText);
+        //$this->assertStringContainsString('Administration', $menuBarText);
 
         // Switch to the Admin Page to check we are there
         $this->webDriver
@@ -262,11 +263,11 @@ class SecurityTest extends TestCase
         $mainBodyText = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'))
             ->getText();
-        $this->assertNotContains('Site Preferences', $mainBodyText);
-        $this->assertNotContains('Setup', $mainBodyText);
-        $this->assertNotContains('About', $mainBodyText);
-        $this->assertContains('Users', $mainBodyText);
-        $this->assertNotContains('Groups', $mainBodyText);
+        $this->assertStringNotContainsString('Site Preferences', $mainBodyText);
+        $this->assertStringNotContainsString('Setup', $mainBodyText);
+        $this->assertStringNotContainsString('About', $mainBodyText);
+        $this->assertStringContainsString('Users', $mainBodyText);
+        $this->assertStringNotContainsString('Groups', $mainBodyText);
 
         //Check that the user can switch to the Users Search Page
         $this->webDriver
@@ -279,7 +280,7 @@ class SecurityTest extends TestCase
 
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'editconfig.php';
+        $testPage = URL . 'editconfig.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': Authorisation Required',
@@ -295,7 +296,7 @@ class SecurityTest extends TestCase
         // Go back to the Home Page and test about.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'about.php';
+        $testPage = URL . 'about.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': Authorisation Required',
@@ -311,7 +312,7 @@ class SecurityTest extends TestCase
         // Go back to the Home Page and test editusers.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'editusers.php';
+        $testPage = URL . 'editusers.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': Search Users',
@@ -321,7 +322,7 @@ class SecurityTest extends TestCase
         // Go back to the Home Page and test editgroups.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'editgroups.php';
+        $testPage = URL . 'editgroups.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': Authorisation Required',
@@ -343,13 +344,13 @@ class SecurityTest extends TestCase
 
     /**
      * Test to ensure the user with editgroupsroups permissions can see the
-     * Adminstration Link and Groups Menu on the Admin Page and access
+     * Administration Link and Groups Menu on the Admin Page and access
      * editgroups.php only
      *
      * @group selenium
      * @group security
 
-     * @return null No return data
+     * @return void
      */
     public function testGroupsPermissions()
     {
@@ -370,13 +371,13 @@ class SecurityTest extends TestCase
         $menuBarText = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#menu_bar'))
             ->getText();
-        $this->assertContains('Administration', $menuBarText);
+        $this->assertStringContainsString('Administration', $menuBarText);
 
         // Check the Adminstration Link is missing on the footer menu bar
         //$menuBarText = $this->webDriver
         //    ->findElement(WebDriverBy::cssSelector('div#footer_menu'))
         //    ->getText();
-        //$this->assertContains('Administration', $menuBarText);
+        //$this->assertStringContainsString('Administration', $menuBarText);
 
         // Switch to the Admin Page to check we are there
         $this->webDriver
@@ -389,11 +390,11 @@ class SecurityTest extends TestCase
         $mainBodyText = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'))
             ->getText();
-        $this->assertNotContains('Site Preferences', $mainBodyText);
-        $this->assertNotContains('Setup', $mainBodyText);
-        $this->assertNotContains('About', $mainBodyText);
-        $this->assertNotContains('Users', $mainBodyText);
-        $this->assertContains('Groups', $mainBodyText);
+        $this->assertStringNotContainsString('Site Preferences', $mainBodyText);
+        $this->assertStringNotContainsString('Setup', $mainBodyText);
+        $this->assertStringNotContainsString('About', $mainBodyText);
+        $this->assertStringNotContainsString('Users', $mainBodyText);
+        $this->assertStringContainsString('Groups', $mainBodyText);
 
         //Check that the user can switch to the Groups Search Page
         $this->webDriver
@@ -406,7 +407,7 @@ class SecurityTest extends TestCase
 
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'editconfig.php';
+        $testPage = URL . 'editconfig.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': Authorisation Required',
@@ -422,7 +423,7 @@ class SecurityTest extends TestCase
         // Go back to the Home Page and test about.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'about.php';
+        $testPage = URL . 'about.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': Authorisation Required',
@@ -438,7 +439,7 @@ class SecurityTest extends TestCase
         // Go back to the Home Page and test editusers.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'editusers.php';
+        $testPage = URL . 'editusers.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': Authorisation Required',
@@ -454,7 +455,7 @@ class SecurityTest extends TestCase
         // Go back to the Home Page and test editgroups.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'editgroups.php';
+        $testPage = URL . 'editgroups.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': List Groups',
@@ -468,13 +469,13 @@ class SecurityTest extends TestCase
 
     /**
      * Test to ensure the user with editusers and editgroupsroups permissions can
-     * see the Adminstration Link and Groups Menu on the Admin Page and access
+     * see the Administration Link and Groups Menu on the Admin Page and access
      * editusers.php and editgroups.php only
      *
      * @group selenium
      * @group security
 
-     * @return null No return data
+     * @return void
      */
     public function testUsersGroupsPermissions()
     {
@@ -495,13 +496,13 @@ class SecurityTest extends TestCase
         $menuBarText = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#menu_bar'))
             ->getText();
-        $this->assertContains('Administration', $menuBarText);
+        $this->assertStringContainsString('Administration', $menuBarText);
 
         // Check the Adminstration Link is missing on the footer menu bar
         //$menuBarText = $this->webDriver
         //    ->findElement(WebDriverBy::cssSelector('div#footer_menu'))
         //    ->getText();
-        //$this->assertContains('Administration', $menuBarText);
+        //$this->assertStringContainsString('Administration', $menuBarText);
 
         // Switch to the Admin Page to check we are there
         $this->webDriver
@@ -514,11 +515,11 @@ class SecurityTest extends TestCase
         $mainBodyText = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'))
             ->getText();
-        $this->assertNotContains('Site Preferences', $mainBodyText);
-        $this->assertNotContains('Setup', $mainBodyText);
-        $this->assertNotContains('About', $mainBodyText);
-        $this->assertContains('Users', $mainBodyText);
-        $this->assertContains('Groups', $mainBodyText);
+        $this->assertStringNotContainsString('Site Preferences', $mainBodyText);
+        $this->assertStringNotContainsString('Setup', $mainBodyText);
+        $this->assertStringNotContainsString('About', $mainBodyText);
+        $this->assertStringContainsString('Users', $mainBodyText);
+        $this->assertStringContainsString('Groups', $mainBodyText);
 
         //Check that the user can switch to the Groups Search Page
         $this->webDriver
@@ -544,7 +545,7 @@ class SecurityTest extends TestCase
 
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'editconfig.php';
+        $testPage = URL . 'editconfig.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': Authorisation Required',
@@ -560,7 +561,7 @@ class SecurityTest extends TestCase
         // Go back to the Home Page and test about.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'about.php';
+        $testPage = URL . 'about.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': Authorisation Required',
@@ -576,7 +577,7 @@ class SecurityTest extends TestCase
         // Go back to the Home Page and test editusers.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'editusers.php';
+        $testPage = URL . 'editusers.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': Search Users',
@@ -586,7 +587,7 @@ class SecurityTest extends TestCase
         // Go back to the Home Page and test editgroups.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'editgroups.php';
+        $testPage = URL . 'editgroups.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': List Groups',
@@ -599,13 +600,13 @@ class SecurityTest extends TestCase
     }
 
     /**
-     * Test to ensure the user with admin permissions can see the Adminstration Link
+     * Test to ensure the user with admin permissions can see the Administration Link
      * all the options on the Admin Page and access all modules.
      *
      * @group selenium
      * @group security
 
-     * @return null No return data
+     * @return void
      */
     public function testAdminPermissions()
     {
@@ -628,13 +629,13 @@ class SecurityTest extends TestCase
         $menuBarText = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#menu_bar'))
             ->getText();
-        $this->assertContains('Administration', $menuBarText);
+        $this->assertStringContainsString('Administration', $menuBarText);
 
         // Check the Adminstration Link is missing on the footer menu bar
         //$menuBarText = $this->webDriver
         //    ->findElement(WebDriverBy::cssSelector('div#footer_menu'))
         //    ->getText();
-        //$this->assertContains('Administration', $menuBarText);
+        //$this->assertStringContainsString('Administration', $menuBarText);
 
         // Switch to the Admin Page to check we are there
         $this->webDriver
@@ -647,11 +648,11 @@ class SecurityTest extends TestCase
         $mainBodyText = $this->webDriver
             ->findElement(WebDriverBy::cssSelector('div#main-body'))
             ->getText();
-        $this->assertContains('Site Preferences', $mainBodyText);
-        $this->assertContains('Setup', $mainBodyText);
-        $this->assertContains('About', $mainBodyText);
-        $this->assertContains('Users', $mainBodyText);
-        $this->assertContains('Groups', $mainBodyText);
+        $this->assertStringContainsString('Site Preferences', $mainBodyText);
+        $this->assertStringContainsString('Setup', $mainBodyText);
+        $this->assertStringContainsString('About', $mainBodyText);
+        $this->assertStringContainsString('Users', $mainBodyText);
+        $this->assertStringContainsString('Groups', $mainBodyText);
 
         // Test Access by calling the modules via the menu
         //Check that the user can switch to the Site Preferences Page
@@ -723,7 +724,7 @@ class SecurityTest extends TestCase
         // Go back to the Home Page and test editsettings.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'editsettings.php';
+        $testPage = URL . 'editsettings.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': Edit Default Preferences',
@@ -733,7 +734,7 @@ class SecurityTest extends TestCase
         // Go back to the Home Page and test editconfig.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'editconfig.php';
+        $testPage = URL . 'editconfig.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': Edit Configuration',
@@ -743,7 +744,7 @@ class SecurityTest extends TestCase
         // Go back to the Home Page and test about.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'about.php';
+        $testPage = URL . 'about.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': About',
@@ -753,7 +754,7 @@ class SecurityTest extends TestCase
         // Go back to the Home Page and test editusers.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'editusers.php';
+        $testPage = URL . 'editusers.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': Search Users',
@@ -763,7 +764,7 @@ class SecurityTest extends TestCase
         // Go back to the Home Page and test editgroups.php
         $this->webDriver->findElement(WebDriverBy::linkText('Home'))->click();
         $this->assertEquals(WEBSITENAME . ': Home', $this->webDriver->getTitle());
-        $testPage = URL.'editgroups.php';
+        $testPage = URL . 'editgroups.php';
         $this->webDriver->get($testPage);
         $this->assertEquals(
             WEBSITENAME . ': List Groups',

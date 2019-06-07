@@ -2,20 +2,22 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Admin Parameters
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\admin\parameters;
 
 /**
  * Parameters Abstract Class
  *
- * @category Webtemplate
- * @package  Admin
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 abstract class ParametersAbstract
 {
@@ -38,11 +40,11 @@ abstract class ParametersAbstract
     /**
      * Constructor
      *
-     * @param \webtemplate\config\Configure $config Configuration class
+     * @param \webtemplate\config\Configure $config Configuration class.
      *
      * @access public
      */
-    public function __construct($config)
+    public function __construct(\webtemplate\config\Configure $config)
     {
         $this->config = $config;
     } // end constructor
@@ -81,13 +83,13 @@ abstract class ParametersAbstract
     * Save the current parameters to a file called parameters.php.  The
     * file is located in the $config directory,
     *
-    * @param string $configDir Location of the parameter file
+    * @param string $configDir Location of the parameter file.
     *
     * @return boolean true if parameterfile saved false otherwise
     *
     * @access public
     */
-    final public function saveParamFile($configDir)
+    final public function saveParamFile(string $configDir)
     {
         // Load the values in to configuration object
         $this->savetoConfigurationClass();
@@ -102,27 +104,27 @@ abstract class ParametersAbstract
     * Validate the Admin set of parameters input by the user.  Last Msg will
     * contain a list of any parameters which failed validation.
     *
-    * @param array $inputData  Pointer to an array of User Input Data
+    * @param array $inputData Pointer to an array of User Input Data.
     *
     * @return boolean true if data Validated
     *
     * @access public
     */
-    abstract public function validateParameters(&$inputData);
+    abstract public function validateParameters(array &$inputData);
 
     /**
      * Check if any of the Admin set of Parameters have changed.  The
-     * localy stored parameters created as part of the validation process
+     * locally stored parameters created as part of the validation process
      * are compared to the ones in the $parameters variable.  Last Msg will
-     * contain a list of parameters whioch have changed.
+     * contain a list of parameters which have changed.
      *
-     * @param array $parameters Array of application Parameters
+     * @param array $parameters Array of application Parameters.
      *
      * @return boolean true if data changed
      *
      * @access public
      */
-    abstract public function checkParametersChanged($parameters);
+    abstract public function checkParametersChanged(array $parameters);
 
     /**
      * This function transfers the parameters stored in this class to the

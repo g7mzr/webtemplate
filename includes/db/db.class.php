@@ -89,7 +89,7 @@ class DB
             ;
             return false;
         }
-        $fileName = dirname(__FILE__). '/driver/' . $drivername . '.class.php';
+        $fileName = dirname(__FILE__) . '/driver/' . $drivername . '.class.php';
         return file_exists($fileName);
     }
 
@@ -108,7 +108,7 @@ class DB
         $fileName = dirname(__FILE__) . '/driver/' . $drivername . '.class.php';
         $include =  @include_once $fileName ;
         if (!$include) {
-            $msg = gettext('Unable to load database driver') . " " .$drivername;
+            $msg = gettext('Unable to load database driver') . " " . $drivername;
             $err = \webtemplate\general\General::raiseError(
                 $msg,
                 DB_ERROR_NOT_FOUND
@@ -123,7 +123,7 @@ class DB
      *
      * @param array $dsn Data Source Name
      *
-     * @return mixed a newly created MDB2 object, or false on error
+     * @return mixed a newly created database class or false on error
      *
      * @access public
      */
@@ -138,7 +138,7 @@ class DB
             return $err;
         }
         $driver = $dsn['phptype'];
-        $className = '\webtemplate\db\DatabaseDriver'.strtolower($driver);
+        $className = '\webtemplate\db\DatabaseDriver' . strtolower($driver);
         $err = DB::loaddriver($driver);
         if (\webtemplate\general\General::isError($err)) {
             return $err;

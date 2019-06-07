@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage SELENIUM Functional Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace Facebook\WebDriver;
 
 use PHPUnit\Framework\TestCase;
@@ -16,13 +22,7 @@ require_once "constants.php";
 /**
  * Admin Parameters Mail Functional Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
-
 class AdminParametersMailTest extends TestCase
 {
 
@@ -38,9 +38,9 @@ class AdminParametersMailTest extends TestCase
      * BROWSER: The Web browser to be used for the tests
      * URL: The Web location of the test site.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
 
         // Load the Webdriver from constants.php
@@ -50,9 +50,9 @@ class AdminParametersMailTest extends TestCase
     /**
      * Function to close the Webdriver after each test is complete
      *
-     * @return null no return data
+     * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
 
         $status = $this->getStatus();
@@ -93,12 +93,12 @@ class AdminParametersMailTest extends TestCase
     /**
      * Logon to the email parameters Page and make sure the existing values are
      * correct.  Instructions for setting up the correct values are in the
-     * Developers' Handbook
+     * Developer's Handbook
      *
      * @group selenium
      * @group admin
      *
-     * @return null No return data
+     * @return void
      */
     public function testMailPageContents()
     {
@@ -187,7 +187,7 @@ class AdminParametersMailTest extends TestCase
     }
 
     /**
-     * Login to the e-mail paramteters page and an error is reported if the page
+     * Login to the e-mail parameters page and an error is reported if the page
      * is submitted with no changes
      *
      * @group selenium
@@ -195,7 +195,7 @@ class AdminParametersMailTest extends TestCase
      *
      * @depends testMailPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testMailPageNoChanges()
     {
@@ -252,14 +252,14 @@ class AdminParametersMailTest extends TestCase
 
     /**
      * Login to the email parameters page and test that the user can change the
-     * E-Mail Delivery Method betwen test and None.
+     * E-Mail Delivery Method between test and None.
      *
      * @group selenium
      * @group admin
      *
      * @depends testMailPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testMailPageDeliveryMethodTest()
     {
@@ -351,7 +351,7 @@ class AdminParametersMailTest extends TestCase
      *
      * @depends testMailPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testMailPageDeliveryMethodSMTP()
     {
@@ -492,8 +492,6 @@ class AdminParametersMailTest extends TestCase
         $this->assertEquals(WEBSITENAME . ': Login', $this->webDriver->getTitle());
     }
 
-
-
     /**
      * Login to the E-Mail Parameters Page and check the user can change the From
      * Address
@@ -503,7 +501,7 @@ class AdminParametersMailTest extends TestCase
      *
      * @depends testMailPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testMailPageEmailAddress()
     {
@@ -594,7 +592,6 @@ class AdminParametersMailTest extends TestCase
         $this->assertEquals(WEBSITENAME . ': Login', $this->webDriver->getTitle());
     }
 
-
     /**
      * Login to the User Authentication Page and test that the user can change the
      * SMTP User Name and Password
@@ -604,7 +601,7 @@ class AdminParametersMailTest extends TestCase
      *
      * @depends testMailPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testMailPageSMTPUserName()
     {
@@ -732,7 +729,7 @@ class AdminParametersMailTest extends TestCase
      *
      * @depends testMailPageContents
      *
-     * @return null No return data
+     * @return void
      */
     public function testMailPageSMTPDebug()
     {

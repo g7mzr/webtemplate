@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
@@ -17,11 +23,6 @@ require_once __DIR__ . '/../../includes/global.php';
 /**
  * General Code Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
-
  **/
 class GeneralCodeTest extends TestCase
 {
@@ -29,16 +30,16 @@ class GeneralCodeTest extends TestCase
      * General Object
      *
      * @var LocalValidate
-     */
+
     protected $object;
 
     /**
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
     }
 
@@ -46,9 +47,9 @@ class GeneralCodeTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
@@ -58,7 +59,7 @@ class GeneralCodeTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testgetconfigfile()
     {
@@ -86,7 +87,7 @@ class GeneralCodeTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testgeneratePassword()
     {
@@ -103,7 +104,7 @@ class GeneralCodeTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testcheckKeyParameters()
     {
@@ -117,7 +118,7 @@ class GeneralCodeTest extends TestCase
             $emailaddress,
             $maintainer
         );
-        $this->assertContains('ADMIN', $msg);
+        $this->assertStringContainsString('ADMIN', $msg);
 
         // Check no message is returned if all key parameters set
         $urlbase = 'http://www.g7mzr.demon.co.uk';
@@ -139,7 +140,7 @@ class GeneralCodeTest extends TestCase
             $emailaddress,
             $maintainer
         );
-        $this->assertContains('URL', $msg);
+        $this->assertStringContainsString('URL', $msg);
 
         // Check message is returned if application's emial address is not set
         $urlbase = 'http://www.g7mzr.demon.co.uk';
@@ -150,7 +151,7 @@ class GeneralCodeTest extends TestCase
             $emailaddress,
             $maintainer
         );
-        $this->assertContains('Application', $msg);
+        $this->assertStringContainsString('Application', $msg);
 
         // Check message is returned if maintainer's emial address is not set
         $urlbase = 'http://www.g7mzr.demon.co.uk';
@@ -161,7 +162,7 @@ class GeneralCodeTest extends TestCase
             $emailaddress,
             $maintainer
         );
-        $this->assertContains('Maintainer', $msg);
+        $this->assertStringContainsString('Maintainer', $msg);
     }
 
     /**
@@ -170,7 +171,7 @@ class GeneralCodeTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testcheckDocs()
     {
@@ -214,33 +215,33 @@ class GeneralCodeTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testPasswdFormat()
     {
         // Check Length Only
         $result = \webtemplate\general\General::passwdFormat('1');
-        $this->assertContains("No other checks", $result);
+        $this->assertStringContainsString("No other checks", $result);
 
         //Check Length and Lower Case Letters Only
         $result = \webtemplate\general\General::passwdFormat('2');
-        $this->assertContains("Lower Case letters only", $result);
+        $this->assertStringContainsString("Lower Case letters only", $result);
 
         // Check length and Lower & Upper case letters
         $result = \webtemplate\general\General::passwdFormat('3');
-        $this->assertContains("one lower and one upper case letter", $result);
+        $this->assertStringContainsString("one lower and one upper case letter", $result);
 
         // Check length, lower & upper case letters and numbers
         $result = \webtemplate\general\General::passwdFormat('4');
-        $this->assertContains("and one number", $result);
+        $this->assertStringContainsString("and one number", $result);
 
         // Check length, lower & upper case letters, numbers and Special characters
         $result = \webtemplate\general\General::passwdFormat('5');
-        $this->assertContains("and one special character", $result);
+        $this->assertStringContainsString("and one special character", $result);
 
         // Check Defaults
         $result = \webtemplate\general\General::passwdFormat('6');
-        $this->assertContains("and one special character", $result);
+        $this->assertStringContainsString("and one special character", $result);
     }
 
     /**
@@ -249,14 +250,14 @@ class GeneralCodeTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testEncryptPasswd()
     {
         // Get Password HASH
         $hash = \webtemplate\general\General::encryptPasswd("apple");
-        $this->assertContains('$2y$', $hash);
-        $this->assertContains('10$', $hash);
+        $this->assertStringContainsString('$2y$', $hash);
+        $this->assertStringContainsString('10$', $hash);
     }
 
     /**
@@ -265,7 +266,7 @@ class GeneralCodeTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testVerifyPasswd()
     {
@@ -284,7 +285,7 @@ class GeneralCodeTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testraiseError()
     {
@@ -303,7 +304,7 @@ class GeneralCodeTest extends TestCase
      *
      * @depends testraiseError
      *
-     * @return null
+     * @return void
      */
     public function testisError()
     {

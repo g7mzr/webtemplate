@@ -42,7 +42,7 @@ class DatabaseDriverpgsql implements InterfaceDatabaseDriver
     /**
      * A PDO Database Object.
      *
-     * @var    object
+     * @var    /PDO
      * @access protected
      */
     protected $pdo;
@@ -342,11 +342,11 @@ class DatabaseDriverpgsql implements InterfaceDatabaseDriver
     public function createUniqueConstraint($keydata)
     {
         $this->dbEcho(
-            "Creating Unique " . $keydata[0] ."_" . $keydata[1] . "_key "
+            "Creating Unique " . $keydata[0] . "_" . $keydata[1] . "_key "
         );
         $constraintsaved = false;
         $this->sql = "ALTER TABLE " . $keydata[0];
-        $this->sql .= " ADD CONSTRAINT " .$keydata[0] ."_" . $keydata[1] . "_key ";
+        $this->sql .= " ADD CONSTRAINT " . $keydata[0] . "_" . $keydata[1] . "_key ";
         $this->sql .= "UNIQUE (" . $keydata[1] . ")";
         $result = $this->pdo->exec($this->sql);
 
@@ -423,7 +423,7 @@ class DatabaseDriverpgsql implements InterfaceDatabaseDriver
         // Always check that result is not an error
         if ($result === false) {
             $msg = gettext("Error Dropping Index ");
-            $msg .= $tableName .":" .$indexName . "\n";
+            $msg .= $tableName . ":" . $indexName . "\n";
             return \webtemplate\general\General::raiseError($msg, DB_ERROR);
         }
         return true;
@@ -827,7 +827,7 @@ class DatabaseDriverpgsql implements InterfaceDatabaseDriver
         $result = $this->processOldForeignKeys($tableName, $columnName, $changes);
         if (\webtemplate\general\General::isError($result)) {
             $errorMsg = gettext("Error dropping Foreign Key") . " on ";
-            $errorMsg .= $tableName .":" . $columnName ."\n";
+            $errorMsg .= $tableName . ":" . $columnName . "\n";
             return \webtemplate\general\General::raiseError($errorMsg, DB_ERROR);
         }
 
@@ -1036,7 +1036,7 @@ class DatabaseDriverpgsql implements InterfaceDatabaseDriver
         $current_element = 1;
         foreach ($insertData as $key => $elementData) {
             $this->sql .= $key;
-            $paramname = ":". $key;
+            $paramname = ":" . $key;
             $data[$paramname] = $elementData;
             if ($current_element < $arr_length) {
                 $this->sql .= ", ";
@@ -1142,7 +1142,7 @@ class DatabaseDriverpgsql implements InterfaceDatabaseDriver
         $saveok = true;
 
         // Run the Update Command
-        if ($this->stmt!== false) {
+        if ($this->stmt !== false) {
             $affectedrows = $this->stmt->execute();
 
             // Check the INSERT command run okay.
@@ -1293,7 +1293,7 @@ class DatabaseDriverpgsql implements InterfaceDatabaseDriver
     public function dbdelete($tableName, $searchdata)
     {
 
-        $this->sql = "DELETE FROM ". $tableName . " WHERE ";
+        $this->sql = "DELETE FROM " . $tableName . " WHERE ";
         while ($data = current($searchdata)) {
             $this->sql .= key($searchdata) . " = '" . $data . "'";
             if (next($searchdata) !== false) {
@@ -1328,7 +1328,7 @@ class DatabaseDriverpgsql implements InterfaceDatabaseDriver
     public function dbdeletemultiple($tableName, $searchdata)
     {
 
-        $this->sql = "DELETE FROM ". $tableName . " WHERE ";
+        $this->sql = "DELETE FROM " . $tableName . " WHERE ";
         while ($data = current($searchdata)) {
             $this->sql .= key($searchdata) . " ";
             $this->sql .= $data['type'] . " '" . $data['data'] . "'";
@@ -1459,7 +1459,7 @@ class DatabaseDriverpgsql implements InterfaceDatabaseDriver
                 $result = $this->createFK($value);
                 if (\webtemplate\general\General::isError($result)) {
                     $errorMsg = "Error Creating the FK on Table ";
-                    $errorMsg .= $value[0] ."\n";
+                    $errorMsg .= $value[0] . "\n";
                     $dataerror = true;
                 }
             }
@@ -1490,7 +1490,7 @@ class DatabaseDriverpgsql implements InterfaceDatabaseDriver
                 $result = $this->createUniqueConstraint($value);
                 if (\webtemplate\general\General::isError($result)) {
                     $errorMsg = "Error Creating unique column on Table ";
-                    $errorMsg .= $value[0] ."\n";
+                    $errorMsg .= $value[0] . "\n";
                     $err = \webtemplate\general\General::raiseError(
                         $errorMsg,
                         DB_ERROR
@@ -1521,7 +1521,7 @@ class DatabaseDriverpgsql implements InterfaceDatabaseDriver
             $result = $this->createIndex($tableName, $indexname, $indexdata);
             if (\webtemplate\general\General::isError($result)) {
                 $errorMsg = gettext("Error Creating Indexes on Table ");
-                $errorMsg .= $tableName ."\n";
+                $errorMsg .= $tableName . "\n";
                 $dataerror = true;
             }
         }
@@ -1602,7 +1602,7 @@ class DatabaseDriverpgsql implements InterfaceDatabaseDriver
         if ($searchdata != null) {
             $sql .= " WHERE ";
             while ($data = \current($searchdata)) {
-                if (($data[0] =='%') or ($data[strlen($data)-1] == '%')) {
+                if (($data[0] == '%') or ($data[strlen($data) - 1] == '%')) {
                     $sql .= \key($searchdata) . " like '" . $data . "'";
                 } else {
                     $sql .= \key($searchdata) . " = '" . $data . "'";
@@ -1627,7 +1627,7 @@ class DatabaseDriverpgsql implements InterfaceDatabaseDriver
     private function processSearchOrder($order)
     {
 
-        $sql= '';
+        $sql = '';
         if ($order != null) {
             $sql .= " ORDER BY " . $order;
         }
@@ -1661,7 +1661,7 @@ class DatabaseDriverpgsql implements InterfaceDatabaseDriver
             $affected = $this->pdo->exec($runsql);
             if ($affected === false) {
                 $errorMsg = gettext("Error changing column Type on ");
-                $errorMsg .= $tableName .":" . $columnName . "\n";
+                $errorMsg .= $tableName . ":" . $columnName . "\n";
                 return \webtemplate\general\General::raiseError($errorMsg, DB_ERROR);
             }
         }
@@ -1702,7 +1702,7 @@ class DatabaseDriverpgsql implements InterfaceDatabaseDriver
             $affected = $this->pdo->exec($runsql);
             if ($affected === false) {
                 $errorMsg = gettext("Error changing column notnull on ");
-                $errorMsg .= $tableName .":" . $columnName . "\n";
+                $errorMsg .= $tableName . ":" . $columnName . "\n";
                 return \webtemplate\general\General::raiseError($errorMsg, DB_ERROR);
             }
         }
@@ -1732,14 +1732,14 @@ class DatabaseDriverpgsql implements InterfaceDatabaseDriver
     ) {
         if (array_key_exists('DEFAULT', $changes)) {
             if (array_key_exists('DEFAULT', $newColumn)) {
-                $runsql = $sql . " SET DEFAULT " .$newColumn['DEFAULT'];
+                $runsql = $sql . " SET DEFAULT " . $newColumn['DEFAULT'];
             } else {
                 $runsql = $sql . " DROP DEFAULT";
             }
             $affected = $this->pdo->exec($runsql);
             if ($affected === false) {
                 $errorMsg = gettext("Error changing column DEFAULT on ");
-                $errorMsg .= $tableName . ":" .$columnName . "\n";
+                $errorMsg .= $tableName . ":" . $columnName . "\n";
                 return \webtemplate\general\General::raiseError($errorMsg, DB_ERROR);
             }
         }
@@ -1792,7 +1792,7 @@ class DatabaseDriverpgsql implements InterfaceDatabaseDriver
     private function dbEcho($msg = "")
     {
         if (!isset($GLOBALS['unittest'])) {
-            echo $msg. "\n";
+            echo $msg . "\n";
         }
         return true;
     }

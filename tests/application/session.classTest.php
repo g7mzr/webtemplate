@@ -2,28 +2,30 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\phpunit;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
 
 // Include the Test Database Connection details
-require_once dirname(__FILE__) .'/../_data/database.php';
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 use PHPUnit\Framework\TestCase;
 
 /**
  * Session Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class SessionTest extends TestCase
 {
@@ -53,9 +55,9 @@ class SessionTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         global $testdsn, $sessiontest, $tpl;
 
@@ -65,7 +67,7 @@ class SessionTest extends TestCase
         }
 
         // Set up a Smarty Template object to get config variables
-        $tpl = new \webtemplate\application\SmartyTemplate;
+        $tpl = new \webtemplate\application\SmartyTemplate();
 
         if ($this->getName() == "testGarbageCollection") {
             // Alter location of Config Directory to tests/_data
@@ -92,9 +94,9 @@ class SessionTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if ($this->databaseconnection === true) {
             // Delete test data from the login
@@ -112,7 +114,7 @@ class SessionTest extends TestCase
      * @group unittest
      * @group general
      *
-     * @return null
+     * @return void
      */
     public function testNewSession()
     {
@@ -171,7 +173,7 @@ class SessionTest extends TestCase
      *
      * @depends testNewSession
      *
-     * @return null
+     * @return void
      */
     public function testExistingSession()
     {
@@ -229,7 +231,7 @@ class SessionTest extends TestCase
      *
      * @depends testNewSession
      *
-     * @return null
+     * @return void
      */
     public function testGetUserName()
     {
@@ -265,7 +267,7 @@ class SessionTest extends TestCase
      *
      * @depends testNewSession
      *
-     * @return null
+     * @return void
      */
     public function testGetUserId()
     {
@@ -301,7 +303,7 @@ class SessionTest extends TestCase
      *
      * @depends testNewSession
      *
-     * @return null
+     * @return void
      */
     public function testGetPasswdChange()
     {
@@ -339,7 +341,7 @@ class SessionTest extends TestCase
      * @depends testGetUserName
      * @depends testGetUserId
      *
-     * @return null
+     * @return void
      */
     public function testCreateSession()
     {
@@ -388,7 +390,7 @@ class SessionTest extends TestCase
      * @depends testGetUserId
      * @depends testCreateSession
      *
-     * @return null
+     * @return void
      */
     public function testSessionPersitance()
     {
@@ -448,7 +450,7 @@ class SessionTest extends TestCase
      * @depends testCreateSession
      * @depends testSessionPersitance
      *
-     * @return null
+     * @return void
      */
     public function testSetUserName()
     {
@@ -512,7 +514,7 @@ class SessionTest extends TestCase
      * @depends testCreateSession
      * @depends testSessionPersitance
      *
-     * @return null
+     * @return void
      */
     public function testSetUserId()
     {
@@ -575,7 +577,7 @@ class SessionTest extends TestCase
      * @depends testCreateSession
      * @depends testSessionPersitance
      *
-     * @return null
+     * @return void
      */
     public function testSetPasswdChange()
     {
@@ -637,7 +639,7 @@ class SessionTest extends TestCase
      * @depends testCreateSession
      * @depends testSessionPersitance
      *
-     * @return null
+     * @return void
      */
     public function testSessionDestroy()
     {
@@ -670,7 +672,7 @@ class SessionTest extends TestCase
             $result = $this->object->destroy();
             $this->assertTrue($result);
             sleep(1);
-            $this->assertLessThan(time()-3600, $sessiontest['expire']);
+            $this->assertLessThan(time() - 3600, $sessiontest['expire']);
         } else {
             $this->markTestSkipped('No Database Connection Available');
         }
@@ -689,7 +691,7 @@ class SessionTest extends TestCase
      * @depends testCreateSession
      * @depends testSessionPersitance
      *
-     * @return null
+     * @return void
      */
     public function testAutoLogout10Min()
     {
@@ -768,7 +770,7 @@ class SessionTest extends TestCase
      * @depends testCreateSession
      * @depends testSessionPersitance
      *
-     * @return null
+     * @return void
      */
     public function testAutoLogout20Min()
     {
@@ -852,7 +854,7 @@ class SessionTest extends TestCase
      * @depends testCreateSession
      * @depends testSessionPersitance
      *
-     * @return null
+     * @return void
      */
     public function testAutoLogout30Min()
     {
@@ -931,7 +933,7 @@ class SessionTest extends TestCase
      * @depends testCreateSession
      * @depends testSessionPersitance
      *
-     * @return null
+     * @return void
      */
     public function testGarbageCollection()
     {
@@ -971,7 +973,7 @@ class SessionTest extends TestCase
      * @depends testGetUserName
      * @depends testGetUserId
      *
-     * @return null
+     * @return void
      */
     public function testSetCookie()
     {
@@ -997,7 +999,7 @@ class SessionTest extends TestCase
                     $this->object2
                 );
             } catch (\Throwable $e) {
-                $this->assertContains(
+                $this->assertStringContainsString(
                     "Cannot modify header information",
                     $e->getMessage()
                 );

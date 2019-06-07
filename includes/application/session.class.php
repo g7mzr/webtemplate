@@ -2,25 +2,25 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Application
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\application;
 
 /**
  * Session Code Class is a class used to set up and access PHP Session Variables
  *
- * @category Webtemplate
- * @package  General
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
- **/
-
+ */
 class Session
 {
-
     /**
      * Username of logged in user
      *
@@ -38,7 +38,7 @@ class Session
     private $userId = '';
 
     /**
-     * User has to create a new password before procedding if true
+     * User has to create a new password before proceeding if true
      *
      * @var    boolean
      * @access private
@@ -102,9 +102,9 @@ class Session
     private $sessLifeTime = 168;
 
     /**
-     * DB access object
+     * DB access class
      *
-     * @var    object
+     * @var    webtemplate\db\DB
      * @access private
      */
     private $db = null;
@@ -129,11 +129,11 @@ class Session
      * This function is the Session Constructor.  It is used to initalise the
      * php session for webtemplate.
      *
-     * @param string  $cookiepath   The path on the server the cookie is valid for
-     * @param string  $cookiedomain The sub domain that the cookie is valid in
-     * @param string  $autologout   The auto logout flag.
-     * @param pointer $tpl          Smarty Template variable
-     * @param object  $db           Database Object
+     * @param string                                         $cookiepath   The path the cookie is valid for.
+     * @param string                                         $cookiedomain The sub domain that the cookie is valid in.
+     * @param string                                         $autologout   The auto logout flag.
+     * @param SmartyTemplate                                 $tpl          Smarty Template variable.
+     * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db           Database Object.
      *
      * @return boolean Function run okay
      *
@@ -141,8 +141,13 @@ class Session
      *
      * @access public
      */
-    public function __construct($cookiepath, $cookiedomain, $autologout, &$tpl, $db)
-    {
+    public function __construct(
+        string $cookiepath,
+        string $cookiedomain,
+        string $autologout,
+        SmartyTemplate &$tpl,
+        \webtemplate\db\driver\InterfaceDatabaseDriver $db
+    ) {
 
         $this->userName = '';
         $this->userId = '';
@@ -164,14 +169,14 @@ class Session
         // end of the session
         if ($autologout == '5') {
             $this->sessLifeTime = 720;
-            $cookieTimeOut = time()+60*60*24*365*10;
+            $cookieTimeOut = time() + 60 * 60 * 24 * 365 * 10;
         } else {
             $this->sessLifeTime = $tpl->getConfigVars("lifetime");
             $cookieTimeOut = 0;
         }
 
         // Check if Stale sessions are to be deleted
-        if (lcg_value() < ($this->gc_probability/$this->gc_divisor)) {
+        if (lcg_value() < ($this->gc_probability / $this->gc_divisor)) {
             $this->gc_run = $this->deleteStaleSessions($this->sessLifeTime);
         }
 
@@ -365,13 +370,13 @@ class Session
     /**
      * This function saves the user name in the SESSION Variable.
      *
-     * @param string $name The user name to be stored in the session variable
+     * @param string $name The user name to be stored in the session variable.
      *
      * @return boolean Function run okay
      *
      * @since Method available since Release 1.0.0
      */
-    public function setUserName($name)
+    public function setUserName(string $name)
     {
         $this->userName = $name;
         return $this->saveSession();
@@ -393,13 +398,13 @@ class Session
     /**
      * This function saves the user id in the SESSION Variable.
      *
-     * @param string $id The user id to be stored in the session variable
+     * @param string $id The user id to be stored in the session variable.
      *
      * @return boolean Function run okay
      *
      * @since Method available since Release 1.0.0
      */
-    public function setUserId($id)
+    public function setUserId(string $id)
     {
         $this->userId = $id;
         return $this->saveSession();
@@ -422,13 +427,13 @@ class Session
      * SESSION Variable.
      *
      * @param boolean $setpasswd The passwd change flag to be stored in the session
-     *                           variable
+     *                           variable.
      *
      * @return boolean Function run okay
      *
      * @since Method available since Release 1.0.0
      */
-    public function setPasswdChange($setpasswd)
+    public function setPasswdChange(bool $setpasswd)
     {
         $this->newPasswd = $setpasswd;
         return $this->saveSession();
@@ -464,13 +469,13 @@ class Session
      * This function is used to create the session entry in the database when the
      * user logs in
      *
-     * @param string  $username  The user name of the logged in user
-     * @param string  $userid    The user id of the logged in user
-     * @param boolean $newpasswd True if the user is requred to reset there password
+     * @param string  $username  The user name of the logged in user.
+     * @param string  $userid    The user id of the logged in user.
+     * @param boolean $newpasswd True if the user is required to reset there password.
      *
      * @return boolean true is session created
      */
-    public function createSession($username, $userid, $newpasswd)
+    public function createSession(string $username, string $userid, bool $newpasswd)
     {
         $this->newPasswd = $newpasswd;
         $this->userId = $userid;
@@ -484,13 +489,13 @@ class Session
      * than lifeTime.
      *
      * @param integer $lifeTime Session entries older than this time in hours
-     *                          are deleted
+     *                          are deleted.
      *
      * @return boolen True if the delete command run.  General::Error otherwise
      *
      * @access private
      */
-    private function deleteStaleSessions($lifeTime)
+    private function deleteStaleSessions(int $lifeTime)
     {
         $lifeTimeSeconds = $lifeTime * 3600;
         $deleteTime = date('Y-m-d G:i:s', time() - $lifeTimeSeconds);
@@ -506,13 +511,13 @@ class Session
      * This function checks if the user has timed out and if they have deletes
      * their username and id from the class
      *
-     * @param string $autologouttime The value of the autologout parameter
+     * @param string $autologouttime The value of the autologout parameter.
      *
      * @return boolean True if the user remains logged in false otherwise
      *
      * @access private
      */
-    private function checkAutoLogout($autologouttime)
+    private function checkAutoLogout(string $autologouttime)
     {
         $loggedout = false;
         switch ($autologouttime) {
@@ -542,24 +547,24 @@ class Session
     /**
      * The function is a wrapper to call setcookie
      *
-     * @param type $name     The Cookie name.  This is the application name
-     * @param type $value    The value of the cookie
-     * @param type $expire   The date the cookie expiers.  0 for a session cookie
-     * @param type $path     The Web server path the cookie is valid for
-     * @param type $domain   The domain the cookie is valid for
-     * @param type $secure   True if the cookie can only be sent across SSL
-     * @param type $httponly True if cookie can only be used for http
+     * @param string  $name     The Cookie name.  This is the application name.
+     * @param string  $value    The value of the cookie.
+     * @param integer $expire   The date the cookie expires.  0 for a session cookie.
+     * @param string  $path     The Web server path the cookie is valid for.
+     * @param string  $domain   The domain the cookie is valid for.
+     * @param boolean $secure   True if the cookie can only be sent across SSL.
+     * @param boolean $httponly True if cookie can only be used for http.
      *
      * @return boolean
      */
     private function setcookie(
-        $name,
-        $value,
-        $expire,
-        $path,
-        $domain,
-        $secure,
-        $httponly
+        string $name,
+        string $value,
+        int $expire,
+        string $path,
+        string $domain,
+        bool $secure,
+        bool $httponly
     ) {
         global $sessiontest;
 

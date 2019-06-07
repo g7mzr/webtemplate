@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../includes/global.php';
 
 // Include the test Database configuration values
-require_once dirname(__FILE__) .'/../_data/database.php';
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 /**
  * Postgresql Database Driver Class Unit Tests for Database Manipulation
@@ -116,7 +116,7 @@ class PGDriverDBInstallTest extends TestCase
      *
      * @return null No return data
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         global $testdsn;
 
@@ -200,7 +200,7 @@ class PGDriverDBInstallTest extends TestCase
      *
      * @return null No return data
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         global $testdsn, $options;
 
@@ -282,7 +282,7 @@ class PGDriverDBInstallTest extends TestCase
             if (!\webtemplate\general\General::isError($result)) {
                 $this->fail(__FUNCTION__ . ": Error dropping the user");
             } else {
-                $this->assertContains(
+                $this->assertStringContainsString(
                     $result->getMessage(),
                     "Error Dropping Database User"
                 );
@@ -318,7 +318,7 @@ class PGDriverDBInstallTest extends TestCase
             // User Does not exist.
             $result = $db->createUser($userName, $passwd, $unitTestDB);
             if (\webtemplate\general\General::isError($result)) {
-                $this->assertContains(
+                $this->assertStringContainsString(
                     'Error Creating Database User',
                     $result->getMessage()
                 );
@@ -361,7 +361,7 @@ class PGDriverDBInstallTest extends TestCase
             // Create a database when it already exists
             $result = $db->createDatabase($databaseName, $userName);
             if (\webtemplate\general\General::isError($result)) {
-                $this->assertContains(
+                $this->assertStringContainsString(
                     "Error Creating New Database",
                     $result->getMessage()
                 );
@@ -413,7 +413,7 @@ class PGDriverDBInstallTest extends TestCase
             // Force an error
             $result = $db->databaseExists("/'");
             if (\webtemplate\general\General::isError($result)) {
-                $this->assertContains(
+                $this->assertStringContainsString(
                     'Error checking the database exists',
                     $result->getMessage()
                 );
@@ -458,7 +458,7 @@ class PGDriverDBInstallTest extends TestCase
             if (!\webtemplate\general\General::isError($result)) {
                 $this->fail(__FUNCTION__ . ": Error Dropping non existant database");
             } else {
-                $this->assertContains(
+                $this->assertStringContainsString(
                     "Error Dropping Database",
                     $result->getMessage()
                 );
@@ -517,7 +517,7 @@ class PGDriverDBInstallTest extends TestCase
                     $this->testTable
                 );
                 if (\webtemplate\general\General::isError($result)) {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         "Error Creating the Table",
                         $result->getMessage()
                     );
@@ -671,7 +671,7 @@ class PGDriverDBInstallTest extends TestCase
                     $this->testTableName . "_email key"
                 );
                 if (\webtemplate\general\General::isError($result)) {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         "Error Dropping Index",
                         $result->getMessage()
                     );
@@ -707,7 +707,7 @@ class PGDriverDBInstallTest extends TestCase
                 $this->testTable
             );
             if (\webtemplate\general\General::isError($result)) {
-                $this->assertContains(
+                $this->assertStringContainsString(
                     "Error Creating Indexes on Table " . $this->testTableName,
                     $result->getMessage()
                 );
@@ -767,7 +767,7 @@ class PGDriverDBInstallTest extends TestCase
         if ($this->databaseconnection == true) {
             $result = $this->object->dropTable("table name");
             if (\webtemplate\general\General::isError($result)) {
-                $this->assertContains(
+                $this->assertStringContainsString(
                     "Error Dropping Table",
                     $result->getMessage()
                 );
@@ -849,7 +849,7 @@ class PGDriverDBInstallTest extends TestCase
                     $this->newColumn
                 );
                 if (\webtemplate\general\General::isError($result)) {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         'Error adding column to testtable',
                         $result->getMessage()
                     );
@@ -868,7 +868,7 @@ class PGDriverDBInstallTest extends TestCase
                     $this->newColumn
                 );
                 if (\webtemplate\general\General::isError($result)) {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         'Error Creating the FK on Table testtable',
                         $result->getMessage()
                     );
@@ -921,7 +921,7 @@ class PGDriverDBInstallTest extends TestCase
                     $this->dropColumnName
                 );
                 if (\webtemplate\general\General::isError($result)) {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         'Error dropping column on testtable',
                         $result->getMessage()
                     );
@@ -985,7 +985,7 @@ class PGDriverDBInstallTest extends TestCase
                 $this->testTable
             );
             if (\webtemplate\general\General::isError($result)) {
-                $this->assertContains(
+                $this->assertStringContainsString(
                     "Error Creating the FK on Table testtable",
                     $result->getMessage()
                 );
@@ -1065,7 +1065,7 @@ class PGDriverDBInstallTest extends TestCase
                     "fk_" . $this->testTableName . "_test"
                 );
                 if (\webtemplate\general\General::isError($result)) {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         "Error deleteting Foreign Key fk_testtable_test",
                         $result->getMessage()
                     );
@@ -1104,7 +1104,7 @@ class PGDriverDBInstallTest extends TestCase
                 $keydata = array("table", "column");
                 $result = $this->object->createUniqueConstraint($keydata);
                 if (\webtemplate\general\General::isError($result)) {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         "Error Creating Unique Constraints.",
                         $result->getMessage()
                     );
@@ -1190,7 +1190,7 @@ class PGDriverDBInstallTest extends TestCase
                     $changes
                 );
                 if (\webtemplate\general\General::isError($result)) {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         'Error dropping Foreign Key on',
                         $result->getMessage()
                     );
@@ -1275,7 +1275,7 @@ class PGDriverDBInstallTest extends TestCase
                     $changes
                 );
                 if (\webtemplate\general\General::isError($result)) {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         'Error changing column Type',
                         $result->getMessage()
                     );
@@ -1446,7 +1446,7 @@ class PGDriverDBInstallTest extends TestCase
                     $changes
                 );
                 if (\webtemplate\general\General::isError($result)) {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         'Error changing column notnull',
                         $result->getMessage()
                     );
@@ -1570,7 +1570,7 @@ class PGDriverDBInstallTest extends TestCase
                     $changes
                 );
                 if (\webtemplate\general\General::isError($result)) {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         'Error changing column DEFAULT',
                         $result->getMessage()
                     );
@@ -1665,7 +1665,7 @@ class PGDriverDBInstallTest extends TestCase
                     $changes
                 );
                 if (\webtemplate\general\General::isError($result)) {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         'Error Creating the FK on Table',
                         $result->getMessage()
                     );
@@ -1715,7 +1715,7 @@ class PGDriverDBInstallTest extends TestCase
         if ($this->databaseconnection == true) {
             $result = $this->object->getSchema("dummy");
             if (\webtemplate\general\General::isError($result)) {
-                $this->assertContains(
+                $this->assertStringContainsString(
                     'SQL Query Error',
                     $result->getMessage()
                 );
@@ -1750,7 +1750,7 @@ class PGDriverDBInstallTest extends TestCase
             } else {
                 $result = $this->object->getSchema($this->testTableName);
                 if (\webtemplate\general\General::isError($result)) {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         'Schema Not Found',
                         $result->getMessage()
                     );
@@ -1811,7 +1811,7 @@ class PGDriverDBInstallTest extends TestCase
             );
 
             if (\webtemplate\general\General::isError($result)) {
-                $this->assertContains(
+                $this->assertStringContainsString(
                     'Error Deleteting Previous Schema',
                     $result->getMessage()
                 );
@@ -1852,7 +1852,7 @@ class PGDriverDBInstallTest extends TestCase
                 );
 
                 if (\webtemplate\general\General::isError($result)) {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         'Error EXECUTING Schema INSERT',
                         $result->getMessage()
                     );
@@ -1896,7 +1896,7 @@ class PGDriverDBInstallTest extends TestCase
                 );
 
                 if (\webtemplate\general\General::isError($result)) {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         'Error EXECUTING Schema INSERT',
                         $result->getMessage()
                     );

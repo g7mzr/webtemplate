@@ -2,22 +2,22 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage RestFul Interface
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\rest\endpoints;
 
 /**
- *  WebtemplateAPI example endpoint class
- *
- * @category Webtemplate
- * @package  API
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
+ *  Webtemplate RestFul API example endpoint class
  **/
-
 class Example
 {
 
@@ -40,20 +40,17 @@ class Example
     /**
      * Constructor
      *
-     * @param pointer $webtemplate Pointer to Webtemplate Application Class
+     * @param \webtemplate\application\Application $webtemplate Webtemplate Application Class Object.
      *
      * @access public
      */
-    public function __construct(&$webtemplate)
+    public function __construct(\webtemplate\application\Application &$webtemplate)
     {
             $this->webtemplate = $webtemplate;
     }
 
     /**
      * This function implements GET command.
-     *
-     * @param array $this->args        Additional URI components
-     * @param array $this->requestdata Contents of the GET request
      *
      * @return array The result of the action undertaken by the API end point.
      *
@@ -64,12 +61,12 @@ class Example
 
         if ((count($this->args) > 0) or (count($this->requestdata) > 0 )) {
             $dataarr = array(
-                'ErrorMsg'=>'example: GET does not take any arguments',
+                'ErrorMsg' => 'example: GET does not take any arguments',
                 'args' => $this->args,
                 "requestdata" => $this->requestdata
             );
             $code = 400;
-            return array('data'=>$dataarr, 'code'=>$code);
+            return array('data' => $dataarr, 'code' => $code);
         }
 
         $path = explode('\\', __CLASS__);
@@ -77,7 +74,7 @@ class Example
         $dataarr = array();
         $dataarr['endpoint'] = $endpoint;
         $dataarr['method'] = strtoupper(__FUNCTION__);
-        $dataarr['args'] =$this->args;
+        $dataarr['args'] = $this->args;
         $dataarr['requestdata'] = $this->requestdata;
         $arr = array('data' => $dataarr, 'code' => 200);
         return $arr;
@@ -97,7 +94,7 @@ class Example
         $dataarr = array();
         $dataarr['endpoint'] = $endpoint;
         $dataarr['method'] = strtoupper(__FUNCTION__);
-        $dataarr['args'] =$this->args;
+        $dataarr['args'] = $this->args;
         $dataarr['requestdata'] = $this->requestdata;
         $arr = array('data' => $dataarr, 'code' => 200);
         return $arr;
@@ -117,7 +114,7 @@ class Example
         $dataarr = array();
         $dataarr['endpoint'] = $endpoint;
         $dataarr['method'] = strtoupper(__FUNCTION__);
-        $dataarr['args'] =$this->args;
+        $dataarr['args'] = $this->args;
         $dataarr['requestdata'] = $this->requestdata;
         $arr = array('data' => $dataarr, 'code' => 200);
         return $arr;
@@ -137,7 +134,7 @@ class Example
         $dataarr = array();
         $dataarr['endpoint'] = $endpoint;
         $dataarr['method'] = strtoupper(__FUNCTION__);
-        $dataarr['args'] =$this->args;
+        $dataarr['args'] = $this->args;
         $dataarr['requestdata'] = $this->requestdata;
         $arr = array('data' => $dataarr, 'code' => 200);
         return $arr;
@@ -157,7 +154,7 @@ class Example
         $dataarr = array();
         $dataarr['endpoint'] = $endpoint;
         $dataarr['method'] = strtoupper(__FUNCTION__);
-        $dataarr['args'] =$this->args;
+        $dataarr['args'] = $this->args;
         $dataarr['requestdata'] = $this->requestdata;
         $arr = array('data' => $dataarr, 'code' => 200);
         return $arr;

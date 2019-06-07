@@ -2,22 +2,23 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Users
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\users;
 
 /**
  * UserPreferences Class
  *
- * @category Webtemplate
- * @package  Users
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
 class EditUserPref
 {
     /**
@@ -32,7 +33,7 @@ class EditUserPref
     /**
      * Database MDB2 Database Connection Object
      *
-     * @var    object
+     * @var    \webtemplate\db\driver\InterfaceDatabaseDriver
      * @access protected
      */
 
@@ -110,31 +111,34 @@ class EditUserPref
     /**
     * User Class Constructor
     *
-    * @param array  $db     MDB2 Database Connection Object
-    * @param string $userId Id of current user whose preferences
-    *                       are being updated.
+    * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db     Database Object.
+    * @param integer                                        $userId Id of current user.
     *
     * @access public
     */
-    public function __construct($db, $userId = 0)
-    {
+    public function __construct(
+        \webtemplate\db\driver\InterfaceDatabaseDriver $db,
+        int $userId = 0
+    ) {
         $this->db     = $db ;
         $this->userId = $userId;
     } // end constructor
 
 
     /**
-     * Function to set the $userid which is seperate from the class constructor
+     * Function to set the $userid which is separate from the class constructor
      *
      * @param string $userId Id of user whose preferences are being updated.
      *
+     * @return void
+     *
      * @access public
      */
-    public function setUserId($userId)
+    public function setUserId(string $userId)
     {
         $this->userId = $userId;
     }
-    
+
     /**
     * Get the last message created by class
     *
@@ -155,14 +159,14 @@ class EditUserPref
      * items used in the UsersPreferenceForm where the user can select
      * to use the site default values or his own.
      *
-     * @param string $rootDir         Web Server Root Directory
-     * @param array  $sitePreferences Pointer to the application Default Preferences
+     * @param string $rootDir         Web Server Root Directory.
+     * @param array  $sitePreferences Pointer to the application Default Preferences.
      *
      * @return boolean True if Preferences Loaded okay
      *
      * @access public
      */
-    final public function loadPreferences($rootDir, $sitePreferences)
+    final public function loadPreferences(string $rootDir, array $sitePreferences)
     {
         // Set Global Variables
         $gotThemes = true;
@@ -277,7 +281,7 @@ class EditUserPref
     /**
     * Get the installed themes array
     *
-    * @return Array Installed Themes
+    * @return array Installed Themes
     *
     * @access public
     */
@@ -289,7 +293,7 @@ class EditUserPref
     /**
     * Get the Zoom Text Option array
     *
-    * @return Array Zoom Text Options
+    * @return array Zoom Text Options
     *
     * @access public
     */
@@ -301,7 +305,7 @@ class EditUserPref
     /**
     * Get the Display Rows Options array
     *
-    * @return Array Display Row Options
+    * @return array Display Row Options
     *
     * @access public
     */
@@ -314,13 +318,13 @@ class EditUserPref
     /**
      * Validate UserPreferences
      *
-     * @param array $inputArray Pointer to an array containing users input
+     * @param array $inputArray Pointer to an array containing users input.
      *
      * @return boolean true if Preferences Validated
      *
      * @access public
      */
-    final public function validateUserPreferences(&$inputArray)
+    final public function validateUserPreferences(array &$inputArray)
     {
         // Reset all new preferences to blank
         $this->newThemeValue = '';
@@ -386,7 +390,7 @@ class EditUserPref
         }
 
         if ($preferencesChanged == false) {
-            $this->lastMsg.= gettext("No changes have been made\n");
+            $this->lastMsg .= gettext("No changes have been made\n");
         }
 
         $this->preferencesChanged = $preferencesChanged;
@@ -519,16 +523,16 @@ class EditUserPref
     /**
      * This function get the users preferences from the database
      *
-     * @param string $localTheme       flag containg value of css theme to be used
-     * @param string $localZoomText    flag showing in textareas are to be enlarged
-     * @param string $localDisplayRows flag showing number of rows to be displayed
+     * @param string $localTheme       Flag containing value of css theme to be used.
+     * @param string $localZoomText    Flag showing in textareas are to be enlarged.
+     * @param string $localDisplayRows Flag showing number of rows to be displayed.
      *
      * @return boolean true in all cases
      */
     private function getUsersPrefs(
-        &$localTheme,
-        &$localZoomText,
-        &$localDisplayRows
+        string &$localTheme,
+        string &$localZoomText,
+        string &$localDisplayRows
     ) {
         if ($this->userId != 0) {
             $fieldNames = array('settingname', 'settingvalue');
@@ -558,13 +562,13 @@ class EditUserPref
     /**
      * Get new Theme
      *
-     * @param string $defaultTheme The default theme used by the application
+     * @param string $defaultTheme The default theme used by the application.
      *
      * @return string New Theme
      *
      * @access public
      */
-    final public function getNewTheme($defaultTheme)
+    final public function getNewTheme(string $defaultTheme)
     {
         if (($this->newThemeValue == 'default') or ($this->newThemeValue == '')) {
             return $defaultTheme;
@@ -578,12 +582,12 @@ class EditUserPref
     /**
      *  Validate the users chosen theme
      *
-     * @param array $inputArray Pointer to an array containing users input
+     * @param array $inputArray Pointer to an array containing users input.
      *
      * @return boolen Return true if theme validated false otherwise
      * @access private
      */
-    private function validateTheme(&$inputArray)
+    private function validateTheme(array &$inputArray)
     {
         // Local Flags
         $themeValid = false;
@@ -614,12 +618,12 @@ class EditUserPref
     /**
      *  Validate the the number of rows of data to display
      *
-     * @param array $inputArray Pointer to an array containing users input
+     * @param array $inputArray Pointer to an array containing users input.
      *
      * @return boolen Return true if number of rows validate,  false otherwise
      * @access private
      */
-    private function validateDisplayRows(&$inputArray)
+    private function validateDisplayRows(array &$inputArray)
     {
         $displayRowsValid = false;
         $dataValid = true;
@@ -648,12 +652,12 @@ class EditUserPref
     /**
      *  Validate the zoom textarea input
      *
-     * @param array $inputArray Pointer to an array containing users input
+     * @param array $inputArray Pointer to an array containing users input.
      *
      * @return boolen Return true if zoom text validated false otherwise
      * @access private
      */
-    private function validateZoomTextAreas(&$inputArray)
+    private function validateZoomTextAreas(array &$inputArray)
     {
         $zoomTextAreaValid = false;
         $dataValid = true;

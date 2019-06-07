@@ -2,22 +2,23 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage RestFul Interface
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\rest\endpoints;
 
 /**
- *  WebtemplateAPI example endpoint class
+ *  Webtemplate RestFul API groups endpoint class
  *
- * @category Webtemplate
- * @package  API
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
 class Groups
 {
 
@@ -47,11 +48,11 @@ class Groups
     /**
      * Constructor
      *
-     * @param pointer $webtemplate Pointer to Webtemplate Application Class
+     * @param \webtemplate\application\Application $webtemplate Webtemplate Application Class Object.
      *
      * @access public
      */
-    public function __construct(&$webtemplate)
+    public function __construct(\webtemplate\application\Application  &$webtemplate)
     {
             $this->webtemplate = $webtemplate;
     }
@@ -66,14 +67,14 @@ class Groups
     protected function get()
     {
         if (\count($this->args) > 1) {
-            $errmsg = array('ErrorMsg'=>'groups: Invalid number of arguments');
+            $errmsg = array('ErrorMsg' => 'groups: Invalid number of arguments');
             return array('data' => $errmsg, 'code' => 400);
         }
 
         if (\count($this->args) == 0) {
             $groups = $this->webtemplate->editgroups()->getGroupList();
             if (\webtemplate\general\General::isError($groups)) {
-                $errmsg = array('ErrorMsg'=>$groups->getMessage());
+                $errmsg = array('ErrorMsg' => $groups->getMessage());
                 return array('data' => $errmsg, 'code' => 400);
             }
         }
@@ -87,13 +88,13 @@ class Groups
                 if (!\webtemplate\general\General::isError($result)) {
                     $guid = $result;
                 } else {
-                    $errmsg = array('ErrorMsg'=>$result->getMessage());
+                    $errmsg = array('ErrorMsg' => $result->getMessage());
                     return array('data' => $errmsg, 'code' => 400);
                 }
             }
             $groups = $this->webtemplate->editgroups()->getSingleGroup($guid);
             if (\webtemplate\general\General::isError($groups)) {
-                $errmsg = array('ErrorMsg'=>$groups->getMessage());
+                $errmsg = array('ErrorMsg' => $groups->getMessage());
                 return array('data' => $errmsg, 'code' => 400);
             }
         }
@@ -115,7 +116,7 @@ class Groups
         if ($fieldspresent !== true) {
             $data = array('ErrorMsg' => $fieldspresent);
             $code = 400;
-            return array('data'=>$data, 'code'=>$code);
+            return array('data' => $data, 'code' => $code);
         }
 
         $resultArray = $this->webtemplate->editgroups()->validateGroupData(
@@ -130,8 +131,8 @@ class Groups
         //Check if the groupname aready exists
         $groupname =  $resultArray[0]['groupname'];
         if ($this->webtemplate->editgroups()->checkGroupExists($groupname)) {
-            $data = array('ErrorMsg'=>'Group ' . $groupname . ' already exists.');
-            return array('data'=>$data, 'code'=>409);
+            $data = array('ErrorMsg' => 'Group ' . $groupname . ' already exists.');
+            return array('data' => $data, 'code' => 409);
         }
 
         $result = $this->webtemplate->editgroups()->saveGroup(
@@ -143,8 +144,8 @@ class Groups
         );
 
         if (\webtemplate\general\General::isError($result)) {
-            $data = array('ErrorMsg'=>$result->getMessage());
-            return array('data'=>$data, 'code'=>500);
+            $data = array('ErrorMsg' => $result->getMessage());
+            return array('data' => $data, 'code' => 500);
         }
 
         $data = $this->webtemplate->editgroups()->getSingleGroup(
@@ -155,7 +156,7 @@ class Groups
             $errmsg = array('Errormsg' => $data->getMessage());
             return array('data' => $errmsg, 'code' => 404);
         }
-        return array('data'=>$data, 'code'=>201);
+        return array('data' => $data, 'code' => 201);
     }
 
     /**
@@ -168,7 +169,7 @@ class Groups
     protected function put()
     {
         if (\count($this->args) != 1) {
-            $errmsg = array('ErrorMsg'=>'groups: Invalid number put of arguments');
+            $errmsg = array('ErrorMsg' => 'groups: Invalid number put of arguments');
             return array('data' => $errmsg, 'code' => 400);
         }
 
@@ -180,7 +181,7 @@ class Groups
             if (!\webtemplate\general\General::isError($result)) {
                 $gid = $result;
             } else {
-                $errmsg = array('ErrorMsg'=>$result->getMessage());
+                $errmsg = array('ErrorMsg' => $result->getMessage());
                 return array('data' => $errmsg, 'code' => 400);
             }
         }
@@ -190,7 +191,7 @@ class Groups
         if ($fieldspresent !== true) {
             $data = array('ErrorMsg' => $fieldspresent);
             $code = 400;
-            return array('data'=>$data, 'code'=>$code);
+            return array('data' => $data, 'code' => $code);
         }
 
         $resultArray = $this->webtemplate->editgroups()->validateGroupData(
@@ -211,13 +212,13 @@ class Groups
         );
 
         if (\webtemplate\general\General::isError($datachanged)) {
-            $data = array('ErrorMsg'=>$datachanged->getMessage());
-            return array('data'=>$data, 'code'=>500);
+            $data = array('ErrorMsg' => $datachanged->getMessage());
+            return array('data' => $data, 'code' => 500);
         }
 
         if ($datachanged == false) {
-            $data = array('ErrorMsg'=>"You have not made any changes");
-            return array('data'=>$data, 'code'=>400);
+            $data = array('ErrorMsg' => "You have not made any changes");
+            return array('data' => $data, 'code' => 400);
         }
 
 
@@ -230,8 +231,8 @@ class Groups
         );
 
         if (\webtemplate\general\General::isError($result)) {
-            $data = array('ErrorMsg'=>$result->getMessage());
-            return array('data'=>$data, 'code'=>500);
+            $data = array('ErrorMsg' => $result->getMessage());
+            return array('data' => $data, 'code' => 500);
         }
 
         $data = $this->webtemplate->editgroups()->getSingleGroup(
@@ -242,7 +243,7 @@ class Groups
             $errmsg = array('Errormsg' => $data->getMessage());
             return array('data' => $errmsg, 'code' => 404);
         }
-        return array('data'=>$data, 'code'=>201);
+        return array('data' => $data, 'code' => 201);
     }
 
     /**
@@ -257,7 +258,7 @@ class Groups
 
         if (\count($this->args) != 1) {
             $errmsg = array(
-                'ErrorMsg'=>'groups (delete): Invalid number of arguments'
+                'ErrorMsg' => 'groups (delete): Invalid number of arguments'
             );
             return array('data' => $errmsg, 'code' => 400);
         }
@@ -273,7 +274,7 @@ class Groups
                 if ($result->getCode() == DB_ERROR_NOT_FOUND) {
                     return array('code' => 204);
                 } else {
-                    $errmsg = array('ErrorMsg'=>$result->getMessage());
+                    $errmsg = array('ErrorMsg' => $result->getMessage());
                     return array('data' => $errmsg, 'code' => 500);
                 }
             }
@@ -283,17 +284,17 @@ class Groups
             if ($groupdetails->getCode() == DB_ERROR_NOT_FOUND) {
                 return array('code' => 204);
             } else {
-                $errmsg = array('ErrorMsg'=>$groupdetails->getMessage());
+                $errmsg = array('ErrorMsg' => $groupdetails->getMessage());
                 return array('data' => $errmsg, 'code' => 500);
             }
         }
         if ($groupdetails[0]['editable'] == 'N') {
-            $errmsg = array("ErrorMsg"=>"System groups cannot be deleted");
+            $errmsg = array("ErrorMsg" => "System groups cannot be deleted");
             return array('data' => $errmsg, 'code' => 400);
         }
         $deleteresult = $this->webtemplate->editgroups()->deleteGroup($gid);
         if (\webtemplate\general\General::isError($deleteresult)) {
-            $errmsg = array('ErrorMsg'=>"Error deleteing group: " . $this->args[0]);
+            $errmsg = array('ErrorMsg' => "Error deleteing group: " . $this->args[0]);
             return array('data' => $errmsg, 'code' => 500);
         } else {
             return array('code' => 204);

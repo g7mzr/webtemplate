@@ -2,22 +2,22 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Users
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\users;
 
 /**
  * User Groups Class
- *
- * @category Webtemplate
- * @package  Users
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
 class Groups
 {
     /**
@@ -34,9 +34,9 @@ class Groups
     protected $userId = 0;
 
     /**
-     * Database MDB2 Database Connection Object
+     * Database Connection Object
      *
-     * @var    object
+     * @var    \webtemplate\db\driver\InterfaceDatabaseDriver
      * @access protected
      */
     protected $db = null;
@@ -84,13 +84,15 @@ class Groups
     /**
     * User Class Constructor
     *
-    * @param array  $db     MDB2 Database Connection Object
-    * @param string $userId Id of current user.
+    * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db     Database Connection Object.
+    * @param integer                                        $userId Id of current user.
     *
     * @access public
     */
-    public function __construct($db, $userId = 0)
-    {
+    public function __construct(
+        \webtemplate\db\driver\InterfaceDatabaseDriver$db,
+        int $userId = 0
+    ) {
         $this->db     = $db ;
         $this->userId = $userId;
 
@@ -114,12 +116,12 @@ class Groups
     /**
      * Function to load the users groups separate from the class constructor
      *
-     * @param string $userId Id of current user.
+     * @param integer $userId Id of current user.
      *
      * @return boolean True if groups loaded false otherwise.
      * @access public
      */
-    public function loadusersgroups($userId)
+    public function loadusersgroups(int $userId)
     {
         $this->userId = $userId;
 
@@ -178,7 +180,7 @@ class Groups
     *
     * @access public
     */
-    final public function checkGroup($groupName)
+    final public function checkGroup(string $groupName)
     {
 
         if ((in_array($groupName, $this->groups))

@@ -2,14 +2,19 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Global
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
 
 // Include and register the Autoloader Class
-require_once __DIR__ .'/autoloader.class.php';
+require_once __DIR__ . '/autoloader.class.php';
 \spl_autoload_register("\webtemplate\AutoLoader::loader");
 
 // Include the composer Autoloader

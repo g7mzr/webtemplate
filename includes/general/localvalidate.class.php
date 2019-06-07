@@ -2,40 +2,36 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage General
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
-namespace webtemplate\general;
 
-/**
- * Include files for Class
- */
-//require_once 'Validate.php';
+namespace webtemplate\general;
 
 /**
  * Local Validation Class is a static class used to validate user input
  *
- * @category Webtemplate
- * @package  General
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
-
 class LocalValidate
 {
 
     /**
     * Validates that a Database ID is between 1 and 99999
     *
-    * @param string $dbid Database ID
+    * @param string $dbid Database ID.
     *
     * @return boolan True if ID validated false otherwise
     *
     * @access public
     */
-    final public function dbid($dbid)
+    final public function dbid(string $dbid)
     {
         if (preg_match("/^([0-9]{1,5})$/", $dbid)) {
             return true;
@@ -48,14 +44,14 @@ class LocalValidate
     * Validate that a username complies with the userbame regular expression
     * parameter.
     *
-    * @param string $userName Users Name
-    * @param string $regexp   The username regular expression
+    * @param string $userName Users Name.
+    * @param string $regexp   The username regular expression.
     *
     * @return boolan True if username validated false otherwise
     *
     * @access public
     */
-    final public function username($userName, $regexp)
+    final public function username(string $userName, string $regexp)
     {
 
         // Test to see if the username is valid.
@@ -71,13 +67,13 @@ class LocalValidate
      * of characters [/^[]{}$a-zA-Z0-9].  It does not check to see if the
      * regular expression itself is valid.
      *
-     * @param string $check_regex The regular expression to be checked
+     * @param string $check_regex The regular expression to be checked.
      *
      * @return boolean True if check_regex is validated false otherwise
      *
      * @access public
      */
-    final public function regexp($check_regex)
+    final public function regexp(string $check_regex)
     {
         $result = array();
         $regex = "/^([\/\^\-\[\]\{\}\$a-zA-Z0-9\,\(\)\.]+)$/";
@@ -93,13 +89,13 @@ class LocalValidate
      * Validate that a real name is between 3 and 60 characters long and
      * can contain Upper and Lower Case letters and spaces
      *
-     * @param string $realName Users Real Name
+     * @param string $realName Users Real Name.
      *
      * @return boolan True if realname validated false otherwise
      *
      * @access public
      */
-    final public function realname($realName)
+    final public function realname(string $realName)
     {
         if (preg_match("/^([a-zA-Z\s\']{3,60})$/", $realName)) {
             return true;
@@ -117,14 +113,14 @@ class LocalValidate
     * 4. Lower and Upper Case letters and numbers. One of each
     * 5. Lower and Upper Case letters, numbers and specoal chars. One of each
     *
-    * @param string $passwd   Users Password
-    * @param string $strength number which defines password format
+    * @param string $passwd   Users Password.
+    * @param string $strength Number which defines password format.
     *
     * @return boolan True if password validated false otherwise
     *
     * @access public
     */
-    final public function password($passwd, $strength)
+    final public function password(string $passwd, string $strength)
     {
         switch ($strength) {
             case '1':
@@ -153,13 +149,13 @@ class LocalValidate
     /**
     * Validate that a e-mail address is in avalid format
     *
-    * @param string $email Users email address
+    * @param string $email Users email address.
     *
     * @return boolan True if email validated false otherwise
     *
     * @access public
     */
-    final public function email($email)
+    final public function email(string $email)
     {
         $emailExp  = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)";
         $emailExp .= "*@[a-z0-9-]+(\.[a-z0-9-]+)";
@@ -177,13 +173,13 @@ class LocalValidate
     * Scheme, User and Password, Host or IP address, port, path,
     * Get Query and Anchor
     *
-    * @param string $url URL
+    * @param string $url URL to be checked.
     *
     * @return boolan True if url validated false otherwise
     *
     * @access public
     */
-    final public function url($url)
+    final public function url(string $url)
     {
 
         // SCHEME
@@ -218,14 +214,14 @@ class LocalValidate
     /**
     * Validate that a path with or without a trailing slash is in a valid format
     *
-    * @param string  $path          path
-    * @param boolean $trailingslash path finishes with a slash
+    * @param string  $path          Path to be checked.
+    * @param boolean $trailingslash Path finishes with a slash.
     *
-    * @return boolan True if path validated false otherwise
+    * @return boolan True if path validated false otherwise.
     *
     * @access public
     */
-    final public function path($path, $trailingslash = false)
+    final public function path(string $path, bool $trailingslash = false)
     {
         if ($trailingslash == true) {
             $regex = "(\/?([a-z0-9+\$_-]\.?)+)*\/?"; // Path
@@ -243,13 +239,13 @@ class LocalValidate
     /**
     * Validate that a document path with a trailing slash is in a valid format
     *
-    * @param string $path path
+    * @param string $path Path to be checked.
     *
     * @return boolan True if path validated false otherwise
     *
     * @access public
     */
-    final public function docPath($path)
+    final public function docPath(string $path)
     {
         $regex = "(([a-z0-9%+\$_-]\/?)+)*\/"; // Path
         if (preg_match("/^$regex$/", $path)) {
@@ -261,15 +257,15 @@ class LocalValidate
 
 
     /**
-    * * Validate that a domain name or ip address is in a valid format.
+    * * Validate that a domain name or if address is in a valid format.
     *
-    * @param string $domain domain name
+    * @param string $domain Domain name to be checked.
     *
     * @return boolan True if domain validated false otherwise
     *
     * @access public
     */
-    final public function domain($domain)
+    final public function domain(string $domain)
     {
         $regex = "([a-z0-9-.]*)\.([a-z]{2,3})"; // Host or IP
         if (preg_match("/^$regex$/", $domain)) {
@@ -283,13 +279,13 @@ class LocalValidate
     * Validate that a group name is between 5 and 25 characters long and
     * can contain Upper and Lower Case letters
     *
-    * @param string $groupname Group Name
+    * @param string $groupname Group Name to be checked.
     *
     * @return boolan True if groupname validated false otherwise
     *
     * @access public
     */
-    final public function groupname($groupname)
+    final public function groupname(string $groupname)
     {
         if (preg_match("/^([a-zA-Z]{5,25})$/", $groupname)) {
             return true;
@@ -302,13 +298,13 @@ class LocalValidate
     * Validate that a group destription is between 5 and 255 characters long and
     * can contain Upper and Lower Case letters and spaces
     *
-    * @param string $groupdescription Group description
+    * @param string $groupdescription Group description to be checked.
     *
     * @return boolan True if groupdescription validated false otherwise
     *
     * @access public
     */
-    final public function groupdescription($groupdescription)
+    final public function groupdescription(string $groupdescription)
     {
         if (preg_match("/^([a-zA-Z\s\.]{5,225})$/", $groupdescription)) {
             return true;
@@ -327,7 +323,7 @@ class LocalValidate
     *
     * @access public
     */
-    final public function generaltext($gentext)
+    final public function generaltext(string $gentext)
     {
         if (preg_match("/^([a-zA-Z0-9\s\.]{0,2048})$/", $gentext)) {
             return true;
@@ -341,13 +337,13 @@ class LocalValidate
     * Validate that a a token of 10 characters and
     * can contain Lower Case letters and numbers
     *
-    * @param string $token The token to be validated
+    * @param string $token The token to be validated.
     *
     * @return boolan True if token validated false otherwise
     *
     * @access public
     */
-    final public function token($token)
+    final public function token(string $token)
     {
         if (preg_match("/^([a-z0-9]{10})$/", $token)) {
             return true;
@@ -360,13 +356,13 @@ class LocalValidate
     /**
     * Validate that a filename is in the format *.html
     *
-    * @param string $filename The filename to be validated
+    * @param string $filename The filename to be validated.
     *
     * @return boolan True if filename validated false otherwise
     *
     * @access public
     */
-    final public function htmlFile($filename)
+    final public function htmlFile(string $filename)
     {
         if (preg_match("/^[\w,\s-]+\.(html)$/", $filename)) {
             return true;

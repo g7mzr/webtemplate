@@ -2,35 +2,36 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Autoloader
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate;
 
 /**
  * Webtemplate Class AutoLoader
- *
- * @category Webtemplate
- * @package  Autoloader
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class AutoLoader
 {
     /**
      * Automatically loads classes require by webtemplate by converting the class
-     * name to a filename and loading the file.  It also verifys the class is
+     * name to a filename and loading the file.  It also verifies the class is
      * present in the file.
      *
-     * @param string $class The name of the class to be loaded
+     * @param string $class The name of the class to be loaded.
      *
      * @return boolan True if Class Loaded
      *
      * @access public
      */
-    public static function loader($class)
+    public static function loader(string $class)
     {
         //  Class or trait loaded
         $loadedOK = false;

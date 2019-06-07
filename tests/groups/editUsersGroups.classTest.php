@@ -2,11 +2,17 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Unit Tests
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
@@ -15,43 +21,39 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../includes/global.php';
 
 // Load the Test Database Configuration File
-require_once dirname(__FILE__) .'/../_data/database.php';
+require_once dirname(__FILE__) . '/../_data/database.php';
 
 /**
- * Help Class Unit Tests
+ * Edit User Groups Class Unit Tests
  *
- * @category Webtemplate
- * @package  Tests
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class EditUsersGroupsClassTest extends TestCase
 {
     /**
-     * Groups Class Object
+     * Edit Uses Groups Class Object
      *
-     * @var GroupsClass
+     * @var \webtemplate\groups\EditUsersGroups
      */
     protected $object;
 
     /**
      * Database Connection Object
      *
-     * @var Database Connection Object
+     * @var \webtemplate\db\DB
      */
     protected $object2;
 
     /**
      * Group Class Object using Mock Database driver
      *
-     * @var GroupClass
+     * @var \webtemplate\groups\EditUsersGroups
      */
     protected $mockGroup;
 
     /**
      * Mock Database Driver Class
      *
-     * @var Database Connection object
+     * @var D\webtemplate\db\DB
      */
     protected $mockDB;
     /**
@@ -65,9 +67,9 @@ class EditUsersGroupsClassTest extends TestCase
      * This function is called prior to any tests being run.
      * Its purpose is to set up any variables that are needed to tun the tests.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         global $testdsn, $options;
 
@@ -94,9 +96,9 @@ class EditUsersGroupsClassTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return null No return data
+     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if ($this->databaseconnection === true) {
             $this->object2->disconnect();
@@ -110,7 +112,7 @@ class EditUsersGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testGetGroupList()
     {
@@ -134,7 +136,7 @@ class EditUsersGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testMockGetGroupList()
     {
@@ -152,7 +154,7 @@ class EditUsersGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testGetChangeString()
     {
@@ -167,14 +169,13 @@ class EditUsersGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testGetUsersGroups()
     {
         if ($this->databaseconnection == true) {
             $groupArray = $this->object->getGroupList();
             if (!\webtemplate\general\General::isError($groupArray)) { // Found groups
-
                 // Select groups user is a member off.
                 $addUsersGroups = $this->object->getUsersGroups(1, $groupArray);
                 if (\webtemplate\general\General::isError($addUsersGroups)) {
@@ -200,7 +201,7 @@ class EditUsersGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testMockGetUsersGroups()
     {
@@ -247,7 +248,7 @@ class EditUsersGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testGroupsChangedRemoveAll()
     {
@@ -262,7 +263,7 @@ class EditUsersGroupsClassTest extends TestCase
                     $this->fail("Error : " . $group->getMessage());
                 } else {
                     $this->assertTrue($groupchangedresult);
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         "Removed from group: admin",
                         $this->object->getChangeString()
                     );
@@ -282,7 +283,7 @@ class EditUsersGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testGroupsChangedRemoveOneGroup()
     {
@@ -323,7 +324,7 @@ class EditUsersGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testGroupsChangedAddToGroup()
     {
@@ -345,7 +346,7 @@ class EditUsersGroupsClassTest extends TestCase
                     $this->fail("Error : " . $group->getMessage());
                 } else {
                     $this->assertTrue($groupchangedresult);
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         "Added to group: editusers",
                         $this->object->getChangeString()
                     );
@@ -364,7 +365,7 @@ class EditUsersGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testMockGroupsChanged()
     {
@@ -426,7 +427,7 @@ class EditUsersGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testSaveUsersGroupsDelete()
     {
@@ -481,7 +482,7 @@ class EditUsersGroupsClassTest extends TestCase
      *
      * @depends testSaveUsersGroupsDelete
      *
-     * @return null
+     * @return void
      */
     public function testSaveUsersGroupsSave()
     {
@@ -528,7 +529,7 @@ class EditUsersGroupsClassTest extends TestCase
                 }
                 $datasaved = $this->object->saveUsersGroups(80, $group);
                 if (\webtemplate\general\General::isError($datasaved)) {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         "Unable to save groups",
                         $datasaved->getMessage()
                     );
@@ -551,7 +552,7 @@ class EditUsersGroupsClassTest extends TestCase
      *
      * @depends testSaveUsersGroupsDelete
      *
-     * @return null
+     * @return void
      */
     public function testSaveUsersGroupsInvalidUserID()
     {
@@ -573,7 +574,7 @@ class EditUsersGroupsClassTest extends TestCase
 
                 $datasaved = $this->object->saveUsersGroups(80, $group);
                 if (\webtemplate\general\General::isError($datasaved)) {
-                    $this->assertContains(
+                    $this->assertStringContainsString(
                         "Unable to save groups",
                         $datasaved->getMessage()
                     );
@@ -596,7 +597,7 @@ class EditUsersGroupsClassTest extends TestCase
      * @group unittest
      * @group groups
      *
-     * @return null
+     * @return void
      */
     public function testMockSaveUsersGroups()
     {
@@ -631,7 +632,7 @@ class EditUsersGroupsClassTest extends TestCase
         // Fail to start Transaction
         $datasaved = $this->mockGroup->saveUsersGroups(1, $group);
         if (\webtemplate\general\General::isError($datasaved)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "Unable to create database transaction",
                 $datasaved->getMessage()
             );
@@ -643,7 +644,7 @@ class EditUsersGroupsClassTest extends TestCase
         $this->mockDB->control($functions, $data);
         $datasaved = $this->mockGroup->saveUsersGroups(1, $group);
         if (\webtemplate\general\General::isError($datasaved)) {
-            $this->assertContains(
+            $this->assertStringContainsString(
                 "Unable to save groups",
                 $datasaved->getMessage()
             );

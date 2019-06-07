@@ -2,20 +2,24 @@
 /**
  * This file is part of Webtemplate.
  *
- * (c) Sandy McNeil <g7mzrdev@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @package Webtemplate
+ * @subpackage Admin Parameters
+ * @author   Sandy McNeil <g7mzrdev@gmail.com>
+ * @copyright (c) 2019, Sandy McNeil
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
+ *
  */
+
 namespace webtemplate\admin\parameters;
+
+use webtemplate\config\Configure;
 
 /**
  * Parameters ADMIN Interface Class
  *
- * @category Webtemplate
- * @package  Admin
- * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @license  View the license file distributed with this source code
  **/
 class Admin extends ParametersAbstract
 {
@@ -55,11 +59,11 @@ class Admin extends ParametersAbstract
     /**
      * Constructor
      *
-     * @param \webtemplate\config\Configure $config Configuration class
+     * @param Configure $config Configuration class.
      *
      * @access public
      */
-    public function __construct($config)
+    public function __construct(Configure $config)
     {
 
         parent::__construct($config);
@@ -76,13 +80,13 @@ class Admin extends ParametersAbstract
      * Validate the Admin set of parameters input by the user.  Last Msg will
      * contain a list of any parameters which failed validation.
      *
-     * @param array $inputData  Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access public
      */
-    final public function validateParameters(&$inputData)
+    final public function validateParameters(array &$inputData)
     {
         // Logging level
         $this->validateLoggingLevel($inputData);
@@ -101,17 +105,17 @@ class Admin extends ParametersAbstract
 
     /**
      * Check if any of the Admin set of Parameters have changed.  The
-     * localy stored parameters created as part of the validation process
+     * locally stored parameters created as part of the validation process
      * are compared to the ones in the $parameters variable.  Last Msg will
-     * contain a list of parameters whioch have changed.
+     * contain a list of parameters which have changed.
      *
-     * @param array $parameters Array of application Parameters
+     * @param array $parameters Array of application Parameters.
      *
      * @return boolean true if data changed
      *
      * @access public
      */
-    final public function checkParametersChanged($parameters)
+    final public function checkParametersChanged(array $parameters)
     {
         // Set the data changed flags to false
         // These flags will be set true if their associated parameter
@@ -150,15 +154,15 @@ class Admin extends ParametersAbstract
 
 
     /**
-    * Validate the level of loging the application is to do
+    * Validate the level of logging the application is to do
     *
-    * @param array $inputData  Pointer to an array of User Input Data
+    * @param array $inputData Pointer to an array of User Input Data.
     *
     * @return boolean true if data Validated
     *
     * @access private
     */
-    private function validateLoggingLevel(&$inputData)
+    private function validateLoggingLevel(array &$inputData)
     {
         $dataok = true;
 
@@ -179,13 +183,13 @@ class Admin extends ParametersAbstract
     /**
     * Validate when the logs are to be rotated
     *
-    * @param array $inputData  Pointer to an array of User Input Data
+    * @param array $inputData Pointer to an array of User Input Data.
     *
     * @return boolean true if data Validated
     *
     * @access private
     */
-    private function validateLogRotate(&$inputData)
+    private function validateLogRotate(array &$inputData)
     {
         $dataok = true;
         //This is a non binary input. Valid data is either 1, 2, 3.
@@ -204,13 +208,13 @@ class Admin extends ParametersAbstract
     /**
     * Validate if links are to open new windows
     *
-    * @param array $inputData  Pointer to an array of User Input Data
+    * @param array $inputData Pointer to an array of User Input Data.
     *
     * @return boolean true if data Validated
     *
     * @access private
     */
-    private function validateNewWindows(&$inputData)
+    private function validateNewWindows(array &$inputData)
     {
         $dataok = true;
 
@@ -233,13 +237,13 @@ class Admin extends ParametersAbstract
     /**
      * Validate the max number of records a database search is to return
      *
-     * @param array $inputData  Pointer to an array of User Input Data
+     * @param array $inputData Pointer to an array of User Input Data.
      *
      * @return boolean true if data Validated
      *
      * @access private
      */
-    private function validateMaxRecords(&$inputData)
+    private function validateMaxRecords(array &$inputData)
     {
         $dataok = true;
 
