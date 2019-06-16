@@ -1,29 +1,29 @@
 <?php
 /**
- * This file is part of WEBTEMPLATE
+ * This file is part of Webtemplate.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package restclient-php
- * @subpackage tests
+ * @package Webtemplate
+ * @subpackage RestFul API Functional Tests
  * @author   Sandy McNeil <g7mzrdev@gmail.com>
  * @copyright (c) 2019, Sandy McNeil
- * @license https://github.com/g7mzr/restclient-php/blob/master/LICENSE GNU General Public License v3.0
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
  *
  */
 
-namespace g7mzr\webtemplate\phpunit;
+namespace webtemplate\apitest;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/constants.php';
 
-use PHPUnit\Framework\TestCase;
-use g7mzr\restclient\http\APIClient;
-use g7mzr\restclient\options\Options;
-use g7mzr\restclient\http\request\Request;
-use g7mzr\restclient\http\response\DecodeResponse;
+use \PHPUnit\Framework\TestCase;
+use \g7mzr\restclient\http\APIClient;
+use \g7mzr\restclient\options\Options;
+use \g7mzr\restclient\http\request\Request;
+use \g7mzr\restclient\http\response\DecodeResponse;
 
 /**
  * Login/Logout Endpoint Tests
@@ -54,7 +54,7 @@ class LoginTest extends TestCase
      *
      * @access protected
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->options = new Options();
         $this->options->setBaseURL(URL);
@@ -74,9 +74,8 @@ class LoginTest extends TestCase
      *
      * @access protected
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
-
     }
 
     /**
@@ -106,9 +105,8 @@ class LoginTest extends TestCase
         $loginpostresponse = $this->apiclient->getResponse();
 
         // Check the HTTP Respose
-        $loginhttpresponse = $loginpostresponse->getHTTPResponce();
-        $this->assertEquals("200", $loginhttpresponse[1]);
-        $this->assertEquals("OK", $loginhttpresponse[2]);
+        $loginhttpresponsecode = $loginpostresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $loginhttpresponsecode);
 
          // Check the JSON Responce
         $loginprocesseddata = $loginpostresponse->getProcessedData();
@@ -127,9 +125,8 @@ class LoginTest extends TestCase
         $logoutpostresponse = $this->apiclient->getResponse();
 
         // Check the HTTP Respose
-        $logouthttpresponse = $logoutpostresponse->getHTTPResponce();
-        $this->assertEquals("200", $logouthttpresponse[1]);
-        $this->assertEquals("OK", $logouthttpresponse[2]);
+        $logouthttpresponsecode = $logoutpostresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $logouthttpresponsecode);
 
          // Check the JSON Responce
         $logoutprocesseddata = $logoutpostresponse->getProcessedData();
@@ -163,10 +160,9 @@ class LoginTest extends TestCase
 
         $loginpostresponse = $this->apiclient->getResponse();
 
-        // Check the HTTP Respose
-        $loginhttpresponse = $loginpostresponse->getHTTPResponce();
-        $this->assertEquals("403", $loginhttpresponse[1]);
-        $this->assertEquals("Forbidden", $loginhttpresponse[2]);
+        // Check the HTTP Response
+        $loginhttpresponsecode = $loginpostresponse->getHTTPResponseCode();
+        $this->assertEquals("403", $loginhttpresponsecode);
 
          // Check the JSON Responce
         $loginprocesseddata = $loginpostresponse->getProcessedData();

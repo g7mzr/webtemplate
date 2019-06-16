@@ -1,19 +1,19 @@
 <?php
 /**
- * This file is part of WEBTEMPLATE
+ * This file is part of Webtemplate.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package restclient-php
- * @subpackage tests
+ * @package Webtemplate
+ * @subpackage RestFul API Functional Tests
  * @author   Sandy McNeil <g7mzrdev@gmail.com>
  * @copyright (c) 2019, Sandy McNeil
- * @license https://github.com/g7mzr/restclient-php/blob/master/LICENSE GNU General Public License v3.0
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
  *
  */
 
-namespace g7mzr\webtemplate\phpunit;
+namespace webtemplate\unittest;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../vendor/autoload.php';
@@ -54,7 +54,7 @@ class VersionTest extends TestCase
      *
      * @access protected
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->options = new Options();
         $this->options->setBaseURL(URL);
@@ -74,9 +74,8 @@ class VersionTest extends TestCase
      *
      * @access protected
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
-
     }
 
     /**
@@ -86,7 +85,7 @@ class VersionTest extends TestCase
      * the API when the user is not logged in.
      *
      * @group unittest
-     * @group error
+     * @group version
      *
      * @return void
      *
@@ -104,9 +103,8 @@ class VersionTest extends TestCase
          $versiongetresponse = $this->apiclient->getResponse();
 
         // Check the http response
-        $versionhttpresponse = $versiongetresponse->getHTTPResponce();
-        $this->assertEquals("200", $versionhttpresponse[1]);
-        $this->assertEquals("OK", $versionhttpresponse[2]);
+        $versionhttpresponsecode = $versiongetresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $versionhttpresponsecode);
 
         // Check the returned data
         $versionprocesseddata = $versiongetresponse->getProcessedData();
@@ -126,7 +124,7 @@ class VersionTest extends TestCase
      * the API when the user is not logged in.
      *
      * @group unittest
-     * @group error
+     * @group version
      *
      * @return void
      *
@@ -148,9 +146,8 @@ class VersionTest extends TestCase
         $loginpostresponse = $this->apiclient->getResponse();
 
         // Check the HTTP Respose
-        $loginhttpresponse = $loginpostresponse->getHTTPResponce();
-        $this->assertEquals("200", $loginhttpresponse[1]);
-        $this->assertEquals("OK", $loginhttpresponse[2]);
+        $loginhttpresponsecode = $loginpostresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $loginhttpresponsecode);
 
          // Check the JSON Responce
         $loginprocesseddata = $loginpostresponse->getProcessedData();
@@ -167,9 +164,8 @@ class VersionTest extends TestCase
          $versiongetresponse = $this->apiclient->getResponse();
 
         // Check the http response
-        $versionhttpresponse = $versiongetresponse->getHTTPResponce();
-        $this->assertEquals("200", $versionhttpresponse[1]);
-        $this->assertEquals("OK", $versionhttpresponse[2]);
+        $versionhttpresponsecode = $versiongetresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $versionhttpresponsecode);
 
         // Check the returned data
         $versionprocesseddata = $versiongetresponse->getProcessedData();
@@ -191,9 +187,8 @@ class VersionTest extends TestCase
         $logoutpostresponse = $this->apiclient->getResponse();
 
         // Check the HTTP Respose
-        $logouthttpresponse = $logoutpostresponse->getHTTPResponce();
-        $this->assertEquals("200", $logouthttpresponse[1]);
-        $this->assertEquals("OK", $logouthttpresponse[2]);
+        $logouthttpresponsecode = $logoutpostresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $logouthttpresponsecode);
 
          // Check the JSON Responce
         $logoutprocesseddata = $logoutpostresponse->getProcessedData();
@@ -208,9 +203,8 @@ class VersionTest extends TestCase
          $versiongetresponse = $this->apiclient->getResponse();
 
         // Check the http response
-        $versionhttpresponse = $versiongetresponse->getHTTPResponce();
-        $this->assertEquals("200", $versionhttpresponse[1]);
-        $this->assertEquals("OK", $versionhttpresponse[2]);
+        $versionhttpresponsecode = $versiongetresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $versionhttpresponsecode);
 
         $versionprocesseddata = $versiongetresponse->getProcessedData();
 
@@ -218,4 +212,177 @@ class VersionTest extends TestCase
         $this->assertEquals(3, count($versionprocesseddata));
     }
 
+    /**
+     * testGetOptions
+     *
+     * This function tests that the options (available commands) can be returned
+     *
+     * @group unittest
+     * @group users
+     *
+     * @return void
+     *
+     * @access protected
+     */
+    public function testGetOptions()
+    {
+        // LOGIN to the API
+        $loginpostdata = array();
+        $loginpostdata["username"] = USERNAME;
+        $loginpostdata["password"] = PASSWORD;
+        $loginrequest = new Request('post');
+        $loginrequest->setEndPoint("api/v1/login");
+        $loginrequest->setURLEncodedData($loginpostdata);
+
+        $loginrunok = $this->apiclient->httpPost($loginrequest);
+        $this->assertTrue($loginrunok);
+        //Get the Response
+        $loginpostresponse = $this->apiclient->getResponse();
+
+        // Check the HTTP Respose
+        $loginhttpresponsecode = $loginpostresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $loginhttpresponsecode);
+
+         // Check the JSON Responce
+        $loginprocesseddata = $loginpostresponse->getProcessedData();
+        $this->assertEquals("Logged in", $loginprocesseddata['Msg']);
+
+
+        $getoptionsrequest = new Request();
+        $getoptionsrequest->setEndPoint("api/v1/version");
+
+        $getoptionsrunok = $this->apiclient->httpOptions($getoptionsrequest);
+        if ($getoptionsrunok === false) {
+            $this->assertFail("HTTP Options Command failed");
+        }
+
+        // Get the respose data
+        $getoptionsresponse = $this->apiclient->getResponse();
+
+        // Check the returned data
+        $getoptionsprocesseddata = $getoptionsresponse->getProcessedData();
+
+
+        // LOGOUT after the test.
+        $logoutrequest = new Request('post');
+        $logoutrequest->setEndPoint("api/v1/logout");
+
+        $logoutrunok = $this->apiclient->httpPost($logoutrequest);
+        $this->assertTrue($logoutrunok);
+
+        //Get the Response
+        $logoutpostresponse = $this->apiclient->getResponse();
+
+        // Check the HTTP Respose
+        $logouthttpresponsecode = $logoutpostresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $logouthttpresponsecode);
+
+         // Check the JSON Responce
+        $logoutprocesseddata = $logoutpostresponse->getProcessedData();
+        $this->assertEquals("Logged out", $logoutprocesseddata['Msg']);
+        // Check the Results
+
+        // Check the http response
+        $getoptionshttpresponsecode = $getoptionsresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $getoptionshttpresponsecode);
+
+        // Get the options
+        $options = $getoptionsresponse->getAllow();
+        $this->assertContains("GET", $options);
+        $this->assertContains("HEAD", $options);
+        $this->assertContains("OPTIONS", $options);
+
+        $this->assertNotContains("POST", $options);
+        $this->assertNotContains("PUT", $options);
+        $this->assertNotContains("DELETE", $options);
+        $this->assertNotContains("PATCH", $options);
+
+        // Check there is no processed data
+        $this->assertEquals(0, count($getoptionsprocesseddata));
+    }
+
+    /**
+     * testGetHead
+     *
+     * This function tests that the options (available commands) can be returned
+     *
+     * @group unittest
+     * @group users
+     *
+     * @return void
+     *
+     * @access protected
+     */
+    public function testGetHead()
+    {
+        // LOGIN to the API
+        $loginpostdata = array();
+        $loginpostdata["username"] = USERNAME;
+        $loginpostdata["password"] = PASSWORD;
+        $loginrequest = new Request('post');
+        $loginrequest->setEndPoint("api/v1/login");
+        $loginrequest->setURLEncodedData($loginpostdata);
+
+        $loginrunok = $this->apiclient->httpPost($loginrequest);
+        $this->assertTrue($loginrunok);
+        //Get the Response
+        $loginpostresponse = $this->apiclient->getResponse();
+
+        // Check the HTTP Respose
+        $loginhttpresponsecode = $loginpostresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $loginhttpresponsecode);
+
+         // Check the JSON Responce
+        $loginprocesseddata = $loginpostresponse->getProcessedData();
+        $this->assertEquals("Logged in", $loginprocesseddata['Msg']);
+
+        /*****************************************/
+
+        $getheadrequest = new Request();
+        $getheadrequest->setEndPoint("api/v1/version");
+
+        $getheadrunok = $this->apiclient->httpHead($getheadrequest);
+        if ($getheadrunok === false) {
+            $this->assertFail("HTTP Options Command failed");
+        }
+
+        // Get the respose data
+        $getheadresponse = $this->apiclient->getResponse();
+
+        // Check the returned data
+        $getheadprocesseddata = $getheadresponse->getProcessedData();
+
+
+        /*****************************************************************/
+
+        // LOGOUT after the test.
+        $logoutrequest = new Request('post');
+        $logoutrequest->setEndPoint("api/v1/logout");
+
+        $logoutrunok = $this->apiclient->httpPost($logoutrequest);
+        $this->assertTrue($logoutrunok);
+
+        //Get the Response
+        $logoutpostresponse = $this->apiclient->getResponse();
+
+        // Check the HTTP Respose
+        $logouthttpresponsecode = $logoutpostresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $logouthttpresponsecode);
+
+         // Check the JSON Responce
+        $logoutprocesseddata = $logoutpostresponse->getProcessedData();
+        $this->assertEquals("Logged out", $logoutprocesseddata['Msg']);
+        // Check the Results
+
+        // Check the http response
+        $getheadhttpresponsecode = $getheadresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $getheadhttpresponsecode);
+
+        // Check the content length
+        $contentlength = $getheadresponse->getContentLength();
+        $this->assertEquals(264, $contentlength);
+
+        // Check there is no processed data
+        $this->assertEquals(0, count($getheadprocesseddata));
+    }
 }

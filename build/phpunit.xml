@@ -51,11 +51,12 @@
             <file>../tests/selenium/register.classTest.php</file>
             <file>../tests/selenium/passwdReset.classTest.php</file>
         </testsuite>
-        
+
         <testsuite name="restapi">
-            <file>../tests/login.classTest.php</file>
-            <file>../tests/version.classTest.php</file>
-            <file>../tests/users.classTest.php</file>
+            <file>../tests/restapi/login.classTest.php</file>
+            <file>../tests/restapi/version.classTest.php</file>
+            <file>../tests/restapi/users.classTest.php</file>
+            <file>../tests/restapi/groups.classTest.php</file>
          </testsuite>
 
     </testsuites>

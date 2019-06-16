@@ -111,7 +111,13 @@ if (filter_has_var(INPUT_SERVER, 'HTTP_ACCEPT')) {
 
 // Collect the request data
 $post = filter_input_array(INPUT_POST);
+if ($post === null) {
+    $post = array();
+}
 $get = filter_input_array(INPUT_GET);
+if ($get === null) {
+    $get = array();
+}
 $file = file_get_contents("php://input");
 
 try {

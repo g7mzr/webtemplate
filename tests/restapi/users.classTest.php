@@ -1,19 +1,19 @@
 <?php
 /**
- * This file is part of WEBTEMPLATE
+ * This file is part of Webtemplate.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package restclient-php
- * @subpackage tests
+ * @package Webtemplate
+ * @subpackage RestFul API Functional Tests
  * @author   Sandy McNeil <g7mzrdev@gmail.com>
  * @copyright (c) 2019, Sandy McNeil
- * @license https://github.com/g7mzr/restclient-php/blob/master/LICENSE GNU General Public License v3.0
+ * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
  *
  */
 
-namespace g7mzr\webtemplate\phpunit;
+namespace webtemplate\unittest;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../vendor/autoload.php';
@@ -62,7 +62,7 @@ class UsersTest extends TestCase
      *
      * @access protected
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->options = new Options();
         $this->options->setBaseURL(URL);
@@ -83,9 +83,11 @@ class UsersTest extends TestCase
      *
      * @return void
      *
+     * @throws \Exception If unable to connect to the remote database.
+     *
      * @access protected
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         global $testdsn;
         if ($this->deleteTestUser == true) {
@@ -113,7 +115,6 @@ class UsersTest extends TestCase
             $localconn->query($sql);
             $localconn = null;
         }
-
     }
 
     /**
@@ -174,7 +175,7 @@ class UsersTest extends TestCase
 
         $logoutrunok = $this->apiclient->httpPost($logoutrequest);
         $this->assertTrue($logoutrunok);
-        if($logoutrunok === false) {
+        if ($logoutrunok === false) {
             return false;
         }
 
@@ -243,9 +244,8 @@ class UsersTest extends TestCase
         $getusersresponse = $this->apiclient->getResponse();
 
         // Check the http response
-        $getusershttpresponse = $getusersresponse->getHTTPResponce();
-        $this->assertEquals("401", $getusershttpresponse[1]);
-        $this->assertEquals("Unauthorised", $getusershttpresponse[2]);
+        $getusershttpresponsecode = $getusersresponse->getHTTPResponseCode();
+        $this->assertEquals("401", $getusershttpresponsecode);
 
         // Check the returned data
         $getusersprocesseddata = $getusersresponse->getProcessedData();
@@ -253,7 +253,120 @@ class UsersTest extends TestCase
             "Login required to use this resource",
             $getusersprocesseddata['ErrorMsg']
         );
-     }
+    }
+
+    /**
+     * testGetOptions
+     *
+     * This function tests that the options (available commands) can be returned
+     *
+     * @group unittest
+     * @group users
+     *
+     * @return void
+     *
+     * @access protected
+     */
+    public function testGetOptions()
+    {
+        // LOGIN for the test
+        if ($this->login() === false) {
+            $this->fail("Unable to login for test: " . __FUNCTION__);
+        }
+
+        $getoptionsrequest = new Request();
+        $getoptionsrequest->setEndPoint("api/v1/users");
+
+        $getoptionsrunok = $this->apiclient->httpOptions($getoptionsrequest);
+        if ($getoptionsrunok === false) {
+            $this->assertFail("HTTP Options Command failed");
+        }
+
+        // Get the respose data
+        $getoptionsresponse = $this->apiclient->getResponse();
+
+        // Check the returned data
+        $getoptionsprocesseddata = $getoptionsresponse->getProcessedData();
+
+
+        // LOGOUT after the test.
+        if ($this->logout() === false) {
+            $this->fail("Unable to logout for test: " . __FUNCTION__);
+        }
+
+        // Check the Results
+
+        // Check the http response
+        $getoptionshttpresponsecode = $getoptionsresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $getoptionshttpresponsecode);
+
+        // Get the options
+        $options = $getoptionsresponse->getAllow();
+        $this->assertContains("GET", $options);
+        $this->assertContains("POST", $options);
+        $this->assertContains("PUT", $options);
+        $this->assertContains("HEAD", $options);
+        $this->assertContains("OPTIONS", $options);
+
+        $this->assertNotContains("DELETE", $options);
+        $this->assertNotContains("PATCH", $options);
+
+        // Check there is no processed data
+        $this->assertEquals(0, count($getoptionsprocesseddata));
+    }
+
+    /**
+     * testGetHead
+     *
+     * This function tests that the Head command returns the length of the data only
+     *
+     * @group unittest
+     * @group users
+     *
+     * @return void
+     *
+     * @access protected
+     */
+    public function testGetHead()
+    {
+        // LOGIN for the test
+        if ($this->login() === false) {
+            $this->fail("Unable to login for test: " . __FUNCTION__);
+        }
+
+        $getheadrequest = new Request();
+        $getheadrequest->setEndPoint("api/v1/users");
+
+        $getheadrunok = $this->apiclient->httpHead($getheadrequest);
+        if ($getheadrunok === false) {
+            $this->assertFail("HTTP Options Command failed");
+        }
+
+        // Get the respose data
+        $getheadresponse = $this->apiclient->getResponse();
+
+        // Check the returned data
+        $getheadprocesseddata = $getheadresponse->getProcessedData();
+
+
+        // LOGOUT after the test.
+        if ($this->logout() === false) {
+            $this->fail("Unable to logout for test: " . __FUNCTION__);
+        }
+
+        // Check the Results
+
+        // Check the http response
+        $getheadhttpresponsecode = $getheadresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $getheadhttpresponsecode);
+
+         // Check the content length
+        $contentlength = $getheadresponse->getContentLength();
+        $this->assertEquals(1991, $contentlength);
+
+        // Check there is no processed data
+        $this->assertEquals(0, count($getheadprocesseddata));
+    }
 
     /**
      * testGetAllUsersloggedIn
@@ -298,9 +411,8 @@ class UsersTest extends TestCase
         // Check the Results
 
         // Check the http response
-        $getusershttpresponse = $getusersresponse->getHTTPResponce();
-        $this->assertEquals("200", $getusershttpresponse[1]);
-        $this->assertEquals("OK", $getusershttpresponse[2]);
+        $getusershttpresponsecode = $getusersresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $getusershttpresponsecode);
 
         // Confirm that 10 users are returned
         $this->assertEquals(10, count($getusersprocesseddata));
@@ -349,9 +461,8 @@ class UsersTest extends TestCase
         // Check the Results
 
         // Check the http response
-        $getusershttpresponse = $getusersresponse->getHTTPResponce();
-        $this->assertEquals("200", $getusershttpresponse[1]);
-        $this->assertEquals("OK", $getusershttpresponse[2]);
+        $getusershttpresponsecode = $getusersresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $getusershttpresponsecode);
 
         // Confirm that 10 users are returned
         $this->assertEquals(1, count($getusersprocesseddata));
@@ -401,15 +512,14 @@ class UsersTest extends TestCase
         // Check the Results
 
         // Check the http response
-        $getusershttpresponse = $getusersresponse->getHTTPResponce();
-        $this->assertEquals("200", $getusershttpresponse[1]);
-        $this->assertEquals("OK", $getusershttpresponse[2]);
+        $getusershttpresponsecode = $getusersresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $getusershttpresponsecode);
 
         // Confirm that 5 groups are returned
         $this->assertEquals(5, count($getusersprocesseddata));
 
         //Check if the use is a member of the group
-        foreach($getusersprocesseddata as $group) {
+        foreach ($getusersprocesseddata as $group) {
             if ($group["useringroup"] == "Y") {
                 $this->assertEquals("admin", $group["groupname"]);
             }
@@ -463,9 +573,8 @@ class UsersTest extends TestCase
         // Check the Results
 
         // Check the http response
-        $getusershttpresponse = $getusersresponse->getHTTPResponce();
-        $this->assertEquals("200", $getusershttpresponse[1]);
-        $this->assertEquals("OK", $getusershttpresponse[2]);
+        $getusershttpresponsecode = $getusersresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $getusershttpresponsecode);
 
         // Confirm that 10 users are returned
         $this->assertEquals(1, count($getusersprocesseddata));
@@ -515,15 +624,14 @@ class UsersTest extends TestCase
         // Check the Results
 
         // Check the http response
-        $getusershttpresponse = $getusersresponse->getHTTPResponce();
-        $this->assertEquals("200", $getusershttpresponse[1]);
-        $this->assertEquals("OK", $getusershttpresponse[2]);
+        $getusershttpresponsecode = $getusersresponse->getHTTPResponseCode();
+        $this->assertEquals("200", $getusershttpresponsecode);
 
         // Confirm that 5 groups are returned
         $this->assertEquals(5, count($getusersprocesseddata));
 
         //Check if the use is a member of the group
-        foreach($getusersprocesseddata as $group) {
+        foreach ($getusersprocesseddata as $group) {
             if ($group["useringroup"] == "Y") {
                 $this->assertEquals("admin", $group["groupname"]);
             }
@@ -573,10 +681,9 @@ class UsersTest extends TestCase
 
         // Check the Results
         // Check the HTTP Responce and set the flag to delete the user.
-        $postusershttpresponse = $postusersresponse->getHTTPResponce();
-        $this->assertContains("201", $postusershttpresponse[1]);
-        $this->assertEquals("Created", $postusershttpresponse[2]);
-        if ($postusershttpresponse[1] == "201") {
+        $postusershttpresponsecode = $postusersresponse->getHTTPResponseCode();
+        $this->assertStringContainsString("201", $postusershttpresponsecode);
+        if ($postusershttpresponsecode == "201") {
             $this->deleteTestUser = true;
         }
 
@@ -637,17 +744,15 @@ class UsersTest extends TestCase
 
         // Check the Results
         // Check the HTTP Responce and set the flag to delete the user.
-        $postusershttpresponse = $postusersresponse->getHTTPResponce();
-        $this->assertContains("201", $postusershttpresponse[1]);
-        $this->assertEquals("Created", $postusershttpresponse[2]);
-        if ($postusershttpresponse[1] == "201") {
+        $postusershttpresponsecode = $postusersresponse->getHTTPResponseCode();
+        $this->assertStringContainsString("201", $postusershttpresponsecode);
+        if ($postusershttpresponsecode == "201") {
             $this->deleteTestUser = true;
         }
 
         // Check the results of the second post
-        $postusershttpresponseduplicate = $postusersresponseduplicate->getHTTPResponce();
-        $this->assertContains("409", $postusershttpresponseduplicate[1]);
-        $this->assertEquals("Conflict", $postusershttpresponseduplicate[2]);
+        $postusershttpresponseduplicatecode = $postusersresponseduplicate->getHTTPResponseCode();
+        $this->assertStringContainsString("409", $postusershttpresponseduplicatecode);
         $returnedData = $postusersresponseduplicate->getProcessedData();
         $this->assertEquals("User phpunit99 already exists.", $returnedData["ErrorMsg"]);
     }
@@ -692,12 +797,13 @@ class UsersTest extends TestCase
         $putdata["passwd"] = "";
 
         $putuserrequest = new Request();
-        $endpoint = "api/v1/users/" . TESTUSERNAME;
+        $endpoint = "api/v1/users";
         $putuserrequest->setEndPoint($endpoint);
         $putuserrequest->setJSONEncodedData($putdata);
-
+        $putuserrequest->setURLArguments(array(TESTUSERNAME));
         $putrunok = $this->apiclient->httpPut($putuserrequest);
-        if ($putrunok === false) {
+        if ($putrunok !== true) {
+            echo $putrunok->getMessage();
             $this->fail("Unable to put new user data to database for test: " . __FUNCTION__);
         }
         $putusersresponse = $this->apiclient->getResponse();
@@ -709,18 +815,15 @@ class UsersTest extends TestCase
 
         // Check the Results
         // Check the HTTP Responce to POST command and set the flag to delete the user.
-        $postusershttpresponse = $postusersresponse->getHTTPResponce();
-        $this->assertContains("201", $postusershttpresponse[1]);
-        $this->assertEquals("Created", $postusershttpresponse[2]);
-        if ($postusershttpresponse[1] == "201") {
+        $postusershttpresponsecode = $postusersresponse->getHTTPResponsecode();
+        $this->assertStringContainsString("201", $postusershttpresponsecode);
+        if ($postusershttpresponsecode == "201") {
             $this->deleteTestUser = true;
         }
 
         // Check the HTTP Responce to PUT command
-        $putusershttpresponse = $putusersresponse->getHTTPResponce();
-        $this->assertContains("201", $putusershttpresponse[1]);
-        $this->assertEquals("Created", $putusershttpresponse[2]);
-
+        $putusershttpresponsecode = $putusersresponse->getHTTPResponseCode();
+        $this->assertStringContainsString("201", $putusershttpresponsecode);
 
         // Check the returned data against what was sent
         $returnedData = $putusersresponse->getProcessedData();
@@ -730,6 +833,4 @@ class UsersTest extends TestCase
         $this->assertEquals($putdata['userenabled'], $returnedData[0]['userenabled']);
         $this->assertEquals($putdata['userdisablemail'], $returnedData[0]['userdisablemail']);
     }
-
-
 }

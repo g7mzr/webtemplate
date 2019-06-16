@@ -231,6 +231,18 @@
         </exec>
     </target>
 
+    <target name="restapi"
+            depends="composer-install, functional-check, db-update"
+            description="Run RestFul interface tests with PHPUnit and RESTclient">
+        <exec executable="${toolsdir}phpunit" checkreturn="true" passthru="true" logoutput="true">
+            <arg value="--configuration"/>
+            <arg path="${basedir}/build/phpunit.xml"/>
+            <arg value="--testsuite" />
+            <arg value="restapi" />
+        </exec>
+    </target>
+
+
     <!-- ================================================================== -->
     <!--                       Documentation Targets                        -->
     <!-- ================================================================== -->

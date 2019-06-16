@@ -4,12 +4,12 @@
  *
  * Its purpose is to set the default Constants needed to test the Webtemplate RestFull
  * API
- *
+ * 
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package webtemplate
- * @subpackage Functional_API_Tests
+ * @package Webtemplate
+ * @subpackage RestFul API Functional Tests
  * @author   Sandy McNeil <g7mzrdev@gmail.com>
  * @copyright (c) 2019, Sandy McNeil
  * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
@@ -54,6 +54,12 @@ define("TESTUSEREMAIL", "phpunit99@example.com");
 define("TESTUSERENABLED", "Y");
 define("TESTUSERNOMAIL", "N");
 define("TESTUSERPASWWDCHANGE", "N");
+
+// Set up the test group for POST and PUT Tests
+define("TESTGROUPNAME", "phpunitgroup");
+define("TESTGROUPDESCRIPTION", "RestAPI Test Group");
+define("TESTGROUPUSEFORPRODUCT", "Y");
+define("TESTGROUPAUTOGROUP", "N");
 
 // Set if Tests are to be run through is to use the ZAP PROXY
 if (getenv('SELPROXY') == false) {
