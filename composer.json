@@ -3,12 +3,18 @@
         {
             "type": "vcs",
             "url":  "https://github.com/g7mzr/restclient-php.git"
+        },
+        {
+            "type": "vcs",
+            "url":  "https://github.com/g7mzr/db-php.git"
         }
+
     ],
     "require": {
         "smarty/smarty": "3.*",
         "phpmailer/phpmailer" :"^6.0",
-        "ulrichsg/getopt-php" : "^3.0"
+        "ulrichsg/getopt-php" : "^3.0",
+        "g7mzr/db-php": "dev-master"
     },
 
     "require-dev": {

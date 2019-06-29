@@ -279,7 +279,7 @@ class FileManagerTest extends TestCase
             include $testConfig;
             $this->assertEquals(
                 $installConfig['database_type'],
-                $testdsn["phptype"]
+                $testdsn["dbtype"]
             );
             $this->assertEquals(
                 $installConfig['database_host'],
@@ -287,7 +287,7 @@ class FileManagerTest extends TestCase
             );
             $this->assertEquals(
                 $installConfig['database_name'],
-                $testdsn["database"]
+                $testdsn["databasename"]
             );
             $this->assertEquals(
                 $installConfig['database_user'],

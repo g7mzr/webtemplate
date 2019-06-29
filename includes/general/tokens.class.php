@@ -21,9 +21,9 @@ namespace webtemplate\general;
 class Tokens
 {
     /**
-     * Database webtemplate\db\driver\pgsql
+     * Database Driver
      *
-     * @var    webtemplate\db\driver\pgsql
+     * @var    \g7mzr\db\interfaces\InterfaceDatabaseDriver
      * @access protected
      */
     protected $db = null;
@@ -47,14 +47,14 @@ class Tokens
     /**
      * Constructor for the edit user class.
      *
-     * @param \webtemplate\application\SmartyTemplate        $tpl Smarty Template variable.
-     * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db  Database Connection Object.
+     * @param \webtemplate\application\SmartyTemplate      $tpl Smarty Template variable.
+     * @param \g7mzr\db\interfaces\InterfaceDatabaseDriver $db  Database Connection Object.
      *
      * @access public
      */
     public function __construct(
         \webtemplate\application\SmartyTemplate &$tpl,
-        \webtemplate\db\driver\InterfaceDatabaseDriver $db
+        \g7mzr\db\interfaces\InterfaceDatabaseDriver $db
     ) {
         $this->db = $db;
 
@@ -137,7 +137,7 @@ class Tokens
                 'eventdata' => $data
             );
             $result = $this->db->dbinsert('tokens', $insertData);
-            if (\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\db\common\Common::isError($result)) {
                 $saveok = false;
                 $errorMsg = gettext("Error creating User Token");
             }
@@ -187,7 +187,7 @@ class Tokens
         $searchData = array('token' => $userToken, 'tokentype' => $tokentype);
 
         $result = $this->db->dbselectsingle('tokens', $fieldNames, $searchData);
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\db\common\Common::isError($result)) {
             // Database query failed.
             return $userid;
         }
@@ -238,7 +238,7 @@ class Tokens
 
         $result = $this->db->dbselectsingle('tokens', $fieldNames, $searchData);
 
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\db\common\Common::isError($result)) {
             // Database Search Failed
             return $tokenok;
         }

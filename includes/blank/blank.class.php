@@ -25,7 +25,7 @@ class Blank
      /**
      * Database Connection Object
       *
-     * @var    \webtemplate\db\DB
+     * @var    \g7mzr\db\interfaces\InterfaceDatabaseDriver
      * @access protected
      */
 
@@ -44,11 +44,11 @@ class Blank
     /**
      * Constructor for the edit user class.
      *
-     * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db Database Object.
+     * @param \g7mzr\db\interfaces\InterfaceDatabaseDriver $db Database Object.
      *
      * @access public
      */
-    public function __construct(\webtemplate\db\driver\InterfaceDatabaseDriver $db)
+    public function __construct(\g7mzr\db\interfaces\InterfaceDatabaseDriver $db)
     {
         $this->db       = $db;
     } // end constructor

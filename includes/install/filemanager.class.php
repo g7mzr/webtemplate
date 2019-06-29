@@ -251,7 +251,7 @@ class FileManager
             $handle = @fopen($this->homeDir . "/configs/local.conf", "w");
             if ($handle !== false) {
                 fwrite($handle, "[database]\n");
-                fwrite($handle, "phptype  = " . $installConfig['database_type']);
+                fwrite($handle, "dbtype  = " . $installConfig['database_type']);
                 fwrite($handle, "\n");
                 fwrite($handle, "hostspec = " . $installConfig['database_host']);
                 fwrite($handle, "\n");
@@ -295,7 +295,7 @@ class FileManager
         if ($handle !== false) {
             fwrite($handle, "<?php\n");
 
-            fwrite($handle, '$testdsn["phptype"] = "');
+            fwrite($handle, '$testdsn["dbtype"] = "');
             fwrite($handle, $installConfig['database_type'] . '";');
             fwrite($handle, "\n");
 
@@ -303,7 +303,7 @@ class FileManager
             fwrite($handle, $installConfig['database_host'] . '";');
             fwrite($handle, "\n");
 
-            fwrite($handle, '$testdsn["database"] = "');
+            fwrite($handle, '$testdsn["databasename"] = "');
             fwrite($handle, $installConfig['database_name'] . '";');
             fwrite($handle, "\n");
 

@@ -310,30 +310,43 @@ class Dependencies
 
         echo substr("Checking for $database ($version)             ", 0, 35);
         $dsn = array(
-            'phptype'  => $database,
+            'dbtype'  => $database,
             'hostspec' => $installConfig['database_host'],
             'username' => $installConfig['database_superuser'],
             'password' => $installConfig['database_superuser_passwd'],
-            'database' => $modules[$database]['templatedb'],
+            'adminuser' => $installConfig['database_superuser'],
+            'adminpasswd' => $installConfig['database_superuser_passwd'],
+            'databasename' => $modules[$database]['templatedb'],
             'disable_iso_date' => 'disable'
         );
 
-        // Load the Database Abstraction layer for Wetemplate
+        // Load g7mzr\db
         // Using the Database Superuser and management database
-        $db = \webtemplate\db\DB::load($dsn);
 
-        // Test if it has loaded okay
-        if (\webtemplate\general\General::isError($db)) {
-            // If it has not loaded terminate the install.
-            echo "Failed to open Database: " . $db->getMessage() . "\n";
+        try {
+            $dbmanager = new \g7mzr\db\DBManager($dsn, $dsn["adminuser"], $dsn["adminpasswd"]);
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
             return false;
         }
 
-        $foundVersion = explode(' ', $db->getDBVersion());
+        $result = $dbmanager->setMode("admin");
+        if (\g7mzr\db\common\Common::isError($result)) {
+            echo "Unable to switch DBManager to admin mode\n";
+            return false;
+        }
+
+        $activedbversion = $dbmanager->getAdminDriver()->getDBVersion();
+        if (\g7mzr\db\common\Common::isError($dbmanager)) {
+            echo "Unable to get DB Version\n";
+            return false;
+        }
+
+        $foundVersion = explode(' ', $activedbversion);
         if ($dbversion == 'any') {
             echo "Ok: Found: v$foundVersion[1]\n";
             return true;
-        } elseif (version_compare($foundVersion[1], $dbversion) > -1) {
+        } elseif (version_compare($foundVersion[1], $dbversion) >= 0) {
             echo "Ok: Found: v$foundVersion[1]\n";
             return true;
         } else {

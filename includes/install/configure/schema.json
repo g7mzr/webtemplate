@@ -1,0 +1,99 @@
+{
+    "version": "1",
+    "name": "main",
+    "tables": {
+        "schema": {
+            "columns": {
+                "name": {"type": "varchar(50)", "unique": true, "notnull": true},
+                "version": {"type": "integer", "notnull": true},
+                "schema": {"type": "text", "notnull": true }
+            },
+            "index": {
+                "schema_name_index": {"column": "name", "unique": true}
+            }
+        },
+        "users": {
+            "columns": {
+                "user_id": {"type": "serial", "primary": true},
+                "user_name": {"type": "varchar(64)", "notnull": true, "unique": true},
+                "user_passwd": {"type": "varchar(255)", "notnull": true},
+                "user_realname": {"type": "varchar(64)"},
+                "user_email": {"type": "varchar(64)"},
+                "user_enabled": {"type": "char(1)", "default": "Y", "notnull": true},
+                "user_disable_mail": {"type": "char(1)", "default": "N", "notnull": true},
+                "last_seen_date": {"type": "DATETIME"},
+                "passwd_changed": {"type": "DATETIME"},
+                "last_failed_login": {"type": "DATETIME"}
+            }
+        },
+        "groups": {
+            "columns": {
+                "group_id": {"type": "serial", "primary": true},
+                "group_name": {"type": "varchar(32)", "notnull": true},
+                "group_description": {"type": "varchar(255)"},
+                "group_useforproduct": {"type": "char(1)", "default": "N", "notnull": true},
+                "group_autogroup": {"type": "char(1)", "default": "N", "notnull": true},
+                "group_admingroup": {"type": "char(1)", "default": "N", "notnull": true},
+                "group_editable": {"type": "char(1)", "default": "Y", "notnull": true}
+            }
+        },
+        "user_group_map": {
+            "columns": {
+                "user_group_map_id": {"type": "serial", "primary": true},
+                "user_id": {"type": "bigint"},
+                "group_id": {"type": "bigint"}
+            },
+            "fk": {
+                "fk_user_group_map_user_id":{"columnname": "user_id", "linktable": "users", "linkcolumn": "user_id"},
+                "fk_user_group_map_group_id":{"columnname": "group_id", "linktable": "groups", "linkcolumn": "group_id"}
+            }
+        },
+        "userprefs": {
+            "columns": {
+                "userprefs_id": {"type": "serial", "primary": true},
+                "user_id": {"type": "bigint"},
+                "settingname": {"type": "varchar(32)"},
+                "settingvalue": {"type": "varchar(32)"}
+            },
+            "fk": {
+                "fk_userprefs_user_id":{"columnname": "user_id", "linktable": "users", "linkcolumn": "user_id"}
+            }
+        },
+        "tokens": {
+            "columns": {
+                "user_id": {"type": "int", "notnull": true},
+                "issuedate": {"type": "DATETIME", "notnull": true},
+                "expiredate": {"type": "DATETIME", "notnull": true},
+                "life": {"type": "int", "notnull": true},
+                "token": {"type": "varchar(110)", "notnull": true, "primary": true},
+                "tokentype": {"type": "varchar(32)", "notnull": true},
+                "eventdata": {"type": "varchar(255)"}
+            },
+            "fk": {
+                "fk_tokens_user_id":{"columnname": "user_id", "linktable": "users", "linkcolumn": "user_id"}
+            },
+            "index": {
+                "tokens_user_id_idx": {"column": "user_id", "unique": false}
+            }
+        },
+        "logindata": {
+            "columns": {
+                "user_id": {"type": "int", "notnull": true},
+                "cookie": {"type": "varchar(32)", "notnull": true, "primary": true},
+                "lastused": {"type": "DATETIME", "notnull": true},
+                "ipaddr": {"type": "varchar(40)"},
+                "user_name": {"type": "varchar(64)", "notnull": true},
+                "newpasswd": {"type": "char(1)", "default": "N", "notnull": true}
+            },
+            "fk": {
+                "fk_logindata_user_id":{"columnname": "user_id", "linktable": "users", "linkcolumn": "user_id"},
+                "fk_logindata_user_name":{"columnname": "user_name", "linktable": "users", "linkcolumn": "user_name"}
+
+            },
+            "index": {
+                "logindata_user_id_idx": {"column": "user_id", "unique": false},
+                "logindata_user_name_idx": {"column": "user_name", "unique": false}
+            }
+        }
+    }
+}

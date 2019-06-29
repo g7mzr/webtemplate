@@ -160,8 +160,11 @@ if ($modulesOnly == true) {
     exit(0);
 }
 
+echo "\nDatabase:\n";
+
 \webtemplate\install\DataBase::createDatabase($installConfig, $unittestdb);
 
+echo "\nConfiguration Files:\n";
 
 // Create local.conf if it does not exist
 echo "Checking local.conf:  ";

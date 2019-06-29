@@ -1,0 +1,23 @@
+{
+    "admin": {
+        "description": "Administrators",
+        "useforproduct": "N",
+        "autogroup": "N",
+        "editable": "N",
+        "admingroup": "Y"
+    },
+    "editusers": {
+        "description": "Members of this group can create and edit users",
+        "useforproduct": "N",
+        "autogroup": "N",
+        "editable": "N",
+        "admingroup": "Y"
+    },
+    "editgroups": {
+        "description": "Members of this group can create and edit groups",
+        "useforproduct": "N",
+        "autogroup": "N",
+        "editable": "N",
+        "admingroup": "Y"
+    }
+}

@@ -41,7 +41,7 @@ if (php_sapi_name() !== 'cli') {
  */
 
 $dsn = array(
-    'phptype'  => '',
+    'dbtype'  => '',
     'hostspec' => '',
     'database' => '',
     'username' => '',

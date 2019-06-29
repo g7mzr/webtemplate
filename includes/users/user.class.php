@@ -73,7 +73,7 @@ class User
     /**
      * Database connection object
      *
-     * @var    \webtemplate\db\driver\InterfaceDatabaseDriver
+     * @var    \g7mzr\db\interfaces\InterfaceDatabaseDriver
      * @access protected
      */
     protected $db  = null;
@@ -137,13 +137,13 @@ class User
     /**
     * User Class Constructor
     *
-    * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db Database Connection Object.
+    * @param \\g7mzr\db\interfaces\InterfaceDatabaseDriver $db Database Connection Object.
     *
     * @access public
     */
-    public function __construct(\webtemplate\db\driver\InterfaceDatabaseDriver $db)
+    public function __construct(\g7mzr\db\interfaces\InterfaceDatabaseDriver $db)
     {
-        $this->db      = $db ;
+        $this->db       = $db ;
         $this->userName = "None";
         $this->styleDir = __DIR__ . "/style/";
     } // end constructor
@@ -198,9 +198,8 @@ class User
         );
 
         $userArray = $this->db->dbselectsingle('users', $fields, $searchData);
-
         // Test if data has been returned
-        if (\webtemplate\general\General::isError($userArray)) {
+        if (\g7mzr\db\common\Common::isError($userArray)) {
             if ($userArray->getCode() == DB_ERROR_NOT_FOUND) {
                 // Invalid Username and password
                 $errorMsg = gettext("Invalid Username and password");
@@ -318,7 +317,7 @@ class User
         );
         $searchData = array('user_name' => $this->userName);
         $userArray = $this->db->dbselectsingle('users', $fieldNames, $searchData);
-        if (\webtemplate\general\General::isError($userArray)) {
+        if (\g7mzr\db\common\Common::isError($userArray)) {
             // Error encountered when selecting user from database
             // Registration process has failed
             $msg = gettext("Unable to Register User");
@@ -338,7 +337,7 @@ class User
         $insertData = array('last_seen_date' => 'now()');
         $searchData = array('user_id' => $this->userId);
         $result = $this->db->dbupdate('users', $insertData, $searchData);
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\db\common\Common::isError($result)) {
             // Error encountered when selecting user from database
             // Registration process has failed
             $msg = gettext("Unable to Register User");

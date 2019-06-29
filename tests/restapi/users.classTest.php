@@ -96,7 +96,7 @@ class UsersTest extends TestCase
                 "pgsql:host=%s;port=%d;dbname=%s;user=%s;password=%s",
                 $testdsn["hostspec"],
                 '5432',
-                $testdsn["database"],
+                $testdsn["databasename"],
                 $testdsn["username"],
                 $testdsn["password"]
             );
@@ -362,7 +362,7 @@ class UsersTest extends TestCase
 
          // Check the content length
         $contentlength = $getheadresponse->getContentLength();
-        $this->assertEquals(1991, $contentlength);
+        $this->assertEquals(1983, $contentlength);
 
         // Check there is no processed data
         $this->assertEquals(0, count($getheadprocesseddata));

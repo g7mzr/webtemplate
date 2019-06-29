@@ -39,7 +39,7 @@ class EditGroupsClassTest extends TestCase
     /**
      * Database Connection Object
      *
-     * @var \webtemplate\db\DB
+     * @var \g7mzr\db\DBManager
      */
     protected $object2;
 
@@ -53,7 +53,7 @@ class EditGroupsClassTest extends TestCase
     /**
      * Mock Database Driver Class
      *
-     * @var \webtemplate\db\DB
+     * @var \g7mzr\db\DBManager
      */
     protected $mockDB;
     /**
@@ -73,24 +73,39 @@ class EditGroupsClassTest extends TestCase
     {
         global $testdsn, $options;
 
-         // Check that we can connect to the database
-
-        $this->object2 = \webtemplate\db\DB::load($testdsn);
-        if (!\webtemplate\general\General::isError($this->object2)) {
-            $this->databaseconnection = true;
-        } else {
+        // Check that we can connect to the database
+        try {
+            $this->object2 = new \g7mzr\db\DBManager(
+                $testdsn,
+                $testdsn['username'],
+                $testdsn['password']
+            );
+            $setresult = $this->object2->setMode("datadriver");
+            if (!\g7mzr\db\common\Common::isError($setresult)) {
+                $this->databaseconnection = true;
+            } else {
+                $this->databaseconnection = false;
+                echo $setresult->getMessage();
+            }
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
             $this->databaseconnection = false;
         }
 
         // Create Main test Class
-        $this->object = new \webtemplate\groups\EditGroups($this->object2);
+        $this->object = new \webtemplate\groups\EditGroups($this->object2->getDataDriver());
 
         // Create a Mock database object
-        $testdsn['phptype'] = 'mock';
-        $this->mockDB = \webtemplate\db\DB::load($testdsn);
+        $testdsn['dbtype'] = 'mock';
+        $this->mockDB = new \g7mzr\db\DBManager(
+            $testdsn,
+            $testdsn['username'],
+            $testdsn['password']
+        );
+        $setresult = $this->mockDB->setMode("datadriver");
 
         // Create Group Obkect Using the mockDB obkect
-        $this->mockGroup = new \webtemplate\groups\EditGroups($this->mockDB);
+        $this->mockGroup = new \webtemplate\groups\EditGroups($this->mockDB->getDataDriver());
     }
 
     /**
@@ -102,7 +117,7 @@ class EditGroupsClassTest extends TestCase
     protected function tearDown():void
     {
         if ($this->databaseconnection === true) {
-            $this->object2->disconnect();
+            $this->object2->getDataDriver()->disconnect();
         }
     }
 
@@ -285,7 +300,7 @@ class EditGroupsClassTest extends TestCase
         );
 
         // Test That the SQL Query Fails
-        $this->mockDB->control($functions, $data);
+        $this->mockDB->getDataDriver()->control($functions, $data);
         $group = $this->mockGroup->groupDataChanged(
             '1',
             'Test',
@@ -301,7 +316,7 @@ class EditGroupsClassTest extends TestCase
 
         // Test No Change to Group
         $functions['groupDataChanged']['pass'] = true;
-        $this->mockDB->control($functions, $data);
+        $this->mockDB->getDataDriver()->control($functions, $data);
         $group = $this->mockGroup->groupDataChanged(
             '1',
             'Test',
@@ -316,7 +331,7 @@ class EditGroupsClassTest extends TestCase
         }
 
         // Test Autogroup Change
-        $this->mockDB->control($functions, $data);
+        $this->mockDB->getDataDriver()->control($functions, $data);
         $group = $this->mockGroup->groupDataChanged(
             '1',
             'Test',
@@ -401,7 +416,7 @@ class EditGroupsClassTest extends TestCase
                 )
             )
         );
-        $this->mockDB->control($functions, $data);
+        $this->mockDB->getDataDriver()->control($functions, $data);
         $gid = '0';
         $group = $this->mockGroup->saveGroup(
             $gid,
@@ -419,7 +434,7 @@ class EditGroupsClassTest extends TestCase
 
         // Save data.  No id
         $functions['saveGroup']['pass'] = true;
-        $this->mockDB->control($functions, $data);
+        $this->mockDB->getDataDriver()->control($functions, $data);
         $gid = '0';
         $group = $this->mockGroup->saveGroup(
             $gid,
@@ -440,7 +455,7 @@ class EditGroupsClassTest extends TestCase
 
         // Update data fail.
         $functions['saveGroup']['pass'] = false;
-        $this->mockDB->control($functions, $data);
+        $this->mockDB->getDataDriver()->control($functions, $data);
         $gid = '10';
         $group = $this->mockGroup->saveGroup(
             $gid,
@@ -548,7 +563,7 @@ class EditGroupsClassTest extends TestCase
                 )
             )
         );
-        $this->mockDB->control($functions, $data);
+        $this->mockDB->getDataDriver()->control($functions, $data);
         $group = $this->mockGroup->checkGroupExists('test');
         if (\webtemplate\general\General::isError($group)) {
             $this->assertEquals("SQL Query Error", $group->getMessage());

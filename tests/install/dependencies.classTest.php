@@ -512,14 +512,14 @@ class DependenciesTest extends TestCase
 
 
         $database = $installConfig['database_type'];
-
+        $installConfig['database_superuser_passwd'] = "dudpassword";
         // Test Specific version
         $result = $this->object->checkDatabases(
             $database,
             $databasearray,
             $installConfig
         );
-        $this->expectOutputRegex("/Unable to connect to the database/");
+        $this->expectOutputRegex("/Unable to switch DBManager to admin mode/");
         $this->assertFalse($result);
     }
 }

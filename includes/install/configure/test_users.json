@@ -1,0 +1,83 @@
+{
+    "phpunit": {
+        "realname": "Phpunit User",
+        "passwd": "phpUnit1",
+        "email": "phpunit@example.com",
+        "enabled": "Y",
+        "passwdchanged": "now()",
+        "groups": [
+            "admin"
+        ]
+    },
+    "settingsuser": {
+        "realname": "Settings User",
+        "passwd": "settingsuser",
+        "email": "settingsuser@example.com",
+        "enabled": "Y",
+        "passwdchanged": "now()",
+        "prefs": {
+            "theme": "text",
+            "zoomtext": "false",
+            "displayrows": "2"
+        }
+    },
+    "lockeduser": {
+        "realname": "Locked User",
+        "passwd": "lockedUser1",
+        "email": "lockeduser@example.com",
+        "enabled": "N",
+        "passwdchanged": "now()"
+    },
+    "passwduser": {
+        "realname": "Password Change User",
+        "passwd": "passwduser",
+        "email": "passwduser@example.com",
+        "enabled": "Y",
+        "passwdchanged": null
+    },
+    "passwduser2": {
+        "realname": "Password Change User Two",
+        "passwd": "passwduser2",
+        "email": "passwduser@example.com",
+        "enabled": "Y",
+        "passwdchanged": null
+    },
+    "secuser": {
+        "realname": "Security User",
+        "passwd": "secUser1",
+        "email": "secuser@example.com",
+        "enabled": "Y",
+        "passwdchanged": "now()",
+        "groups": [
+            "editusers"
+        ]
+    },
+    "secgroups": {
+        "realname": "Security Groups",
+        "passwd": "secGroups1",
+        "email": "secgroups@example.com",
+        "enabled": "Y",
+        "passwdchanged": "now()",
+        "groups": [
+            "editgroups"
+        ]
+    },
+    "secboth": {
+        "realname": "Security Both",
+        "passwd": "secBoth1",
+        "email": "secboth@example.com",
+        "enabled": "Y",
+        "passwdchanged": "now()",
+        "groups": [
+            "editusers",
+            "editgroups"
+        ]
+    },
+    "secnone": {
+        "realname": "Security None",
+        "passwd": "secNone1",
+        "email": "secnone@example.com",
+        "enabled": "Y",
+        "passwdchanged": "now()"
+    }
+}

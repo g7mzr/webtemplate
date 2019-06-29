@@ -104,7 +104,7 @@ class Session
     /**
      * DB access class
      *
-     * @var    webtemplate\db\DB
+     * @var    \g7mzr\db\interfaces\InterfaceDatabaseDriver
      * @access private
      */
     private $db = null;
@@ -129,11 +129,11 @@ class Session
      * This function is the Session Constructor.  It is used to initalise the
      * php session for webtemplate.
      *
-     * @param string                                         $cookiepath   The path the cookie is valid for.
-     * @param string                                         $cookiedomain The sub domain that the cookie is valid in.
-     * @param string                                         $autologout   The auto logout flag.
-     * @param SmartyTemplate                                 $tpl          Smarty Template variable.
-     * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db           Database Object.
+     * @param string                                       $cookiepath   The path the cookie is valid for.
+     * @param string                                       $cookiedomain The sub domain that the cookie is valid in.
+     * @param string                                       $autologout   The auto logout flag.
+     * @param SmartyTemplate                               $tpl          Smarty Template variable.
+     * @param \g7mzr\db\interfaces\InterfaceDatabaseDriver $db           Database Object.
      *
      * @return boolean Function run okay
      *
@@ -146,7 +146,7 @@ class Session
         string $cookiedomain,
         string $autologout,
         SmartyTemplate &$tpl,
-        \webtemplate\db\driver\InterfaceDatabaseDriver $db
+        \g7mzr\db\interfaces\InterfaceDatabaseDriver $db
     ) {
 
         $this->userName = '';
@@ -232,7 +232,7 @@ class Session
             "cookie" => $this->cookievalue
         );
         $result = $this->db->dbselectsingle('logindata', $fields, $search);
-        if (!\webtemplate\general\General::isError($result)) {
+        if (!\g7mzr\db\common\Common::isError($result)) {
             $this->lastused = strtotime($result['lastused']);
             $this->userName = chop($result['user_name']);
             $this->userId = chop($result['user_id']);
@@ -267,7 +267,7 @@ class Session
             "cookie" => $this->cookievalue
         );
         $result = $this->db->dbselectsingle('logindata', $fields, $search);
-        if (!\webtemplate\general\General::isError($result)) {
+        if (!\g7mzr\db\common\Common::isError($result)) {
             $gotData = true;
         }
         return $gotData;
@@ -298,7 +298,7 @@ class Session
                 'lastused'  => 'now()'
             );
             $result = $this->db->dbinsert('logindata', $data);
-            if (!\webtemplate\general\General::isError($result)) {
+            if (!\g7mzr\db\common\Common::isError($result)) {
                 $sessionsaved = true;
             }
         } else {
@@ -317,7 +317,7 @@ class Session
             );
             $search = array('cookie' => $this->cookievalue);
             $result = $this->db->dbupdate('logindata', $data, $search);
-            if (!\webtemplate\general\General::isError($result)) {
+            if (!\g7mzr\db\common\Common::isError($result)) {
                 $sessionsaved = true;
             }
         }

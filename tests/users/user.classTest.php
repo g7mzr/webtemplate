@@ -42,7 +42,7 @@ class UserClassTest extends TestCase
     /**
      * Database Connection Object
      *
-     * @var \webtemplate\db\DB
+     * @var \g7mzr\db\DBManager
      */
     protected $object2;
 
@@ -64,7 +64,7 @@ class UserClassTest extends TestCase
     /**
      * MOCK Database connection
      *
-     * @var \webtemplate\db\DB
+     * @var \g7mzr\db\DBManager
      */
     protected $mockdatabaseconnection;
 
@@ -86,19 +86,28 @@ class UserClassTest extends TestCase
     {
         global $testdsn, $testName;
 
-         // Check that we can connect to the database
-        $this->object2 = \webtemplate\db\DB::load($testdsn);
-        if (!\webtemplate\general\General::isError($this->object2)) {
-            $this->databaseconnection = true;
-        } else {
+        // Check that we can connect to the database
+        try {
+            $this->object2 = new \g7mzr\db\DBManager(
+                $testdsn,
+                $testdsn['username'],
+                $testdsn['password']
+            );
+            $setresult = $this->object2->setMode("datadriver");
+            if (!\g7mzr\db\common\Common::isError($setresult)) {
+                $this->databaseconnection = true;
+            } else {
+                $this->databaseconnection = false;
+                echo $setresult->getMessage();
+            }
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
             $this->databaseconnection = false;
         }
-
         // Create a new User Object
-        $this->object = new \webtemplate\users\User($this->object2);
+        $this->object = new \webtemplate\users\User($this->object2->getDataDriver());
 
         // Update the last password change date
-        global $testdsn, $options;
 
         $todaysdate = time();
         $testdate = ($todaysdate - (55 * 86400));
@@ -107,15 +116,23 @@ class UserClassTest extends TestCase
         $insertData = array('passwd_changed' => $datestr);
         $searchData = array('user_name' => 'passwduser2');
 
-        $resultId = $this->object2->dbupdate('users', $insertData, $searchData);
-        if (\webtemplate\general\General::isError($resultId)) {
+        $resultId = $this->object2->getDataDriver()->dbupdate('users', $insertData, $searchData);
+        if (\g7mzr\db\common\Common::isError($resultId)) {
             //Failed to delete test user.
         }
 
         // Set up MOCK Connection
-        $testdsn['phptype'] = 'mock';
-        $this->mockdatabaseconnection = \webtemplate\db\DB::load($testdsn);
-        $this->object3 = new \webtemplate\users\User($this->mockdatabaseconnection);
+        $testdsn['dbtype'] = 'mock';
+        $this->mockdatabaseconnection = new \g7mzr\db\DBManager(
+            $testdsn,
+            $testdsn['username'],
+            $testdsn['password']
+        );
+        $setresult = $this->mockdatabaseconnection->setMode("datadriver");
+        $this->object3 = new \webtemplate\users\User($this->mockdatabaseconnection->getDataDriver());
+
+
+
         $testName =  $this->getName();
 
         // Set up the configuration object
@@ -132,7 +149,7 @@ class UserClassTest extends TestCase
     protected function tearDown(): void
     {
         if ($this->databaseconnection === true) {
-            $this->object2->disconnect();
+            $this->object2->getDataDriver()->disconnect();
         }
     }
 
@@ -402,7 +419,7 @@ class UserClassTest extends TestCase
             }
 
             // Set up Valid Data for login that fails Registration
-            $this->mockdatabaseconnection->control($functions, $testdata);
+            $this->mockdatabaseconnection->getDataDriver()->control($functions, $testdata);
 
             // Test login to the mock connection and mock user to pass some tests
             $user = $this->object3->login(
@@ -557,7 +574,7 @@ class UserClassTest extends TestCase
 
 
             // Set up Valid Data for login that fails Registration
-            $this->mockdatabaseconnection->control($functions, $testdata);
+            $this->mockdatabaseconnection->getDataDriver()->control($functions, $testdata);
 
             $user = $this->object3->register('mock', $this->config->read('pref'));
             if (\webtemplate\general\General::isError($user)) {
@@ -585,7 +602,7 @@ class UserClassTest extends TestCase
             );
 
 
-            $this->mockdatabaseconnection->control($functions, $testdata);
+            $this->mockdatabaseconnection->getDataDriver()->control($functions, $testdata);
 
             $user = $this->object3->register('mock', $this->config->read('pref'));
             if (\webtemplate\general\General::isError($user)) {

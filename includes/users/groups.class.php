@@ -84,13 +84,13 @@ class Groups
     /**
     * User Class Constructor
     *
-    * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db     Database Connection Object.
-    * @param integer                                        $userId Id of current user.
+    * @param \g7mzr\db\interfaces\InterfaceDatabaseDriver $db     Database Connection Object.
+    * @param integer                                      $userId Id of current user.
     *
     * @access public
     */
     public function __construct(
-        \webtemplate\db\driver\InterfaceDatabaseDriver$db,
+        \g7mzr\db\interfaces\InterfaceDatabaseDriver $db,
         int $userId = 0
     ) {
         $this->db     = $db ;
@@ -127,7 +127,7 @@ class Groups
 
         // Get the users groups
         $result = $this->findGroups();
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\db\common\Common::isError($result)) {
             $this->lastMsg = gettext("Error gettings Users permissions");
             return false;
         } else {
@@ -202,19 +202,19 @@ class Groups
     private function findGroups()
     {
         $result = $this->usersDirectGroups();
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\db\common\Common::isError($result)) {
             if ($result->getCode() != DB_ERROR_NOT_FOUND) {
                 return $result;
             }
         }
 
         $result = $this->autoGroups();
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\db\common\Common::isError($result)) {
             return $result;
         }
 
         $result = $this->convertGroupIdsToNames();
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\db\common\Common::isError($result)) {
             return $result;
         }
         return true;
@@ -237,7 +237,7 @@ class Groups
             $fields,
             $searchData
         );
-        if (\webtemplate\general\General::isError($usersGroupsList)) {
+        if (\g7mzr\db\common\Common::isError($usersGroupsList)) {
             return $usersGroupsList;
         }
         foreach ($usersGroupsList as $group) {
@@ -260,7 +260,7 @@ class Groups
         $fields = array('group_id');
         $search = array('group_autogroup' => 'Y');
         $groupList = $this->db->dbselectMultiple('groups', $fields, $search);
-        if (\webtemplate\general\General::isError($groupList)) {
+        if (\g7mzr\db\common\Common::isError($groupList)) {
             return $groupList;
         }
 
@@ -291,7 +291,7 @@ class Groups
 
         // Get the list of groups used by Webtemplate
         $groupList = $this->getGroupList();
-        if (\webtemplate\general\General::isError($groupList)) {
+        if (\g7mzr\db\common\Common::isError($groupList)) {
             return $groupList;
         }
 

@@ -23,7 +23,7 @@ class EditUser
     /**
      *  Database Object
      *
-     * @var    \webtemplate\db\driver\InterfaceDatabaseDriver
+     * @var    \g7mzr\db\interfaces\InterfaceDatabaseDriver
      * @access protected
      */
 
@@ -42,11 +42,11 @@ class EditUser
     /**
      * Constructor for the edit user class.
      *
-     * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db Database object.
+     * @param \g7mzr\db\interfaces\InterfaceDatabaseDriver $db Database object.
      *
      * @access public
      */
-    public function __construct(\webtemplate\db\driver\InterfaceDatabaseDriver $db)
+    public function __construct(\g7mzr\db\interfaces\InterfaceDatabaseDriver $db)
     {
         $this->db       = $db;
         $this->userName = "None";
@@ -110,7 +110,7 @@ class EditUser
             'user_id'
         );
 
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\db\common\Common::isError($result)) {
             $gotdata = false;
             $errorMsg =  $result->getMessage();
             ;
@@ -161,7 +161,7 @@ class EditUser
         $searchData = array('user_id' => $userId);
         $uao = $this->db->dbselectsingle('users', $fieldNames, $searchData);
 
-        if (!\webtemplate\general\General::isError($uao)) {
+        if (!\g7mzr\db\common\Common::isError($uao)) {
             $resultarray = array();
             $resultarray[] = array("userid" => $uao['user_id'],
                                    "username" => $uao['user_name'],
@@ -387,7 +387,7 @@ class EditUser
         $searchData = array('user_name' => $username);
         $uao = $this->db->dbselectsingle('users', $fieldNames, $searchData);
 
-        if (!\webtemplate\general\General::isError($uao)) {
+        if (!\g7mzr\db\common\Common::isError($uao)) {
             $userExists = true;
         } else {
             if ($uao->getCode() != DB_ERROR_NOT_FOUND) {
@@ -431,7 +431,7 @@ class EditUser
         $searchData = array('user_email' => $email);
         $uao = $this->db->dbselectsingle('users', $fieldNames, $searchData);
 
-        if (!\webtemplate\general\General::isError($uao)) {
+        if (!\g7mzr\db\common\Common::isError($uao)) {
             $emailExists = true;
         } else {
             if ($uao->getCode() != DB_ERROR_NOT_FOUND) {
@@ -477,7 +477,7 @@ class EditUser
         $searchData = array('user_name' => $username);
         $uao = $this->db->dbselectsingle('users', $fieldNames, $searchData);
         //$uao = $this->db->getUser($username);
-        if (!\webtemplate\general\General::isError($uao)) {
+        if (!\g7mzr\db\common\Common::isError($uao)) {
             if ($uao['user_enabled'] == 'Y') {
                 // User is enabled
                 $userEnabled = true;
@@ -547,7 +547,7 @@ class EditUser
             $searchData = array('user_id' => $userId);
             $result = $this->db->dbupdate('users', $insertData, $searchData);
         }
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\db\common\Common::isError($result)) {
             $saveok = false;
             $errorMsg = $result->getMessage();
         } else {
@@ -594,7 +594,7 @@ class EditUser
         );
         $searchdata = array('user_name' => $username);
         $result = $this->db->dbupdate('users', $insertData, $searchdata);
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\db\common\Common::isError($result)) {
             $saveok = false;
             $errorMsg = $result->getMessage();
         } else {
@@ -924,14 +924,14 @@ class EditUser
         );
 
         $result = $this->db->dbinsert('users', $insertData);
-        if (!\webtemplate\general\General::isError($result)) {
+        if (!\g7mzr\db\common\Common::isError($result)) {
             $userId = $this->db->dbinsertid(
                 "users",
                 "user_id",
                 "user_name",
                 $username
             );
-            if (\webtemplate\general\General::isError($userId)) {
+            if (\g7mzr\db\common\Common::isError($userId)) {
                 $saveok = false;
                 $errorMsg = gettext("Error getting id for user ");
                 $errorMsg .= $username;
@@ -989,7 +989,7 @@ class EditUser
         }
         $searchData = array('user_id' => $userId);
         $result = $this->db->dbupdate('users', $insertData, $searchData);
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\db\common\Common::isError($result)) {
             $saveok = false;
             $errorMsg = gettext("Error updating user: ") . $username;
         }

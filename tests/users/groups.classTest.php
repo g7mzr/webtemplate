@@ -46,7 +46,7 @@ class GroupsClassTest extends TestCase
     /**
      * Database Connection Object
      *
-     * @var \webtemplate\db\DB
+     * @var \g7mzr\db\DBManager
      *
      * @access protected
      */
@@ -64,7 +64,7 @@ class GroupsClassTest extends TestCase
     /**
      * MOCK Database Connection
      *
-     * @var \webtemplate\db\DB
+     * @var \g7mzr\db\DBManager
      *
      * @access protected
      */
@@ -81,14 +81,25 @@ class GroupsClassTest extends TestCase
         global $testdsn, $sitePreferences;
 
         // Check that we can connect to the database
-        $this->object3 = \webtemplate\db\DB::load($testdsn);
-        if (!\webtemplate\general\General::isError($this->object3)) {
-            $this->databaseconnection = true;
-        } else {
+        try {
+            $this->object3 = new \g7mzr\db\DBManager(
+                $testdsn,
+                $testdsn['username'],
+                $testdsn['password']
+            );
+            $setresult = $this->object3->setMode("datadriver");
+            if (!\g7mzr\db\common\Common::isError($setresult)) {
+                $this->databaseconnection = true;
+            } else {
+                $this->databaseconnection = false;
+                echo $setresult->getMessage();
+            }
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
             $this->databaseconnection = false;
         }
-        $this->object = new \webtemplate\users\Groups($this->object3, '1'); //Admin
-        $this->object2 = new \webtemplate\users\Groups($this->object3, '3');//User
+        $this->object = new \webtemplate\users\Groups($this->object3->getDataDriver(), '1'); //Admin
+        $this->object2 = new \webtemplate\users\Groups($this->object3->getDataDriver(), '3');//User
     }
 
     /**
@@ -100,7 +111,7 @@ class GroupsClassTest extends TestCase
     protected function tearDown(): void
     {
         if ($this->databaseconnection === true) {
-            $this->object3->disconnect();
+            $this->object3->getDataDriver()->disconnect();
         }
     }
 
@@ -188,16 +199,29 @@ class GroupsClassTest extends TestCase
      */
     public function testConstructorErrors()
     {
-        $mockdsn["phptype"] = "mock";
+        $mockdsn = array();
+        $mockdsn["dbtype"] = "mock";
         $mockdsn["hostspec"]  = "server";
         $mockdsn["database"] = "database";
         $mockdsn["username"] = "user";
         $mockdsn["password"] = "password";
 
-        $db = \webtemplate\db\DB::load($mockdsn);
+        try {
+            $db = new \g7mzr\db\DBManager(
+                $mockdsn,
+                $mockdsn['username'],
+                $mockdsn['password']
+            );
+            $setresult = $db->setMode("datadriver");
+            if (\g7mzr\db\common\Common::isError($setresult)) {
+                $this->fail("testConstructorErrors: " . $setresult->getMessage());
+            }
+        } catch (Exception $ex) {
+            $this->fail("testConstructorErrors: " . $ex->getMessage());
+        }
 
         // Fail getting Group List
-        $groupclass = new \webtemplate\users\Groups($db, '1');
+        $groupclass = new \webtemplate\users\Groups($db->getDataDriver(), '1');
         $this->assertEquals(
             'Error gettings Users permissions',
             $groupclass->getLastMsg()
@@ -246,8 +270,8 @@ class GroupsClassTest extends TestCase
             )
         );
 
-        $db->control($functions, $data);
-        $groupclass = new \webtemplate\users\Groups($db, '1');
+        $db->getDataDriver()->control($functions, $data);
+        $groupclass = new \webtemplate\users\Groups($db->getDataDriver(), '1');
         $this->assertEquals(
             'Error gettings Users permissions',
             $groupclass->getLastMsg()
@@ -265,8 +289,8 @@ class GroupsClassTest extends TestCase
         );
 
 
-        $db->control($functions, $data);
-        $groupclass = new \webtemplate\users\Groups($db, '1');
+        $db->getDataDriver()->control($functions, $data);
+        $groupclass = new \webtemplate\users\Groups($db->getDataDriver(), '1');
         $this->assertEquals(
             'Error gettings Users permissions',
             $groupclass->getLastMsg()
@@ -283,8 +307,8 @@ class GroupsClassTest extends TestCase
             )
         );
 
-        $db->control($functions, $data);
-        $groupclass = new \webtemplate\users\Groups($db, '1');
+        $db->getDataDriver()->control($functions, $data);
+        $groupclass = new \webtemplate\users\Groups($db->getDataDriver(), '1');
         $this->assertEquals(
             'Error gettings Users permissions',
             $groupclass->getLastMsg()

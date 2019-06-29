@@ -174,7 +174,7 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->db(),
-            'webtemplate\db\DatabaseDriverpgsql'
+            'g7mzr\db\interfaces\InterfaceDatabaseDriver'
         );
         $this->assertTrue($result);
     }

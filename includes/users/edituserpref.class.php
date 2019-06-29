@@ -33,7 +33,7 @@ class EditUserPref
     /**
      * Database MDB2 Database Connection Object
      *
-     * @var    \webtemplate\db\driver\InterfaceDatabaseDriver
+     * @var    \g7mzr\db\interfaces\InterfaceDatabaseDriver
      * @access protected
      */
 
@@ -111,13 +111,13 @@ class EditUserPref
     /**
     * User Class Constructor
     *
-    * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db     Database Object.
-    * @param integer                                        $userId Id of current user.
+    * @param \g7mzr\db\interfaces\InterfaceDatabaseDriver $db     Database Object.
+    * @param integer                                      $userId Id of current user.
     *
     * @access public
     */
     public function __construct(
-        \webtemplate\db\driver\InterfaceDatabaseDriver $db,
+        \g7mzr\db\interfaces\InterfaceDatabaseDriver $db,
         int $userId = 0
     ) {
         $this->db     = $db ;
@@ -434,7 +434,7 @@ class EditUserPref
         $userId = $this->userId;
         $data = array('user_id' => $userId);
         $result = $this->db->dbdelete('userprefs', $data);
-        if (!\webtemplate\general\General::isError($result)) {
+        if (!\g7mzr\db\common\Common::isError($result)) {
             // Save Theme
             $result = $this->saveTheme();
             if ($result == false) {
@@ -543,7 +543,7 @@ class EditUserPref
                 $searchData
             );
 
-            if (!\webtemplate\general\General::isError($preferenceArray)) {
+            if (!\g7mzr\db\common\Common::isError($preferenceArray)) {
                 foreach ($preferenceArray as $value) {
                     if (chop($value['settingname']) == 'theme') {
                         $localTheme = chop($value['settingvalue']);
@@ -576,8 +576,6 @@ class EditUserPref
             return $this->newThemeValue;
         }
     }
-
-
 
     /**
      *  Validate the users chosen theme
@@ -775,7 +773,7 @@ class EditUserPref
                 'user_id' => $this->userId
             );
             $result = $this->db->dbinsert('userprefs', $data);
-            if (\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\db\common\Common::isError($result)) {
                 $updateok = false;
             }
         }
@@ -803,7 +801,7 @@ class EditUserPref
                     'user_id' => $this->userId
                 );
                 $result = $this->db->dbinsert('userprefs', $data);
-                if (\webtemplate\general\General::isError($result)) {
+                if (\g7mzr\db\common\Common::isError($result)) {
                     $updateok = false;
                 }
             } else {
@@ -813,7 +811,7 @@ class EditUserPref
                     'user_id' => $this->userId
                 );
                 $result = $this->db->dbinsert('userprefs', $data);
-                if (\webtemplate\general\General::isError($result)) {
+                if (\g7mzr\db\common\Common::isError($result)) {
                     $updateok = false;
                 }
             }
@@ -841,7 +839,7 @@ class EditUserPref
                 'user_id' => $this->userId
             );
             $result = $this->db->dbinsert('userprefs', $data);
-            if (\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\db\common\Common::isError($result)) {
                 $updateok = false;
             }
         }

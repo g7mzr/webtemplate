@@ -15,6 +15,7 @@
 
 namespace Facebook\WebDriver;
 
+use \webtemplate\application\exceptions\AppException;
 use PHPUnit\Framework\TestCase;
 
 // Load the Selenium Driver and Application Data.
@@ -58,6 +59,8 @@ class RegisterTest extends TestCase
      * BROWSER: The Web browser to be used for the tests
      * URL: The Web location of the test site.
      *
+     * @throws \webtemplate\application\exceptions\AppException If unable to connect to the database.
+     *
      * @return void
      */
     protected function setUp(): void
@@ -72,20 +75,34 @@ class RegisterTest extends TestCase
         $this->webDriver = MyWebDriver::load();
 
         // Delete the test user if they exist in the database
-        $db = \webtemplate\db\DB::load($testdsn);
-        if (!\webtemplate\general\General::isError($db)) {
-            $searchdata = array('user_name' => $this->username);
-            $result = $db->dbdelete('users', $searchdata);
-            if (\webtemplate\general\General::isError($result)) {
-                echo "Error deleting test user";
-            }
-        } else {
-            echo "Failed to connect to Database";
+        $conStr = sprintf(
+            "pgsql:host=%s;port=%d;dbname=%s;user=%s;password=%s",
+            $testdsn["hostspec"],
+            '5432',
+            $testdsn["databasename"],
+            $testdsn["username"],
+            $testdsn["password"]
+        );
+
+        // Create the PDO object and Connect to the database
+        try {
+            $localconn = new \PDO($conStr);
+        } catch (\Exception $e) {
+            //print_r($e->getMessage());
+            throw new AppException('Unable to connect to the database');
         }
+        //$this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $localconn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
+        $sql = "delete from users where user_name = '" . $this->username . "'";
+
+        $localconn->query($sql);
+        $localconn = null;
     }
 
     /**
      * Function to close the Webdriver after each test is complete
+     *
+     * @throws \webtemplate\application\exceptions\AppException If unable to connect to the database.
      *
      * @return void
      */
@@ -129,16 +146,28 @@ class RegisterTest extends TestCase
         }
 
         // Delete the test user if they exist in the database
-        $db = \webtemplate\db\DB::load($testdsn);
-        if (!\webtemplate\general\General::isError($db)) {
-            $searchdata = array('user_name' => $this->username);
-            $result = $db->dbdelete('users', $searchdata);
-            if (\webtemplate\general\General::isError($result)) {
-                echo "Error deleting test user";
-            }
-        } else {
-            echo "Failed to connect to Database";
+        $conStr = sprintf(
+            "pgsql:host=%s;port=%d;dbname=%s;user=%s;password=%s",
+            $testdsn["hostspec"],
+            '5432',
+            $testdsn["databasename"],
+            $testdsn["username"],
+            $testdsn["password"]
+        );
+
+        // Create the PDO object and Connect to the database
+        try {
+            $localconn = new \PDO($conStr);
+        } catch (\Exception $e) {
+            //print_r($e->getMessage());
+            throw new AppException('Unable to connect to the database');
         }
+        //$this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $localconn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
+        $sql = "delete from users where user_name = '" . $this->username . "'";
+
+        $localconn->query($sql);
+        $localconn = null;
     }
 
 
@@ -264,7 +293,7 @@ class RegisterTest extends TestCase
         $data = $this->getEmail();
         if ($data <> "") {
             $lines = explode("\n", $data);
-            $url = $lines[14];
+            $url = $lines[13];
         }
         return $url;
     }

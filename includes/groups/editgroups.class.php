@@ -27,7 +27,7 @@ class EditGroups
     use TraitGroupFunctions;
 
     /**
-     * @var \webtemplate\db\DB
+     * @var \g7mzr\db\interfaces\InterfaceDatabaseDriver
      *
      * @access protected
      */
@@ -59,11 +59,11 @@ class EditGroups
     /**
      * Constructor
      *
-     * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db Database Object.
+     * @param \g7mzr\db\interfaces\InterfaceDatabaseDriver $db Database Object.
      *
      * @access public
      */
-    public function __construct(\webtemplate\db\driver\InterfaceDatabaseDriver $db)
+    public function __construct(\g7mzr\db\interfaces\InterfaceDatabaseDriver $db)
     {
         $this->db = $db;
 
@@ -71,7 +71,7 @@ class EditGroups
         $fields = array('group_id');
         $srchdata = array('group_name' => 'admin');
         $sqlresult = $this->db->dbselectsingle('groups', $fields, $srchdata);
-        if (!\webtemplate\general\General::isError($sqlresult)) {
+        if (!\g7mzr\db\common\Common::isError($sqlresult)) {
             $this->admingroupid = $sqlresult['group_id'];
         }
     } // end constructor
@@ -125,7 +125,7 @@ class EditGroups
 
         $gao = $this->db->dbselectsingle('groups', $fieldNames, $searchdata);
 
-        if (!\webtemplate\general\General::isError($gao)) {
+        if (!\g7mzr\db\common\Common::isError($gao)) {
             $gData[] = array("groupid" => $gao['group_id'],
                              "groupname" => $gao['group_name'],
                              "description" => $gao['group_description'],
@@ -134,7 +134,7 @@ class EditGroups
                              "editable" => $gao['group_editable']);
             $gotdataok = true;
         } else {
-            $err = $gao;
+            $err = new \webtemplate\application\Error($gao->getMEssage(), $gao->getCode());
         }
         if ($gotdataok == true) {
             return $gData;
@@ -183,7 +183,7 @@ class EditGroups
             $searchdata = array('group_id' => $gid);
             $gao = $this->db->dbselectsingle('groups', $fieldNames, $searchdata);
 
-            if (!\webtemplate\general\General::isError($gao)) {
+            if (!\g7mzr\db\common\Common::isError($gao)) {
                 $searchok  = true;
                 $groupdatachanged = $this->groupChangeString(
                     $gname,
@@ -193,7 +193,7 @@ class EditGroups
                     $gao
                 );
             } else {
-                $err = $gao;
+                $err = new \webtemplate\application\Error($gao->getMEssage(), $gao->getCode());
             }
         } else {
             // New Group need to return true
@@ -307,14 +307,14 @@ class EditGroups
             );
 
             $result = $this->db->dbinsert('groups', $groupdata);
-            if (!\webtemplate\general\General::isError($result)) {
+            if (!\g7mzr\db\common\Common::isError($result)) {
                 $gid = $this->db->dbinsertid(
                     "groups",
                     "group_id",
                     "group_name",
                     $gname
                 );
-                if (\webtemplate\general\General::isError($gid)) {
+                if (\g7mzr\db\common\Common::isError($gid)) {
                     $gid = -1;
                     $saveok = false;
                     $errorMsg = gettext("Error getting id for group ") . $gname;
@@ -335,7 +335,7 @@ class EditGroups
                 "group_id" => $gid
             );
             $result = $this->db->dbupdate("groups", $groupdata, $searchdata);
-            if (\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\db\common\Common::isError($result)) {
                 $saveok = false;
                 $errorMsg = gettext("Error updating group: ") . $gname;
             }
@@ -369,7 +369,7 @@ class EditGroups
             $searchdata = array('group_id' => $groupId, 'group_editable' => 'Y');
         }
         $result = $this->db->dbdelete('groups', $searchdata);
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\db\common\Common::isError($result)) {
             $deleteok = false;
             $errorMsg = $result->getMessage();
         }
@@ -407,11 +407,11 @@ class EditGroups
         $searchdata = array('group_name' => $groupname);
         $gao = $this->db->dbselectsingle('groups', $fieldNames, $searchdata);
 
-        if (!\webtemplate\general\General::isError($gao)) {
+        if (!\g7mzr\db\common\Common::isError($gao)) {
             $groupExists = true;
         } else {
             if ($gao->getCode() != \DB_ERROR_NOT_FOUND) {
-                $err = $gao;
+                $err = new \webtemplate\application\Error($gao->getMessage(), $gao->getCode());
                 $searchok = false;
             }
         }
@@ -522,11 +522,11 @@ class EditGroups
         $searchdata = array('group_name' => $groupname);
         $gao = $this->db->dbselectsingle('groups', $fieldNames, $searchdata);
 
-        if (!\webtemplate\general\General::isError($gao)) {
+        if (!\g7mzr\db\common\Common::isError($gao)) {
             return $gao['group_id'];
         } else {
             // An error was encountered
-            return $gao;
+            return new \webtemplate\application\Error($gao->getMessage(), $gao->getCode());
         }
     }
 }
