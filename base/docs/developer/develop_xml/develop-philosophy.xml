@@ -55,8 +55,8 @@
 			</listitem>
 			<listitem>
 				<para>
-				Scripts for integrating into Jenkins Continous Integration Server for Unit and Coding Standards Testing.  This functionality is also available at the command
-				line by using <olink targetptr="gloss-ant" targetdoc="develop" role="glossterm">ANT</olink>.
+				Unit, Functional and Coding Standards Testing can be carried out using a Continuous Integration Server or at the Command Line 
+				by using <olink targetptr="gloss-phing" targetdoc="develop" role="glossterm">PHING</olink>.
 				</para>
 			</listitem>
 		</itemizedlist>
@@ -107,6 +107,10 @@
 					It is recommended that when you add your own classes you replace "webtemplate" with the name of your own application in your files
 					only.  You will also have to update <filename>autoloader.class.php</filename> to strip that name from the filename it uses to load the class.
 					</para>
+					<para>
+					As new functionality is added to Webtemplate which requires configuration options new code modules will be needed to be added to the  <filename>admin\parameters</filename> directory.
+					These modules will be based on the <filename>parametersabstract.class.php</filename>.
+					</para>
 			        	</listitem>
 			</varlistentry>
 		   	<varlistentry>
@@ -116,14 +120,21 @@
           					The raw <olink targetptr="gloss-smarty" targetdoc="develop" role="glossterm">SMARTY</olink> templates are saved in this directory.  It is broken down in to sub-directories for 
           					each language that Webtemplate supports.  Currently this is only English.  Each Language sub-directory is then further broken down into the same 
           					structure as the <filename>includes</filename> directory.   New templates are created from <filename>blank.tpl</filename> while <filename>main.tpl</filename> 
-          					can be updated to display application specific information after a user has logged in and <filename>layout.tpl</filename> should be updated to display ane new 
-          					menu functions.
+          					can be updated to display application specific information after a user has logged in.
 					</para>
 					<para>
-					<filename>admin/preferences.tpl</filename>, <filename>admin/config.tpl</filename>, <filename>admin/admin.tpl</filename>, <filename>admin/admin.tpl</filename> 
-					and <filename>users/prefs.tpl</filename> may also need updating as new functionality is added to Webtemplate.
+					As new functionality is added to Webtemplate which requires configuration options new templates will be needed to be added to the  <filename>admin\config</filename> directory.
 					</para>
 			        	</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>menus</term>
+				<listitem>
+					<para>
+					As new functionality is added to Webtemplate the <filename>mainmenu.json</filename>, <filename>mainmenu.json</filename> 
+					and <filename>parammenu.json</filename>may need to be updated.
+					</para>
+				</listitem>
 			</varlistentry>
 		   	<varlistentry>
         				<term>tests</term>

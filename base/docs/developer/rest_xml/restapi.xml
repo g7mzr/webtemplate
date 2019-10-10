@@ -36,10 +36,11 @@
 		</abstract>
 	</info>
 	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="introduction.xml"/>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="auth.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="common.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="login.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="logout.xml"/>
 	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="users.xml"/>
 	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="groups.xml"/>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="glossary.xml"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="version.xml"/>
 	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="restapi-versions.xml"/>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="messageformat.xml"/>
 </book>

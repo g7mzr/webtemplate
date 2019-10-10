@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE chapter SYSTEM "../../xsl/docbook.dtd" [
+      <!ENTITY  % myents SYSTEM "webtemplate.ent">
+      %myents;
+]>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:id="api_logout">
+	<title>Logout of &progname;</title>
+	<para>
+	This part of the &progname; API explains how to logout of &progname; using the HTTP POST method.  The <emphasis>logout</emphasis> endpoint also supports the 
+	HTTP OPTIONS method.  
+	</para>
+	<section xml:id="auth_logout">
+		<title>Logout of &progname;</title>
+		<para>
+		The &progname; <emphasis>logout</emphasis> endpoint uses the HTTP POST method to logout.  No data is passed between the client and the server.
+		</para>
+		<para><emphasis role ="bold">Request</emphasis>:</para>
+		<programlisting>POST /api/v1/logout HTTP/1.1</programlisting>
+		<para><emphasis role ="bold">Response</emphasis></para>
+		<programlisting>{
+    "Msg": "Logged out"
+}		</programlisting>
+		<table frame="all">
+		<title>Response: LogoutRecord</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>Msg</entry><entry>string</entry><entry>String: "Logged out" confirms logout</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
+	</section>
+	<section xml:id="auth_logout_responses">
+	<title>Logout HTTP Response Codes</title>
+	<para>
+	The following HTTP Response Codes may be returned by <emphasis>logout</emphasis>:
+	</para>
+	<itemizedlist>
+		<listitem>
+			<para><emphasis role="bold">200 Ok</emphasis> If the logout is successful.</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">400 Bad Request</emphasis> If the request is invalid. i.e. There are arguments in the url.</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">405 Method No Allowed</emphasis> If a call is made to an HTTP method not supported by the endpoint</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">500 Internal Server Error</emphasis> If the reason for the error is unknown</para>
+		</listitem>
+	</itemizedlist>
+	</section>
+</chapter>

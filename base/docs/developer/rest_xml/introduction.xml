@@ -3,30 +3,68 @@
       <!ENTITY  % myents SYSTEM "webtemplate.ent">
       %myents;
 ]>
-<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:id="api_introduction">
-	<title>Introduction</title>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:id="api_General">
+	<title>General</title>
 	<para>
-	llkjlkjklj
+		The purpose of this manaual is to provide guidance on how to interact with &progname; using a <olink targetptr="gloss-rest"  targetdoc="restapi"  role="glossterm" >RESTful</olink> 
+		<olink targetptr="gloss-api"  targetdoc="restapi"  role="glossterm">API</olink> 
 	</para>
-	<section xml:id="introduction">
-		<title>Introduction</title>
-		<para>
-		Webtemplate <olink targetptr="gloss-regexp" targetdoc="restapi"  role="glossterm"  xrefstyle="test">Regular Expression</olink>
-		</para>
-		<para>
-		<filename>http://www.example.com/&progname;/index.php</filename>.
-		</para>
-		<para>
-		<filename class='directory' >TEST</filename>
-		</para>
-		<para>
-		<olink targetptr="message_introduction" targetdoc="restapi" /> 
-		</para>
+	<section xml:id="basic_information">
+		<title>Basic Information</title>
+		<section xml:id="browsing">
+			<title>Browsing</title>
+			<para>
+			If the Accept header of a request is set to text/html (as it is by an ordinary web browser) then the API will return the JSON data as a HTML 
+			page which the browser can display. In other words, you can play with the API using just your browser to see results in a human-readable form. 
+			This is a good way to try out the various GET calls, even if you can't use it for POST or PUT.  You will need to be logged in for some of the calls 
+			to work correctly.
+			</para>
+		</section>
+		<section xml:id="data_format">
+			<title>Data Format</title>
+			<para>
+			The REST API only supports application/json or application/x-www-form-urlencoded input, and either JSON output. So objects sent and received 
+			must be in these formats.
+			</para>
+			<para>
+			On every request, you must set both the Accept and Content-Type HTTP headers to the MIME type of the data format you are using to 
+			communicate with the API. Content-Type tells the API how to interpret your request, and Accept tells it how you want your data back. 
+			Content-Type must be application/json. Accept must be either application/json or text/html.  The returned data is always in JSON format. 
+			</para>		
+			<para>Example request which returns the current version of &progname;:</para>
+			<programlisting>
+GET /api/v1/version HTTP/1.1
+Host: server.example.com
+Accept: application/json  </programlisting>
+			<para>Example response:</para>
+			<programlisting>
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 65
+
+{
+  "name": "Web Database Skeleton",
+  "Version": "0.5.0+",
+  "API": "0.1.0"
+}			</programlisting>
+		</section>
+		<section xml:id="errors">
+			<title>Errors</title>
+			<para>
+			When an error occurs over REST, an object is returned with the key Error set to true.
+			</para>
+			<programlisting>
+{
+  "ErrorMsg": "Login required to use this resource",
+  "Error": true
+}			</programlisting>	
+		</section>
 	</section>
-	<section xml:id="rest_api">
-		<title>RESTful API</title>
-		<para>
-		Webtemplate 
+	<section xml:id="authentication">
+		<title>Authentication</title>
+		<para>It is a requirement of &progname; that you login to carry out any method with the exception of the <emphasis>version</emphasis> endpoint
+		which allows you to retreve basic information regarding the application.  You can login to &progname; using the <emphasis>login</emphasis> endpoint.
 		</para>
+		<para>The authentication status of the client is remembered by use of a session cookie.  This cookie must be saved and sent with every request.</para>
 	</section>
 </chapter>

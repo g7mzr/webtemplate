@@ -28,7 +28,7 @@
 
 
     <!-- Table of Contents Depth -->
-    <xsl:param name="toc.section.depth">2</xsl:param>
+    <xsl:param name="toc.section.depth">0</xsl:param>
     <xsl:param name="generate.section.toc.level" select="0"/>
 
     <!-- Show titles of next/previous page -->

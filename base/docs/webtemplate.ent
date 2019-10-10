@@ -28,4 +28,5 @@
 <!-- Document Links -->
 <!ENTITY apachedocs "http://httpd.apache.org/docs/">
 <!ENTITY pgsqldocs "http://www.postgresql.org/docs/">
+<!ENTITY phingdocs "https://www.phing.info/">
 

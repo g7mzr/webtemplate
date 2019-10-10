@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE chapter SYSTEM "../../xsl/docbook.dtd" [
+      <!ENTITY  % myents SYSTEM "webtemplate.ent">
+      %myents;
+]>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:id="api_login">
+	<title>Login to &progname;</title>
+	<para>
+	This part of the &progname; API explains how to login to &progname; using the HTTP POST method.  The <emphasis>login</emphasis> endpoint also supports the 
+	HTTP OPTIONS method.  
+	</para>
+	<section xml:id="auth_login">
+		<title>Login to &progname;</title>
+		<para>
+		The &progname; <emphasis>login</emphasis> endpoint uses the HTTP POST method to pass the users credentials from the client to the server.  The
+		user's credentials can be sent in one of the following formats:
+		</para>
+		<itemizedlist>
+			<listitem>
+				<para>application/json</para>
+			</listitem>
+			<listitem>
+				<para>application/x-www-form-urlencoded</para>
+			</listitem>
+		</itemizedlist>
+		<para><emphasis role ="bold">Request</emphasis></para>
+		<programlisting>POST /api/v1/login HTTP/1.1</programlisting>
+		<programlisting>username=phpunit&amp;password=phpUnit1</programlisting>
+		
+		<para><emphasis role ="bold">Request</emphasis></para>
+		<programlisting>POST /api/v1/login HTTP/1.1</programlisting>
+		<programlisting>{
+	"username": "phpunit",
+	"password": "phpUnit1"
+} 		</programlisting>
+		<para><emphasis role ="bold">Response</emphasis></para>
+		<programlisting>{
+    "Msg": "Logged in",
+    "lastlogin": "2019-06-29 18:58:07",
+    "passwdagemsg": "",
+    "displayrows": "2",
+    "user": "phpunit",
+    "email": "phpunit@example.com",
+    "realname": "Phpunit User"
+}		</programlisting>
+		<table frame="all">
+		<title>Response: Login Record</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>Msg</entry><entry>string</entry><entry>String: "Logged in" confirms login</entry></row>
+		      	<row><entry>lastseendate</entry><entry>string</entry><entry>String: The date the user last logged in</entry></row>
+		      	<row><entry>passwdagemsg</entry><entry>string</entry><entry>String: Confirms how many days until the user's passwod needs changed</entry></row>
+		      	<row><entry>displayrows</entry><entry>string</entry><entry>String: Number of rows to be displayed for data searches</entry></row>
+		      	<row><entry>userid</entry><entry>int</entry><entry>Integer: The user's id number</entry></row>
+		      	<row><entry>user</entry><entry>string</entry><entry>String: &progname; user name</entry></row>
+		      	<row><entry>email</entry><entry>string</entry><entry>String: The user's email address</entry></row>
+		      	<row><entry>realname</entry><entry>string</entry><entry>String: The users real name</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
+
+	</section>
+	<section xml:id="auth_login_responses">
+	<title>Login HTTP Response Codes</title>
+	<para>
+	The following HTTP Response Codes may be returned by <emphasis>login</emphasis>:
+	</para>
+	<itemizedlist>
+		<listitem>
+			<para><emphasis role="bold">200 Ok</emphasis> If the user login is successful.</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">400 Bad Request</emphasis> If the request is invalid. i.e. There are arguments in the url.</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">403 Forbidden</emphasis> If the username and password are not recognised as valid.</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">405 Method No Allowed</emphasis> If a call is made to an HTTP method not supported by the endpoint</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">500 Internal Server Error</emphasis> If the reason for the error is unknown</para>
+		</listitem>
+	</itemizedlist>
+	</section>
+</chapter>

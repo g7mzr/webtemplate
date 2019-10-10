@@ -10,7 +10,7 @@
 		<title>Introduction</title>
 		<note>
 			<para>
-			The Selenium tests are disabled by default.  If you they are enabled your Jenkins build time will be increased significantly.
+			The Selenium tests are disabled by default. 
 			</para>
 		</note>
 		<para>

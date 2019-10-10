@@ -13,8 +13,7 @@
 		approch which allows testing of key components using phpunit.
 		</para>
 		<para>
-		This manual explains how to use &progname; to build your applications and how to integrate it into 
-		phpUnderControl for continuous integration using PHPDocumentor for documenting the API and PHPUnit for 
-		testing the application Classes.
+		This manual explains how to use &progname; to build your applications and how to carry out unit tests using PHPUnit for 
+		testing the application Classes and functional tests using PHPUnit and Selenium Webdriver.
 		</para>
 </chapter>

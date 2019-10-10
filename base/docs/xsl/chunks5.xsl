@@ -19,8 +19,9 @@
     <!-- Set Chunk Specific XSL Params -->
     <xsl:param name="chunker.output.doctype-public">-//W3C//DTD HTML 4.01 Transitional//EN</xsl:param>
     <xsl:param name="chunker.output.doctype-system">http://www.w3.org/TR/html4/loose.dtd</xsl:param>
-    <xsl:param name="chunk.section.depth" select="1"/>
-    <xsl:param name="chunk.first.sections" select="1"/>
+    <xsl:param name="generate.toc" select="'book toc'"/>
+    <xsl:param name="chunk.section.depth" select="0"/>
+    <xsl:param name="chunk.first.sections" select="0"/>
     <xsl:param name="chunker.output.encoding">UTF-8</xsl:param>
     <xsl:param name="chunker.output.indent">yes</xsl:param>
     <xsl:param name="chunk.quietly" select="1"/>

@@ -175,13 +175,23 @@
         				</para>
       			</glossdef>
 		</glossentry>
+		
+		<glossentry id="gloss-phing">
+			<glossterm>PHING</glossterm>
+			<glossdef>
+				<para>
+				Phing is a PHP project build system or build tool based on ​Apache Ant. You can do anything with it that you could do with a traditional build system like 
+				GNU make, and its use of simple XML build files and extensible PHP "task" classes make it an easy-to-use and highly flexible build framework.
+				</para>
+			</glossdef>
+		</glossentry>"
 
 	    	<glossentry id="gloss-php">
       			<glossterm>PHP</glossterm>
 
       			<glossdef>
-        				<para>PHP is a widely-used general-purpose scripting language that is especially suited for 
-        					Web development and can be embedded into HTML.
+        				<para>
+        				PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML.
         				</para>
       			</glossdef>
 		</glossentry>
@@ -227,7 +237,17 @@
 				</para>
 			</glossdef>
 		</glossentry>
-	
+		<glossentry id="glossrest" >
+			<title>RESTful API</title>
+			<glossdef>
+				<para>
+				Representational State Transfer (REST) is a software architectural style that defines a set of constraints to be 
+				used for creating Web services. Web services that conform to the REST architectural style, called RESTful Web services (RWS), 
+				provide interoperability between computer systems on the Internet. RESTful Web services allow the requesting systems to 
+				access and manipulate textual representations of Web resources by using a uniform and predefined set of stateless operations.
+				</para>
+			</glossdef>	
+		</glossentry>
 	</glossdiv>
 	  <glossdiv id="gloss-s">
 	    	<title>S</title>
