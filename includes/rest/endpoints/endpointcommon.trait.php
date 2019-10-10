@@ -102,7 +102,7 @@ trait TraitEndPointCommon
     protected function options()
     {
         $optionstr = $this->getoptions();
-        return array('options' => $optionstr, 'code' => 200);
+        return array('options' => $optionstr, 'code' => 204);
     }
 
     /**

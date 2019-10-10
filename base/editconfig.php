@@ -270,7 +270,9 @@ $app->tpl()->assign("SMTPUSERNAME", $parameters['email']['smtpusername']);
 $app->tpl()->assign("SMTPPASSWD", $parameters['email']['smtppassword']);
 $app->tpl()->assign("SMTP_DEBUG_ON", $parameters['email']['smtpdebug']);
 
-// Asign the pagelist to the template
+//Add new parameters here.
+
+// Assign the pagelist to the template
 $app->tpl()->assign("PAGELIST", $pagelist);
 
 // Create the token for checking the page authenticition
