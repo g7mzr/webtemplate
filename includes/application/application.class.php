@@ -28,7 +28,7 @@ class Application
      * Property: db
      * PHP PDO class
      *
-     * @var    \webtemplate\db\DB
+     * @var    \g7mzr\db\interfaces\InterfaceDatabaseDriver
      * @access protected
      */
     protected $var_db = null;
@@ -215,9 +215,9 @@ class Application
     public function __construct()
     {
         $dsn = array(
-            'phptype'  => '',
+            'dbtype'  => '',
             'hostspec' => '',
-            'database' => '',
+            'databasename' => '',
             'username' => '',
             'password' => '',
             'disable_iso_date' => 'disable'
@@ -251,10 +251,32 @@ class Application
         WebTemplateCommon::loadDSN($this->var_tpl, $dsn);
 
         // Loginto the Database for all classes
-        $this->var_db = \webtemplate\db\DB::load($dsn);
-        if (General::isError($this->var_db)) {
+        if (php_sapi_name() === 'cli') {
+            $persistance = true;
+        } else {
+            $persistance = false;
+        }
+        $databaseconnection = true;
+        try {
+            $db = new \g7mzr\db\DBManager(
+                $dsn,
+                $dsn['username'],
+                $dsn['password'],
+                $persistance
+            );
+            $setresult = $db->setMode("datadriver");
+            if (\g7mzr\db\common\Common::isError($setresult)) {
+                $databaseconnection = false;
+                //echo $setresult->getMessage();
+            }
+        } catch (Exception $ex) {
+            $databaseconnection = false;
+        }
+        if ($databaseconnection === false) {
             throw new AppException('Unable to connect to the database', 1);
         }
+        $this->var_db = $db->getDataDriver();
+
 
         //Create new config class
         $configdir = $this->var_tpl->getConfigDir(0);
@@ -340,6 +362,16 @@ class Application
 
 
         $this->var_log->debug('Application Class Initalised');
+    }
+
+    /**
+     * Destructor
+     *
+     * @access public
+     */
+    public function __destruct()
+    {
+        $this->var_db->disconnect();
     }
 
 

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE chapter SYSTEM "../../xsl/docbook.dtd" [
+      <!ENTITY  % myents SYSTEM "webtemplate.ent">
+      %myents;
+]>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:id="api_version">
+	<title>Version</title>
+	<para>This &progname; API for retriving the application version details.
+	</para>
+	<section xml:id="version_get">
+		<title>Get Version Information</title>
+	<para>
+		This allows you to retreive the version information for &progname;.
+		</para>
+		<para><emphasis role ="bold">Request</emphasis></para>
+		<para>To get the version information:</para>
+		<programlisting>GET /api/v1/version</programlisting>
+		<para><emphasis role ="bold">Response</emphasis></para>
+		<para>Version Data when the user is logged out or does not have admin rights.</para>
+		<programlisting>{
+  "name": "Web Database Skeleton",
+  "Version": "0.5.0+",
+  "API": "0.1.0",
+}		</programlisting>
+		<para>Version Data when the user is logged in with admin rights.</para>
+		<programlisting>{
+  "name": "Web Database Skeleton",
+  "Version": "0.5.0+",
+  "API": "0.1.0",
+  "phpversion": "7.2.5",
+  "servername": "server.example.com",
+  "serversoftware": "Apache/2.4.33 (Linux/SUSE)",
+  "serveradmin": "user@example.com",
+  "databaseversion": "PostgreSQL 10.10"
+}		</programlisting>
+		<table frame="all">
+		<title>Response Data</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>name</entry><entry>string</entry><entry>String: Application Name</entry></row>
+		      	<row><entry>Version</entry><entry>string</entry><entry>String: The version of the application</entry></row>
+		      	<row><entry>API</entry><entry>string</entry><entry>String: The version of the application's RESTful API</entry></row>
+		      	<row><entry>phpversion</entry><entry>string</entry><entry>String: The version of PHP being used on the server</entry></row>
+		      	<row><entry>servername</entry><entry>string</entry><entry>String: The name of the server &programe; is hosted on</entry></row>
+		      	<row><entry>serversoftware</entry><entry>string</entry><entry>String: The version of the Apache webserver</entry></row>
+		      	<row><entry>serveradmin</entry><entry>string</entry><entry>String: The e-mail address of the server administrator</entry></row>
+		      	<row><entry>databaseversion</entry><entry>string</entry><entry>String: The type and version of the database engine being used.</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
+	</section>
+	<section xml:id="version_responses">
+	<title>Version HTTP Response Codes</title>
+	<para>
+	The following HTTP Response Codes may be returned by <emphasis>version</emphasis>:
+	</para>
+	<itemizedlist>
+		<listitem>
+			<para><emphasis role="bold">200 Ok</emphasis> If the request is successful.</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">400 Bad Request</emphasis> If the request is invalid. i.e. There are arguments in the url.</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">405 Method No Allowed</emphasis> If a call is made to an HTTP method not supported by the endpoint</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">500 Internal Server Error</emphasis> If the reason for the error is unknown</para>
+		</listitem>
+	</itemizedlist>
+	</section>
+
+</chapter>

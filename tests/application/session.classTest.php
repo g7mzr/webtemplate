@@ -39,7 +39,7 @@ class SessionTest extends TestCase
     /**
      * Database Class
      *
-     * @var \webtemplate\db\DB
+     * @var \g7mzr\db\DBManager
      */
     protected $object2;
 
@@ -81,11 +81,21 @@ class SessionTest extends TestCase
         $tpl->configLoad($languageconfig);
 
         // Check that we can connect to the database
-        $this->object2 = \webtemplate\db\DB::load($testdsn);
-
-        if (!\webtemplate\general\General::isError($this->object2)) {
-            $this->databaseconnection = true;
-        } else {
+        try {
+            $this->object2 = new \g7mzr\db\DBManager(
+                $testdsn,
+                $testdsn['username'],
+                $testdsn['password']
+            );
+            $setresult = $this->object2->setMode("datadriver");
+            if (!\g7mzr\db\common\Common::isError($setresult)) {
+                $this->databaseconnection = true;
+            } else {
+                $this->databaseconnection = false;
+                echo $setresult->getMessage();
+            }
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
             $this->databaseconnection = false;
         }
     }
@@ -103,8 +113,8 @@ class SessionTest extends TestCase
             $searchData = array(
                 'user_name' => array('type' => '=', 'data' => 'phpunit')
             );
-            $result = $this->object2->dbdeletemultiple('logindata', $searchData);
-            $this->object2->disconnect();
+            $result = $this->object2->getDataDriver()->dbdeletemultiple('logindata', $searchData);
+            $this->object2->getDataDriver()->disconnect();
         }
     }
 
@@ -133,7 +143,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
             $this->assertEquals("webdatabase", $sessiontest['name']);
             $this->assertEquals(0, $sessiontest['expire']);
@@ -156,7 +166,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
             $this->assertNotEquals(0, $sessiontest['expire']);
         } else {
@@ -192,7 +202,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
             $this->assertEquals("webdatabase", $sessiontest['name']);
             $this->assertEquals(0, $sessiontest['expire']);
@@ -212,7 +222,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
             $this->assertEquals("webdatabase", $sessiontest['name']);
             $this->assertEquals($_COOKIE['webdatabase'], $sessiontest['value']);
@@ -250,7 +260,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
             $this->assertEquals("", $this->object->getUserName());
         } else {
@@ -286,7 +296,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
             $this->assertEquals("", $this->object->getUserId());
         } else {
@@ -322,7 +332,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
              $this->assertFalse($this->object->getPasswdChange());
         } else {
@@ -360,7 +370,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
 
             // Test with a invalid user
@@ -409,7 +419,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
             // Create a Session for a valid user
             $result = $this->object->createSession("phpunit", "2", false);
@@ -428,7 +438,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
             $this->assertEquals("phpunit", $this->object->getUserName());
             $this->assertEquals("2", $this->object->getUserId());
@@ -469,7 +479,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
 
             // Create a Session for a valid user
@@ -493,7 +503,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
             $this->assertEquals("phpunit", $this->object->getUserName());
         } else {
@@ -533,7 +543,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
 
             // Create a Session for a valid user
@@ -556,7 +566,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
             $this->assertEquals("2", $this->object->getUserId());
         } else {
@@ -596,7 +606,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
 
             // Create a Session for a valid user
@@ -619,7 +629,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
         } else {
             $this->markTestSkipped('No Database Connection Available');
@@ -658,7 +668,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
 
             // Create a Session for a valid user
@@ -710,7 +720,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
 
             // Create a Session for a valid user
@@ -728,7 +738,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
             $this->assertEquals("phpunit", $this->object->getUserName());
 
@@ -740,7 +750,7 @@ class SessionTest extends TestCase
                 'lastused'  => $lastUsed
             );
             $search = array('cookie' => $sessioncookie);
-            $this->object2->dbupdate('logindata', $data, $search);
+            $this->object2->getDataDriver()->dbupdate('logindata', $data, $search);
 
             // Create a new Session Object
             // and check that the username has been set to ""
@@ -749,7 +759,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
             $this->assertEquals("", $this->object->getUserName());
         } else {
@@ -789,7 +799,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
 
             // Create a Session for a valid user
@@ -813,7 +823,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
             $this->assertEquals("phpunit", $this->object->getUserName());
 
@@ -825,7 +835,7 @@ class SessionTest extends TestCase
                 'lastused'  => $lastUsed
             );
             $search = array('cookie' => $sessioncookie);
-            $this->object2->dbupdate('logindata', $data, $search);
+            $this->object2->getDataDriver()->dbupdate('logindata', $data, $search);
 
             // Create a new Session Object
             // and check that the username has been set to ""
@@ -834,7 +844,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
             $this->assertEquals("", $this->object->getUserName());
         } else {
@@ -873,7 +883,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
 
             // Create a Session for a valid user
@@ -891,7 +901,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
             $this->assertEquals("phpunit", $this->object->getUserName());
 
@@ -903,7 +913,7 @@ class SessionTest extends TestCase
                 'lastused'  => $lastUsed
             );
             $search = array('cookie' => $sessioncookie);
-            $this->object2->dbupdate('logindata', $data, $search);
+            $this->object2->getDataDriver()->dbupdate('logindata', $data, $search);
 
             // Create a new Session Object
             // and check that the username has been set to ""
@@ -912,7 +922,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
             $this->assertEquals("", $this->object->getUserName());
         } else {
@@ -952,7 +962,7 @@ class SessionTest extends TestCase
                 $cookiedomain,
                 $autologout,
                 $tpl,
-                $this->object2
+                $this->object2->getDataDriver()
             );
 
             $this->assertTrue($this->object->getGCRun());
@@ -996,7 +1006,7 @@ class SessionTest extends TestCase
                     $cookiedomain,
                     $autologout,
                     $tpl,
-                    $this->object2
+                    $this->object2->getDataDriver()
                 );
             } catch (\Throwable $e) {
                 $this->assertStringContainsString(

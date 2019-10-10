@@ -70,7 +70,7 @@ class WebTemplateCommonTest extends TestCase
     {
         $dsn = array();
         \webtemplate\application\WebTemplateCommon::loadDSN($this->object, $dsn);
-        $this->assertEquals($dsn["phptype"], 'pgsql');
+        $this->assertEquals($dsn["dbtype"], 'pgsql');
     }
 
     /**
@@ -84,7 +84,7 @@ class WebTemplateCommonTest extends TestCase
     public function testgetDatabaseName()
     {
         global $testdsn;
-        $dbname = $testdsn["database"];
+        $dbname = $testdsn["databasename"];
         $result = \webtemplate\application\WebTemplateCommon::getDatabaseName(
             $this->object
         );

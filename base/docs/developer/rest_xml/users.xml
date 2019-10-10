@@ -5,28 +5,435 @@
 ]>
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:id="api_users">
 	<title>Users Resource</title>
-	<section xml:id="users_intoduction">
-		<title>Introduction</title>
-		<para>
-		Webtemplate 
-		</para>
-	</section>
+	<para>This &progname; API for retriving, amending and creating users.</para>
 	<section xml:id="users_read">
-		<title>Read User Information</title>
+		<title>Get User Data</title>
 		<para>
-		Webtemplate 
+		This allows you to retreive a list of all users, a single user or the groups a user is a member of.
 		</para>
+		<para><emphasis role ="bold">Request</emphasis></para>
+		<para>To get all users:</para>
+		<programlisting>GET /api/v1/users</programlisting>
+		<para>To get a single user by user id:</para>
+		<programlisting>GET /api/v1/users/(user_id)</programlisting>
+		<para>To get a single user by user name:</para>
+		<programlisting>GET /api/v1/users/(user_name)</programlisting>
+		<para>One of the below must be specified to get a single user.</para>
+		<table frame="all">
+		<title>GET Request Data</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>user_id</entry><entry>int</entry><entry>Integer User ID</entry></row>
+		      	<row><entry>user_name</entry><entry>string</entry><entry>string User Name</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
+		<para><emphasis role ="bold">Response</emphasis></para>
+		<para>All users</para>
+		<programlisting>[
+    {
+        "lastseendate": null,
+        "passwd": "",
+        "passwdchanged": "2019-06-29",
+        "userid": 1,
+        "userenabled": "Y",
+        "username": "admin",
+        "realname": "Administrator",
+        "useremail": "",
+        "userdisablemail": "N"
+    },
+    {
+        "lastseendate": "2019-10-05",
+        "passwd": "",
+        "passwdchanged": "2019-06-29",
+        "userid": 2,
+        "userenabled": "Y",
+        "username": "phpunit",
+        "realname": "Phpunit User",
+        "useremail": "phpunit@example.com",
+        "userdisablemail": "N"
+    },	
+    { ....
+    
+    }
+ ]		</programlisting>
+ 		<para>Single User</para>
+ 		<programlisting>[
+    {
+        "lastseendate": null,
+        "passwd": "",
+        "passwdchanged": "2019-06-29",
+        "userid": 1,
+        "userenabled": "Y",
+        "username": "admin",
+        "realname": "Administrator",
+        "useremail": "",
+        "userdisablemail": "N"
+    }
+]		</programlisting>
+		<table frame="all">
+		<title>Response: User Record</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>lastseendate</entry><entry>string</entry><entry>String: The date the user last logged in</entry></row>
+		      	<row><entry>passwd</entry><entry>string</entry><entry>String: Empty password</entry></row>
+		      	<row><entry>passwdchanged</entry><entry>string</entry><entry>String: The date the users password was last changed</entry></row>
+		      	<row><entry>userid</entry><entry>int</entry><entry>Integer: The user's id number</entry></row>
+		      	<row><entry>userenabled</entry><entry>char</entry><entry>Character:  "Y" if the user is enabled; "N" other wise</entry></row>
+		      	<row><entry>usename</entry><entry>string</entry><entry>String: &progname; user name</entry></row>
+		      	<row><entry>realname</entry><entry>string</entry><entry>String: The users real name</entry></row>
+		      	<row><entry>useremail</entry><entry>string</entry><entry>String: The user's email address</entry></row>
+		      	<row><entry>userdisableemail</entry><entry>char</entry><entry>Character: "Y" to disable email; "N" to enable email</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
+	</section>
+	<section xml:id="users_groups">
+		<title>Retrieve Groups a User is a Member of</title>
+		<para>
+		This allows you to retrieve all the groups in &progname; and identify the ones a user is a member of
+		</para>
+		<para><emphasis role ="bold">Request</emphasis></para>
+		<para>To get user's groups by user id:</para>
+		<programlisting>GET /api/v1/(user_id)/groups</programlisting>
+		<para>To get user's groups by user name:</para>
+		<programlisting>GET /api/v1/(user_name)/groups</programlisting>
+		<para>One of the below must be specified to get a single user.</para>
+		<table frame="all">
+		<title>GET Request Data</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>user_id</entry><entry>int</entry><entry>Integer: User ID</entry></row>
+		      	<row><entry>user_name</entry><entry>string</entry><entry>String: User Name</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
+		<para><emphasis role ="bold">Response</emphasis></para>
+		<para>Group List</para>
+		<programlisting>[
+ {
+   "groupid": 1,
+   "groupname": "admin",
+   "description": "Administrators",
+   "useforproduct": "N",
+   "editable": "N",
+   "autogroup": "N",
+   "admingroup": "Y",
+   "useringroup": "Y",
+   "addusertogroup": "N"
+ },
+ {
+   "groupid": 2,
+   "groupname": "editusers",
+   "description": "Members of this group can create and edit users",
+   "useforproduct": "N",
+   "editable": "N",
+   "autogroup": "N",
+   "admingroup": "Y",
+   "useringroup": "N",
+   "addusertogroup": "N"
+ },
+ {....
+ }
+ ]</programlisting>
+  		<para>
+  		This returns all the groups avaialble in &progname;.  If the selected user is a member of a group <emphasis role="bold">useringroup</emphasis> will 
+  		be set to"Y".
+  		</para>
+  		<table frame="all">
+		<title>Response: Group Record</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>groupid</entry><entry>int</entry><entry>Integer: The group id number</entry></row>
+		      	<row><entry>groupname</entry><entry>string</entry><entry>String: The name of the group</entry></row>
+		      	<row><entry>description</entry><entry>string</entry><entry>String: A decription of what the members of the group can do</entry></row>
+		      	<row><entry>useforproduct</entry><entry>char</entry><entry>Character: "Y" is the group is assigned for product management</entry></row>
+		      	<row><entry>editable</entry><entry>char</entry><entry>Character:  "Y" if the group can be edited; "N" if it is a system group</entry></row>
+		      	<row><entry>autogroup</entry><entry>char</entry><entry>Character: "Y" is all users are automatically a member of this group</entry></row>
+		      	<row><entry>admingroup</entry><entry>char</entry><entry>"Y" if members of this group need access to the admin page</entry></row>
+		      	<row><entry>useringroup</entry><entry>char</entry><entry>Character: "Y" if the user used to select the groups is a member of this group</entry></row>
+		      	<row><entry>addusertogroup</entry><entry>char</entry><entry>Character: "Y" if the user is to become a member or remain a member of this group</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
 	</section>
 	<section xml:id="users_Insert">
-		<title>Insert New User</title>
+		<title>Create New User</title>
 		<para>
-		Webtemplate 
+		This allows you to create a new user for &progname;..
 		</para>
+		<para><emphasis role ="bold">Request</emphasis></para>
+		<para>Create User:</para>
+		<programlisting>POST /api/v1/users</programlisting>
+		<programlisting>
+{
+	"username":"phpunit99",
+	"useremail":"phpunit99@example.com",
+	"realname":"Php Unit",
+	"passwd":"test6TEST",
+	"userenabled":"Y",
+	"passwdchange":"N",
+	"userdisablemail":"N"
+}</programlisting>
+		<table frame="all">
+		<title>Request: New User Record</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>usename</entry><entry>string</entry><entry>String: &progname; user name</entry></row>
+		      	<row><entry>useremail</entry><entry>string</entry><entry>String: The user's email address</entry></row>
+		      	<row><entry>realname</entry><entry>string</entry><entry>String: The users real name</entry></row>
+		      	<row><entry>passwd</entry><entry>string</entry><entry>String: Unencryped password for new user</entry></row>
+		      	<row><entry>userenabled</entry><entry>char</entry><entry>Character:  "Y" if the user is enabled; "N" other wise</entry></row>
+		      	<row><entry>passwdchanged</entry><entry>string</entry><entry>String: The date the users password was last changed</entry></row>
+		      	<row><entry>userdisableemail</entry><entry>char</entry><entry>Character: "Y" to disable email; "N" to enable email</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
+		<para><emphasis role ="bold">Response</emphasis></para>
+		<para>New User</para>
+		<programlisting>[
+    {
+        "lastseendate": null,
+        "passwd": "",
+        "passwdchanged": "2019-10-05",
+        "userid": 13,
+        "userenabled": "Y",
+        "username": "phpunit99",
+        "realname": "Php Unit",
+        "useremail": "phpunit99@example.com",
+        "userdisablemail": "N"
+    }
+]</programlisting>
+		<table frame="all">
+		<title>Response: User Record for new user</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>lastseendate</entry><entry>string</entry><entry>String: The date the user last logged in</entry></row>
+		      	<row><entry>passwd</entry><entry>string</entry><entry>String: Empty password</entry></row>
+		      	<row><entry>passwdchanged</entry><entry>string</entry><entry>String: The date the users password was last changed</entry></row>
+		      	<row><entry>userid</entry><entry>int</entry><entry>Integer: The user's id number</entry></row>
+		      	<row><entry>userenabled</entry><entry>char</entry><entry>Character:  "Y" if the user is enabled; "N" other wise</entry></row>
+		      	<row><entry>usename</entry><entry>string</entry><entry>String: &progname; user name</entry></row>
+		      	<row><entry>realname</entry><entry>string</entry><entry>String: The users real name</entry></row>
+		      	<row><entry>useremail</entry><entry>string</entry><entry>String: The user's email address</entry></row>
+		      	<row><entry>userdisableemail</entry><entry>char</entry><entry>Character: "Y" to disable email; "N" to enable email</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
 	</section>
 	<section xml:id="users_update">
-		<title>Update Existing User</title>
+		<title>Amend User</title>
 		<para>
-		Webtemplate 
+		This allows you to update an existing user for &progname;..
 		</para>
+		<para><emphasis role ="bold">Request</emphasis></para>
+		<para>Update User by user ID:</para>
+		<programlisting>PUT /api/v1/users/(user_id)</programlisting>
+		<para>Update User by user name:</para>
+		<programlisting>PUT /api/v1/users/(user_name)</programlisting>		
+		<programlisting>
+{
+	"username":"phpunit99",
+	"useremail":"phpunit99@example.com",
+	"realname":"Php Unit",
+	"passwd":"",
+	"userenabled":"Y",
+	"passwdchange":"N",
+	"userdisablemail":"N"
+}</programlisting>
+		<table>
+	           <title>PUT URI Request Data</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>user_id</entry><entry>int</entry><entry>Integer: User ID</entry></row>
+		      	<row><entry>user_name</entry><entry>string</entry><entry>String: User Name</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
+
+		
+		<table frame="all">
+		<title>Request: Update User Record</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>usename</entry><entry>string</entry><entry>String: &progname; user name</entry></row>
+		      	<row><entry>useremail</entry><entry>string</entry><entry>String: The user's email address</entry></row>
+		      	<row><entry>realname</entry><entry>string</entry><entry>String: The users real name</entry></row>
+		      	<row><entry>passwd</entry><entry>string</entry><entry>String: Unencryped password for new user.  This should be empty if the password remains the same</entry></row>
+		      	<row><entry>userenabled</entry><entry>char</entry><entry>Character:  "Y" if the user is enabled; "N" other wise</entry></row>
+		      	<row><entry>passwdchanged</entry><entry>string</entry><entry>String: The date the users password was last changed</entry></row>
+		      	<row><entry>userdisableemail</entry><entry>char</entry><entry>Character: "Y" to disable email; "N" to enable email</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
+		<para><emphasis role ="bold">Response</emphasis></para>
+		<para>Update User</para>
+		<programlisting>[
+    {
+        "lastseendate": null,
+        "passwd": "",
+        "passwdchanged": "2019-10-05",
+        "userid": 13,
+        "userenabled": "Y",
+        "username": "phpunit99",
+        "realname": "Php Unit",
+        "useremail": "phpunit99@example.com",
+        "userdisablemail": "N"
+    }
+]</programlisting>
+		<table frame="all">
+		<title>Response: User Record for updated user</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>lastseendate</entry><entry>string</entry><entry>String: The date the user last logged in</entry></row>
+		      	<row><entry>passwd</entry><entry>string</entry><entry>String: Empty password</entry></row>
+		      	<row><entry>passwdchanged</entry><entry>string</entry><entry>String: The date the users password was last changed</entry></row>
+		      	<row><entry>userid</entry><entry>int</entry><entry>Integer: The user's id number</entry></row>
+		      	<row><entry>userenabled</entry><entry>char</entry><entry>Character:  "Y" if the user is enabled; "N" other wise</entry></row>
+		      	<row><entry>usename</entry><entry>string</entry><entry>String: &progname; user name</entry></row>
+		      	<row><entry>realname</entry><entry>string</entry><entry>String: The users real name</entry></row>
+		      	<row><entry>useremail</entry><entry>string</entry><entry>String: The user's email address</entry></row>
+		      	<row><entry>userdisableemail</entry><entry>char</entry><entry>Character: "Y" to disable email; "N" to enable email</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
+	</section>
+	<section xml:id="users_amend_groups">
+	<title>Amend Uses Groups</title>
+	<para>This shows how you update the groups a user is a member off. </para>
+	</section>
+		<para><emphasis role ="bold">Request</emphasis></para>
+		<para>To update a user's group membership by user id:</para>
+		<programlisting>PUT /api/v1/(user_id)/groups</programlisting>
+		<para>To update a user's group membership by user name:</para>
+		<programlisting>PUT /api/v1/(user_name)/groups</programlisting>
+		<programlisting>{
+	"editusers":"y",
+	"editgroups":"y"
+}	
+</programlisting>
+		<table frame="all">
+		<title>PUT URI  Request Data</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>user_id</entry><entry>int</entry><entry>Integer: User ID</entry></row>
+		      	<row><entry>user_name</entry><entry>string</entry><entry>String: User Name</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
+		<table frame="all">
+		<title>PUT Request Data</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="2">
+		      <colspec colname="Group Name" colwidth="1*" />
+		      <colspec colname="Member of" colwidth="1*"  />
+		      <thead>
+		      	<row><entry>Group Name</entry><entry>Member of</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>The name of the group the user is too be added to</entry><entry>Character "Y" to add user to group. </entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
+		<para><emphasis role ="bold">Response</emphasis></para>
+		<para>Update User: Returns the list of &progname; groups as listed in <link linkend="users_groups" >Retrieve Groups a User is a Member of</link> </para>
+	<section xml:id="users_responses">
+	<title>Users HTTP Response Codes</title>
+	<para>
+	The following HTTP Response Codes may be returned by <emphasis>users</emphasis>:
+	</para>
+	<itemizedlist>
+		<listitem>
+			<para><emphasis role="bold">200 Ok</emphasis> If the request is successful.</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">201 Created</emphasis> The new record has been created in the database.</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">400 Bad Request</emphasis> If the request is invalid. i.e. There are arguments in the url.</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">404 Not Found</emphasis> The requested record has not been found / does not exist.</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">405 Method No Allowed</emphasis> If a call is made to an HTTP method not supported by the endpoint</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">409 Conflict</emphasis> A record with that username already exists in the database.</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">500 Internal Server Error</emphasis> If the reason for the error is unknown</para>
+		</listitem>
+	</itemizedlist>
 	</section>
 </chapter>

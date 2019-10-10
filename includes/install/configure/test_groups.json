@@ -1,0 +1,16 @@
+{
+    "testgroup": {
+        "description": "Test Group One",
+        "useforproduct": "N",
+        "autogroup": "Y",
+        "editable": "N",
+        "admingroup": "N"
+    },
+    "testgrouptwo": {
+        "description": "Test Group Two",
+        "useforproduct": "N",
+        "autogroup": "N",
+        "editable": "N",
+        "admingroup": "N"
+    }
+}

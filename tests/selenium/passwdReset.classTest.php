@@ -15,6 +15,7 @@
 
 namespace Facebook\WebDriver;
 
+use \webtemplate\application\exceptions\AppException;
 use PHPUnit\Framework\TestCase;
 
 // Load the Selenium Driver and Application Data.
@@ -58,6 +59,10 @@ class PasswordResetTest extends TestCase
      * BROWSER: The Web browser to be used for the tests
      * URL: The Web location of the test site.
      *
+     * @throws \webtemplate\application\exceptions\AppException If unable to set data driver mode.
+     * @throws \webtemplate\application\exceptions\AppException If unable to connect to the database.
+     * @throws \webtemplate\application\exceptions\AppException If unable to reset password.
+     *
      * @return void
      */
     protected function setUp(): void
@@ -67,25 +72,38 @@ class PasswordResetTest extends TestCase
         // Load the Webdriver from constants.php
         $this->webDriver = MyWebDriver::load();
 
-        // Reset the SECUSER Password to the default value
-        $db = \webtemplate\db\DB::load($testdsn);
-        if (!\webtemplate\general\General::isError($db)) {
-            $encryptPasswd = \webtemplate\general\General::encryptPasswd(
-                SECUSERPASSWORD
+        try {
+            $db = new \g7mzr\db\DBManager(
+                $testdsn,
+                $testdsn['username'],
+                $testdsn['password']
             );
-            $insertdata = array('user_passwd' => $encryptPasswd);
-            $searchdata = array('user_name' => SECUSERUSERNAME);
-            $result = $db->dbupdate('users', $insertdata, $searchdata);
-            if (\webtemplate\general\General::isError($result)) {
-                echo "Error Resetting SECUSER Password";
+            $setresult = $db->setMode("datadriver");
+            if (\g7mzr\db\common\Common::isError($setresult)) {
+                throw new AppException("Unable to set Datadriver mode");
             }
-        } else {
-            echo "Failed to connect to Database";
+        } catch (Exception $ex) {
+            throw new AppException("Unable to connect to database");
         }
+        $encryptPasswd = \webtemplate\general\General::encryptPasswd(
+            SECUSERPASSWORD
+        );
+        $insertdata = array('user_passwd' => $encryptPasswd);
+        $searchdata = array('user_name' => SECUSERUSERNAME);
+        $result = $db->getDataDriver()->dbupdate('users', $insertdata, $searchdata);
+        if (\webtemplate\general\General::isError($result)) {
+            throw new AppException(
+                "Error Resetting SECUSERPASSWD"
+            );
+        }
+        $db->getDataDriver()->disconnect();
     }
 
     /**
      * Function to close the Webdriver after each test is complete
+     *
+     * @throws \webtemplate\application\exceptions\AppException If unable to set data driver mode.
+     * @throws \webtemplate\application\exceptions\AppException If unable to connect to the database.
      *
      * @return void
      */
@@ -128,20 +146,35 @@ class PasswordResetTest extends TestCase
             $this->webDriver->quit();
         }
         // Reset the SECUSER Password to the default value
-        $db = \webtemplate\db\DB::load($testdsn);
-        if (!\webtemplate\general\General::isError($db)) {
-            $encryptPasswd = \webtemplate\general\General::encryptPasswd(
-                SECUSERPASSWORD
+        try {
+            $db = new \g7mzr\db\DBManager(
+                $testdsn,
+                $testdsn['username'],
+                $testdsn['password']
             );
-            $insertdata = array('user_passwd' => $encryptPasswd);
-            $searchdata = array('user_name' => SECUSERUSERNAME);
-            $result = $db->dbupdate('users', $insertdata, $searchdata);
-            if (\webtemplate\general\General::isError($result)) {
-                echo "Error Resetting SECUSER Password";
+            $setresult = $db->setMode("datadriver");
+            if (\g7mzr\db\common\Common::isError($setresult)) {
+                throw new AppException(
+                    "Unable to set Datadrover mode"
+                );
             }
-        } else {
-            echo "Failed to connect to Database";
+        } catch (Exception $ex) {
+                throw new AppException(
+                    "Unable to connect to database"
+                );
         }
+        $encryptPasswd = \webtemplate\general\General::encryptPasswd(
+            SECUSERPASSWORD
+        );
+        $insertdata = array('user_passwd' => $encryptPasswd);
+        $searchdata = array('user_name' => SECUSERUSERNAME);
+        $result = $db->getDataDriver()->dbupdate('users', $insertdata, $searchdata);
+        if (\webtemplate\general\General::isError($result)) {
+            throw new AppException(
+                "Error Resetting SECUSERPASSWD"
+            );
+        }
+        $db->getDataDriver()->disconnect();
     }
 
 
@@ -264,7 +297,7 @@ class PasswordResetTest extends TestCase
         $data = $this->getEmail();
         if ($data <> "") {
             $lines = explode("\n", $data);
-            $url = $lines[13];
+            $url = $lines[12];
         }
         return $url;
     }

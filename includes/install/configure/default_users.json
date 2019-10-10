@@ -1,0 +1,12 @@
+{
+    "admin": {
+        "realname": "Administrator",
+        "passwd": "Admin1admin",
+        "email": "",
+        "enabled": "Y",
+        "passwdchanged": "now()",
+        "groups": [
+            "admin"
+        ]
+    }
+}

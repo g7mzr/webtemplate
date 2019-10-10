@@ -1,29 +1,52 @@
 /* Generated with EditiX at Sun Apr 17 10:55:26 BST 2011 */
 
 body {
-  background-color : #c0c0c0;
+  font-family: sans-serf, Times, serif;
+  background-color : whitesmoke;
+  font-size: 100%;
 }
 
+span.term {
+	font-weight:bold;
+    color: #2D73B9;
+}
 span.underline {
      text-decoration: underline;
 }
+
+span.emphasis {
+	color:  #2D73B9;
+}
+
 pre.programlisting {
     background-color:   #FFFF99 ;
     border: 0px solid  #006600;
 }
+
+code {
+	  font-family: monospace, sans-serf, Times, serif;
+	  font-size: 0.9em;
+	  font-weight: bold;
+
+}
+
 code.filename {
-    font-style: italic;
-    font-weight: bold;
+
 }
 
 code.devicefile {
-    font-style: italic;
-    font-weight: bold;
+
 }
 
 code.directory {
-    font-style: italic;
-    font-weight: bold;
+
+}
+
+h1.title,
+h2.title,
+h3.title{
+    background-color:  lightgray;
+    border: 0px solid  #006600;
 }
 
 div.note {
@@ -57,4 +80,11 @@ a.xref:link {
 
 a.xref:visited {
 
+}
+
+.table-contents th {
+	font-size: 100%;
+	font-weight: bold;
+	padding: 2px;
+	background-color : #ede;
 }

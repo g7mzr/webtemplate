@@ -38,9 +38,9 @@ class WebTemplateCommon
     {
         //global $dsn;
         $tpl->configLoad("local.conf", "database");
-        $dsn["phptype"]  = $tpl->getConfigVars("phptype");
+        $dsn["dbtype"]  = $tpl->getConfigVars("dbtype");
         $dsn["hostspec"] = $tpl->getConfigVars("hostspec");
-        $dsn["database"] = $tpl->getConfigVars("database");
+        $dsn["databasename"] = $tpl->getConfigVars("database");
         $dsn["username"] = $tpl->getConfigVars("username");
         $dsn["password"] = $tpl->getConfigVars("password");
         return true;

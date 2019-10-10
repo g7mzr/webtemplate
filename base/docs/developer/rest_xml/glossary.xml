@@ -43,6 +43,17 @@
       			</glossdef>
 		</glossentry>
 		
+	    	<glossentry xml:id="gloss-api">
+      			<glossterm>API</glossterm>
+
+      			<glossdef>
+        				<para>
+        				An application programming interface (API) is an interface or communication protocol between a client and a server intended to simplify 
+        				the building of client-side software. It has been described as a “contract” between the client and the server, such that if the client makes 
+        				a request in a specific format, it will always get a response in a specific format or initiate a defined action.[
+        				</para>
+      			</glossdef>
+		</glossentry>
 	</glossdiv>
 	
 	<glossdiv xml:id="gloss-c">
@@ -209,6 +220,7 @@
 		</glossentry>
 
 	</glossdiv>
+	
 	<glossdiv xml:id="gloss-r">
 		<title>R</title>
 		<glossentry xml:id="gloss-regexp">
@@ -220,6 +232,18 @@
 				i.e. "find and replace"-like operations. The concept arose in the 1950s, when Kleene formalized 
 				the description of a regular language, and came into common use with the Unix text processing 
 				utilities ed, an editor, and grep (global regular expression print), a filter.
+				</para>
+			</glossdef>
+		</glossentry>
+
+		<glossentry xml:id="gloss-rest">
+			<glossterm>RESTful</glossterm>
+			<glossdef>
+				<para>
+				Representational state transfer (REST) is a software architectural style that defines a set of constraints to be used for creating Web 
+				services. Web services that conform to the REST architectural style, called RESTful Web services (RWS), provide interoperability 
+				between computer systems on the Internet. RESTful Web services allow the requesting systems to access and manipulate textual 
+				representations of Web resources by using a uniform and predefined set of stateless operations. 
 				</para>
 			</glossdef>
 		</glossentry>

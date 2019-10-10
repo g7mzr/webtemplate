@@ -5,34 +5,318 @@
 ]>
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:id="api_groups">
 	<title>Groups Resource</title>
-	<section xml:id="groups_intoduction">
-		<title>Introduction</title>
-		<para>
-		Webtemplate 
-		</para>
-	</section>
+	<para>This &progname; API for retriving, amending, creating and deleting groups.</para>
 	<section xml:id="groups_read">
-		<title>IRead Group Information</title>
+		<title>Get Group Data</title>
 		<para>
-		Webtemplate 
+		This allows you to retreive a list of all groups or a single group.
 		</para>
+		<para><emphasis role ="bold">Request</emphasis></para>
+		<para>To get all groups:</para>
+		<programlisting>GET /api/v1/groups</programlisting>
+		<para>To get a single group by group id:</para>
+		<programlisting>GET /api/v1/groups/(group_id)</programlisting>
+		<para>To get a single group by group name:</para>
+		<programlisting>GET /api/v1/groups/(group_name)</programlisting>
+		<para>One of the below must be specified to get a single group.</para>
+		<table frame="all">
+		<title>GET Request Data</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>group_id</entry><entry>int</entry><entry>Integer Group ID</entry></row>
+		      	<row><entry>group_name</entry><entry>string</entry><entry>string Group Name</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
+		<para><emphasis role ="bold">Response</emphasis></para>
+		<para>All Groups</para>
+		<programlisting>[
+    {
+        "useforproduct": "N",
+        "useringroup": "N",
+        "admingroup": "Y",
+        "autogroup": "N",
+        "editable": "N",
+        "groupid": 1,
+        "description": "Administrators",
+        "addusertogroup": "N",
+        "groupname": "admin"
+    },
+    {
+        "useforproduct": "N",
+        "useringroup": "N",
+        "admingroup": "Y",
+        "autogroup": "N",
+        "editable": "N",
+        "groupid": 2,
+        "description": "Members of this group can create and edit users",
+        "addusertogroup": "N",
+        "groupname": "editusers"
+    },
+    { ...
+    
+    }
+ ]         </programlisting>
+		<para>Single Group</para>
+		<programlisting>[
+    {
+        "useforproduct": "N",
+        "useringroup": "N",
+        "admingroup": "Y",
+        "autogroup": "N",
+        "editable": "N",
+        "groupid": 2,
+        "description": "Members of this group can create and edit users",
+        "addusertogroup": "N",
+        "groupname": "editusers"
+    }
+]          	</programlisting>
+ 		<table frame="all">
+		<title>Response: Group Record</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>groupid</entry><entry>int</entry><entry>Integer: The group id number</entry></row>
+		      	<row><entry>groupname</entry><entry>string</entry><entry>String: The name of the group</entry></row>
+		      	<row><entry>description</entry><entry>string</entry><entry>String: A decription of what the members of the group can do</entry></row>
+		      	<row><entry>useforproduct</entry><entry>char</entry><entry>Character: "Y" is the group is assigned for product management</entry></row>
+		      	<row><entry>editable</entry><entry>char</entry><entry>Character:  "Y" if the group can be edited; "N" if it is a system group</entry></row>
+		      	<row><entry>autogroup</entry><entry>char</entry><entry>Character: "Y" is all users are automatically a member of this group</entry></row>
+		      	<row><entry>admingroup</entry><entry>char</entry><entry>"Y" if members of this group need access to the admin page</entry></row>
+		      	<row><entry>useringroup</entry><entry>char</entry><entry>Character: "Y" if the user used to select the groups is a member of this group</entry></row>
+		      	<row><entry>addusertogroup</entry><entry>char</entry><entry>Character: "Y" if the user is to become a member or remain a member of this group</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
+	
+
+
 	</section>
 	<section xml:id="groups_insert">
-		<title>Insert New Group</title>
+		<title>Create a New Group</title>
 		<para>
-		Webtemplate 
+		This allows you to create a new group for &progname;..
 		</para>
+		<para><emphasis role ="bold">Request</emphasis></para>
+		<para>Create Group:</para>
+		<programlisting>POST /api/v1/groups</programlisting>
+		<programlisting>[
+    {
+        "useforproduct": "N",
+        "autogroup": "N",
+        "description": "New Group",
+        "groupname": "newgroup"
+    }
+]          </programlisting>
+		<table frame="all">
+		<title>Request: New Group Record</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>groupname</entry><entry>string</entry><entry>String: The name of the group</entry></row>
+		      	<row><entry>description</entry><entry>string</entry><entry>String: A decription of what the members of the group can do</entry></row>
+		      	<row><entry>useforproduct</entry><entry>char</entry><entry>Character: "Y" is the group is assigned for product management</entry></row>
+		      	<row><entry>autogroup</entry><entry>char</entry><entry>Character: "Y" is all users are automatically a member of this group</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
+		<para><emphasis role ="bold">Response</emphasis></para>
+		<para>New Group</para>
+		<programlisting>[
+    {
+        "useforproduct": "N",
+        "autogroup": "N",
+        "editable": "N",
+        "groupid": 20,
+        "description": "New Group",
+        "groupname": "newgroup"
+    }
+]          	</programlisting>
+		<table frame="all">
+		<title>Response: New Group Record</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>groupid</entry><entry>int</entry><entry>Integer: The group id number</entry></row>
+		      	<row><entry>groupname</entry><entry>string</entry><entry>String: The name of the group</entry></row>
+		      	<row><entry>description</entry><entry>string</entry><entry>String: A decription of what the members of the group can do</entry></row>
+		      	<row><entry>useforproduct</entry><entry>char</entry><entry>Character: "Y" is the group is assigned for product management</entry></row>
+		      	<row><entry>editable</entry><entry>char</entry><entry>Character:  "Y" if the group can be edited; "N" if it is a system group</entry></row>
+		      	<row><entry>autogroup</entry><entry>char</entry><entry>Character: "Y" is all users are automatically a member of this group</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
 	</section>
 	<section xml:id="groups_update">
-		<title>Update Existing Group</title>
+		<title>Update an Existing Group</title>
 		<para>
-		Webtemplate 
+		This allows you update an existing group for &progname;..
 		</para>
+		<para><emphasis role ="bold">Request</emphasis></para>
+		<para>Update Group by ID number:</para>
+		<programlisting>PUT /api/v1/groups/(group_id)</programlisting>
+		<para>Update Group by Group Name:</para>
+		<programlisting>PUT /api/v1/groups/(group_name)</programlisting>
+		<programlisting>[
+    {
+        "useforproduct": "N",
+        "autogroup": "N",
+        "description": "Update Group",
+        "groupname": "newgroup"
+    }
+]          </programlisting>
+		<table frame="all">
+		<title>PUT URI Request Data</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>group_id</entry><entry>int</entry><entry>Integer Group ID</entry></row>
+		      	<row><entry>group_name</entry><entry>string</entry><entry>string Group Name</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
+		<table frame="all">
+		<title>Request: Update Group Record</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>groupname</entry><entry>string</entry><entry>String: The name of the group</entry></row>
+		      	<row><entry>description</entry><entry>string</entry><entry>String: A decription of what the members of the group can do</entry></row>
+		      	<row><entry>useforproduct</entry><entry>char</entry><entry>Character: "Y" is the group is assigned for product management</entry></row>
+		      	<row><entry>autogroup</entry><entry>char</entry><entry>Character: "Y" is all users are automatically a member of this group</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
+		<para><emphasis role ="bold">Response</emphasis></para>
+		<para>Update Group</para>
+		<programlisting>[
+    {
+        "useforproduct": "N",
+        "autogroup": "N",
+        "editable": "N",
+        "groupid": 20,
+        "description": "Update Group",
+        "groupname": "newgroup"
+    }
+]          	</programlisting>
+		<table frame="all">
+		<title>Response: New Group Record</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>groupid</entry><entry>int</entry><entry>Integer: The group id number</entry></row>
+		      	<row><entry>groupname</entry><entry>string</entry><entry>String: The name of the group</entry></row>
+		      	<row><entry>description</entry><entry>string</entry><entry>String: A decription of what the members of the group can do</entry></row>
+		      	<row><entry>useforproduct</entry><entry>char</entry><entry>Character: "Y" is the group is assigned for product management</entry></row>
+		      	<row><entry>editable</entry><entry>char</entry><entry>Character:  "Y" if the group can be edited; "N" if it is a system group</entry></row>
+		      	<row><entry>autogroup</entry><entry>char</entry><entry>Character: "Y" is all users are automatically a member of this group</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
 	</section>
 	<section xml:id="groups_delete">
-		<title>Delete Group</title>
+		<title>Delete an Existing Group</title>
 		<para>
-		Webtemplate 
+		This allows you delete a single group by group ID or name.  System Groups cannot be deleted.
 		</para>
+		<para><emphasis role ="bold">Request</emphasis></para>
+		<para>To delete a group by group id:</para>
+		<programlisting>DELETE /api/v1/groups/(group_id)</programlisting>
+		<para>To delete a group by group name:</para>
+		<programlisting>DELETE /api/v1/groups/(group_name)</programlisting>
+		<para>One of the below must be specified.</para>
+		<table frame="all">
+		<title>DELETE Request Data</title>
+		<?dbhtml table-width="50%" ?>
+		   <tgroup cols="3">
+		      <colspec colname="Name" colwidth="4*" />
+		      <colspec colname="Type" colwidth="1*"  />
+		      <colspec colname="Description" colwidth="6*" />
+		      <thead>
+		      	<row><entry>Name</entry><entry>Type</entry>	<entry>Description</entry></row>
+		      </thead>
+		      <tbody>
+		      	<row><entry>group_id</entry><entry>int</entry><entry>Integer Group ID</entry></row>
+		      	<row><entry>group_name</entry><entry>string</entry><entry>string Group Name</entry></row>
+		      </tbody>
+		   </tgroup>
+		</table>
+		<para><emphasis role ="bold">Response</emphasis></para>
+		<para>No data is returned in response to a successful delete request.</para>
+	</section>
+	<section xml:id="group_responses">
+	<title>Groups HTTP Response Codes</title>
+	<para>
+	The following HTTP Response Codes may be returned by <emphasis>groups</emphasis>:
+	</para>
+	<itemizedlist>
+		<listitem>
+			<para><emphasis role="bold">200 Ok</emphasis> If the request is successful.</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">201 Created</emphasis> The new record has been created in the database.</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">204 No Content</emphasis> The record has been deleted from the database.</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">400 Bad Request</emphasis> If the request is invalid. i.e. There are arguments in the url.</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">404 Not Found</emphasis> The requested record has not been found / does not exist.</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">405 Method No Allowed</emphasis> If a call is made to an HTTP method not supported by the endpoint</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">409 Conflict</emphasis> A record with that username already exists in the database.</para>
+		</listitem>
+		<listitem>
+			<para><emphasis role="bold">500 Internal Server Error</emphasis> If the reason for the error is unknown</para>
+		</listitem>
+	</itemizedlist>
 	</section>
 </chapter>

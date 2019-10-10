@@ -39,7 +39,7 @@ class TokensTest extends TestCase
     /**
      * Database Class
      *
-     * @var \webtemplate\db\DB
+     * @var \g7mzr\db\DBManager
      */
     protected $object2;
 
@@ -69,15 +69,26 @@ class TokensTest extends TestCase
         $tpl->configLoad($languageconfig);
 
         // Check that we can connect to the database
-        $this->object2 = \webtemplate\db\DB::load($testdsn);
-        if (!\webtemplate\general\General::isError($this->object2)) {
-            $this->databaseconnection = true;
-        } else {
+        try {
+            $this->object2 = new \g7mzr\db\DBManager(
+                $testdsn,
+                $testdsn['username'],
+                $testdsn['password']
+            );
+            $setresult = $this->object2->setMode("datadriver");
+            if (!\g7mzr\db\common\Common::isError($setresult)) {
+                $this->databaseconnection = true;
+            } else {
+                $this->databaseconnection = false;
+                echo $setresult->getMessage();
+            }
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
             $this->databaseconnection = false;
         }
 
         // Create a new User Object
-        $this->object = new \webtemplate\general\Tokens($tpl, $this->object2);
+        $this->object = new \webtemplate\general\Tokens($tpl, $this->object2->getDataDriver());
     }
 
     /**
@@ -89,7 +100,7 @@ class TokensTest extends TestCase
     protected function tearDown(): void
     {
         if ($this->databaseconnection == true) {
-            $this->object2->disconnect();
+            $this->object2->getDataDriver()->disconnect();
         }
     }
 

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE chapter SYSTEM "../../xsl/docbook.dtd" [
+      <!ENTITY  % myents SYSTEM "webtemplate.ent">
+      %myents;
+]>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:id="api_common">
+	<title>Common HTTP Commands</title>
+	<para>
+	The http commands below are common across most of  &progname; RESTFul API endpoints.  The HTTP HEAD method is not supported in the  
+	<emphasis>login</emphasis> and <emphasis>logout</emphasis> endpoints. 
+	</para>
+	<section xml:id="common_head">
+		<title>Head</title>
+		<para>
+		The HTTP HEAD method  is similar to the HTTP GET method except that the responce has no body.  This can be used to see how much data will be 
+		returned by a HTTP GET request before running the request if you are on a low bandwidth connection.  
+		</para>
+		<para>Example HTTP HEAD request:</para>
+		<programlisting>
+HEAD /api/v1/version HTTP/1.1
+Host: server.example.com
+Accept: application/json  </programlisting>
+			<para>Example response:</para>
+			<programlisting>
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 65	</programlisting>
+	</section>
+	<section xml:id="common_options">
+		<title>Options</title>
+		<para>
+		The HTTP OPTIONS request is used to describe what HTTP methods the endpoint supports.  This can be used prior to making data requests to ensure that
+		only supported HTTP method are used.
+		</para>
+		<para>Example HTTP OPTIONS request:</para>
+		<programlisting>
+OPTIONS  /api/v1/users HTTP/1.1
+Host: server.example.com
+Accept: application/json  </programlisting>
+			<para>Example response:</para>
+			<programlisting>
+HTTP/1.1 204 No Content
+Allow: OPTIONS, GET, HEAD, POST</programlisting>
+	</section>
+</chapter>

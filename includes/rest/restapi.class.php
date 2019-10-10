@@ -155,11 +155,11 @@ class RESTapi
 
         // Test that the data sent to the application is in a recognised format
         // Move the request data into the $requestdata property
-        if ($contenttype == 'application/json') {
+        if (strpos($contenttype, 'application/json') !== false) {
             $this->requestdata = $filearray;
-        } elseif (($contenttype == 'application/x-www-form-urlencoded')) {
+        } elseif (strpos($contenttype, 'application/x-www-form-urlencoded') !== false) {
             $this->requestdata = $request;
-        } elseif (($contenttype == 'text/plain; charset=ISO-8859-1')) {
+        } elseif (strpos($contenttype, 'text/plain; charset=ISO-8859-1') !== false) {
             $this->requestdata = $request;
         } elseif ($contenttype == '') {
             $this->requestdata = $request;
@@ -172,7 +172,7 @@ class RESTapi
 
         // Test that the client will accept the data in a format that the server
         // can provide
-        if (strpos($accepttype, 'application/json') !== false) {
+        if ((strpos($accepttype, 'application/json') !== false) or (strpos($accepttype, 'text/html') !== false)) {
             $this->acceptjson = true;
         } else {
             throw new AppException("Invalid header Accept: " . $accepttype, 400);
@@ -233,6 +233,9 @@ class RESTapi
         $result['header'] = "HTTP/1.1 " . $status . " ";
         $result['header'] .= $this->requestStatus($status);
         if ((key_exists('data', $data)) and $this->acceptjson == true) {
+            if (key_exists("ErrorMsg", $data['data'])) {
+                $data['data']['Error'] = true;
+            }
             $result['data'] = json_encode($data['data']);
         }
         if (key_exists('options', $data)) {

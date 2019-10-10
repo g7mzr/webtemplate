@@ -27,8 +27,9 @@ class EditUsersGroups
 
 
     /**
-     * Database MDB2 Database Object
+     * Database Object
      *
+     * @var \g7mzr\db\interfaces\InterfaceDatabaseDriver
      * @access protected
      */
 
@@ -46,11 +47,11 @@ class EditUsersGroups
     /**
      * Constructor
      *
-     * @param \webtemplate\db\driver\InterfaceDatabaseDriver $db Database Object.
+     * @param \g7mzr\db\interfaces\InterfaceDatabaseDriver $db Database Object.
      *
      * @access public
      */
-    public function __construct(\webtemplate\db\driver\InterfaceDatabaseDriver $db)
+    public function __construct(\g7mzr\db\interfaces\InterfaceDatabaseDriver $db)
     {
         $this->db = $db;
     } // end constructor
@@ -120,7 +121,7 @@ class EditUsersGroups
             $searchdata,
             'group_id'
         );
-        if (!\webtemplate\general\General::isError($uaodb)) {
+        if (!\g7mzr\db\common\Common::isError($uaodb)) {
             $usersGroups = array();
 
             // Populate the output array with the records
@@ -147,7 +148,7 @@ class EditUsersGroups
             if ($uaodb->getCode() == \DB_ERROR_NOT_FOUND) {
                 $searchok = true;
             } else {
-                $err =  $uaodb;
+                $err =  new \webtemplate\application\Error($uaodb->getMessage(), $uaodb->getCode());
             }
         }
 
@@ -263,7 +264,7 @@ class EditUsersGroups
             // Delete the users existing entries
             $searchdata = array('user_id' => $userid);
             $result = $this->db->dbdelete('user_group_map', $searchdata);
-            if (!\webtemplate\general\General::isError($result)) {
+            if (!\g7mzr\db\common\Common::isError($result)) {
                 foreach ($grouparray as $group) {
                     if ($group['addusertogroup'] == 'Y') {
                         $grpid = $group['groupid'];
@@ -275,7 +276,7 @@ class EditUsersGroups
                         $result = $this->db->dbinsert('user_group_map', $data);
 
                         // $result = $this->db->saveUsersGroupIds($userid, $grpid);
-                        if (\webtemplate\general\General::isError($result)) {
+                        if (\g7mzr\db\common\Common::isError($result)) {
                             $updateok = false;
                         }
                     }
@@ -284,7 +285,7 @@ class EditUsersGroups
                 $updateok = false;
             }
             $result = $this->db->endTransaction($updateok);
-            if ($result == true) {
+            if ($updateok == true) {
                 return true;
             } else {
                 $msg = gettext("Unable to save groups");

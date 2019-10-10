@@ -39,7 +39,7 @@ class EditUserPrefClassTest extends TestCase
     /**
      * Database Connection Object
      *
-     * @var \webtemplate\db\DB
+     * @var \g7mzr\db\DBManager
      *
      * @access protected
      */
@@ -57,7 +57,7 @@ class EditUserPrefClassTest extends TestCase
     /**
      * MOCK Database Connection
      *
-     * @var \webtemplate\db\DB
+     * @var \g7mzr\db\DBManager
      *
      * @access protected
      */
@@ -83,10 +83,21 @@ class EditUserPrefClassTest extends TestCase
         global $testdsn, $sitePreferences;
 
         // Check that we can connect to the database
-        $this->object2 = \webtemplate\db\DB::load($testdsn);
-        if (!\webtemplate\general\General::isError($this->object2)) {
-            $this->databaseconnection = true;
-        } else {
+        try {
+            $this->object2 = new \g7mzr\db\DBManager(
+                $testdsn,
+                $testdsn['username'],
+                $testdsn['password']
+            );
+            $setresult = $this->object2->setMode("datadriver");
+            if (!\g7mzr\db\common\Common::isError($setresult)) {
+                $this->databaseconnection = true;
+            } else {
+                $this->databaseconnection = false;
+                echo $setresult->getMessage();
+            }
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
             $this->databaseconnection = false;
         }
 
@@ -99,12 +110,17 @@ class EditUserPrefClassTest extends TestCase
         $sitePreferences['displayrows']['enabled'] = true;
 
         // Create a new User Object
-        $this->object = new \webtemplate\users\EditUserPref($this->object2, '2');
+        $this->object = new \webtemplate\users\EditUserPref($this->object2->getDataDriver(), '2');
 
-        $testdsn['phptype'] = 'mock';
-        $this->mockDB = \webtemplate\db\DB::load($testdsn);
+        $testdsn['dbtype'] = 'mock';
+        $this->mockDB = new \g7mzr\db\DBManager(
+            $testdsn,
+            $testdsn['username'],
+            $testdsn['password']
+        );
+        $setresult = $this->mockDB->setMode("datadriver");
         $this->mockPrefClass = new \webtemplate\users\EditUserPref(
-            $this->mockDB,
+            $this->mockDB->getDataDriver(),
             '2'
         );
     }
@@ -118,7 +134,7 @@ class EditUserPrefClassTest extends TestCase
     protected function tearDown(): void
     {
         if ($this->databaseconnection === true) {
-            $this->object2->disconnect();
+            $this->object2->getDataDriver()->disconnect();
         }
     }
 
@@ -683,7 +699,7 @@ class EditUserPrefClassTest extends TestCase
                 )
             );
             $data = array();
-            $this->mockDB->control($functions, $data);
+            $this->mockDB->getDataDriver()->control($functions, $data);
             $result = $this->mockPrefClass->validateUserPreferences($inputArray);
             if ($result) {
                 $result = $this->mockPrefClass->checkUserPreferencesChanged();
@@ -699,7 +715,7 @@ class EditUserPrefClassTest extends TestCase
 
             // PASS THE DELETE TEST
             $functions['saveUserPreferences']['delete'] = 'userprefs';
-            $this->mockDB->control($functions, $data);
+            $this->mockDB->getDataDriver()->control($functions, $data);
             $result = $this->mockPrefClass->validateUserPreferences($inputArray);
             if ($result) {
                 $result = $this->mockPrefClass->checkUserPreferencesChanged();

@@ -31,14 +31,14 @@ class EditUserFunctionsClassTest extends TestCase
 {
     /*
      * Property: db
-     * @var    \webtemplate\db\DB
+     * @var    \g7mzr\db\DBManager
      * @access protected
      */
     protected $db = null;
 
     /*
      * Property: mockdb
-     * @var    \webtemplate\db\DB
+     * @var   \g7mzr\db\DBManager
      * @access protected
      */
     protected $mockdb = null;
@@ -96,6 +96,10 @@ class EditUserFunctionsClassTest extends TestCase
     /**
      * This function sets up the variables and objects for the test
      *
+     * @throws \Exception If unable to set data access mode.
+     * @throws \Exception If unable to connect to database.
+     * @throws \Exception If unable to connect to mock database.
+     *
      * @return void
      *
      * @access protected
@@ -104,23 +108,48 @@ class EditUserFunctionsClassTest extends TestCase
     {
         global $testdsn;
 
-        $this->db = \webtemplate\db\DB::load($testdsn);
+        // Check that we can connect to the database
+        try {
+            $this->db = new \g7mzr\db\DBManager(
+                $testdsn,
+                $testdsn['username'],
+                $testdsn['password']
+            );
+            $setresult = $this->db->setMode("datadriver");
+            if (\g7mzr\db\common\Common::isError($setresult)) {
+                throw new \Exception('Unable to set data access mode');
+            }
+        } catch (Exception $ex) {
+            throw new \Exception('Unable to connect to the database');
+        }
         $this->tpl = new \webtemplate\application\SmartyTemplate();
-        $this->edituser = new \webtemplate\users\EditUser($this->db);
+        $this->edituser = new \webtemplate\users\EditUser($this->db->getDataDriver());
         $configDir = __DIR__ . "/../../configs";
         $this->config = new \webtemplate\config\Configure($configDir);
-        $this->editusergroups = new \webtemplate\groups\EditUsersGroups($this->db);
+        $this->editusergroups = new \webtemplate\groups\EditUsersGroups($this->db->getDataDriver());
 
         // Create a Mock database object
-        $testdsn['phptype'] = 'mock';
-        $this->mockdb = \webtemplate\db\DB::load($testdsn);
+        $testdsn['dbtype'] = 'mock';
+        try {
+            $this->mockdb = new \g7mzr\db\DBManager(
+                $testdsn,
+                $testdsn['username'],
+                $testdsn['password']
+            );
+            $setresult = $this->mockdb->setMode("datadriver");
+            if (\g7mzr\db\common\Common::isError($setresult)) {
+                throw new \Exception('Unable to set data access mode for mock database');
+            }
+        } catch (Exception $ex) {
+            throw new \Exception('Unable to connect to the mock database');
+        }
 
         // Create a Mock Edit User object
-        $this->mockedituser = new \webtemplate\users\EditUser($this->mockdb);
+        $this->mockedituser = new \webtemplate\users\EditUser($this->mockdb->getDataDriver());
 
-        // Create Group Obkect Using the mockDB object
+        // Create Group Object Using the mockDB object
         $this->mockeditusergroups = new \webtemplate\groups\EditUsersGroups(
-            $this->mockdb
+            $this->mockdb->getDataDriver()
         );
         $this->newuserflag = false;
         $this->deleteTestUser();
@@ -135,7 +164,7 @@ class EditUserFunctionsClassTest extends TestCase
     protected function tearDown(): void
     {
         $this->deleteTestUser();
-        $this->db->disconnect();
+        $this->db->getDataDriver()->disconnect();
     }
 
     /**
@@ -159,7 +188,7 @@ class EditUserFunctionsClassTest extends TestCase
                 "pgsql:host=%s;port=%d;dbname=%s;user=%s;password=%s",
                 $testdsn["hostspec"],
                 '5432',
-                $testdsn["database"],
+                $testdsn["databasename"],
                 $testdsn["username"],
                 $testdsn["password"]
             );
@@ -665,7 +694,7 @@ class EditUserFunctionsClassTest extends TestCase
                 )
             )
         );
-        $this->mockdb->control($functions, $data);
+        $this->mockdb->getDataDriver()->control($functions, $data);
         $testdata = array();
         $testdata['userid'] = '2';
         \webtemplate\users\EditUserFunctions::editUser(
@@ -1124,7 +1153,7 @@ class EditUserFunctionsClassTest extends TestCase
         );
 
         // Set up Valid Data so the save passes but the getid fails
-        $this->mockdb->control($functions, $mockdata);
+        $this->mockdb->getDataDriver()->control($functions, $mockdata);
 
         \webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,
@@ -1175,7 +1204,7 @@ class EditUserFunctionsClassTest extends TestCase
         );
 
         // Set up Valid Data so the save passes but the getid fails
-        $this->mockdb->control($functions, $mockdata);
+        $this->mockdb->getDataDriver()->control($functions, $mockdata);
 
         \webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,
@@ -1239,7 +1268,7 @@ class EditUserFunctionsClassTest extends TestCase
         );
 
         // Set up Valid Data so the save passes but the getid fails
-        $this->mockdb->control($functions, $mockdata);
+        $this->mockdb->getDataDriver()->control($functions, $mockdata);
 
         \webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,
@@ -1336,7 +1365,7 @@ class EditUserFunctionsClassTest extends TestCase
         );
 
         // Set up Valid Data so the save passes but the getid fails
-        $this->mockdb->control($functions, $mockdata);
+        $this->mockdb->getDataDriver()->control($functions, $mockdata);
 
         \webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,

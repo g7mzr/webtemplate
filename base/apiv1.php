@@ -165,7 +165,7 @@ try {
     } else {
         header("HTTP/1.1 500 Internal Server Error");
     }
-    $msg = json_encode(array('Errormsg' => $e->getMessage()));
+    $msg = json_encode(array("Error" => true, 'Errormsg' => $e->getMessage()));
     $datasize = strlen($msg);
     header('Content-Length: ' . $datasize);
     echo $msg;

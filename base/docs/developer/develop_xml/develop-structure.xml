@@ -34,8 +34,7 @@
         					<listitem>
           						<para>
           						This file is located in the docs directory.  It is used to convert the docbook xml
-          						files in to html and pdf files that explain how to use Webtemplate.  It also creates
-          						the API html files for developers.  
+          						files in to html and pdf files that explain how to use Webtemplate. 
 						</para>
 						<para>
 						File permissions prevent the webserver accessing this file.
@@ -71,6 +70,14 @@
 						rights  that the user has.
 						</para>
 			        		</listitem>
+					</varlistentry>
+					<varlistentry>
+					<term>apiv1.php</term>
+					<listitem>
+						<para>
+						Is the entry point to the <olink targetptr="gloss-rest" targetdoc="develop" role="glossterm">RESTful API</olink>.
+						</para>
+					</listitem>
 					</varlistentry>
 					
 				   	<varlistentry>
@@ -210,21 +217,21 @@
 				<title>Include Files</title>
 				<para>
 				This paragraph contains a description of all the Webtemplate include files.  Where appropriate the filename is preceded with the 
-				directory it is located in.  Full details of each file can be found in the application's API documentation which can be accessed by
-				clicking on the filename.
+				directory it is located in. 
 				</para>
 				<variablelist>
 				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_admin_Parameters.xhtml">admin/parameters.class.php</ulink></term>
+        					<term>admin/parameters.class.php</term>
         					<listitem>
           						<para>
-          						This Class is used to Validate, confirm changes to and Save the applications parameters.
+          						This Class used to access the admin, auth, email and required modules used to set up &progname; configuration.  All modules 
+          						must be decendents of the <emphasis>parameterabstract</emphasis> class.
 						</para>
 			        		</listitem>
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_admin_Preferences.xhtml">admin/preferences.class.php</ulink></term>
+        					<term>admin/preferences.class.php</term>
         					<listitem>
           						<para>
           						This Class is used to Validate, confirm changes to and Save the applications preferences.
@@ -232,28 +239,46 @@
 			        		</listitem>
 					</varlistentry>
 
+
 					<varlistentry>
-					<term><ulink url="&url-api;classes/webtemplate_config_Configure.xhtml">config/configure.class.php</ulink></term>
+					<term>application/application.class.php</term>
 					<listitem>
 						<para>
-						This class is used to read, write and save the configuration parameters.  Currently they are saved as a text file but moving
-						them to the database is being concidered.
+						This class acts as a host for all other classes in &progname;.  As a result there is no requirement to call any other class directly.
 						</para>
-					</listitem>	
-					</varlistentry>
-				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_general_General.xhtml">general/general.class.php</ulink></term>
-        					<listitem>
-          						<para>
-          						This module contains Class containing functions used by all the applications programs.  
-          						The purpose of functions include checking documentation is available, setting the configuration file 
-          						and checking the key parameters are set.
-						</para>
-			        		</listitem>
+					</listitem>
 					</varlistentry>
 
+					<varlistentry>
+					<term>application/createdocs.class.php</term>
+					<listitem>
+						<para>
+						This class used by <filename>makedocs.php</filename> to create the docbook documentation.
+						</para>
+					</listitem>
+					</varlistentry>
+
+					<varlistentry>
+					<term>application/error.class.php</term>
+					<listitem>
+						<para>
+						This class contains the Webtemplate Error Object.
+						</para>
+					</listitem>
+					</varlistentry>
+
+
+					<varlistentry>
+					<term>application/errorhandler.class.php</term>
+					<listitem>
+						<para>
+						This class contains the Webtemplate Error Handlers which override the builtin PHP handlers.
+						</para>
+					</listitem>
+					</varlistentry>
+					
 				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_general_Header.xhtml">general/header.class.php</ulink></term>
+        					<term>application/header.class.php</term>
         					<listitem>
           						<para>
           						This module contains HTML Headers which are sent with evey file to increase the security of the application.
@@ -261,6 +286,46 @@
 			        		</listitem>
 					</varlistentry>
 
+				   	<varlistentry>
+        					<term>application/session.class.php</term>
+        					<listitem>
+          						<para>
+          						This module contains the Class for configuring the <olink targetptr="gloss-php" targetdoc="develop" role="glossterm">PHP</olink>
+          						<olink targetptr="gloss-session" targetdoc="develop" role="glossterm">SESSION</olink> variables.
+						</para>
+			        		</listitem>
+					</varlistentry>
+
+				   	<varlistentry>
+        					<term>application/smartytemplate.class.php</term>
+        					<listitem>
+          						<para>
+          						The Smarty_Template_Class inherits the <olink targetptr="gloss-smarty" targetdoc="develop" role="glossterm">SMARTY</olink> 
+          						Class and is used to automatically configure <olink targetptr="gloss-smarty" targetdoc="develop" role="glossterm">SMARTY</olink> 
+          						for the application.
+						</para>
+			        		</listitem>
+					</varlistentry>
+					
+				   	<varlistentry>
+        					<term>application/webtemplatecommon.class.php</term>
+        					<listitem>
+          						<para>
+          						This module sets up the database access requirements. 
+						</para>
+			        		</listitem>
+					</varlistentry>
+
+					<varlistentry>
+					<term>config/configure.class.php</term>
+					<listitem>
+						<para>
+						This class is used to read, write and save the configuration parameters.  Currently they are saved as a text file but moving
+						them to the database is being concidered.
+						</para>
+					</listitem>	
+					</varlistentry>
+					
 				   	<varlistentry>
         					<term>general/help.class.php</term>
         					<listitem>
@@ -271,7 +336,18 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_general_LocalValidate.xhtml">general/localvalidate.class.php</ulink></term>
+        					<term>general/general.class.php</term>
+        					<listitem>
+          						<para>
+          						This module contains Class containing functions used by all the applications programs.  
+          						The purpose of functions include checking documentation is available, setting the configuration file 
+          						and checking the key parameters are set.
+						</para>
+			        		</listitem>
+					</varlistentry>
+
+				   	<varlistentry>
+        					<term>general/localvalidate.class.php</term>
         					<listitem>
           						<para>
           						This module contains the Static Local Validation Class.  it contains functions to
@@ -281,7 +357,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_general_Log.xhtml">general/log.class.php</ulink></term>
+        					<term>general/log.class.php</term>
         					<listitem>
           						<para>
           						This module is used by the application to create, update and maintain it's logfiles.  
@@ -291,7 +367,7 @@
 					</varlistentry>
 
 					<varlistentry>
-					<term><ulink url="&url-api;classes/webtemplate_general_Mail.xhtml">general/mail.class.php</ulink></term>
+					<term>general/mail.class.php</term>
 					<listitem>
 						<para>
 						This modules acts as the interface beetween Webtemplate and PHPMail.  The module controls whither Webtemplate can 
@@ -301,17 +377,9 @@
 					</listitem>
 					</varlistentry>
 					
-				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_general_WebTemplateCommon.xhtml">general/webtemplatecommon.class.php</ulink></term>
-        					<listitem>
-          						<para>
-          						This module sets up the database access requirements. 
-						</para>
-			        		</listitem>
-					</varlistentry>
 					
 					<varlistentry>
-					<term><ulink url="&url-api;classes/webtemplate_general_Tokens.xhtml">general/token.class.php</ulink></term>
+					<term>general/token.class.php</term>
 					<listitem>
 						<para>
 						This module is used to create, manage and delete authentication tokens for Wetemplate.
@@ -320,28 +388,16 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_general_Session.xhtml">general/session.class.php</ulink></term>
+        					<term>groups/editgroupsfunctions.class.php</term>
         					<listitem>
           						<para>
-          						This module contains the Class for configuring the <olink targetptr="gloss-php" targetdoc="develop" role="glossterm">PHP</olink>
-          						<olink targetptr="gloss-session" targetdoc="develop" role="glossterm">SESSION</olink> variables.
+          						This module contains the Class used by <filename>base/editgroups.php</filename> to display, edit, save and delete security groups.
 						</para>
 			        		</listitem>
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_general_SmartyTemplate.xhtml">general/smartytemplate.class.php</ulink></term>
-        					<listitem>
-          						<para>
-          						The Smarty_Template_Class inherits the <olink targetptr="gloss-smarty" targetdoc="develop" role="glossterm">SMARTY</olink> 
-          						Class and is used to automatically configure <olink targetptr="gloss-smarty" targetdoc="develop" role="glossterm">SMARTY</olink> 
-          						for the application.
-						</para>
-			        		</listitem>
-					</varlistentry>
-
-				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_groups_EditGroups.xhtml">groups/editgroups.class.php</ulink></term>
+        					<term>groups/editgroups.class.php</term>
         					<listitem>
           						<para>
           						This module contains the Class used by users with "editgroups" permissions to create, update and delete groups
@@ -351,7 +407,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_groups_EditUsersGroups.xhtml">groups/editiusersgroups.class.php</ulink></term>
+        					<term>groups/editiusersgroups.class.php</term>
         					<listitem>
           						<para>
           						This module contains the Class used by users with "edituser" permissions to assign or remove users fro specific groups. 
@@ -361,17 +417,26 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_install_DataBase.xhtml">install/database.class.php</ulink></term>
+        					<term>groups/groupfunctions.trait.php</term>
         					<listitem>
           						<para>
-          						This module contains the static DataBase Class which is used to create and update the back-end database.  It currently
-          						only supports PostgreSQL.
+          						This module contains a trait which common group functions.
+						</para>
+			        		</listitem>
+					</varlistentry>
+
+				   	<varlistentry>
+        					<term>install/database.class.php</term>
+        					<listitem>
+          						<para>
+          						This module contains the static DataBase Class which is used to create and update the back-end database.  The databse 
+          						configuration is held in <emphasis>json</emphasis> files in the <filename class="directory" >configure</filename>
 						</para>
 			        		</listitem>
 					</varlistentry>
 					
 					<varlistentry>
-					<term><ulink url="&url-api;classes/webtemplate_install_Dependancies.xhtml">install/dependancies.class.php</ulink></term>
+					<term>install/dependancies.class.php</term>
 					<listitem>
 						<para>
 						This module is used to check if the Webtemplate Dependancies are available on the target system
@@ -380,7 +445,7 @@
 					</varlistentry>
 
 					<varlistentry>
-					<term><ulink url="&url-api;classes/webtemplate_install_DependanciesData.xhtml">install/dependanciesdata.class.php</ulink></term>
+					<term>install/dependanciesdata.class.php</term>
 					<listitem>
 						<para>
 						This module contains the Webtemplate Dependancy Data in 4 arrays
@@ -389,7 +454,7 @@
 					</varlistentry>
 					
 					<varlistentry>
-					<term><ulink url="&url-api;classes/webtemplate_install_FileManager.xhtml">install/filemanager.class.php</ulink></term>
+					<term>install/filemanager.class.php</term>
 					<listitem>
 						<para>
 						This module contains all the functions to create and update the parameters and preference files as well as file containing the
@@ -399,7 +464,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_users_EditUser.xhtml">users/edituser.class.php</ulink></term>
+        					<term>users/edituser.class.php</term>
         					<listitem>
           						<para>
           						This module contains the Class to Create and update users.  Functions are available to validate
@@ -409,7 +474,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_users_User.xhtml">users/user.class.php</ulink></term>
+        					<term>users/user.class.php</term>
         					<listitem>
           						<para>
           						This module contains the class that the application uses to access user information inorder to
@@ -419,7 +484,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_users_Groups.xhtml">users/groups.class.php</ulink></term>
+        					<term>users/groups.class.php</term>
         					<listitem>
           						<para>
           						This module contains the class that the application uses to access user security information.
@@ -428,7 +493,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_users_EditUserPref.xhtml">users/edituserpref.class.php</ulink></term>
+        					<term>users/edituserpref.class.php</term>
         					<listitem>
           						<para>
           						This module contains the class to allow users to update their personal customisation choices. 
@@ -436,62 +501,6 @@
 						</para>
 			        		</listitem>
 					</varlistentry>
-
-				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_db_DB.xhtml">db/db.class.php</ulink></term>
-        					<listitem>
-          						<para>
-          						This module is the primary access point to the database abstraction layer
-						</para>
-			        		</listitem>
-					</varlistentry>
-					
-				   	<varlistentry>
-        					<term><ulink url="&url-api;interfaces/webtemplate_db_DBDRIVERIF.xhtml">db/driver/dbdriver.if.php</ulink></term>
-        					<listitem>
-          						<para>
-          						This module that contains the interface for the database abstraction layer driver.  All Driver classes must implement
-          						this interface to ensure compatibility
-						</para>
-			        		</listitem>
-					</varlistentry>
-					
-				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_db_DB_DRIVER_PGSQL.xhtml">db/driver/pgsql.class.php</ulink></term>
-        					<listitem>
-          						<para>
-          						This module is the PGSQL driver file for  database abstraction layer
-						</para>
-			        		</listitem>
-					</varlistentry>
-										
-				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_db_DB_DRIVER_MOCK.xhtml">db/driver/mock.class.php</ulink></term>
-        					<listitem>
-          						<para>
-          						This module is the mock driver file for  database abstraction layer used to support unit testing
-						</para>
-			        		</listitem>
-					</varlistentry>
-
-				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_db_schema_SchemaFunctions.xhtml">db/schema/schemafunctions.class.php</ulink></term>
-        					<listitem>
-          						<para>
-          						This module contains the functions for creating and maintaining the database schema located in schemadata.class.php
-						</para>
-			        		</listitem>
-					</varlistentry>
-
-				   	<varlistentry>
-        					<term><ulink url="&url-api;classes/webtemplate_db_schema_SchemaData.xhtml">db/schema/schemadata.class.php</ulink></term>
-        					<listitem>
-          						<para>
-          						This module contains the data for creating and maintaining the database schema
-						</para>
-			        		</listitem>
-					</varlistentry>
-
 				</variablelist>
 
 
@@ -702,6 +711,51 @@
 		This Paragraph contains a list of files  that may require updating when you 
 		develop your own application.
 		</para>
+			<section is="develop-update-menus">
+				<title>Menus</title>
+				<para>
+				The following menus may need updating as you develop your application.  See the existing menus for their structure.
+				</para>
+				<variablelist>
+					<varlistentry>
+						<term>adminmenu.json</term>
+						<listitem>
+							<para>
+							This is the admin menus and is used to control the contents of <filename>admin.php</filename>. When adding new admin functionality to your 
+							application thie menu is updated to allow access to the module via <filename>admin.php</filename> if the current user is in the correct access 
+							group.
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term>mainmenu.json</term>
+						<listitem>
+							<para>
+							This is the applications main menu and is shown on every page.  Menu items are displayed to the user depending on if they are logged in and if they
+							are members of the admin group.
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term>parammenu.json</term>
+						<listitem>
+							<para>
+							&progname; configuration parameters are subdivided into seperate categories.  This menu is used to access the individual subcategories.  It is 
+							expected that new application parameters are added to their own subcategory.
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term>userprefmenu.json</term>
+						<listitem>
+							<para>
+							&progname; users preferences are split into a number of subpages.  This menu is used to configure the individual pages.  It is expected that
+							new application preferences will be added two their own page.
+							</para>
+						</listitem>
+					</varlistentry>
+				</variablelist>
+			</section>
 			<section id="develop-update-modules">
 				<title>Modules</title>
 				<para>
@@ -729,36 +783,6 @@
 				</para>
 				<variablelist>
 				   	<varlistentry>
-        					<term>admin/parameters.class.php</term>
-        					<listitem>
-          						<para>
-          						This will require updating if you add new configuration parameters to the 
-          						application.  This will ensure that the parameters are validated prior to saving if
-          						 they have been changed.
-   						</para>
-			        		</listitem>
-					</varlistentry>
-					<varlistentry>
-					<term>config/configure.class.php</term>
-					<listitem>
-						<para>
-						This will require updating so that any new parameters added will be saved to <filename>parameters.php</filename>
-						</para>
-					</listitem>
-					</varlistentry>
-
-				   	<varlistentry>
-        					<term>admin/preferences.class.php</term>
-        					<listitem>
-          						<para>
-          						This will require updating if you add new customisation options to the 
-          						application.  This will ensure that they are validated prior to saving if
-          						they have been changed.
-   						</para>
-			        		</listitem>
-					</varlistentry>
-
-				   	<varlistentry>
         					<term>general/help.class.php</term>
         					<listitem>
           						<para>
@@ -779,16 +803,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term>install/database.class.php</term>
-        					<listitem>
-          						<para>
-          						This will require updating to modify the database by adding or updating tables.
-   						</para>
-			        		</listitem>
-					</varlistentry>
-
-				   	<varlistentry>
-        					<term>user/user.class.php</term>
+        					<term>users/user.class.php</term>
         					<listitem>
           						<para>
           						This will require updating to provide access to any new customisation options 
@@ -798,7 +813,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term>user/users.pref_class.php</term>
+        					<term>users/edituserspref.class.php</term>
         					<listitem>
           						<para>
           						This will need updating to allow the user to choose their own customisation 
@@ -806,26 +821,6 @@
 						</para>
 			        		</listitem>
 					</varlistentry>
-
-				   	<varlistentry>
-        					<term>db/driver/pgsql.class.php</term>
-        					<listitem>
-          						<para>
-          						This may need updating to deal with new column translations.
-						</para>
-			        		</listitem>
-					</varlistentry>
-
-				   	<varlistentry>
-        					<term>db/schema/schema.php</term>
-        					<listitem>
-          						<para>
-          						This will need updating to allow for database schema changes such as new tables and groups which are
-          						specific to the application beinf developed.
-						</para>
-			        		</listitem>
-					</varlistentry>
-
 				</variablelist>
 
 			</section>
@@ -833,16 +828,6 @@
 				<title>Templates</title>
 				<para>The following templates may require updating as you develop your application.</para>
 				<variablelist>
-					<varlistentry>
-					<term>layout.tpl</term>
-					<listitem>
-						<para>
-						This is the main template and will need to be updated to include any new menus options that are required in the header
-						or footer of the page.
-						</para>
-					</listitem>
-					</varlistentry>
-					
 					<varlistentry>
 					<term>blank.tpl</term>
 					<listitem>
@@ -862,37 +847,8 @@
 						</para>
 					</listitem>
 					</varlistentry>
-					
 					<varlistentry>
-					<term>admin/admin.tpl</term>
-					<listitem>
-						<para>
-						This will need updating to allow administrators to access any new functionality added that requires
-						some sort of admin privilages to access.
-						</para>
-					</listitem>
-					</varlistentry>
-					
-					<varlistentry>
-					<term>admin/config.tpl</term>
-					<listitem>
-						<para>
-						This template will need updating if you add any configurable parameters to the application
-						</para>
-					</listitem>
-					</varlistentry>
-					
-					<varlistentry>
-					<term>admin/prefs.tpl</term>
-					<listitem>
-						<para>
-						This template will need updating if you add any customisation options to the application
-						</para>
-					</listitem>
-					</varlistentry>
-									
-					<varlistentry>
-					<term>users/prefs.tpl</term>
+					<term>users/preferences/settings.tpl</term>
 					<listitem>
 						<para>
 						This template will need updating if you add any customisation options to the application
@@ -995,60 +951,18 @@
 		<section id="develop-config-parameters">
 			<title>Parameters</title>
 			<para>
-			The <filename>parameters.php</filename> is created and updated by the user when they run <filename>install.php</filename>.  The file contains
+			The <filename>parameters.json</filename> is created and updated by the user when they run <filename>install.php</filename>.  The file contains
 			the key configuration parameters used by the application.  They can be updated by an administror using the web interface.  There should be no 
 			need to manually edit this file
 			</para>
-			<para>
-			An example <filename>parameters.php</filename> is shown below:
-			</para>
-			<programlisting>
-	&lt;?php
-	$parameters['urlbase'] = '';
-	$parameters['maintainer'] = '';
-	$parameters['docbase'] = '';
-	$parameters['cookiedomain'] = '';
-	$parameters['cookiepath'] = '/';
-	$parameters['admin']['logging'] = '1';
-	$parameters['admin']['logrotate'] = '2';
-	$parameters['admin']['newwindow'] = true;
-	$parameters['admin']['maxrecords'] = '2';
-	$parameters['users']['newaccount'] = false;
-	$parameters['users']['regexp'] = '/^[a-zA-Z0-9]{5,12}$/';
-	$parameters['users']['regexpdesc'] = 'Must between 5 and 12 characters long and contain upper and lower case letters and numbers.';
-	$parameters['users']['passwdstrength'] = 4;
-	$parameters['users']['passwdage'] = 1;
-	$parameters['users']['newpassword'] = false;
-	$parameters['users']['autocomplete'] = false;
-	$parameters['email']['smtpdeliverymethod'] = 'none';
-	$parameters['email']['emailaddress'] = '';
-	$parameters['email']['smtpserver'] = '';
-	$parameters['email']['smtpusername'] = '';
-	$parameters['email']['smtppassword'] = '';
-	$parameters['email']['smtpdebug'] = false;
-	?&gt;
-			</programlisting>
 		</section>
 		<section id="develop-config-preferences">
 			<title>Preferences</title>
 			<para>
-			The <filename>preferences.php</filename> is created and updated by the user when they run <filename>install.php</filename>.  The file contains
+			The <filename>preferences.json</filename> is created and updated by the user when they run <filename>install.php</filename>.  The file contains
 			the user preferences used by the application.  They can be updated by an administror using the web interface.  There is no need to manually edit 
 			this file.
 			</para>
-			<para>
-			An example <filename>preferences.php</filename> is shown below:
-			</para>
-			<programlisting>
-	&lt;?php
-	$sitePreferences['theme']['value'] = 'Dusk';
-	$sitePreferences['theme']['enabled'] = true;
-	$sitePreferences['zoomtext']['value'] = true;
-	$sitePreferences['zoomtext']['enabled'] = true;
-	$sitePreferences['displayrows']['value'] = '2';
-	$sitePreferences['displayrows']['enabled'] = true;
-	?&gt;
-			</programlisting>
 		</section>
 		<section id="develop-config-tests-">
 			<title>Database Configuration File for PHPUNIT</title>

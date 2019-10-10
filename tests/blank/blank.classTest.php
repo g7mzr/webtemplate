@@ -40,7 +40,7 @@ class BlankClassTest extends TestCase
     /**
      * Mock Database Driver Class
      *
-     * @var \webtemplate\db\DB
+     * @var \g7mzr\db\DBManager
      */
     protected $mockDB;
 
@@ -56,11 +56,16 @@ class BlankClassTest extends TestCase
 
 
         // Create a Mock database object
-        $testdsn['phptype'] = 'mock';
-        $this->mockDB = \webtemplate\db\DB::load($testdsn);
+        $testdsn['dbtype'] = 'mock';
+        $this->mockDB = new \g7mzr\db\DBManager(
+            $testdsn,
+            $testdsn['username'],
+            $testdsn['password']
+        );
+        $setresult = $this->mockDB->setMode("datadriver");
 
         // Create Group Obkect Using the mockDB obkect
-        $this->object = new \webtemplate\blank\Blank($this->mockDB);
+        $this->object = new \webtemplate\blank\Blank($this->mockDB->getDataDriver());
     }
 
     /**

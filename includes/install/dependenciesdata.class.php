@@ -48,6 +48,10 @@ class DependenciesData
         'PDO' => array(
             'name' => 'pdo',
             'install' => "Install session as instructed by your version of PHP"
+        ),
+        'JSON' => array(
+            "name" => "json",
+            'install' => "Install session as instructed by your version of PHP"
         )
     );
 

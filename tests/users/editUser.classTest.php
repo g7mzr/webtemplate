@@ -42,7 +42,7 @@ class EditUserClassTest extends TestCase
     /**
      * Database Connection Object
      *
-     * @var \webtemplate\db\DB
+     * @var \g7mzr\db\DBManager
      */
     protected $object2;
 
@@ -70,7 +70,7 @@ class EditUserClassTest extends TestCase
     /**
      * MOCK Database connection
      *
-     * @var \webtemplate\db\DB
+     * @var \g7mzr\db\DBManager
      */
     protected $mockdatabaseconnection;
 
@@ -97,31 +97,47 @@ class EditUserClassTest extends TestCase
     protected function setUp(): void
     {
         global $testdsn;
-         // Check that we can connect to the database
-        $this->object2 = \webtemplate\db\DB::load($testdsn);
-        if (!\webtemplate\general\General::isError($this->object2)) {
-            $this->databaseconnection = true;
-        } else {
+        // Check that we can connect to the database
+        try {
+            $this->object2 = new \g7mzr\db\DBManager(
+                $testdsn,
+                $testdsn['username'],
+                $testdsn['password']
+            );
+            $setresult = $this->object2->setMode("datadriver");
+            if (!\g7mzr\db\common\Common::isError($setresult)) {
+                $this->databaseconnection = true;
+            } else {
+                $this->databaseconnection = false;
+                echo $setresult->getMessage();
+            }
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
             $this->databaseconnection = false;
         }
 
         // Create a new User Object
-        $this->object = new \webtemplate\users\EditUser($this->object2);
+        $this->object = new \webtemplate\users\EditUser($this->object2->getDataDriver());
 
         // Set newuserflag
         $this->newuserflag = false;
 
         //User Class
-        $this->user_class = new \webtemplate\users\User($this->object2);
+        $this->user_class = new \webtemplate\users\User($this->object2->getDataDriver());
 
         // Set up MOCK Connection
-        $tempDBDriver = $testdsn['phptype'];
-        $testdsn['phptype'] = 'mock';
-        $this->mockdatabaseconnection = \webtemplate\db\DB::load($testdsn);
-        $this->object3 = new \webtemplate\users\EditUser(
-            $this->mockdatabaseconnection
+        $tempDBDriver = $testdsn['dbtype'];
+        $testdsn['dbtype'] = 'mock';
+        $this->mockdatabaseconnection = new \g7mzr\db\DBManager(
+            $testdsn,
+            $testdsn['username'],
+            $testdsn['password']
         );
-        $testdsn['phptype'] = $tempDBDriver;
+        $setresult = $this->mockdatabaseconnection->setMode("datadriver");
+        $this->object3 = new \webtemplate\users\EditUser(
+            $this->mockdatabaseconnection->getDataDriver()
+        );
+        $testdsn['dbtype'] = $tempDBDriver;
 
         // Set up the configuration object
         $configDir = __DIR__ . "/../../configs";
@@ -145,7 +161,7 @@ class EditUserClassTest extends TestCase
                 "pgsql:host=%s;port=%d;dbname=%s;user=%s;password=%s",
                 $testdsn["hostspec"],
                 '5432',
-                $testdsn["database"],
+                $testdsn["databasename"],
                 $testdsn["username"],
                 $testdsn["password"]
             );
@@ -166,7 +182,7 @@ class EditUserClassTest extends TestCase
         }
 
         if ($this->databaseconnection === true) {
-            $this->object2->disconnect();
+            $this->object2->getDataDriver()->disconnect();
         }
     }
 
@@ -452,7 +468,7 @@ class EditUserClassTest extends TestCase
             );
 
              // Set up Valid Data so the save passes but the getid fails
-            $this->mockdatabaseconnection->control($functions, $testdata);
+            $this->mockdatabaseconnection->getDataDriver()->control($functions, $testdata);
 
             $usersaved = $this->object3->saveuser(
                 $userId,
@@ -475,7 +491,7 @@ class EditUserClassTest extends TestCase
 
             // Fail update test
             $functions['saveuser']['pass'] = false;
-            $this->mockdatabaseconnection->control($functions, $testdata);
+            $this->mockdatabaseconnection->getDataDriver()->control($functions, $testdata);
             $userId = 1;
             $usersaved = $this->object3->saveuser(
                 $userId,

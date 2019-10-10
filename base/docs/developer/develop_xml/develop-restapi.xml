@@ -9,7 +9,147 @@
 	<section id="api_introduction">
 		<title>Introduction</title>
 		<para>
-		TO BE DONE
+		The &progname; RESTful API uses HTTP requests to GET, PUT, POST and DELETE data.  The base program includes the capability to login and logout of the application, 
+		obtain information about the application and read, create, modify and delete users and groups. The RESTful API is called using the following URL 
+		<emphasis role="underline">http://servername/api/v1/endpoint</emphasis> where servername is the name of your server and endpoint is the name of the resource
+		you wish to access.
 		</para>
+		<para>
+		This section of the manual does not tell you how to program a RESTful API Server or Client but how to create endpoints for &progname;.  The application has an enabled RESTful API.
+		</para>
+	</section>
+	<section is="api_structure">
+		<title>Structure</title>
+		<para>
+		The RESTful API resides in the following files and directories.
+		</para>
+		<variablelist>
+		   	<varlistentry>
+        			<term>base/.htaccess</term>
+        			<listitem>
+          				<para>
+          				<filename>.htaccess</filename> is an Apache Webserver configuration file and is used to define the URL rewrite rule so that a correctly
+          				formed RESTful URL is rewritten into a format that APACHE understands.  There is no requirement to change this file when you add your 
+          				new endpoints 
+				</para>
+	 		</listitem>
+	 		</varlistentry>
+		   	<varlistentry>
+        			<term>base/apiv1.php</term>
+        			<listitem>
+          				<para>
+          				<filename>apiv1.php</filename> is the &progname; module that processes the rewritten RESTful API URL into a format that the RESTAPI class
+          				understands.  There is no requirement to change this file when you add your new endpoints 
+				</para>
+	 		</listitem>
+	 		</varlistentry>
+		   	<varlistentry>
+        			<term>includes/rest/restapi.class.php</term>
+        			<listitem>
+          				<para>
+          				<filename>restapi.class.php</filename> takes processed data from <filename>apiv1.php</filename> and validates the HTML command, configuration
+          				data and endpoint.  If any of its checks fail it returns an error to the RESTful client.
+				</para>
+				<para>
+				If all the checks pass it loads the required endpoint, checks the logged in user has the correct permissions and executes the HTTP command by
+				calling the related function in the endpoint.
+				</para>
+        				<para>
+          				 There is no requirement to change this file when you add your new endpoints 
+				</para>
+	 		</listitem>
+	 		</varlistentry>
+		   	<varlistentry>
+        			<term>includes/rest/endpoints</term>
+        			<listitem>
+          				<para>
+          				This directory contains all the RESTfil API endpoint files as well as the <olink targetptr="gloss-php" targetdoc="develop" role="glossterm">PHP</olink> 
+          				traits containing the code which is common across all end points. 
+				</para>
+	 		</listitem>
+	 		</varlistentry>
+	 	</variablelist>
+	 	
+	 </section>	
+	 	
+	 	
+	 <section is="api_traits">
+		<title>PHP Traits</title>
+		<para>
+		The following <olink targetptr="gloss-php" targetdoc="develop" role="glossterm">PHP</olink> traits are located in the <filename class="directory"> includes/rest/endpoints
+		</filename>.  They contain common code to ease the development of endpoints 
+		</para>
+		
+	 	<variablelist>
+		   	<varlistentry>
+        			<term>includes/rest/endpoints/endpointcommon.trait.php</term>
+        			<listitem>
+          				<para>
+          				<filename>endpointcommon.trait.php</filename> contains the code processes the endpoint by calling the appropriate method which 
+          				is stored in the endpoint file as a function based on the method name.  It also contains the code for execution the HTTP "options" and "head"
+          				commands.
+				</para>
+	 		</listitem>
+	 		</varlistentry>
+		   	<varlistentry>
+        			<term>includes/rest/endpoints/permissions.trait.php</term>
+        			<listitem>
+          				<para>
+          				<filename>permissions.trait.php</filename> contains the code to check if the current user is in a specific group.  To access the endpoint 
+          				the user must be in the named group or the admin group.  The <emphasis>permissions</emphasis> function is called by <emphasis>RESTAPI</emphasis> 
+          				class after the endpoint is initialised.  It returns true if the user has the relevant permissions to access the endpoint or an error otherwise.
+				</para>          				
+	 		</listitem>
+	 		</varlistentry>
+		   	<varlistentry>
+        			<term>includes/rest/endpoints/permissionstrue.trait.php</term>
+        			<listitem>
+          				<para>
+          				The <filename>permissions.trait.php</filename> operates in a similar way to the <filename>permissions.trait.php</filename> but always returns true
+				</para>
+	 		</listitem>
+	 		</varlistentry>
+		</variablelist>
+	</section>
+	<section id="api_endpoint">
+	<title>Endpoint Structure</title>
+	<para>
+	This section shows the structure of an endpoint.  It can be used as the outline of an endpoint or you can use <filename>example.class.php</filename>
+	</para>
+<programlisting>
+namespace webtemplate\rest\endpoints;
+class Endpoint
+{
+
+    /**
+     * Traits to be used by this Class
+     */
+    use TraitEndPointCommon;
+    use TraitPermissions; {or TraitPermissionsTrue if login is not required }
+        
+    protected $inputdata = array();
+
+    protected $accessgroup = "groups"; {The group the user must be a member of the access this endpoint}
+
+    public function __construct(\webtemplate\application\Application  &amp;$webtemplate)
+    {
+            $this->webtemplate = $webtemplate;
+    }
+    
+    {The next list of functions represent the http commands.  Only these needed by your endpoint should be included}
+    protected function get() {}
+    protected function post() {}
+    protected function put() {}
+    protected function delete() {}
+    protected function patch() {}
+}
+</programlisting>
+	<para>
+	The results of a HTTP command are returned in a two element array.  The returned data is in an element named "data" and the http result code is in an element 
+	named "code".
+	</para>
+	<para>
+	As well as the example end point there are other examples of how to code an endpoint.
+	</para>
 	</section>
 </chapter>

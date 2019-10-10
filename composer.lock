@@ -4,8 +4,51 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "47d1be611c20c46d5eff621dfd67dbc5",
+    "content-hash": "23d18b5fef9b6602f1bc059253e8dd11",
     "packages": [
+        {
+            "name": "g7mzr/db-php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/g7mzr/db-php.git",
+                "reference": "a4e869ce80ba3a655a2541be518a1b4516f0e78b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/g7mzr/db-php/zipball/a4e869ce80ba3a655a2541be518a1b4516f0e78b",
+                "reference": "a4e869ce80ba3a655a2541be518a1b4516f0e78b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "8.*",
+                "squizlabs/php_codesniffer": "3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "g7mzr\\db\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Sandy McNeil",
+                    "email": "g7mzrdev@gmail.com"
+                }
+            ],
+            "description": "This is a composer module for accessing databases via php",
+            "support": {
+                "source": "https://github.com/g7mzr/db-php/tree/master",
+                "issues": "https://github.com/g7mzr/db-php/issues"
+            },
+            "time": "2019-06-17T18:14:37+00:00"
+        },
         {
             "name": "phpmailer/phpmailer",
             "version": "v6.0.7",
@@ -231,16 +274,16 @@
         },
         {
             "name": "facebook/webdriver",
-            "version": "1.6.0",
+            "version": "1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facebook/php-webdriver.git",
-                "reference": "bd8c740097eb9f2fc3735250fc1912bc811a954e"
+                "reference": "e43de70f3c7166169d0f14a374505392734160e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/php-webdriver/zipball/bd8c740097eb9f2fc3735250fc1912bc811a954e",
-                "reference": "bd8c740097eb9f2fc3735250fc1912bc811a954e",
+                "url": "https://api.github.com/repos/facebook/php-webdriver/zipball/e43de70f3c7166169d0f14a374505392734160e5",
+                "reference": "e43de70f3c7166169d0f14a374505392734160e5",
                 "shasum": ""
             },
             "require": {
@@ -287,7 +330,7 @@
                 "selenium",
                 "webdriver"
             ],
-            "time": "2018-05-16T17:37:13+00:00"
+            "time": "2019-06-13T08:02:18+00:00"
         },
         {
             "name": "g7mzr/restclient-php",
@@ -295,16 +338,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/g7mzr/restclient-php.git",
-                "reference": "00f5342f74d56cf2efa655dca227a1de9133f7d9"
+                "reference": "52ecfbaf382592227cf84315784520b0103b94a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/g7mzr/restclient-php/zipball/00f5342f74d56cf2efa655dca227a1de9133f7d9",
-                "reference": "00f5342f74d56cf2efa655dca227a1de9133f7d9",
+                "url": "https://api.github.com/repos/g7mzr/restclient-php/zipball/52ecfbaf382592227cf84315784520b0103b94a9",
+                "reference": "52ecfbaf382592227cf84315784520b0103b94a9",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.2.0"
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">5.6.0"
             },
             "require-dev": {
                 "php-mock/php-mock-phpunit": "^2.1",
@@ -331,7 +376,7 @@
                 "source": "https://github.com/g7mzr/restclient-php/tree/master",
                 "issues": "https://github.com/g7mzr/restclient-php/issues"
             },
-            "time": "2019-06-08T11:06:41+00:00"
+            "time": "2019-06-16T10:03:52+00:00"
         },
         {
             "name": "mikey179/vfsstream",
@@ -683,16 +728,16 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "1.8.0",
+            "version": "1.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "4ba436b55987b4bf311cb7c6ba82aa528aac0a06"
+                "reference": "1927e75f4ed19131ec9bcc3b002e07fb1173ee76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/4ba436b55987b4bf311cb7c6ba82aa528aac0a06",
-                "reference": "4ba436b55987b4bf311cb7c6ba82aa528aac0a06",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/1927e75f4ed19131ec9bcc3b002e07fb1173ee76",
+                "reference": "1927e75f4ed19131ec9bcc3b002e07fb1173ee76",
                 "shasum": ""
             },
             "require": {
@@ -713,8 +758,8 @@
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Prophecy\\": "src/"
+                "psr-4": {
+                    "Prophecy\\": "src/Prophecy"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -742,7 +787,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2018-08-05T17:53:17+00:00"
+            "time": "2019-06-13T12:50:23+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -998,16 +1043,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.2.1",
+            "version": "8.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "047f771e34dccacb6c432a1a70e9980e087eac92"
+                "reference": "24b6cfcec34c1167ee1d90b7cb22bee324af319f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/047f771e34dccacb6c432a1a70e9980e087eac92",
-                "reference": "047f771e34dccacb6c432a1a70e9980e087eac92",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/24b6cfcec34c1167ee1d90b7cb22bee324af319f",
+                "reference": "24b6cfcec34c1167ee1d90b7cb22bee324af319f",
                 "shasum": ""
             },
             "require": {
@@ -1022,7 +1067,7 @@
                 "phar-io/manifest": "^1.0.3",
                 "phar-io/version": "^2.0.1",
                 "php": "^7.2",
-                "phpspec/prophecy": "^1.8.0",
+                "phpspec/prophecy": "^1.8.1",
                 "phpunit/php-code-coverage": "^7.0.5",
                 "phpunit/php-file-iterator": "^2.0.2",
                 "phpunit/php-text-template": "^1.2.1",
@@ -1077,7 +1122,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-06-07T14:04:13+00:00"
+            "time": "2019-06-15T07:25:54+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -1854,16 +1899,16 @@
         },
         {
             "name": "theseer/tokenizer",
-            "version": "1.1.2",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theseer/tokenizer.git",
-                "reference": "1c42705be2b6c1de5904f8afacef5895cab44bf8"
+                "reference": "11336f6f84e16a720dae9d8e6ed5019efa85a0f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/1c42705be2b6c1de5904f8afacef5895cab44bf8",
-                "reference": "1c42705be2b6c1de5904f8afacef5895cab44bf8",
+                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/11336f6f84e16a720dae9d8e6ed5019efa85a0f9",
+                "reference": "11336f6f84e16a720dae9d8e6ed5019efa85a0f9",
                 "shasum": ""
             },
             "require": {
@@ -1890,7 +1935,7 @@
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
-            "time": "2019-04-04T09:56:43+00:00"
+            "time": "2019-06-13T22:48:21+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -1947,6 +1992,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "g7mzr/db-php": 20,
         "g7mzr/restclient-php": 20
     },
     "prefer-stable": false,

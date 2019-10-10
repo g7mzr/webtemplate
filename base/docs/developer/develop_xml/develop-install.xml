@@ -130,6 +130,19 @@
 		directories are writable by the webserver.
 		</para>
 	</section>
+	<section id="install_phing">
+		<title>Install Phing</title>
+		<para>
+		<olink targetptr="gloss-phing"  targetdoc="develop" role="glossterm">Phing</olink> is the PHP version of <filename>make</filename>.  it is used in &progname;
+		to run the unit and functional tests as well as phpcodesniffer.  Once <filename>Phing</filename> is installed all other functions to set up the &progname; development
+		environment is automatic. 
+		</para>
+		<para>
+		Phing should be installed on your system as a <olink targetptr="gloss-phar"  targetdoc="develop" role="glossterm">Phar</olink> file either in <filename>~/bin</filename> or
+		<filename>/usr/local/bin</filename> depending on if you want user or system access.  Phing can be obtained from <ulink url="https://www.phing.info/"/> along with installation
+		instructions.
+		</para>
+	</section>
 	<section id="install-composer">
 		<title>Install Composer</title>
 		<para>
@@ -140,9 +153,11 @@
 		</para>
 		<para>
 		<olink targetptr="gloss-composer"  targetdoc="develop" role="glossterm">composer.phar</olink> can be automatically installed 
-		by running the command <programlisting>ant composer-install</programlisting>.  
-		<olink targetptr="gloss-composer"  targetdoc="develop" role="glossterm">Composer</olink> will be autobatically installed when you run the
-		build file for the firest time.
+		by running the command <programlisting>phing composer-install</programlisting> from &progname; base directory.
+		</para>
+		<para>
+		<olink targetptr="gloss-composer"  targetdoc="develop" role="glossterm">Composer</olink> will be automatically installed when you run the
+		build file for the first time.
 		</para>
 	</section>
 	<section id="install-smarty">
@@ -268,7 +283,8 @@
 					            <programlisting>
 					            
 	&lt;Directory /src/www/webtemplate/base&gt;
-		AllowOverride None
+		AllowOverride Limit FileInfo Indexes Options AuthConfig
+		Options +FollowSymLinks +Includes
 		Order allow,deny
 		Allow from all
 		DirectoryIndex index.php
@@ -281,7 +297,8 @@
 					            <programlisting>
 					            
 	&lt;Directory /src/www/webtemplate/base&gt;
-		AllowOverride None
+		AllowOverride Limit FileInfo Indexes Options AuthConfig
+		Options +FollowSymLinks +Includes
 		Order allow,deny
 		Allow from all
 		Require all granted
@@ -291,8 +308,9 @@
 					            
 					            <para>
 					            These instructions tell Apache to look for <filename class="devicefile">index.php</filename> if 
-					            someone only types the directory name into the browser.  It prevents <filename class="devicefile">.htaccess
-					            </filename> files overriding global permissions. It also allows access from any IP address
+					            someone only types the directory name into the browser.  It allows the <filename class="devicefile">.htaccess
+					            </filename> file in the base directory to rewrite URLs using the <olink targetptr="gloss-rest" targetdoc="develop" role="glossterm">
+					            RESTful API</olink>. It also allows access from any IP address
 					            </para>
 					</step>
 					<step>

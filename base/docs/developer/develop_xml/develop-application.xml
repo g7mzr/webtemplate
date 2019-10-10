@@ -56,35 +56,21 @@
 			</para>
 		</note>
 		<para>
-		Changes to the database are fairly simple to make.  Once you have decided on the additional tables you require you will need to edit 
-		<filename>schema.php</filename> to add your tables to the schema array.  You may also need to edit the database driver (<filename>pgsql.php</filename>) 
-		if you have used any field type which require translating from ANSISQL to your specific SQL implementation.
+		&progname; uses Composer module <emphasis >g7mzr/db-php</emphasis> as its database driver details of which can be found at
+		<ulink url="https://g7mzr.github.io/db-php/">https://g7mzr.github.io/db-php/</ulink>.
 		</para>
 		<para>
-		Please review <filename>schema.php</filename> for how to create tables in you application.  An example table is shown below:
+		Changes to the database are fairly simple to make.  Once you have decided on the additional tables you require you will need to edit 
+		<filename>includes/install/configure/schema.json</filename> to add your tables to the schema array.  
 		</para>
-		<programlisting>
 		
-	'users' => array
-        		'COLUMNS' => array(
-           		 	'user_id' => array('TYPE' => 'serial', 'PRIMARY' => '1'),
-           		 	'user_name' => array('TYPE' => 'varchar(64)', 'NOTNULL' => '1'),
-           		 	'user_passwd' => array('TYPE' => 'varchar(64)', 'NOTNULL' => '1'),
-           		 	'user_realname' => array('TYPE' => 'varchar(64)'),
-           		 	'user_email' => array('TYPE' => 'varchar(64)'),
-           		 	'user_enabled' => array('TYPE' => 'char(1)', 'DEFAULT' => 'Y', 'NOTNULL' => '1'),
-           		 	'user_disable_mail' => array('TYPE' => 'char(1)', 'DEFAULT' => 'N', 'NOTNULL' => '1'),
-            			'last_seen_date' => array('TYPE' => 'DATETIME'),
-           			'passwd_changed' => array('TYPE' => 'DATETIME')
-       		 )
-  	)
-		</programlisting>
 		<para>
 		It is recommended that once you release your application you only change the schema when absolutly necessary and such changes result in an increment of the
 		Minor Version 
 		</para>
 		<para>
-		You should also configure any Security Groups that are specific to you application at this time as you will need them later to control access to any modules you create.
+		You should also configure any Security Groups that are specific to you application at this time as you will need them later to control access to any 
+		modules you create.  Groups are added by editing <filename>includes/install/configure/default_groups.json</filename>
 		</para>
 	</section>
 	<section id="develop-app">
@@ -173,7 +159,7 @@
 				</step>
 				<step>
 					<para>
-					Update<filename>includes/users/users_pref_class.php</filename>.  You will need modify the following functions for new preferences you have added.
+					Update<filename>includes/users/edituserspref.class.php</filename>.  You will need modify the following functions for new preferences you have added.
 					<itemizedlist mark="bullet">
 						<listitem>
 							<para>
@@ -254,13 +240,13 @@
 		<section id="develop-parameters">
 	  		<title>Parameters</title>
 			<para>
-			The configuration Parameters control how your application works.  You will need to follow the steps below to add new preferences to Webtemplate.
+			The configuration Parameters control how your application works.  You will need to follow the steps below to add new parameters to Webtemplate.
 			</para>
 			<procedure>
 				<step>
 					<para>
-					Update <filename>includes/admin/parameters.php</filename>.  You will need to add or update the following procedures to deal with your application specific 
-					Parameters.
+					Create a new file containg your parameter class by extending ParametersAbstract class contained in <filename>includes/admin/parameters/parametersabstract.class.php</filename>.  
+					You will need to create class variables and procedures to deal with your application specific Parameters.
 					<itemizedlist mark="bullet">
 						<listitem>
 							<para>
@@ -269,54 +255,52 @@
 						</listitem>
 						<listitem>
 							<para>
-							Create ParametersClass::check...ParametersChanged. (Where ... is the name of your parameters section.)
+							public function validateParameters(array &amp;$inputData)
 							</para>
 						</listitem>
 						<listitem>
 							<para>
-							Create ParametersClass::validate...Parameters. (Where ... is the name of your parameters section.)
+							public function checkParametersChanged(array $parameters)
 							</para>
 						</listitem>
 						<listitem>
 							<para>
-							Update ParametersClass::getCurrentParameters
+							protected function savetoConfigurationClass();
 							</para>
 						</listitem>
-						<listitem>
-							<para>
-							Update ParametersClass::saveParamFile
-							</para>
-						</listitem>
-					</itemizedlist>
+						</itemizedlist>
 					</para>
 				</step>
 				<step>
 					<para>
-					Update <filename>test/admin/ParameterClassTest.php</filename> to test that the new parameters can be validated, and saved.  This includes
+					Create a phpUnitTest file in <filename class="directory" >test/admin/</filename> to test that the new parameters can be validated, and saved.  This includes
 					the dummy parameter test file <filename>parameter_test_file.php</filename> located in the <filename>tests/_data</filename> directory.
 					</para>
 				</step>
 				<step>
 					<para>
-					Update <filename>templates/en/admin/config.tpl</filename> to display the new parameter(s) to the admin user.  The Template is split into two parts, 
-					the first is the menus and the second is the part of the page showing the parameters.  It is suggested you you create a new page for your parameters.
+					Create a new Smarty Template file in <filename class="directory" >templates/en/admin/parameters</filename> to display the new parameter(s) to the admin user. 
 					</para>
 				</step>
 				<step>
 					<para>
-					Update <filename>base/editconfig.php</filename> to ensure that the new parameters page can be displayed and populated with the current value of
-					each new parameter 
+					Update <filename>base/editconfig.php</filename> to ensure that the new parameters can be displayed.  Currently at line 273.
 					</para>
 				</step>
 				<step>
 					<para>
-					Update <filename>includes/install/filemanager.php</filename> to add the new defaul preference variable to <filename>configs/parametersphp</filename>.  
+					Update <filename>configs/menus/parammenu.json</filename> to display your new section. 
+					</para>
+				</step>
+				<step>
+					<para>
+					Update <filename>includes/install/filemanager.php</filename> to add the new default preference variable to <filename>configs/parametersphp</filename>.  
 					This update has to cover both new installs and updated to existing installs.  The function to be updated is called FileManger::createParameters.
 					</para>
 				</step>
 				<step>
 					<para>
-					Update <filename>tests/selenium/admin_parameters.php</filename> to test the new parameters from the admin screen.
+					Create new phpUnit test file in <filename class="directory">tests/selenium/</filename>filename> to test the new parameters from the admin screen.
 					</para>
 				</step>
 			</procedure>
@@ -335,7 +319,7 @@
 				</step>
 				<step id="class_copy">
 					<para>
-					 In the <filename>includes/blank</filename> directory you will fine a file called <filename>blank_class.php</filename>. Copy this file in to the <filename>members</filename>
+					 In the <filename>includes/blank</filename> directory you will find a file called <filename>blank_class.php</filename>. Copy this file in to the <filename>members</filename>
 					 directory and rename it to <filename>members_class.php</filename>.  Open the file in your favorite editor and rename blankClass to memberClass.  
 					 At the moment the class contains the 7 basic functions for the class They are:
 						<itemizedlist mark="bullet">
@@ -414,7 +398,7 @@
 			The templates used for Webtemplate are <emphasis role="bold">HTML 4.01 Transitional//EN</emphasis>.
 			</para>
 			<para>
-			 It is suggested that you create one or more directories in <filename>includes/en/</filename> to hold your application's Smarty Templates.  Copy 
+			 It is suggested that you create one or more directories in <filename class="directory" >includes/en/</filename> to hold your application's Smarty Templates.  Copy 
 			 <filename>blank.tpl</filename> into your directory and rename it to suite your application.  In the example discussed above you would copy it twice as 
 			 <filename>members.tpl</filename> and <filename>accounts.tpl</filename>.
 			</para>
@@ -422,7 +406,7 @@
 		<section id="develop-modules">
 	  		<title>Modules</title>
 			<para>
-			The modules accessed by the user via the web server are located in the <filename>base</filename> directory.  A blank module called <filename>blank.php</filename>
+			The modules accessed by the user via the web server are located in the <filename class="directory" >base</filename> directory.  A blank module called <filename>blank.php</filename>
 			is provided in this directory for you to use as a template.  There are a few lines that you must change.  They are:
 			</para>
 			<itemizedlist mark="bullet">

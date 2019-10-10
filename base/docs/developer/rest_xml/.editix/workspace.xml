@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><root>
-<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/rest_xml/restapi.xml" type="XML">
+<file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/rest_xml/restapi.xml" type="XML">
 <param name="lastView" value="Source"/>
 </file>
 <file path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/rest_xml"/>
@@ -21,7 +21,7 @@
 <file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/rest_xml/groups.xml" type="XML">
 <param name="lastView" value="Source"/>
 </file>
-<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/rest_xml/introduction.xml" type="XML">
+<file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/rest_xml/introduction.xml" type="XML">
 <param name="lastView" value="Source"/>
 </file>
 <file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/rest_xml/glossary.xml" type="XML">
@@ -36,12 +36,8 @@
 <file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/rest_xml/olinknochunk.db" type="">
 <param name="lastView" value="Source"/>
 </file>
-<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/rest_xml/login.xml" type="XML">
-<param name="lastView" value="Source"/>
-</file>
-<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/rest_xml/logout.xml" type="XML">
-<param name="lastView" value="Source"/>
-</file>
+<file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/rest_xml/login.xml" type="XML"/>
+<file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/rest_xml/logout.xml" type="XML"/>
 <file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/rest_xml/common.xml" type="XML">
 <param name="lastView" value="Source"/>
 </file>
@@ -56,9 +52,6 @@
 </file>
 <file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/xsl/docs5.xsl">
 <param name="encoding" value="AUTOMATIC"/>
-<param name="lastView" value="Source"/>
-</file>
-<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/rest_xml/messageformat.xml" type="XML">
 <param name="lastView" value="Source"/>
 </file>
 </root>

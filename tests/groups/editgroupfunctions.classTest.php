@@ -31,17 +31,17 @@ class EditGroupFunctionsClassTest extends TestCase
 {
     /*
      * Property: db
-     * @var    \webtemplate\db\DB
+     * @var    \g7mzr\db\DBManager
      * @access protected
      */
     protected $db = null;
 
     /*
      * Property: mockdb
-     * @var    \webtemplate\db\DB
+     * @var    \g7mzr\db\DBManager
      * @access protected
      */
-    protected $mockdb = null;
+    protected $mockDB = null;
 
     /*
      * Property: tpl
@@ -80,6 +80,9 @@ class EditGroupFunctionsClassTest extends TestCase
     /**
      * This function sets up the variables and objects for the test
      *
+     * @throws \webtemplate\application\exceptions\AppException If unable to set data access mode.
+     * @throws \webtemplate\application\exceptions\AppException If unable to connect to database.
+     *
      * @return void
      *
      * @access protected
@@ -88,18 +91,36 @@ class EditGroupFunctionsClassTest extends TestCase
     {
         global $testdsn;
 
-        $this->db = \webtemplate\db\DB::load($testdsn);
+        try {
+            $this->db = new \g7mzr\db\DBManager(
+                $testdsn,
+                $testdsn['username'],
+                $testdsn['password']
+            );
+            $setresult = $this->db->setMode("datadriver");
+            if (\g7mzr\db\common\Common::isError($setresult)) {
+                throw new \webtemplate\application\exceptions\AppException($setresult->getMessage());
+            }
+        } catch (Exception $ex) {
+            throw new \webtemplate\application\exceptions\AppException($ex->getMessage());
+            $this->databaseconnection = false;
+        }
         $this->tpl = new \webtemplate\application\SmartyTemplate();
-        $this->editgroup = new \webtemplate\groups\EditGroups($this->db);
+        $this->editgroup = new \webtemplate\groups\EditGroups($this->db->getDataDriver());
         $configDir = __DIR__ . "/../../configs";
         $this->config = new \webtemplate\config\Configure($configDir);
 
         // Create a Mock database object
-        $testdsn['phptype'] = 'mock';
-        $this->mockdb = \webtemplate\db\DB::load($testdsn);
+        $testdsn['dbtype'] = 'mock';
+        $this->mockDB = new \g7mzr\db\DBManager(
+            $testdsn,
+            $testdsn['username'],
+            $testdsn['password']
+        );
+        $setresult = $this->mockDB->setMode("datadriver");
 
         // Create a Mock Edit User object
-        $this->mockeditgroup = new \webtemplate\groups\EditGroups($this->mockdb);
+        $this->mockeditgroup = new \webtemplate\groups\EditGroups($this->mockDB->getDataDriver());
         $this->deleteTestGroup();
     }
 
@@ -112,7 +133,7 @@ class EditGroupFunctionsClassTest extends TestCase
     protected function tearDown(): void
     {
         $this->deleteTestGroup();
-        $this->db->disconnect();
+        $this->db->getDataDriver()->disconnect();
     }
 
 
@@ -137,7 +158,7 @@ class EditGroupFunctionsClassTest extends TestCase
                 "pgsql:host=%s;port=%d;dbname=%s;user=%s;password=%s",
                 $testdsn["hostspec"],
                 '5432',
-                $testdsn["database"],
+                $testdsn["databasename"],
                 $testdsn["username"],
                 $testdsn["password"]
             );
@@ -869,7 +890,7 @@ class EditGroupFunctionsClassTest extends TestCase
                 )
             )
         );
-        $this->mockdb->control($functions, $data);
+        $this->mockDB->getDataDriver()->control($functions, $data);
 
 
         $result = \webtemplate\groups\EditGroupFunctions::saveGroup(
@@ -946,7 +967,7 @@ class EditGroupFunctionsClassTest extends TestCase
                 )
             )
         );
-        $this->mockdb->control($functions, $data);
+        $this->mockDB->getDataDriver()->control($functions, $data);
 
 
         $result = \webtemplate\groups\EditGroupFunctions::saveGroup(

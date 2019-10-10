@@ -44,11 +44,11 @@ trait TraitGroupFunctions
         $uaodb = $this->db->dbselectmultiple(
             'groups',
             $fieldNames,
-            null,
+            array(),
             'group_id'
         );
 
-        if (!\webtemplate\general\General::isError($uaodb)) {
+        if (!\g7mzr\db\common\Common::isError($uaodb)) {
             $resultarray = array();
 
             // Populate the output array with the records
@@ -68,7 +68,7 @@ trait TraitGroupFunctions
             return $resultarray; //$this->db->getGroupList();
         } else {
             $gotdata = false;
-            return $uaodb;
+            return new \webtemplate\application\Error($uaodb->getMessage(), $uaodb->getCode());
         }
     }
 }

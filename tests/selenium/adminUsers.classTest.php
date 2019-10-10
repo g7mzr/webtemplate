@@ -76,7 +76,7 @@ class AdminUsersTest extends TestCase
                 "pgsql:host=%s;port=%d;dbname=%s;user=%s;password=%s",
                 $testdsn["hostspec"],
                 '5432',
-                $testdsn["database"],
+                $testdsn["databasename"],
                 $testdsn["username"],
                 $testdsn["password"]
             );

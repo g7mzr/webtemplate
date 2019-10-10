@@ -22,7 +22,7 @@ trait TraitPermissions
 {
     /**
      * Check if the current user is in a specific group.  To access the endpoint the
-     * use must be in the named group or the admin group.
+     * user must be in the named group or the admin group.
      *
      * @return mixed boolean true if can access the resource.  Array otherwise
      *

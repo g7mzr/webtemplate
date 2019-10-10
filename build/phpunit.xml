@@ -20,7 +20,6 @@
     <testsuites>
         <testsuite name="unit">
             <directory suffix=".php">../tests/blank</directory>
-            <directory suffix=".php">../tests/db</directory>
             <directory suffix=".php">../tests/config</directory>
             <directory suffix=".php">../tests/general</directory>
             <directory suffix=".php">../tests/application</directory>
@@ -29,9 +28,6 @@
             <directory suffix=".php">../tests/groups</directory>
             <directory suffix=".php">../tests/users</directory>
             <directory suffix=".php">../tests/rest</directory>
-        </testsuite>
-        <testsuite name="unit2">
-            <directory suffix=".php">../tests/config</directory>
         </testsuite>
 
         <testsuite name="functional">
@@ -50,6 +46,10 @@
             <file>../tests/selenium/security.classTest.php</file>
             <file>../tests/selenium/register.classTest.php</file>
             <file>../tests/selenium/passwdReset.classTest.php</file>
+        </testsuite>
+
+        <testsuite name="restunit">
+             <directory suffix=".php">../tests/rest</directory>
         </testsuite>
 
         <testsuite name="restapi">
