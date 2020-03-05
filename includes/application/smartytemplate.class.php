@@ -8,7 +8,7 @@
  * @package Webtemplate
  * @subpackage Application
  * @author   Sandy McNeil <g7mzrdev@gmail.com>
- * @copyright (c) 2019, Sandy McNeil
+ * @copyright (c) 2020, Sandy McNeil
  * @license https://github.com/g7mzr/webtemplate/blob/master/LICENSE GNU General Public License v3.0
  *
  */
@@ -16,7 +16,8 @@
 namespace webtemplate\application;
 
 /**
- * Extended SMARTY Class to set up local variables
+ * Extended SMARTY Class to set up local variables and enable the ability to add
+ * plugin template directories to the SMARTY variable $template_dir
  *
 **/
 class SmartyTemplate extends \Smarty
@@ -136,4 +137,20 @@ class SmartyTemplate extends \Smarty
     {
         return parent::setTemplateDir($template_dir);
     }
+
+    /**
+     * Add Plugin template directory
+     *
+     * This function allows a plugin template directory to be added to the template
+     * search path
+     *
+     * @param string $template_dir Plugin Template directory.
+     *
+     * @return \Smarty current Smarty instance for chaining
+     */
+    public function addPluginTemplateDir($template_dir)
+    {
+        return parent::addTemplateDir($template_dir);
+    }
+
 }

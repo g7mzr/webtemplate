@@ -115,6 +115,15 @@ class Application
     protected $var_session = null;
 
     /**
+     * Property: plugin
+     * Webtemplate Plugin object
+     *
+     * @var \webtemplate\application\Plugin
+     * @access protected
+     */
+    protected $var_plugin = null;
+
+    /**
      * Property: user
      * Webtemplate User class
      *
@@ -223,6 +232,8 @@ class Application
             'disable_iso_date' => 'disable'
         );
 
+        // Set the base directory for the application
+        $basedir = dirname(dirname(__DIR__));
 
         // Create the Smart Template class
         $this->var_tpl = new \webtemplate\application\SmartyTemplate();
@@ -288,7 +299,7 @@ class Application
             $this->var_config->read('param.admin.logrotate')
         );
 
-        /* Initilaise PHP Session handling from session.php */
+        // Initilaise PHP Session handling from session.php
         $this->var_session = new \webtemplate\application\Session(
             $this->var_config->read('param.cookiepath'),
             $this->var_config->read('param.cookiedomain'),
@@ -296,6 +307,10 @@ class Application
             $this->var_tpl,
             $this->var_db
         );
+
+        // Initialise the Plugin Class and all active plugins
+        $plugindir = $basedir . "/plugins";
+        $this->var_plugin = new \webtemplate\application\Plugin($plugindir);
 
         // Create a user class
         $this->var_user = new \webtemplate\users\User($this->var_db);
@@ -509,6 +524,18 @@ class Application
         return $this->var_session;
     }
 
+    /**
+     * This function returns the Plugin Class
+     *
+     *  @return \webtemplate\application\Plugin
+     *
+     * @access protected
+     */
+    public function plugin ()
+    {
+        return $this->var_plugin;
+    }
+    
     /**
      * This function returns the tpl class
      *
