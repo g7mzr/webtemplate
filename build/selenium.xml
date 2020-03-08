@@ -22,20 +22,20 @@
         application as it is developed.
     -->
     <testsuite name="webtemplate selenium tests">
-        <file>../tests/selenium/homepage.classTest.php</file>
-        <file>../tests/selenium/userpref.classTest.php</file>
-        <file>../tests/selenium/adminMain.classTest.php</file>
-        <file>../tests/selenium/adminAbout.classTest.php</file>
-        <file>../tests/selenium/adminPreferences.classTest.php</file>
-        <file>../tests/selenium/adminParameters.classTest.php</file>
-        <file>../tests/selenium/adminParametersSettings.classTest.php</file>
-        <file>../tests/selenium/adminParametersPolicy.classTest.php</file>
-        <file>../tests/selenium/adminParametersAuthentication.classTest.php</file>
-        <file>../tests/selenium/adminParametersMail.classTest.php</file>
-        <file>../tests/selenium/adminUsers.classTest.php</file>
-        <file>../tests/selenium/adminGroups.classTest.php</file>
-        <file>../tests/selenium/security.classTest.php</file>
-        <file>../tests/selenium/register.classTest.php</file>
+        <file>../tests/selenium/HomePageTest.php</file>
+        <file>../tests/selenium/UserprefTest.php</file>
+        <file>../tests/selenium/AdminMainTest.php</file>
+        <file>../tests/selenium/AdminAboutTest.php</file>
+        <file>../tests/selenium/AdminPreferencesTest.php</file>
+        <file>../tests/selenium/AdminParametersTest.php</file>
+        <file>../tests/selenium/AdminParametersSettingsTest.php</file>
+        <file>../tests/selenium/AdminParametersPolicyTest.php</file>
+        <file>../tests/selenium/AdminParametersAuthenticationTest.php</file>
+        <file>../tests/selenium/AdminParametersMailTest.php</file>
+        <file>../tests/selenium/AdminUsersTest.php</file>
+        <file>../tests/selenium/AdminGroupsTest.php</file>
+        <file>../tests/selenium/SecurityTest.php</file>
+        <file>../tests/selenium/RegisterTest.php</file>
     </testsuite>
     <!--
         The section below allows the setting of environment variables to control the

@@ -221,7 +221,7 @@
 				</para>
 				<variablelist>
 				   	<varlistentry>
-        					<term>admin/parameters.class.php</term>
+        					<term>admin/Parameters.php</term>
         					<listitem>
           						<para>
           						This Class used to access the admin, auth, email and required modules used to set up &progname; configuration.  All modules 
@@ -231,7 +231,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term>admin/preferences.class.php</term>
+        					<term>admin/Preferences.php</term>
         					<listitem>
           						<para>
           						This Class is used to Validate, confirm changes to and Save the applications preferences.
@@ -241,7 +241,7 @@
 
 
 					<varlistentry>
-					<term>application/application.class.php</term>
+					<term>application/Application.php</term>
 					<listitem>
 						<para>
 						This class acts as a host for all other classes in &progname;.  As a result there is no requirement to call any other class directly.
@@ -250,7 +250,7 @@
 					</varlistentry>
 
 					<varlistentry>
-					<term>application/createdocs.class.php</term>
+					<term>application/CreateDocs.php</term>
 					<listitem>
 						<para>
 						This class used by <filename>makedocs.php</filename> to create the docbook documentation.
@@ -259,7 +259,7 @@
 					</varlistentry>
 
 					<varlistentry>
-					<term>application/error.class.php</term>
+					<term>application/Error.php</term>
 					<listitem>
 						<para>
 						This class contains the Webtemplate Error Object.
@@ -267,9 +267,8 @@
 					</listitem>
 					</varlistentry>
 
-
 					<varlistentry>
-					<term>application/errorhandler.class.php</term>
+					<term>application/ErrorHandler.php</term>
 					<listitem>
 						<para>
 						This class contains the Webtemplate Error Handlers which override the builtin PHP handlers.
@@ -278,7 +277,7 @@
 					</varlistentry>
 					
 				   	<varlistentry>
-        					<term>application/header.class.php</term>
+        					<term>application/Header.php</term>
         					<listitem>
           						<para>
           						This module contains HTML Headers which are sent with evey file to increase the security of the application.
@@ -287,7 +286,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term>application/session.class.php</term>
+        					<term>application/Session.php</term>
         					<listitem>
           						<para>
           						This module contains the Class for configuring the <olink targetptr="gloss-php" targetdoc="develop" role="glossterm">PHP</olink>
@@ -297,7 +296,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term>application/smartytemplate.class.php</term>
+        					<term>application/SmartyTemplate.php</term>
         					<listitem>
           						<para>
           						The Smarty_Template_Class inherits the <olink targetptr="gloss-smarty" targetdoc="develop" role="glossterm">SMARTY</olink> 
@@ -308,7 +307,7 @@
 					</varlistentry>
 					
 				   	<varlistentry>
-        					<term>application/webtemplatecommon.class.php</term>
+        					<term>application/WebtemplateCommon.php</term>
         					<listitem>
           						<para>
           						This module sets up the database access requirements. 
@@ -317,7 +316,7 @@
 					</varlistentry>
 
 					<varlistentry>
-					<term>config/configure.class.php</term>
+					<term>config/Configure.php</term>
 					<listitem>
 						<para>
 						This class is used to read, write and save the configuration parameters.  Currently they are saved as a text file but moving
@@ -327,7 +326,7 @@
 					</varlistentry>
 					
 				   	<varlistentry>
-        					<term>general/help.class.php</term>
+        					<term>general/Help.php</term>
         					<listitem>
           						<para>
           						This module contains the mapping between the applications help Ids and the physical help files.
@@ -336,7 +335,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term>general/general.class.php</term>
+        					<term>general/General.php</term>
         					<listitem>
           						<para>
           						This module contains Class containing functions used by all the applications programs.  
@@ -347,7 +346,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term>general/localvalidate.class.php</term>
+        					<term>general/LocalValidate.php</term>
         					<listitem>
           						<para>
           						This module contains the Static Local Validation Class.  it contains functions to
@@ -357,7 +356,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term>general/log.class.php</term>
+        					<term>general/Log.php</term>
         					<listitem>
           						<para>
           						This module is used by the application to create, update and maintain it's logfiles.  
@@ -367,7 +366,7 @@
 					</varlistentry>
 
 					<varlistentry>
-					<term>general/mail.class.php</term>
+					<term>general/Mail.php</term>
 					<listitem>
 						<para>
 						This modules acts as the interface beetween Webtemplate and PHPMail.  The module controls whither Webtemplate can 
@@ -379,7 +378,7 @@
 					
 					
 					<varlistentry>
-					<term>general/token.class.php</term>
+					<term>general/Token.php</term>
 					<listitem>
 						<para>
 						This module is used to create, manage and delete authentication tokens for Wetemplate.
@@ -388,7 +387,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term>groups/editgroupsfunctions.class.php</term>
+        					<term>groups/EditGroupsFunctions.php</term>
         					<listitem>
           						<para>
           						This module contains the Class used by <filename>base/editgroups.php</filename> to display, edit, save and delete security groups.
@@ -397,7 +396,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term>groups/editgroups.class.php</term>
+        					<term>groups/EditGroups.php</term>
         					<listitem>
           						<para>
           						This module contains the Class used by users with "editgroups" permissions to create, update and delete groups
@@ -407,7 +406,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term>groups/editiusersgroups.class.php</term>
+        					<term>groups/EditiUsersGroups.php</term>
         					<listitem>
           						<para>
           						This module contains the Class used by users with "edituser" permissions to assign or remove users fro specific groups. 
@@ -417,7 +416,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term>groups/groupfunctions.trait.php</term>
+        					<term>groups/TraitGroupFunctions.php</term>
         					<listitem>
           						<para>
           						This module contains a trait which common group functions.
@@ -426,7 +425,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term>install/database.class.php</term>
+        					<term>install/Database.php</term>
         					<listitem>
           						<para>
           						This module contains the static DataBase Class which is used to create and update the back-end database.  The databse 
@@ -436,7 +435,7 @@
 					</varlistentry>
 					
 					<varlistentry>
-					<term>install/dependancies.class.php</term>
+					<term>install/Dependancies.php</term>
 					<listitem>
 						<para>
 						This module is used to check if the Webtemplate Dependancies are available on the target system
@@ -445,7 +444,7 @@
 					</varlistentry>
 
 					<varlistentry>
-					<term>install/dependanciesdata.class.php</term>
+					<term>install/DependanciesData.php</term>
 					<listitem>
 						<para>
 						This module contains the Webtemplate Dependancy Data in 4 arrays
@@ -454,7 +453,7 @@
 					</varlistentry>
 					
 					<varlistentry>
-					<term>install/filemanager.class.php</term>
+					<term>install/FileManager.php</term>
 					<listitem>
 						<para>
 						This module contains all the functions to create and update the parameters and preference files as well as file containing the
@@ -464,7 +463,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term>users/edituser.class.php</term>
+        					<term>users/EditUser.php</term>
         					<listitem>
           						<para>
           						This module contains the Class to Create and update users.  Functions are available to validate
@@ -474,7 +473,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term>users/user.class.php</term>
+        					<term>users/User.php</term>
         					<listitem>
           						<para>
           						This module contains the class that the application uses to access user information inorder to
@@ -484,7 +483,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term>users/groups.class.php</term>
+        					<term>users/Groups.php</term>
         					<listitem>
           						<para>
           						This module contains the class that the application uses to access user security information.
@@ -493,7 +492,7 @@
 					</varlistentry>
 
 				   	<varlistentry>
-        					<term>users/edituserpref.class.php</term>
+        					<term>users/EditUserPref.php</term>
         					<listitem>
           						<para>
           						This module contains the class to allow users to update their personal customisation choices. 

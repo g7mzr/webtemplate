@@ -191,7 +191,7 @@ class RESTapi
      */
     public function processAPI()
     {
-        $classFile = __DIR__ . "/endpoints/" . $this->endpoint . ".class.php";
+        $classFile = __DIR__ . "/endpoints/" . ucfirst($this->endpoint) . ".php";
         if (file_exists($classFile)) {
             include $classFile;
             $classname = 'webtemplate\\rest\\endpoints\\' . ucfirst($this->endpoint);

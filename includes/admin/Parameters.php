@@ -61,7 +61,7 @@ class Parameters
     public function setSection(string $section)
     {
 
-        $classFile = __DIR__ . "/parameters/" . $section . ".class.php";
+        $classFile = __DIR__ . "/parameters/" . ucfirst($section) . ".php";
         if (file_exists($classFile)) {
             require_once $classFile;
 

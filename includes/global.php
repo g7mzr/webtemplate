@@ -13,12 +13,21 @@
  *
  */
 
-// Include and register the Autoloader Class
-require_once __DIR__ . '/autoloader.class.php';
-\spl_autoload_register("\webtemplate\AutoLoader::loader");
+// Include the Autoloader Class
+require_once __DIR__ . '/PSR4AutoLoader.php';
 
 // Include the composer Autoloader
 require_once __DIR__ . '/../vendor/autoload.php';
+
+// Initite WebApp Autoloader
+$loader = new \webtemplate\PSR4AutoLoader();
+
+// Register the autoloader
+$loader->register();
+
+// Register WebApp Namespaces
+$appdir = dirname(__DIR__);
+$loader->addNamespace("\webtemplate", $appdir . "/includes");
 
 // Include and register the Webtemplate error handler for webbased Applications
 if (php_sapi_name() !== 'cli') {
