@@ -281,7 +281,7 @@ class AdminGroupsTest extends TestCase
 
 
         $rows = $this->webDriver->findElements(WebDriverBy::cssSelector('table tr'));
-        $rowNumber = count($rows);
+        $rowNumber = count($rows) - 1;
         $rowdata = $this->webDriver->findElement(
             WebDriverBy::xpath("//table//tbody//tr[$rowNumber]//td[1]")
         )->getText();
