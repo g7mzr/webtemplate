@@ -15,7 +15,7 @@
 
 namespace Facebook\WebDriver;
 
-use \webtemplate\application\exceptions\AppException;
+use\g7mzr\webtemplate\application\exceptions\AppException;
 use PHPUnit\Framework\TestCase;
 
 // Load the Selenium Driver and Application Data.
@@ -59,7 +59,7 @@ class RegisterTest extends TestCase
      * BROWSER: The Web browser to be used for the tests
      * URL: The Web location of the test site.
      *
-     * @throws \webtemplate\application\exceptions\AppException If unable to connect to the database.
+     * @throws \g7mzr\webtemplate\application\exceptions\AppException If unable to connect to the database.
      *
      * @return void
      */
@@ -102,7 +102,7 @@ class RegisterTest extends TestCase
     /**
      * Function to close the Webdriver after each test is complete
      *
-     * @throws \webtemplate\application\exceptions\AppException If unable to connect to the database.
+     * @throws \g7mzr\webtemplate\application\exceptions\AppException If unable to connect to the database.
      *
      * @return void
      */

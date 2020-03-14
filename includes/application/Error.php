@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\application;
+namespace g7mzr\webtemplate\application;
 
 /**
  * This module is used to create the webtemplate error class

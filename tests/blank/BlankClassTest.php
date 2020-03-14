@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -65,7 +65,7 @@ class BlankClassTest extends TestCase
         $setresult = $this->mockDB->setMode("datadriver");
 
         // Create Group Obkect Using the mockDB obkect
-        $this->object = new \webtemplate\blank\Blank($this->mockDB->getDataDriver());
+        $this->object = new\g7mzr\webtemplate\blank\Blank($this->mockDB->getDataDriver());
     }
 
     /**

@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
@@ -33,7 +33,7 @@ class RestVersionTest extends TestCase
      * property: webtemplate
      * Webtemplate application class
      *
-     * @var \webtemplate\application\Application
+     * @var\g7mzr\webtemplate\application\Application
      */
     protected $webtemplate;
 
@@ -41,7 +41,7 @@ class RestVersionTest extends TestCase
      * property: version
      * Webtemplate application class
      *
-     * @var \webtemplate\rest\endpoint\Version
+     * @var\g7mzr\webtemplate\rest\endpoint\Version
      */
     protected $version;
     /**
@@ -55,8 +55,8 @@ class RestVersionTest extends TestCase
         global $sessiontest;
 
         $sessiontest = array(true);
-        $this->webtemplate = new \webtemplate\application\Application();
-        $this->version = new \webtemplate\rest\endpoints\Version($this->webtemplate);
+        $this->webtemplate = new\g7mzr\webtemplate\application\Application();
+        $this->version = new\g7mzr\webtemplate\rest\endpoints\Version($this->webtemplate);
     }
 
     /**
@@ -126,7 +126,7 @@ class RestVersionTest extends TestCase
             'phpunit',
             $this->webtemplate->config()->read('pref')
         );
-        if (\webtemplate\general\General::isError($registered)) {
+        if (\g7mzr\webtemplate\general\General::isError($registered)) {
             $this->fail('Failed to register user for ' . __METHOD__);
         }
 

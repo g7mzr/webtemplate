@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\apitest;
+namespace g7mzr\webtemplate\apitest;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../vendor/autoload.php';

@@ -13,11 +13,11 @@
  *
  */
 
-namespace webtemplate\application;
+namespace g7mzr\webtemplate\application;
 
-use webtemplate\application\exceptions\AppException;
-use webtemplate\general\General;
-use webtemplate\application\WebTemplateCommon;
+use \g7mzr\webtemplate\application\exceptions\AppException;
+use \g7mzr\webtemplate\general\General;
+use \g7mzr\webtemplate\application\WebTemplateCommon;
 
 /**
  *  Webtemplate Application
@@ -37,7 +37,7 @@ class Application
      * Property: tpl
      * SMARTY Template class
      *
-     * @var    \webtemplate\application\SmartyTemplate
+     * @var    \g7mzr\webtemplate\application\SmartyTemplate
      * @access protected
      */
     protected $var_tpl = null;
@@ -91,7 +91,7 @@ class Application
      * Property: config
      * Webtemplate config class
      *
-     * @var    \webtemplate\config\Configure
+     * @var    \g7mzr\webtemplate\config\Configure
      * @access protected
      */
     protected $var_config = null;
@@ -100,7 +100,7 @@ class Application
      * Property: log
      * Webtemplate Log Object
      *
-     * @var    \webtemplate\general\Log
+     * @var    \g7mzr\webtemplate\general\Log
      * @access protected
      */
     protected $var_log = null;
@@ -109,7 +109,7 @@ class Application
      * Property: session
      * Webtemplate Session class
      *
-     * @var    \webtemplate\application\Session
+     * @var    \g7mzr\webtemplate\application\Session
      * @access protected
      */
     protected $var_session = null;
@@ -118,7 +118,7 @@ class Application
      * Property: user
      * Webtemplate User class
      *
-     * @var    \webtemplate\users\User
+     * @var    \g7mzr\webtemplate\users\User
      * @access protected
      */
     protected $var_user = null;
@@ -127,7 +127,7 @@ class Application
      * Property: usergroups
      * Webtemplate Usergroups class
      *
-     * @var    \webtemplate\users\Groups
+     * @var    \g7mzr\webtemplate\users\Groups
      * @access protected
      */
     protected $var_usergroups = null;
@@ -136,7 +136,7 @@ class Application
      * Property: editusers
      * Webtemplate edituser class
      *
-     * @var    \webtemplate\users\Edituser
+     * @var    \g7mzr\webtemplate\users\Edituser
      * @access protected
      */
     protected $var_edituser = null;
@@ -146,7 +146,7 @@ class Application
      * Property: editusersgroups
      * Webtemplate editusers groups class
      *
-     * @var    \webtemplate\groups\EditUsersGroups
+     * @var    \g7mzr\webtemplate\groups\EditUsersGroups
      * @access protected
      */
     protected $var_editusersgroups;
@@ -155,7 +155,7 @@ class Application
      * Property: editgroups
      * Webtemplate edit groups class
      *
-     * @var    \webtemplate\groups\EditGroups
+     * @var    \g7mzr\webtemplate\groups\EditGroups
      * @access protected
      */
     protected $var_editgroups;
@@ -164,7 +164,7 @@ class Application
      * Property: parameters
      * Webtemplate Parameters Object
      *
-     * @var    \webtemplate\admin\Parameters
+     * @var    \g7mzr\webtemplate\admin\Parameters
      * @access protected
      */
     protected $var_parameters;
@@ -173,7 +173,7 @@ class Application
      * Property: preferences
      * Webtemplate Preferences Object
      *
-     * @var    \webtemplate\admin\Preferences
+     * @var    \g7mzr\webtemplate\admin\Preferences
      * @access protected
      */
     protected $var_preferences;
@@ -182,7 +182,7 @@ class Application
      * Property: mail
      * Webtemplate Mailer Object
      *
-     * @var    \webtemplate\general\Mail
+     * @var    \g7mzr\webtemplate\general\Mail
      * @access protected
      */
     protected $var_mail;
@@ -191,7 +191,7 @@ class Application
      * Property: tokens
      * Webtemplate Tokens Object
      *
-     * @var    \webtemplate\general\Tokens
+     * @var    \g7mzr\webtemplate\general\Tokens
      * @access protected
      */
     protected $var_tokens;
@@ -200,7 +200,7 @@ class Application
      * Property: edituserprefs
      * Webtemplate edituserprefs Object
      *
-     * @var    \webtemplate\users\EditUserPref
+     * @var    \g7mzr\webtemplate\users\EditUserPref
      * @access protected
      */
     protected $var_edituserprefs;
@@ -225,7 +225,7 @@ class Application
 
 
         // Create the Smart Template class
-        $this->var_tpl = new \webtemplate\application\SmartyTemplate();
+        $this->var_tpl = new \g7mzr\webtemplate\application\SmartyTemplate();
 
 
         //Set up the correct language and associated templates
@@ -280,16 +280,16 @@ class Application
 
         //Create new config class
         $configdir = $this->var_tpl->getConfigDir(0);
-        $this->var_config = new \webtemplate\config\Configure($configdir);
+        $this->var_config = new \g7mzr\webtemplate\config\Configure($configdir);
 
         //Create the logclass
-        $this->var_log = new \webtemplate\general\Log(
+        $this->var_log = new \g7mzr\webtemplate\general\Log(
             $this->var_config->read('param.admin.logging'),
             $this->var_config->read('param.admin.logrotate')
         );
 
         /* Initilaise PHP Session handling from session.php */
-        $this->var_session = new \webtemplate\application\Session(
+        $this->var_session = new \g7mzr\webtemplate\application\Session(
             $this->var_config->read('param.cookiepath'),
             $this->var_config->read('param.cookiedomain'),
             $this->var_config->read('param.users.autologout'),
@@ -298,44 +298,44 @@ class Application
         );
 
         // Create a user class
-        $this->var_user = new \webtemplate\users\User($this->var_db);
+        $this->var_user = new \g7mzr\webtemplate\users\User($this->var_db);
 
         // Initalise an Edit User class
-        $this->var_edituser = new \webtemplate\users\EditUser($this->var_db);
+        $this->var_edituser = new \g7mzr\webtemplate\users\EditUser($this->var_db);
 
         // Initalise an Usergrpups class
-        $this->var_usergroups = new \webtemplate\users\Groups($this->var_db);
+        $this->var_usergroups = new \g7mzr\webtemplate\users\Groups($this->var_db);
 
 
         // Initalise an edutusers groups class
-        $this->var_editusersgroups = new \webtemplate\groups\EditUsersGroups(
+        $this->var_editusersgroups = new \g7mzr\webtemplate\groups\EditUsersGroups(
             $this->var_db
         );
 
         // Initalise edit groups class
-        $this->var_editgroups = new \webtemplate\groups\EditGroups($this->var_db);
+        $this->var_editgroups = new \g7mzr\webtemplate\groups\EditGroups($this->var_db);
 
         // Initalise the Parameters Object
-        $this->var_parameters = new \webtemplate\admin\Parameters($this->var_config);
+        $this->var_parameters = new \g7mzr\webtemplate\admin\Parameters($this->var_config);
 
         // Inialise the Preferences Object
-        $this->var_preferences = new \webtemplate\admin\Preferences(
+        $this->var_preferences = new \g7mzr\webtemplate\admin\Preferences(
             $this->var_config
         );
 
         // Initalise the Mail Object
-        $this->var_mail = new \webtemplate\general\Mail(
+        $this->var_mail = new \g7mzr\webtemplate\general\Mail(
             $this->var_config->read('param.email')
         );
 
         //Initalise the Tokens Object
-        $this->var_tokens = new \webtemplate\general\Tokens(
+        $this->var_tokens = new \g7mzr\webtemplate\general\Tokens(
             $this->var_tpl,
             $this->var_db
         );
 
         // Inialise the Edit Users Preferences Object
-        $this->var_edituserprefs = new \webtemplate\users\EditUserPref(
+        $this->var_edituserprefs = new \g7mzr\webtemplate\users\EditUserPref(
             $this->var_db
         );
         // Check if user is logged in.  If they are register them.
@@ -344,7 +344,7 @@ class Application
                 $this->var_session->getUserName(),
                 $this->var_config->read('pref')
             );
-            if (\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\webtemplate\general\General::isError($result)) {
                 $this->var_log->error(
                     basename(__FILE__) .
                     ": Failed To Register logged in user " .
@@ -427,7 +427,7 @@ class Application
     /**
      * This function returns the config class
      *
-     * @return \webtemplate\config\Configure
+     * @return \g7mzr\webtemplate\config\Configure
      *
      * @access public
      */
@@ -440,7 +440,7 @@ class Application
     /**
      * This function returns the database class
      *
-     * @return \webtemplate\db\DB
+     * @return \g7mzr\webtemplate\db\DB
      *
      * @access public
      */
@@ -452,7 +452,7 @@ class Application
     /**
      * This function returns the edituser class
      *
-     * @return \webtemplate\users\Edituser
+     * @return \g7mzr\webtemplate\users\Edituser
      *
      * @access public
      */
@@ -464,7 +464,7 @@ class Application
     /**
      * This function returns the user class
      *
-     * @return \webtemplate\users\EditUsersGroups
+     * @return \g7mzr\webtemplate\users\EditUsersGroups
      *
      * @access public
      */
@@ -488,7 +488,7 @@ class Application
     /**
      * This function returns the log class
      *
-     * @return \webtemplate\general\Log
+     * @return \g7mzr\webtemplate\general\Log
      *
      * @access public
      */
@@ -500,7 +500,7 @@ class Application
     /**
      * This function returns the session class
      *
-     * @return \webtemplate\application\Session
+     * @return \g7mzr\webtemplate\application\Session
      *
      * @access protected
      */
@@ -512,7 +512,7 @@ class Application
     /**
      * This function returns the tpl class
      *
-     * @return \webtemplate\application\SmartyTemplate
+     * @return \g7mzr\webtemplate\application\SmartyTemplate
      *
      * @access protected
      */
@@ -525,7 +525,7 @@ class Application
     /**
      * This function returns the user class
      *
-     * @return \webtemplate\users\User
+     * @return \g7mzr\webtemplate\users\User
      *
      * @access public
      */
@@ -537,7 +537,7 @@ class Application
     /**
      * This function returns the users groups class
      *
-     * @return \webtemplate\users\Groups
+     * @return \g7mzr\webtemplate\users\Groups
      *
      * @access protected
      */
@@ -549,7 +549,7 @@ class Application
     /**
      * This function returns the users groups class
      *
-     * @return \webtemplate\groups\EditGroups
+     * @return \g7mzr\webtemplate\groups\EditGroups
      *
      * @access protected
      */
@@ -561,7 +561,7 @@ class Application
     /**
      * This function returns the parameters class
      *
-     * @return \webtemplate\admin\Parameters
+     * @return \g7mzr\webtemplate\admin\Parameters
      *
      * @access protected
      */
@@ -574,7 +574,7 @@ class Application
     /**
      * This function returns the preferences class
      *
-     * @return \webtemplate\admin\Preferences
+     * @return \g7mzr\webtemplate\admin\Preferences
      *
      * @access protected
      */
@@ -586,7 +586,7 @@ class Application
     /**
      * This function returns the mail class
      *
-     * @return \webtemplate\general\Mail
+     * @return \g7mzr\webtemplate\general\Mail
      *
      * @access protected
      */
@@ -598,7 +598,7 @@ class Application
     /**
      * This function returns the tokens class
      *
-     * @return \webtemplate\general\tokens
+     * @return \g7mzr\webtemplate\general\tokens
      *
      * @access protected
      */
@@ -610,7 +610,7 @@ class Application
     /**
      * This function returns the edituserpref class
      *
-     * @return \webtemplate\users\EditUserPref
+     * @return \g7mzr\webtemplate\users\EditUserPref
      *
      * @access protected
      */

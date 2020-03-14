@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\application;
+namespace g7mzr\webtemplate\application;
 
 /**
  * Header Class is a static class used to send HTTP Headers to the client.

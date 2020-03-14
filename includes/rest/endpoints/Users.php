@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\rest\endpoints;
+namespace g7mzr\webtemplate\rest\endpoints;
 
 /**
  *  Webtemplate RestFul API users endpoint class
@@ -49,11 +49,11 @@ class Users
     /**
      * Constructor
      *
-     * @param \webtemplate\application\Application $webtemplate Webtemplate Application Class Object.
+     * @param \g7mzr\webtemplate\application\Application $webtemplate Webtemplate Application Class Object.
      *
      * @access public
      */
-    public function __construct(\webtemplate\application\Application  &$webtemplate)
+    public function __construct(\g7mzr\webtemplate\application\Application  &$webtemplate)
     {
             $this->webtemplate = $webtemplate;
     }
@@ -77,7 +77,7 @@ class Users
         if (\count($this->args) == 0) {
             // Endpoint Only Return all users
             $data = $this->webtemplate->edituser()->search('username', '');
-            if (!\webtemplate\general\General::isError($data)) {
+            if (!\g7mzr\webtemplate\general\General::isError($data)) {
                 return array('data' => $data, 'code' => 200);
             } else {
                 $errmsg = array('Errormsg' => $data->getMessage());
@@ -90,7 +90,7 @@ class Users
             if (\is_numeric($this->args[0])) {
                 // Return data on user with userid held in args[0]
                 $data = $this->webtemplate->edituser()->getuser($this->args[0]);
-                if (!\webtemplate\general\General::isError($data)) {
+                if (!\g7mzr\webtemplate\general\General::isError($data)) {
                     // Return data on user
                     return array('data' => $data, 'code' => 200);
                 } else {
@@ -100,7 +100,7 @@ class Users
                 }
             } else {
                 // Check if args[0] is a valid user name
-                $validname = \webtemplate\general\LocalValidate::username(
+                $validname = \g7mzr\webtemplate\general\LocalValidate::username(
                     $this->args[0],
                     $this->webtemplate->config()->read('param.users.regexp')
                 );
@@ -110,7 +110,7 @@ class Users
                         'username',
                         $this->args[0]
                     );
-                    if (!\webtemplate\general\General::isError($data)) {
+                    if (!\g7mzr\webtemplate\general\General::isError($data)) {
                         // Return data on user
                         return array('data' => $data, 'code' => 200);
                     } else {
@@ -134,7 +134,7 @@ class Users
                 $uid = '0';  // Set a default user uid of 0.  This is invalid
                 if (!is_numeric($this->args[0])) {
                     // if args[1] is a username search out user to obtain userid
-                    $validname = \webtemplate\general\LocalValidate::username(
+                    $validname = \g7mzr\webtemplate\general\LocalValidate::username(
                         $this->args[0],
                         $this->webtemplate->config()->read('param.users.regexp')
                     );
@@ -144,7 +144,7 @@ class Users
                             'username',
                             $this->args[0]
                         );
-                        if (!\webtemplate\general\General::isError($data)) {
+                        if (!\g7mzr\webtemplate\general\General::isError($data)) {
                             // Set uid to userid of requested user.
                             $uid = $data[0]['userid'];
                         } else {
@@ -168,7 +168,7 @@ class Users
                     $uid,
                     $groups
                 );
-                if (!\webtemplate\general\General::isError($result)) {
+                if (!\g7mzr\webtemplate\general\General::isError($result)) {
                     // No error so it is safe to get the groups and return them
                     return array('data' => $groups, 'code' => 200);
                 } else {
@@ -240,13 +240,13 @@ class Users
             $resultArray[0]['userenabled'],
             $resultArray[0]['passwdchange']
         );
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\webtemplate\general\General::isError($result)) {
             $data = array('ErrorMsg' => $result->getMessage());
             return array('data' => $data, 'code' => 500);
         }
 
         $data = $this->webtemplate->edituser()->getuser($resultArray[0]['userid']);
-        if (\webtemplate\general\General::isError($data)) {
+        if (\g7mzr\webtemplate\general\General::isError($data)) {
             // Return error message
             $errmsg = array('Errormsg' => $data->getMessage());
             return array('data' => $errmsg, 'code' => 404);
@@ -276,7 +276,7 @@ class Users
             $userid = $this->args[0];
         } else {
             // Check if args[0] is a valid user name
-            $validname = \webtemplate\general\LocalValidate::username(
+            $validname = \g7mzr\webtemplate\general\LocalValidate::username(
                 $this->args[0],
                 $this->webtemplate->config()->read('param.users.regexp')
             );
@@ -286,7 +286,7 @@ class Users
                     'username',
                     $this->args[0]
                 );
-                if (!\webtemplate\general\General::isError($data)) {
+                if (!\g7mzr\webtemplate\general\General::isError($data)) {
                     // Return data on user
                     $userid = $data[0]['userid'];
                 } else {
@@ -340,14 +340,14 @@ class Users
                 $resultArray[0]['userenabled'],
                 $resultArray[0]['passwdchange']
             );
-            if (\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\webtemplate\general\General::isError($result)) {
                 $data = array('ErrorMsg' => $result->getMessage());
                 return array('data' => $data, 'code' => 500);
             }
 
             $data = $this->webtemplate
                 ->edituser()->getuser($resultArray[0]['userid']);
-            if (\webtemplate\general\General::isError($data)) {
+            if (\g7mzr\webtemplate\general\General::isError($data)) {
                 // Return error message
                 $errmsg = array('Errormsg' => $data->getMessage());
                 return array('data' => $errmsg, 'code' => 404);
@@ -375,7 +375,7 @@ class Users
                     $userid,
                     $groupArray
                 );
-                if (!\webtemplate\general\General::isError($result)) {
+                if (!\g7mzr\webtemplate\general\General::isError($result)) {
                     $data = $this->webtemplate->editusersgroups()->getGroupList();
                     $this->webtemplate->editusersgroups()->getUsersGroups(
                         $userid,

@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -32,14 +32,14 @@ class GroupsClassTest extends TestCase
     /**
      * User Groups Object - Admin
      *
-     * @var \webtemplate\users\Groups
+     * @var\g7mzr\webtemplate\users\Groups
      */
     protected $object;
 
     /**
      * User Groups Object - Normal
      *
-     * @var \webtemplate\users\Groups
+     * @var\g7mzr\webtemplate\users\Groups
      */
     protected $object2;
 
@@ -98,8 +98,8 @@ class GroupsClassTest extends TestCase
             echo $ex->getMessage();
             $this->databaseconnection = false;
         }
-        $this->object = new \webtemplate\users\Groups($this->object3->getDataDriver(), '1'); //Admin
-        $this->object2 = new \webtemplate\users\Groups($this->object3->getDataDriver(), '3');//User
+        $this->object = new\g7mzr\webtemplate\users\Groups($this->object3->getDataDriver(), '1'); //Admin
+        $this->object2 = new\g7mzr\webtemplate\users\Groups($this->object3->getDataDriver(), '3');//User
     }
 
     /**
@@ -221,7 +221,7 @@ class GroupsClassTest extends TestCase
         }
 
         // Fail getting Group List
-        $groupclass = new \webtemplate\users\Groups($db->getDataDriver(), '1');
+        $groupclass = new\g7mzr\webtemplate\users\Groups($db->getDataDriver(), '1');
         $this->assertEquals(
             'Error gettings Users permissions',
             $groupclass->getLastMsg()
@@ -271,7 +271,7 @@ class GroupsClassTest extends TestCase
         );
 
         $db->getDataDriver()->control($functions, $data);
-        $groupclass = new \webtemplate\users\Groups($db->getDataDriver(), '1');
+        $groupclass = new\g7mzr\webtemplate\users\Groups($db->getDataDriver(), '1');
         $this->assertEquals(
             'Error gettings Users permissions',
             $groupclass->getLastMsg()
@@ -290,7 +290,7 @@ class GroupsClassTest extends TestCase
 
 
         $db->getDataDriver()->control($functions, $data);
-        $groupclass = new \webtemplate\users\Groups($db->getDataDriver(), '1');
+        $groupclass = new\g7mzr\webtemplate\users\Groups($db->getDataDriver(), '1');
         $this->assertEquals(
             'Error gettings Users permissions',
             $groupclass->getLastMsg()
@@ -308,7 +308,7 @@ class GroupsClassTest extends TestCase
         );
 
         $db->getDataDriver()->control($functions, $data);
-        $groupclass = new \webtemplate\users\Groups($db->getDataDriver(), '1');
+        $groupclass = new\g7mzr\webtemplate\users\Groups($db->getDataDriver(), '1');
         $this->assertEquals(
             'Error gettings Users permissions',
             $groupclass->getLastMsg()

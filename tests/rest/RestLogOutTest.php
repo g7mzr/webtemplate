@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
@@ -33,7 +33,7 @@ class RestLogOutTest extends TestCase
      * property: webtemplate
      * Webtemplate application class
      *
-     * @var \webtemplate\application\Application
+     * @var\g7mzr\webtemplate\application\Application
      */
     protected $webtemplate;
 
@@ -41,7 +41,7 @@ class RestLogOutTest extends TestCase
      * property: version
      * Webtemplate application class
      *
-     * @var \webtemplate\rest\endpoint\Version
+     * @var\g7mzr\webtemplate\rest\endpoint\Version
      */
     protected $logout;
     /**
@@ -55,8 +55,8 @@ class RestLogOutTest extends TestCase
         global $sessiontest;
 
         $sessiontest = array(true);
-        $this->webtemplate = new \webtemplate\application\Application();
-        $this->logout = new \webtemplate\rest\endpoints\Logout($this->webtemplate);
+        $this->webtemplate = new\g7mzr\webtemplate\application\Application();
+        $this->logout = new\g7mzr\webtemplate\rest\endpoints\Logout($this->webtemplate);
     }
 
     /**

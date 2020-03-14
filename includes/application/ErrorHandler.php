@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\application;
+namespace g7mzr\webtemplate\application;
 
 /**
 * Webtemplate Class error Handler
@@ -40,11 +40,11 @@ class ErrorHandler
     ) {
 
         // Set up the Smarty Template Engine
-        $tpl = new \webtemplate\application\SmartyTemplate();
+        $tpl = new \g7mzr\webtemplate\application\SmartyTemplate();
         $template = 'global/phperror.tpl';
 
         //Set up the correct language and associated templates
-        $languageconfig = \webtemplate\general\General::getconfigfile(
+        $languageconfig = \g7mzr\webtemplate\general\General::getconfigfile(
             $tpl->getConfigDir()
         );
         $tpl->assign('CONFIGFILE', $languageconfig);
@@ -103,11 +103,11 @@ class ErrorHandler
     {
 
         // Set up the Smarty Template Engine
-        $tpl = new \webtemplate\application\SmartyTemplate();
+        $tpl = new \g7mzr\webtemplate\application\SmartyTemplate();
         $template = 'global/phperror.tpl';
 
         //Set up the correct language and associated templates
-        $languageconfig = \webtemplate\general\General::getconfigfile(
+        $languageconfig = \g7mzr\webtemplate\general\General::getconfigfile(
             $tpl->getConfigDir()
         );
         $tpl->assign('CONFIGFILE', $languageconfig);
@@ -123,7 +123,7 @@ class ErrorHandler
 
         //Create new config class
         $configdir = $tpl->getConfigDir(0);
-        $config = new \webtemplate\config\Configure($configdir);
+        $config = new \g7mzr\webtemplate\config\Configure($configdir);
 
         // Load the menu and assign it to a SMARTY Variable
         $mainmenu = $config->readMenu('mainmenu');

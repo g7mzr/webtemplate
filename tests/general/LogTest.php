@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -52,9 +52,9 @@ class LogTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->dailyobject = new \webtemplate\general\Log(5, 1);
-        $this->weeklyobject = new \webtemplate\general\Log(5, 2);
-        $this->monthlyobject = new \webtemplate\general\Log(5, 3);
+        $this->dailyobject = new\g7mzr\webtemplate\general\Log(5, 1);
+        $this->weeklyobject = new\g7mzr\webtemplate\general\Log(5, 2);
+        $this->monthlyobject = new\g7mzr\webtemplate\general\Log(5, 3);
         $_SERVER["REMOTE_ADDR"] = '10.1.1.1';
 
         $dirName =  dirname(__FILE__) . "/../../logs/";

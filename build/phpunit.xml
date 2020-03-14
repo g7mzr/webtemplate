@@ -53,10 +53,10 @@
         </testsuite>
 
         <testsuite name="restapi">
-            <file>../tests/restapi/login.classTest.php</file>
-            <file>../tests/restapi/version.classTest.php</file>
-            <file>../tests/restapi/users.classTest.php</file>
-            <file>../tests/restapi/groups.classTest.php</file>
+            <file>../tests/restapi/LoginTest.php</file>
+            <file>../tests/restapi/VersionTest.php</file>
+            <file>../tests/restapi/UsersTest.php</file>
+            <file>../tests/restapi/GroupsTest.php</file>
          </testsuite>
 
     </testsuites>

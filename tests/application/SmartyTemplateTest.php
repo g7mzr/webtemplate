@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
@@ -63,8 +63,8 @@ class SmartyTemplateTest extends TestCase
      */
     public function testSmartyConstructor()
     {
-        $tpl = new \webtemplate\application\SmartyTemplate();
+        $tpl = new\g7mzr\webtemplate\application\SmartyTemplate();
         $this->assertNotNUll($tpl);
-        $this->assertTrue(is_a($tpl, '\webtemplate\application\SmartyTemplate'));
+        $this->assertTrue(is_a($tpl, '\g7mzr\webtemplate\application\SmartyTemplate'));
     }
 }

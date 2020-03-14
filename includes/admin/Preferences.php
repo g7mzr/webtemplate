@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\admin;
+namespace g7mzr\webtemplate\admin;
 
 /**
  * Preferences Interface Class
@@ -91,18 +91,18 @@ class Preferences
     /**
      * Configuration class object
      *
-     * @var \webtemplate\config\Configuration
+     * @var\g7mzr\webtemplate\config\Configuration
      */
     protected $config;
 
     /**
      * Constructor
      *
-     * @param \webtemplate\config\Configure $config Configuration class.
+     * @param \g7mzr\webtemplate\config\Configure $config Configuration class.
      *
      * @access public
      */
-    public function __construct(\webtemplate\config\Configure $config)
+    public function __construct(\g7mzr\webtemplate\config\Configure $config)
     {
 
         $this->config = $config;

@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\rest\endpoints;
+namespace g7mzr\webtemplate\rest\endpoints;
 
 /**
  *  Webtemplate RestFul API Login endpoint class
@@ -39,11 +39,11 @@ class Login
     /**
      * Constructor
      *
-     * @param \webtemplate\application\Application $webtemplate Webtemplate Application Class Object.
+     * @param \g7mzr\webtemplate\application\Application $webtemplate Webtemplate Application Class Object.
      *
      * @access public
      */
-    public function __construct(\webtemplate\application\Application  &$webtemplate)
+    public function __construct(\g7mzr\webtemplate\application\Application  &$webtemplate)
     {
         $this->webtemplate = $webtemplate;
     }
@@ -64,13 +64,13 @@ class Login
         $validusername = false;
         $validpasswd = false;
         if (key_exists('username', $this->requestdata)) {
-            $validusername = \webtemplate\general\LocalValidate::username(
+            $validusername = \g7mzr\webtemplate\general\LocalValidate::username(
                 $this->requestdata['username'],
                 $this->webtemplate->config()->read('param.users.regexp')
             );
         }
         if (key_exists('password', $this->requestdata)) {
-            $validpasswd = \webtemplate\general\LocalValidate::password(
+            $validpasswd = \g7mzr\webtemplate\general\LocalValidate::password(
                 $this->requestdata['password'],
                 $this->webtemplate->config()->read('param.users.passwdstrength')
             );
@@ -82,7 +82,7 @@ class Login
                 $this->webtemplate->config()->read('param.users.passwdage'),
                 $this->webtemplate->config()->read('pref')
             );
-            if (!\webtemplate\general\General::isError($userloggedin)) {
+            if (!\g7mzr\webtemplate\general\General::isError($userloggedin)) {
                 $this->webtemplate->session()->createSession(
                     $this->requestdata['username'],
                     $this->webtemplate->user()->getUserId(),

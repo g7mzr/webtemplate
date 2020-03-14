@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\phpunit;
+namespace g7mzr\webtemplate\phpunit;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
@@ -38,7 +38,7 @@ class ApplicationTest extends TestCase
     /**
      * Session Class
      *
-     * @var \webtemplate\application\Application
+     * @var\g7mzr\webtemplate\application\Application
      */
     protected $object;
 
@@ -57,7 +57,7 @@ class ApplicationTest extends TestCase
         $sessiontest = array(true);
 
         try {
-            $this->object = new \webtemplate\application\Application();
+            $this->object = new \g7mzr\webtemplate\application\Application();
         } catch (\Throwable $e) {
             $this->fail($e->getMessage());
         }
@@ -157,7 +157,7 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->config(),
-            '\webtemplate\config\Configure'
+            '\g7mzr\webtemplate\config\Configure'
         );
         $this->assertTrue($result);
     }
@@ -174,7 +174,7 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->db(),
-            'g7mzr\db\interfaces\InterfaceDatabaseDriver'
+            '\g7mzr\db\interfaces\InterfaceDatabaseDriver'
         );
         $this->assertTrue($result);
     }
@@ -191,7 +191,7 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->edituser(),
-            '\webtemplate\users\editUser'
+            '\g7mzr\webtemplate\users\editUser'
         );
         $this->assertTrue($result);
     }
@@ -208,7 +208,7 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->editusersgroups(),
-            '\webtemplate\groups\EditUsersGroups'
+            '\g7mzr\webtemplate\groups\EditUsersGroups'
         );
         $this->assertTrue($result);
     }
@@ -226,7 +226,7 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->log(),
-            '\webtemplate\general\Log'
+            '\g7mzr\webtemplate\general\Log'
         );
         $this->assertTrue($result);
     }
@@ -243,7 +243,7 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->session(),
-            '\webtemplate\application\Session'
+            '\g7mzr\webtemplate\application\Session'
         );
         $this->assertTrue($result);
     }
@@ -261,7 +261,7 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->tpl(),
-            '\webtemplate\application\SmartyTemplate'
+            '\g7mzr\webtemplate\application\SmartyTemplate'
         );
         $this->assertTrue($result);
     }
@@ -278,7 +278,7 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->user(),
-            '\webtemplate\users\user'
+            '\g7mzr\webtemplate\users\user'
         );
         $this->assertTrue($result);
     }
@@ -296,7 +296,7 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->usergroups(),
-            '\webtemplate\users\Groups'
+            '\g7mzr\webtemplate\users\Groups'
         );
         $this->assertTrue($result);
     }
@@ -313,7 +313,7 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->editgroups(),
-            '\webtemplate\groups\EditGroups'
+            '\g7mzr\webtemplate\groups\EditGroups'
         );
         $this->assertTrue($result);
     }
@@ -330,7 +330,7 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->parameters(),
-            '\webtemplate\admin\Parameters'
+            '\g7mzr\webtemplate\admin\Parameters'
         );
         $this->assertTrue($result);
     }
@@ -347,7 +347,7 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->preferences(),
-            '\webtemplate\admin\Preferences'
+            '\g7mzr\webtemplate\admin\Preferences'
         );
         $this->assertTrue($result);
     }
@@ -364,7 +364,7 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->mail(),
-            '\webtemplate\general\Mail'
+            '\g7mzr\webtemplate\general\Mail'
         );
         $this->assertTrue($result);
     }
@@ -381,7 +381,7 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->tokens(),
-            '\webtemplate\general\Tokens'
+            '\g7mzr\webtemplate\general\Tokens'
         );
         $this->assertTrue($result);
     }
@@ -398,7 +398,7 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->edituserpref(),
-            '\webtemplate\users\EditUserPref'
+            '\g7mzr\webtemplate\users\EditUserPref'
         );
         $this->assertTrue($result);
     }
@@ -420,7 +420,7 @@ class ApplicationTest extends TestCase
         // Reuse the session variable created in the earler test
         $_COOKIE['webdatabase'] = $sessiontest['value'];
 
-        $testapp = new \webtemplate\application\Application();
+        $testapp = new \g7mzr\webtemplate\application\Application();
         $username = $testapp->session()->getUserName();
         $this->assertEquals("phpunit", $username);
     }

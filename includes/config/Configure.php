@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\config;
+namespace g7mzr\webtemplate\config;
 
 /**
  * Configuration Class

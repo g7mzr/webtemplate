@@ -15,7 +15,7 @@
 
 namespace Facebook\WebDriver;
 
-use \webtemplate\application\exceptions\AppException;
+use\g7mzr\webtemplate\application\exceptions\AppException;
 use PHPUnit\Framework\TestCase;
 
 // Load the Selenium Driver and Application Data.
@@ -59,9 +59,9 @@ class PasswordResetTest extends TestCase
      * BROWSER: The Web browser to be used for the tests
      * URL: The Web location of the test site.
      *
-     * @throws \webtemplate\application\exceptions\AppException If unable to set data driver mode.
-     * @throws \webtemplate\application\exceptions\AppException If unable to connect to the database.
-     * @throws \webtemplate\application\exceptions\AppException If unable to reset password.
+     * @throws \g7mzr\webtemplate\application\exceptions\AppException If unable to set data driver mode.
+     * @throws \g7mzr\webtemplate\application\exceptions\AppException If unable to connect to the database.
+     * @throws \g7mzr\webtemplate\application\exceptions\AppException If unable to reset password.
      *
      * @return void
      */
@@ -85,13 +85,13 @@ class PasswordResetTest extends TestCase
         } catch (Exception $ex) {
             throw new AppException("Unable to connect to database");
         }
-        $encryptPasswd = \webtemplate\general\General::encryptPasswd(
+        $encryptPasswd = \g7mzr\webtemplate\general\General::encryptPasswd(
             SECUSERPASSWORD
         );
         $insertdata = array('user_passwd' => $encryptPasswd);
         $searchdata = array('user_name' => SECUSERUSERNAME);
         $result = $db->getDataDriver()->dbupdate('users', $insertdata, $searchdata);
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\webtemplate\general\General::isError($result)) {
             throw new AppException(
                 "Error Resetting SECUSERPASSWD"
             );
@@ -102,8 +102,8 @@ class PasswordResetTest extends TestCase
     /**
      * Function to close the Webdriver after each test is complete
      *
-     * @throws \webtemplate\application\exceptions\AppException If unable to set data driver mode.
-     * @throws \webtemplate\application\exceptions\AppException If unable to connect to the database.
+     * @throws \g7mzr\webtemplate\application\exceptions\AppException If unable to set data driver mode.
+     * @throws \g7mzr\webtemplate\application\exceptions\AppException If unable to connect to the database.
      *
      * @return void
      */
@@ -163,13 +163,13 @@ class PasswordResetTest extends TestCase
                     "Unable to connect to database"
                 );
         }
-        $encryptPasswd = \webtemplate\general\General::encryptPasswd(
+        $encryptPasswd = \g7mzr\webtemplate\general\General::encryptPasswd(
             SECUSERPASSWORD
         );
         $insertdata = array('user_passwd' => $encryptPasswd);
         $searchdata = array('user_name' => SECUSERUSERNAME);
         $result = $db->getDataDriver()->dbupdate('users', $insertdata, $searchdata);
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\webtemplate\general\General::isError($result)) {
             throw new AppException(
                 "Error Resetting SECUSERPASSWD"
             );

@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\admin\parameters;
+namespace g7mzr\webtemplate\admin\parameters;
 
 /**
  * Parameters Interface Class
@@ -65,11 +65,11 @@ class Email extends ParametersAbstract
     /**
      * Constructor
      *
-     * @param \webtemplate\config\Configure $config Configuration class.
+     * @param \g7mzr\webtemplate\config\Configure $config Configuration class.
      *
      * @access public
      */
-    public function __construct(\webtemplate\config\Configure $config)
+    public function __construct(\g7mzr\webtemplate\config\Configure $config)
     {
 
         parent::__construct($config);
@@ -264,7 +264,7 @@ class Email extends ParametersAbstract
             $this->fromaddress = substr($inputData['email_address_id'], 0, 60);
         }
 
-        if (!\webtemplate\general\LocalValidate::email($this->fromaddress)) {
+        if (!\g7mzr\webtemplate\general\LocalValidate::email($this->fromaddress)) {
             $this->lastMsg .= gettext("Invalid E-mail Address") . "\n";
             $dataok = false;
         }
@@ -292,7 +292,7 @@ class Email extends ParametersAbstract
         }
 
         if ($this->smtpServer != '') {
-            if (!\webtemplate\general\LocalValidate::domain($this->smtpServer)) {
+            if (!\g7mzr\webtemplate\general\LocalValidate::domain($this->smtpServer)) {
                 $this->lastMsg .= gettext("Invalid SMTP Server Name") . "\n";
                 $dataok = false;
             }
@@ -320,7 +320,7 @@ class Email extends ParametersAbstract
             $this->smtpUserName = substr($inputData['smtp_user_name_id'], 0, 60);
         }
 
-        if (!\webtemplate\general\LocalValidate::generaltext($this->smtpUserName)) {
+        if (!\g7mzr\webtemplate\general\LocalValidate::generaltext($this->smtpUserName)) {
             $this->lastMsg .= gettext("Invalid Username") . "\n";
             $dataok = false;
         }
@@ -347,7 +347,7 @@ class Email extends ParametersAbstract
             $this->smtpPassword = substr($inputData['smtp_passwd_id'], 0, 60);
         }
 
-        if (!\webtemplate\general\LocalValidate::generaltext($this->smtpPassword)) {
+        if (!\g7mzr\webtemplate\general\LocalValidate::generaltext($this->smtpPassword)) {
             $this->lastMsg .= gettext("Invalid Password") . "\n";
             $dataok = false;
         }

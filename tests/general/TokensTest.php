@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -32,7 +32,7 @@ class TokensTest extends TestCase
     /**
      * Tokens Class
      *
-     * @var \webtemplate\general\Tokens
+     * @var\g7mzr\webtemplate\general\Tokens
      */
     protected $object;
 
@@ -62,7 +62,7 @@ class TokensTest extends TestCase
         global $testdsn;
 
         // Set up a Smarty Template object to get config variables
-        $tpl = new \webtemplate\application\SmartyTemplate();
+        $tpl = new\g7mzr\webtemplate\application\SmartyTemplate();
 
         //Set up the correct language and associated templates
         $languageconfig = "en.conf";
@@ -88,7 +88,7 @@ class TokensTest extends TestCase
         }
 
         // Create a new User Object
-        $this->object = new \webtemplate\general\Tokens($tpl, $this->object2->getDataDriver());
+        $this->object = new\g7mzr\webtemplate\general\Tokens($tpl, $this->object2->getDataDriver());
     }
 
     /**
@@ -125,7 +125,7 @@ class TokensTest extends TestCase
                 false,
                 false
             );
-            if (\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\webtemplate\general\General::isError($result)) {
                 $this->fail("Unable to create user Token");
             } else {
                 $this->assertRegExp("/^([a-z0-9]{10})$/", $result);
@@ -133,7 +133,7 @@ class TokensTest extends TestCase
 
             // Create a MD5 MicroTime Token
             $result = $this->object->createToken('1', 'UNITTEST', 1, 'FIRST', true);
-            if (\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\webtemplate\general\General::isError($result)) {
                 $this->fail("Unable to create user Token");
             } else {
                 $this->assertRegExp("/^([a-z0-9]{46})(\.)([a-z0-9]{8})$/", $result);
@@ -141,7 +141,7 @@ class TokensTest extends TestCase
 
             // Create a Token for an invalid user
             $result = $this->object->createToken('100', 'UNITTEST');
-            if (\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\webtemplate\general\General::isError($result)) {
                 $this->assertEquals(
                     "Error creating User Token",
                     $result->getMessage()
@@ -166,7 +166,7 @@ class TokensTest extends TestCase
     {
         if ($this->databaseconnection == true) {
             $result = $this->object->createToken('1', 'UNITTEST', 1, 'FIRST');
-            if (\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\webtemplate\general\General::isError($result)) {
                 $this->fail("Unable to create user Token");
             } else {
                 $userid = $this->object->getTokenUserid($result, 'UNITTEST');
@@ -201,7 +201,7 @@ class TokensTest extends TestCase
     {
         if ($this->databaseconnection == true) {
             $result = $this->object->createToken('1', 'UNITTEST', 1, 'FIRST');
-            if (\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\webtemplate\general\General::isError($result)) {
                 $this->fail("Unable to create user Token");
             } else {
                 $verifyResult = $this->object->verifyToken($result, 'UNITTEST', 1);
@@ -240,7 +240,7 @@ class TokensTest extends TestCase
     {
         if ($this->databaseconnection == true) {
             $result = $this->object->createToken('1', 'UNITTEST', 1, 'FIRST');
-            if (\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\webtemplate\general\General::isError($result)) {
                 $this->fail("Unable to create user Token");
             } else {
                 $verifyResult = $this->object->verifyToken($result, 'UNITTEST', 1);
@@ -275,7 +275,7 @@ class TokensTest extends TestCase
     {
         if ($this->databaseconnection == true) {
             $result = $this->object->createToken('1', 'UNITTEST', 1, 'FIRST');
-            if (\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\webtemplate\general\General::isError($result)) {
                 $this->fail("Unable to create user Token");
             } else {
                 // Check a token exists
@@ -312,7 +312,7 @@ class TokensTest extends TestCase
     {
         if ($this->databaseconnection == true) {
             $token1 = $this->object->createToken('1', 'UNITTEST', 1, 'AutoDelete1');
-            if (\webtemplate\general\General::isError($token1)) {
+            if (\g7mzr\webtemplate\general\General::isError($token1)) {
                 $this->fail("Unable to create user Token");
             } else {
                 // Check a token exists

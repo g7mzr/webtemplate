@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -32,7 +32,7 @@ class ConfigureClassTest extends TestCase
     /**
      * Blank Class Object
      *
-     * @var \webtemplate\config\Configure
+     * @var\g7mzr\webtemplate\config\Configure
      */
     protected $object;
 
@@ -40,7 +40,7 @@ class ConfigureClassTest extends TestCase
     /**
      * Database Driver Class
      *
-     * @var \webtemplate\db\DB::load
+     * @var\g7mzr\webtemplate\db\DB::load
      */
     protected $db;
 
@@ -58,13 +58,13 @@ class ConfigureClassTest extends TestCase
         //global $testdsn, $options;
 
         // Create a database object
-        //$this->db = \webtemplate\db\DB::load($testdsn);
+        //$this->db =\g7mzr\webtemplate\db\DB::load($testdsn);
 
         $this->db = null;
 
         // Create configuration Object
         $configDir = __DIR__ . "/../../configs";
-        $this->object = new \webtemplate\config\Configure($configDir);
+        $this->object = new\g7mzr\webtemplate\config\Configure($configDir);
     }
 
     /**

@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\rest\endpoints;
+namespace g7mzr\webtemplate\rest\endpoints;
 
 /**
  *  Webtemplate RestFul API version endpoint class
@@ -39,11 +39,11 @@ class Version
     /**
      * Constructor
      *
-     * @param \webtemplate\application\Application $webtemplate Webtemplate Application Class Object.
+     * @param \g7mzr\webtemplate\application\Application $webtemplate Webtemplate Application Class Object.
      *
      * @access public
      */
-    public function __construct(\webtemplate\application\Application  &$webtemplate)
+    public function __construct(\g7mzr\webtemplate\application\Application  &$webtemplate)
     {
         $this->webtemplate = $webtemplate;
     }
@@ -77,7 +77,7 @@ class Version
                 // Get the Version of Database being used
                 $databaseversion = gettext("Error Getting Database Version");
                 $result = $this->webtemplate->db()->getDBVersion();
-                if (!\webtemplate\general\General::isError($result)) {
+                if (!\g7mzr\webtemplate\general\General::isError($result)) {
                     $databaseversion = $result;
                 }
 

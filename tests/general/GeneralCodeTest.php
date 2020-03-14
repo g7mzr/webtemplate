@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -65,15 +65,15 @@ class GeneralCodeTest extends TestCase
     {
         $configDir = array(dirname(__FILE__) . "/../_data");
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en';
-        $configfile = \webtemplate\general\General::getconfigfile($configDir);
+        $configfile = \g7mzr\webtemplate\general\General::getconfigfile($configDir);
         $this->assertEquals('en.conf', $configfile, 'Failed to set en config file');
 
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'fr';
-        $configfile = \webtemplate\general\General::getconfigfile($configDir);
+        $configfile = \g7mzr\webtemplate\general\General::getconfigfile($configDir);
         $this->assertEquals('fr.conf', $configfile, 'Failed to set fr config file');
 
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'ia';
-        $configfile = \webtemplate\general\General::getconfigfile($configDir);
+        $configfile = \g7mzr\webtemplate\general\General::getconfigfile($configDir);
         $this->assertEquals(
             'en.conf',
             $configfile,
@@ -91,7 +91,7 @@ class GeneralCodeTest extends TestCase
      */
     public function testgeneratePassword()
     {
-        $passwd = \webtemplate\general\General::generatePassword();
+        $passwd = \g7mzr\webtemplate\general\General::generatePassword();
         $passwdExp = "/^.*(?=.{8,20})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/";
         $result = preg_match($passwdExp, $passwd);
         $this->assertEquals(1, $result);
@@ -113,7 +113,7 @@ class GeneralCodeTest extends TestCase
         $urlbase = '';
         $emailaddress = '';
         $maintainer = '';
-        $msg = \webtemplate\general\General::checkkeyParameters(
+        $msg = \g7mzr\webtemplate\general\General::checkkeyParameters(
             $urlbase,
             $emailaddress,
             $maintainer
@@ -124,7 +124,7 @@ class GeneralCodeTest extends TestCase
         $urlbase = 'http://www.g7mzr.demon.co.uk';
         $emailaddress = 'g7mzrdev@gmail.com';
         $maintainer = 'g7mzrdev@gmail.com';
-        $msg = \webtemplate\general\General::checkkeyParameters(
+        $msg = \g7mzr\webtemplate\general\General::checkkeyParameters(
             $urlbase,
             $emailaddress,
             $maintainer
@@ -135,7 +135,7 @@ class GeneralCodeTest extends TestCase
         $urlbase = '';
         $emailaddress = 'g7mzrdev@gmail.com';
         $maintainer = 'g7mzrdev@gmail.com';
-        $msg = \webtemplate\general\General::checkkeyParameters(
+        $msg = \g7mzr\webtemplate\general\General::checkkeyParameters(
             $urlbase,
             $emailaddress,
             $maintainer
@@ -146,7 +146,7 @@ class GeneralCodeTest extends TestCase
         $urlbase = 'http://www.g7mzr.demon.co.uk';
         $emailaddress = '';
         $maintainer = 'g7mzrdev@gmail.com';
-        $msg = \webtemplate\general\General::checkkeyParameters(
+        $msg = \g7mzr\webtemplate\general\General::checkkeyParameters(
             $urlbase,
             $emailaddress,
             $maintainer
@@ -157,7 +157,7 @@ class GeneralCodeTest extends TestCase
         $urlbase = 'http://www.g7mzr.demon.co.uk';
         $emailaddress = 'g7mzrdev@gmail.com';
         $maintainer = '';
-        $msg = \webtemplate\general\General::checkkeyParameters(
+        $msg = \g7mzr\webtemplate\general\General::checkkeyParameters(
             $urlbase,
             $emailaddress,
             $maintainer
@@ -179,7 +179,7 @@ class GeneralCodeTest extends TestCase
 
         $language = "en";
         $docbase = "";
-        $docs_available = \webtemplate\general\General::checkdocs(
+        $docs_available = \g7mzr\webtemplate\general\General::checkdocs(
             $docbase,
             $language
         );
@@ -187,7 +187,7 @@ class GeneralCodeTest extends TestCase
 
         $language = 'en';
         $docbase = dirname(__FILE__) . "/../_data/docs/%lang%/";
-        $docs_available = \webtemplate\general\General::checkdocs(
+        $docs_available = \g7mzr\webtemplate\general\General::checkdocs(
             $docbase,
             $language
         );
@@ -195,14 +195,14 @@ class GeneralCodeTest extends TestCase
 
         $language = 'fr';
         $docbase = dirname(__FILE__) . "/../_data/docs/%lang%/";
-        $docs_available = \webtemplate\general\General::checkdocs(
+        $docs_available = \g7mzr\webtemplate\general\General::checkdocs(
             $docbase,
             $language
         );
         $this->assertTrue($docs_available, 'Failed with correct path and file set');
 
         $docbase = dirname(__FILE__) . "/";
-        $docs_available = \webtemplate\general\General::checkdocs(
+        $docs_available = \g7mzr\webtemplate\general\General::checkdocs(
             $docbase,
             $language
         );
@@ -220,27 +220,27 @@ class GeneralCodeTest extends TestCase
     public function testPasswdFormat()
     {
         // Check Length Only
-        $result = \webtemplate\general\General::passwdFormat('1');
+        $result = \g7mzr\webtemplate\general\General::passwdFormat('1');
         $this->assertStringContainsString("No other checks", $result);
 
         //Check Length and Lower Case Letters Only
-        $result = \webtemplate\general\General::passwdFormat('2');
+        $result = \g7mzr\webtemplate\general\General::passwdFormat('2');
         $this->assertStringContainsString("Lower Case letters only", $result);
 
         // Check length and Lower & Upper case letters
-        $result = \webtemplate\general\General::passwdFormat('3');
+        $result = \g7mzr\webtemplate\general\General::passwdFormat('3');
         $this->assertStringContainsString("one lower and one upper case letter", $result);
 
         // Check length, lower & upper case letters and numbers
-        $result = \webtemplate\general\General::passwdFormat('4');
+        $result = \g7mzr\webtemplate\general\General::passwdFormat('4');
         $this->assertStringContainsString("and one number", $result);
 
         // Check length, lower & upper case letters, numbers and Special characters
-        $result = \webtemplate\general\General::passwdFormat('5');
+        $result = \g7mzr\webtemplate\general\General::passwdFormat('5');
         $this->assertStringContainsString("and one special character", $result);
 
         // Check Defaults
-        $result = \webtemplate\general\General::passwdFormat('6');
+        $result = \g7mzr\webtemplate\general\General::passwdFormat('6');
         $this->assertStringContainsString("and one special character", $result);
     }
 
@@ -255,7 +255,7 @@ class GeneralCodeTest extends TestCase
     public function testEncryptPasswd()
     {
         // Get Password HASH
-        $hash = \webtemplate\general\General::encryptPasswd("apple");
+        $hash = \g7mzr\webtemplate\general\General::encryptPasswd("apple");
         $this->assertStringContainsString('$2y$', $hash);
         $this->assertStringContainsString('10$', $hash);
     }
@@ -271,10 +271,10 @@ class GeneralCodeTest extends TestCase
     public function testVerifyPasswd()
     {
         // Get Password HASH
-        $hash = \webtemplate\general\General::encryptPasswd("apple");
-        $result = \webtemplate\general\General::verifyPasswd('apple', $hash);
+        $hash = \g7mzr\webtemplate\general\General::encryptPasswd("apple");
+        $result = \g7mzr\webtemplate\general\General::verifyPasswd('apple', $hash);
         $this->assertTrue($result);
-        $result = \webtemplate\general\General::verifyPasswd('apples', $hash);
+        $result = \g7mzr\webtemplate\general\General::verifyPasswd('apples', $hash);
         $this->assertFalse($result);
     }
 
@@ -290,8 +290,8 @@ class GeneralCodeTest extends TestCase
     public function testraiseError()
     {
         // Raise an error
-        $err = \webtemplate\general\General::raiseError("This is testRaiseError", 1);
-        $this->assertTrue(is_a($err, '\webtemplate\application\Error'));
+        $err = \g7mzr\webtemplate\general\General::raiseError("This is testRaiseError", 1);
+        $this->assertTrue(is_a($err, '\g7mzr\webtemplate\application\Error'));
         $this->assertEquals($err->getMessage(), "This is testRaiseError");
         $this->assertEquals($err->getCode(), 1);
     }
@@ -309,11 +309,11 @@ class GeneralCodeTest extends TestCase
     public function testisError()
     {
         // Raise an error
-        $err = \webtemplate\general\General::raiseError("This is testisError", 2);
-        $this->assertTrue(\webtemplate\general\General::isError($err));
+        $err = \g7mzr\webtemplate\general\General::raiseError("This is testisError", 2);
+        $this->assertTrue(\g7mzr\webtemplate\general\General::isError($err));
 
         // Test with an non error object
         $str = "This is a String";
-        $this->assertFalse(\webtemplate\general\General::isError($str));
+        $this->assertFalse(\g7mzr\webtemplate\general\General::isError($str));
     }
 }

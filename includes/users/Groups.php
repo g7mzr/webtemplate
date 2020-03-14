@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\users;
+namespace g7mzr\webtemplate\users;
 
 /**
  * User Groups Class
@@ -23,7 +23,7 @@ class Groups
     /**
      * Traits to be used by this Class
      */
-    use \webtemplate\groups\TraitGroupFunctions;// {getGrouplist as protected;}
+    use \g7mzr\webtemplate\groups\TraitGroupFunctions;// {getGrouplist as protected;}
 
     /**
      * The userid of the user
@@ -36,7 +36,7 @@ class Groups
     /**
      * Database Connection Object
      *
-     * @var    \webtemplate\db\driver\InterfaceDatabaseDriver
+     * @var   \g7mzr\webtemplate\db\driver\InterfaceDatabaseDriver
      * @access protected
      */
     protected $db = null;

@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -32,7 +32,7 @@ class EditUserPrefClassTest extends TestCase
     /**
      * User Prefs Object
      *
-     * @var \webtemplate\users\EditUserPref
+     * @var\g7mzr\webtemplate\users\EditUserPref
      */
     protected $object;
 
@@ -66,7 +66,7 @@ class EditUserPrefClassTest extends TestCase
     /**
      * User Pref Object Using the Mock Connection
      *
-     * @var \webtemplate\users\EditUserPref
+     * @var\g7mzr\webtemplate\users\EditUserPref
      *
      * @access protected
      */
@@ -110,7 +110,7 @@ class EditUserPrefClassTest extends TestCase
         $sitePreferences['displayrows']['enabled'] = true;
 
         // Create a new User Object
-        $this->object = new \webtemplate\users\EditUserPref($this->object2->getDataDriver(), '2');
+        $this->object = new\g7mzr\webtemplate\users\EditUserPref($this->object2->getDataDriver(), '2');
 
         $testdsn['dbtype'] = 'mock';
         $this->mockDB = new \g7mzr\db\DBManager(
@@ -119,7 +119,7 @@ class EditUserPrefClassTest extends TestCase
             $testdsn['password']
         );
         $setresult = $this->mockDB->setMode("datadriver");
-        $this->mockPrefClass = new \webtemplate\users\EditUserPref(
+        $this->mockPrefClass = new\g7mzr\webtemplate\users\EditUserPref(
             $this->mockDB->getDataDriver(),
             '2'
         );

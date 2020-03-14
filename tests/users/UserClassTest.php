@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -35,7 +35,7 @@ class UserClassTest extends TestCase
     /**
      * User Class Object
      *
-     * @var \webtemplate\users\User
+     * @var\g7mzr\webtemplate\users\User
      */
     protected $object;
 
@@ -49,7 +49,7 @@ class UserClassTest extends TestCase
     /**
      * User Class Object for MOCK database Class
      *
-     * @var \webtemplate\users\User
+     * @var\g7mzr\webtemplate\users\User
      */
     protected $object3;
 
@@ -105,7 +105,7 @@ class UserClassTest extends TestCase
             $this->databaseconnection = false;
         }
         // Create a new User Object
-        $this->object = new \webtemplate\users\User($this->object2->getDataDriver());
+        $this->object = new\g7mzr\webtemplate\users\User($this->object2->getDataDriver());
 
         // Update the last password change date
 
@@ -129,7 +129,7 @@ class UserClassTest extends TestCase
             $testdsn['password']
         );
         $setresult = $this->mockdatabaseconnection->setMode("datadriver");
-        $this->object3 = new \webtemplate\users\User($this->mockdatabaseconnection->getDataDriver());
+        $this->object3 = new\g7mzr\webtemplate\users\User($this->mockdatabaseconnection->getDataDriver());
 
 
 
@@ -137,7 +137,7 @@ class UserClassTest extends TestCase
 
         // Set up the configuration object
         $configDir = __DIR__ . "/../../configs";
-        $this->config = new \webtemplate\config\Configure($configDir);
+        $this->config = new\g7mzr\webtemplate\config\Configure($configDir);
     }
 
     /**
@@ -171,7 +171,7 @@ class UserClassTest extends TestCase
                 1,
                 $this->config->read('pref')
             );
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("User : " . $user->getMessage());
             } else {
                 $this->assertTrue($user);
@@ -201,7 +201,7 @@ class UserClassTest extends TestCase
                 1,
                 $this->config->read('pref')
             );
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->assertEquals(
                     'Invalid Username and password',
                     $user->getMessage()
@@ -217,7 +217,7 @@ class UserClassTest extends TestCase
                 1,
                 $this->config->read('pref')
             );
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->assertEquals(
                     'Invalid Username and password',
                     $user->getMessage()
@@ -234,7 +234,7 @@ class UserClassTest extends TestCase
                 1,
                 $this->config->read('pref')
             );
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("User OK: " . $user->getMessage());
             } else {
                 $this->assertTrue($user);
@@ -263,7 +263,7 @@ class UserClassTest extends TestCase
                 1,
                 $this->config->read('pref')
             );
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->assertEquals(
                     'Invalid Username and password',
                     $user->getMessage()
@@ -295,7 +295,7 @@ class UserClassTest extends TestCase
                 1,
                 $this->config->read('pref')
             );
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->assertEquals(
                     'Invalid Username and password',
                     $user->getMessage()
@@ -325,7 +325,7 @@ class UserClassTest extends TestCase
                 2,
                 $this->config->read('pref')
             );
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->assertEquals(
                     'Your password has expired and must be changed',
                     $user->getMessage()
@@ -357,7 +357,7 @@ class UserClassTest extends TestCase
                 1,
                 $this->config->read('pref')
             );
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("User : Expired Password and no limit Test Failed");
             } else {
                 $this->assertTrue($user);
@@ -409,7 +409,7 @@ class UserClassTest extends TestCase
                 1,
                 $this->config->read('pref')
             );
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->assertStringContainsString(
                     "Error Running SQL Query",
                     $user->getMessage()
@@ -428,7 +428,7 @@ class UserClassTest extends TestCase
                 1,
                 $this->config->read('pref')
             );
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->assertStringContainsString(
                     "Unable to Complete Login Process",
                     $user->getMessage()
@@ -456,7 +456,7 @@ class UserClassTest extends TestCase
         if ($this->databaseconnection == true) {
             // Valid registration
             $user = $this->object->register('phpunit', $this->config->read('pref'));
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("User : " . $user->getMessage());
             } else {
                 $this->assertTrue($user);
@@ -464,7 +464,7 @@ class UserClassTest extends TestCase
 
             // Bad Registration
             $user = $this->object->register('nouser', $this->config->read('pref'));
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->assertEquals('Unable to Register User', $user->getMessage());
             } else {
                 $this->fail("User : Bad Registration Failed");
@@ -476,7 +476,7 @@ class UserClassTest extends TestCase
                 'settingsuser',
                 $this->config->read('pref')
             );
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("User : " . $user->getMessage());
             } else {
                 $this->assertTrue($user);
@@ -493,7 +493,7 @@ class UserClassTest extends TestCase
                 'settingsuser',
                 $this->config->read('pref')
             );
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("User : " . $user->getMessage());
             } else {
                 $this->assertTrue($user);
@@ -566,7 +566,7 @@ class UserClassTest extends TestCase
 
             // Bad Registration using MOCK Database Driver.
             $user = $this->object3->register('mock', $this->config->read('pref'));
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->assertEquals('Unable to Register User', $user->getMessage());
             } else {
                 $this->fail("User : Bad Registration Failed");
@@ -577,7 +577,7 @@ class UserClassTest extends TestCase
             $this->mockdatabaseconnection->getDataDriver()->control($functions, $testdata);
 
             $user = $this->object3->register('mock', $this->config->read('pref'));
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->assertEquals('Unable to Register User', $user->getMessage());
             } else {
                 $this->fail("User : Bad Registration Failed");
@@ -605,7 +605,7 @@ class UserClassTest extends TestCase
             $this->mockdatabaseconnection->getDataDriver()->control($functions, $testdata);
 
             $user = $this->object3->register('mock', $this->config->read('pref'));
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->assertEquals('Unable to Register User', $user->getMessage());
             } else {
                 $this->fail("User : Failed test when update last seen date");
@@ -629,7 +629,7 @@ class UserClassTest extends TestCase
         if ($this->databaseconnection == true) {
             // Valid registration
             $user = $this->object->register('phpunit', $this->config->read('pref'));
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("User : " . $user->getMessage());
             } else {
                 $username = $this->object->getUserName();
@@ -653,7 +653,7 @@ class UserClassTest extends TestCase
         if ($this->databaseconnection == true) {
             // Valid registration
             $user = $this->object->register('phpunit', $this->config->read('pref'));
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("User : " . $user->getMessage());
             } else {
                 $realname = $this->object->getRealName();
@@ -681,7 +681,7 @@ class UserClassTest extends TestCase
             $actualuserid = 2;
             // Valid registration
             $user = $this->object->register('phpunit', $this->config->read('pref'));
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("User : " . $user->getMessage());
             } else {
                 $userid = $this->object->getUserId();
@@ -705,7 +705,7 @@ class UserClassTest extends TestCase
         if ($this->databaseconnection == true) {
             // Valid registration
             $user = $this->object->register('phpunit', $this->config->read('pref'));
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("User : " . $user->getMessage());
             } else {
                 $useremail = $this->object->getUserEmail();
@@ -730,7 +730,7 @@ class UserClassTest extends TestCase
     {
         if ($this->databaseconnection == true) {
             $user = $this->object->register('phpunit', $this->config->read('pref'));
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("User : " . $user->getMessage());
             } else {
                 $passwdok = $this->object->checkPasswd('phpUnit1');
@@ -755,7 +755,7 @@ class UserClassTest extends TestCase
     {
         if ($this->databaseconnection == true) {
             $user = $this->object->register('phpunit', $this->config->read('pref'));
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("User : " . $user->getMessage());
             } else {
                 $theme = $this->object->getUserTheme();
@@ -780,7 +780,7 @@ class UserClassTest extends TestCase
     {
         if ($this->databaseconnection == true) {
             $user = $this->object->register('phpunit', $this->config->read('pref'));
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("User : " . $user->getMessage());
             } else {
                 $zoom = $this->object->getUserZoom();
@@ -807,7 +807,7 @@ class UserClassTest extends TestCase
     {
         if ($this->databaseconnection == true) {
             $user = $this->object->register('phpunit', $this->config->read('pref'));
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("User : " . $user->getMessage());
             } else {
                 $rows = $this->object->getDisplayRows();
@@ -839,7 +839,7 @@ class UserClassTest extends TestCase
                 1,
                 $this->config->read('pref')
             );
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("GetLastSeenDate : " . $user->getMessage());
             } else {
                  $this->assertTrue(strlen($this->object->getLastSeenDate()) == 19);
@@ -862,7 +862,7 @@ class UserClassTest extends TestCase
         if ($this->databaseconnection == true) {
             // Check no date is returned
             $user = $this->object->register('phpunit', $this->config->read('pref'));
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("User : " . $user->getMessage());
             } else {
                 $this->assertTrue(strlen($this->object->getLastSeenDate()) == 0);
@@ -890,7 +890,7 @@ class UserClassTest extends TestCase
                 2,
                 $this->config->read('pref')
             );
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("GetPasswdAgeMessage: " . $user->getMessage());
             } else {
                  $this->assertStringContainsString("5 days.", $this->object->getPasswdAgeMsg());
@@ -902,7 +902,7 @@ class UserClassTest extends TestCase
                 3,
                 $this->config->read('pref')
             );
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("GetPasswdAgeMessage: " . $user->getMessage());
             } else {
                  $this->assertEquals('', $this->object->getPasswdAgeMsg());
@@ -914,7 +914,7 @@ class UserClassTest extends TestCase
                 4,
                 $this->config->read('pref')
             );
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->fail("GetPasswdAgeMessage: " . $user->getMessage());
             } else {
                  $this->assertEquals('', $this->object->getPasswdAgeMsg());

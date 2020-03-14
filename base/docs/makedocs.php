@@ -129,7 +129,7 @@ echo "Configuring makedocs.php to build Documentation............";
 
 try {
     // Create a makedocs object
-    $makedocs = new \webtemplate\application\CreateDocs(__DIR__, $entityfile, $verbose);
+    $makedocs = new \g7mzr\webtemplate\application\CreateDocs(__DIR__, $entityfile, $verbose);
 } catch (Throwable $ex) {
     echo "\n**** Makedocs Error ****\n";
     echo $ex->getMessage();

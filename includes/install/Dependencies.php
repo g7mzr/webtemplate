@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\install;
+namespace g7mzr\webtemplate\install;
 
 /**
  * Dependencies Class

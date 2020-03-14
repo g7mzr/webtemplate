@@ -20,14 +20,14 @@ require_once __DIR__ . '/PSR4AutoLoader.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 
 // Initite WebApp Autoloader
-$loader = new \webtemplate\PSR4AutoLoader();
+$loader = new \g7mzr\webtemplate\PSR4AutoLoader();
 
 // Register the autoloader
 $loader->register();
 
 // Register WebApp Namespaces
 $appdir = dirname(__DIR__);
-$loader->addNamespace("\webtemplate", $appdir . "/includes");
+$loader->addNamespace("\g7mzr\webtemplate", $appdir . "/includes");
 
 // Include and register the Webtemplate error handler for webbased Applications
 if (php_sapi_name() !== 'cli') {
@@ -35,11 +35,11 @@ if (php_sapi_name() !== 'cli') {
     require_once __DIR__ . '/application/errorHandler.class.php';
 
     // SET the Error Handler
-    \set_error_handler("\webtemplate\application\ErrorHandler::handleError");
+    \set_error_handler("\g7mzr\webtemplate\application\ErrorHandler::handleError");
 
     // Set the Exception Handler
     \set_exception_handler(
-        "\webtemplate\application\ErrorHandler::exceptionHandler"
+        "\g7mzr\webtemplate\application\ErrorHandler::exceptionHandler"
     );
 }
 

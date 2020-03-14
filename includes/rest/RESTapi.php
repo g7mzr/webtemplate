@@ -13,9 +13,9 @@
  *
  */
 
-namespace webtemplate\rest;
+namespace g7mzr\webtemplate\rest;
 
-use webtemplate\application\exceptions\AppException;
+use \g7mzr\webtemplate\application\exceptions\AppException;
 
 /**
  *  Webtemplate REST API
@@ -74,7 +74,7 @@ class RESTapi
      * Property: webtemplate
      * A Webtemplate Object
      *
-     * @var    \webtemplate\general\Application
+     * @var   \g7mzr\webtemplate\general\Application
      * @access protected
      */
     protected $webtemplate = null;
@@ -91,14 +91,14 @@ class RESTapi
     /**
      * Constructor
      *
-     * @param string                               $args        Client request string /<endpoint>/<arg0>/<arg1>.
-     * @param string                               $method      The HTTP method used to call the api.
-     * @param array                                $post        The contents of the $_POST super global array.
-     * @param array                                $get         The contents of the $_GET super global array.
-     * @param string                               $file        The contents of php://input.
-     * @param string                               $contenttype HTTP body content type i.e. application/json.
-     * @param string                               $accepttype  HTTP body content type that client can accept.
-     * @param \webtemplate\application\Application $webtemplate Webtemplate object containing all app classes.
+     * @param string                                     $args        Client request string /<endpoint>/<arg0>/<arg1>.
+     * @param string                                     $method      The HTTP method used to call the api.
+     * @param array                                      $post        The contents of the $_POST super global array.
+     * @param array                                      $get         The contents of the $_GET super global array.
+     * @param string                                     $file        The contents of php://input.
+     * @param string                                     $contenttype HTTP body content type i.e. application/json.
+     * @param string                                     $accepttype  HTTP body content type that client can accept.
+     * @param \g7mzr\webtemplate\application\Application $webtemplate Webtemplate object containing all app classes.
      *
      * @throws AppException If an invalid HTTP Method is called.
      * @throws AppException If an invalid HTTP Content Type is received.
@@ -114,7 +114,7 @@ class RESTapi
         string $file,
         string $contenttype,
         string $accepttype,
-        \webtemplate\application\Application  &$webtemplate
+        \g7mzr\webtemplate\application\Application  &$webtemplate
     ) {
 
         $this->args = explode('/', rtrim($args, '/'));
@@ -194,8 +194,8 @@ class RESTapi
         $classFile = __DIR__ . "/endpoints/" . ucfirst($this->endpoint) . ".php";
         if (file_exists($classFile)) {
             include $classFile;
-            $classname = 'webtemplate\\rest\\endpoints\\' . ucfirst($this->endpoint);
-            if (class_exists('webtemplate\\rest\\endpoints\\' . $this->endpoint)) {
+            $classname = '\\g7mzr\\webtemplate\\rest\\endpoints\\' . ucfirst($this->endpoint);
+            if (class_exists($classname)) {
                 $endpointclass = new $classname($this->webtemplate);
                 $permissionsresult = $endpointclass->permissions();
                 if ($permissionsresult === true) {

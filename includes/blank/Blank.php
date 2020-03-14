@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\blank;
+namespace g7mzr\webtemplate\blank;
 
 /**
  * Blank Class

@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\install;
+namespace g7mzr\webtemplate\install;
 
 /**
  * DataBase Class is a static class used to setup and update the database
@@ -401,7 +401,7 @@ class DataBase
             echo "Creating user: " . $name . "\n";
 
             // Create the Data Array for inserting
-            $encryptPasswd = \webtemplate\general\General::encryptPasswd(
+            $encryptPasswd = \g7mzr\webtemplate\general\General::encryptPasswd(
                 $userdata['passwd']
             );
 
@@ -462,7 +462,7 @@ class DataBase
                 $groupNumber,
                 $userdata
             );
-            if (\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\webtemplate\general\General::isError($result)) {
                 $errorMsg = gettext("ERROR Creating Database users. ");
                 $errorMsg .= gettext("Unable to create groups for user: ");
                 $errorMsg .= $name;
@@ -478,7 +478,7 @@ class DataBase
                 $userdata
             );
 
-            if (\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\webtemplate\general\General::isError($result)) {
                 $errorMsg = gettext("ERROR Creating Database users. ");
                 $errorMsg .= gettext("Unable to create preferences for user: ");
                 $errorMsg .= $name;
@@ -541,7 +541,7 @@ class DataBase
         } else {
             // Else return a WEBTEMPLATE error
             $msg = gettext("ERROR Creating user group map");
-            $err = \webtemplate\general\General::raiseError($msg, DB_ERROR);
+            $err = \g7mzr\webtemplate\general\General::raiseError($msg, DB_ERROR);
             return $err;
         }
     }
@@ -594,7 +594,7 @@ class DataBase
         } else {
             // Else return a WEBTEMPLATE error
             $msg = gettext("ERROR Creating user preferences");
-            $err = \webtemplate\general\General::raiseError($msg, DB_ERROR);
+            $err = \g7mzr\webtemplate\general\General::raiseError($msg, DB_ERROR);
             return $err;
         }
     }

@@ -13,17 +13,17 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/constants.php';
 
 use PHPUnit\Framework\TestCase;
-use g7mzr\restclient\http\APIClient;
-use g7mzr\restclient\options\Options;
-use g7mzr\restclient\http\request\Request;
-use g7mzr\restclient\http\response\DecodeResponse;
+use \g7mzr\restclient\http\APIClient;
+use \g7mzr\restclient\options\Options;
+use \g7mzr\restclient\http\request\Request;
+use \g7mzr\restclient\http\response\DecodeResponse;
 
 /**
  * Version Endpoint Tests

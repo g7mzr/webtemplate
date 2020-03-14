@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\application;
+namespace g7mzr\webtemplate\application;
 
 /**
  * WebtemplateCommon Class is a static class used to initialise the database

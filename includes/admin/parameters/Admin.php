@@ -13,9 +13,9 @@
  *
  */
 
-namespace webtemplate\admin\parameters;
+namespace g7mzr\webtemplate\admin\parameters;
 
-use webtemplate\config\Configure;
+use \g7mzr\webtemplate\config\Configure;
 
 /**
  * Parameters ADMIN Interface Class

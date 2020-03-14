@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -45,7 +45,7 @@ class EditGroupFunctionsClassTest extends TestCase
 
     /*
      * Property: tpl
-     * @var    \webtemplate\application\SmartyTemplate
+     * @var   \g7mzr\webtemplate\application\SmartyTemplate
      * @access protected
      */
     protected $tpl = null;
@@ -58,13 +58,13 @@ class EditGroupFunctionsClassTest extends TestCase
     protected $template = '';
 
     /* property: edituser
-     * @var    \webtemplate\groups\EditGroup
+     * @var   \g7mzr\webtemplate\groups\EditGroup
      * @access protected
      */
     protected $editgroup = null;
 
     /* property: mockedituser
-     * @var    \webtemplate\groups\EditGroup
+     * @var   \g7mzr\webtemplate\groups\EditGroup
      * @access protected
      */
     protected $mockeditgroups = null;
@@ -72,7 +72,7 @@ class EditGroupFunctionsClassTest extends TestCase
 
     /*
      * property: config
-     * @var    \webtemplate\config\Configure
+     * @var   \g7mzr\webtemplate\config\Configure
      * @access private
      */
     protected $config = null;
@@ -80,8 +80,8 @@ class EditGroupFunctionsClassTest extends TestCase
     /**
      * This function sets up the variables and objects for the test
      *
-     * @throws \webtemplate\application\exceptions\AppException If unable to set data access mode.
-     * @throws \webtemplate\application\exceptions\AppException If unable to connect to database.
+     * @throws \g7mzr\webtemplate\application\exceptions\AppException If unable to set data access mode.
+     * @throws \g7mzr\webtemplate\application\exceptions\AppException If unable to connect to database.
      *
      * @return void
      *
@@ -99,16 +99,16 @@ class EditGroupFunctionsClassTest extends TestCase
             );
             $setresult = $this->db->setMode("datadriver");
             if (\g7mzr\db\common\Common::isError($setresult)) {
-                throw new \webtemplate\application\exceptions\AppException($setresult->getMessage());
+                throw new\g7mzr\webtemplate\application\exceptions\AppException($setresult->getMessage());
             }
         } catch (Exception $ex) {
-            throw new \webtemplate\application\exceptions\AppException($ex->getMessage());
+            throw new \g7mzr\webtemplate\application\exceptions\AppException($ex->getMessage());
             $this->databaseconnection = false;
         }
-        $this->tpl = new \webtemplate\application\SmartyTemplate();
-        $this->editgroup = new \webtemplate\groups\EditGroups($this->db->getDataDriver());
+        $this->tpl = new \g7mzr\webtemplate\application\SmartyTemplate();
+        $this->editgroup = new\g7mzr\webtemplate\groups\EditGroups($this->db->getDataDriver());
         $configDir = __DIR__ . "/../../configs";
-        $this->config = new \webtemplate\config\Configure($configDir);
+        $this->config = new\g7mzr\webtemplate\config\Configure($configDir);
 
         // Create a Mock database object
         $testdsn['dbtype'] = 'mock';
@@ -120,7 +120,7 @@ class EditGroupFunctionsClassTest extends TestCase
         $setresult = $this->mockDB->setMode("datadriver");
 
         // Create a Mock Edit User object
-        $this->mockeditgroup = new \webtemplate\groups\EditGroups($this->mockDB->getDataDriver());
+        $this->mockeditgroup = new \g7mzr\webtemplate\groups\EditGroups($this->mockDB->getDataDriver());
         $this->deleteTestGroup();
     }
 
@@ -189,7 +189,7 @@ class EditGroupFunctionsClassTest extends TestCase
      */
     public function testListGroups()
     {
-        \webtemplate\groups\EditGroupFunctions::listGroups(
+        \g7mzr\webtemplate\groups\EditGroupFunctions::listGroups(
             $this->tpl,
             $this->editgroup,
             $this->template
@@ -215,7 +215,7 @@ class EditGroupFunctionsClassTest extends TestCase
      */
     public function testListGroupsDatabaseError()
     {
-        \webtemplate\groups\EditGroupFunctions::listGroups(
+        \g7mzr\webtemplate\groups\EditGroupFunctions::listGroups(
             $this->tpl,
             $this->mockeditgroup,
             $this->template
@@ -245,7 +245,7 @@ class EditGroupFunctionsClassTest extends TestCase
      */
     public function testNewGroup()
     {
-        \webtemplate\groups\EditGroupFunctions::newGroup(
+        \g7mzr\webtemplate\groups\EditGroupFunctions::newGroup(
             $this->tpl,
             $this->template
         );
@@ -273,7 +273,7 @@ class EditGroupFunctionsClassTest extends TestCase
      */
     public function testEditGroup()
     {
-        $result = \webtemplate\groups\EditGroupFunctions::editGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::editGroup(
             $this->tpl,
             $this->editgroup,
             $this->template,
@@ -304,7 +304,7 @@ class EditGroupFunctionsClassTest extends TestCase
      */
     public function testEditGroupInvalidGroup()
     {
-        $result = \webtemplate\groups\EditGroupFunctions::editGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::editGroup(
             $this->tpl,
             $this->editgroup,
             $this->template,
@@ -326,7 +326,7 @@ class EditGroupFunctionsClassTest extends TestCase
      */
     public function testEditGroupDoesnotExist()
     {
-        $result = \webtemplate\groups\EditGroupFunctions::editGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::editGroup(
             $this->tpl,
             $this->editgroup,
             $this->template,
@@ -347,7 +347,7 @@ class EditGroupFunctionsClassTest extends TestCase
      */
     public function testEditGroupDatabaseError()
     {
-        $result = \webtemplate\groups\EditGroupFunctions::editGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::editGroup(
             $this->tpl,
             $this->mockeditgroup,
             $this->template,
@@ -378,7 +378,7 @@ class EditGroupFunctionsClassTest extends TestCase
      */
     public function testConfirmDeleteGroup()
     {
-        $result = \webtemplate\groups\EditGroupFunctions::confirmDeleteGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::confirmDeleteGroup(
             $this->tpl,
             $this->editgroup,
             $this->template,
@@ -409,7 +409,7 @@ class EditGroupFunctionsClassTest extends TestCase
      */
     public function testConfirmDeleteGroupInvalidGroup()
     {
-        $result = \webtemplate\groups\EditGroupFunctions::confirmDeleteGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::confirmDeleteGroup(
             $this->tpl,
             $this->editgroup,
             $this->template,
@@ -431,7 +431,7 @@ class EditGroupFunctionsClassTest extends TestCase
      */
     public function testConfirmDeleteGroupDoesnotExist()
     {
-        $result = \webtemplate\groups\EditGroupFunctions::confirmDeleteGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::confirmDeleteGroup(
             $this->tpl,
             $this->editgroup,
             $this->template,
@@ -451,7 +451,7 @@ class EditGroupFunctionsClassTest extends TestCase
      */
     public function testConfirmDeleteGroupDatabaseError()
     {
-        $result = \webtemplate\groups\EditGroupFunctions::confirmDeleteGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::confirmDeleteGroup(
             $this->tpl,
             $this->mockeditgroup,
             $this->template,
@@ -495,10 +495,10 @@ class EditGroupFunctionsClassTest extends TestCase
             'N',
             'N'
         );
-        if (\webtemplate\general\General::isError($groupinserted)) {
+        if (\g7mzr\webtemplate\general\General::isError($groupinserted)) {
             $this->fail("Unable to insert test group");
         }
-        $result = \webtemplate\groups\EditGroupFunctions::deleteGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::deleteGroup(
             $this->tpl,
             $this->editgroup,
             $this->template,
@@ -522,7 +522,7 @@ class EditGroupFunctionsClassTest extends TestCase
      */
     public function testDeleteGroupInvalidGroup()
     {
-        $result = \webtemplate\groups\EditGroupFunctions::deleteGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::deleteGroup(
             $this->tpl,
             $this->editgroup,
             $this->template,
@@ -544,7 +544,7 @@ class EditGroupFunctionsClassTest extends TestCase
      */
     public function testDeleteGroupDoesnotExist()
     {
-        $result = \webtemplate\groups\EditGroupFunctions::deleteGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::deleteGroup(
             $this->tpl,
             $this->editgroup,
             $this->template,
@@ -565,7 +565,7 @@ class EditGroupFunctionsClassTest extends TestCase
      */
     public function testDeleteGroupDatabaseError()
     {
-        $result = \webtemplate\groups\EditGroupFunctions::deleteGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::deleteGroup(
             $this->tpl,
             $this->mockeditgroup,
             $this->template,
@@ -603,7 +603,7 @@ class EditGroupFunctionsClassTest extends TestCase
         $inputdata['useforproduct'] = 'Y';
         $inputdata['autogroup'] = 'Y';
 
-        $result = \webtemplate\groups\EditGroupFunctions::saveGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::saveGroup(
             $this->tpl,
             $this->editgroup,
             $this->template,
@@ -635,7 +635,7 @@ class EditGroupFunctionsClassTest extends TestCase
         $inputdata['useforproduct'] = 'Y';
         $inputdata['autogroup'] = 'Y';
 
-        $result = \webtemplate\groups\EditGroupFunctions::saveGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::saveGroup(
             $this->tpl,
             $this->editgroup,
             $this->template,
@@ -670,7 +670,7 @@ class EditGroupFunctionsClassTest extends TestCase
         $inputdata['useforproduct'] = 'Y';
         $inputdata['autogroup'] = 'Y';
 
-        $result = \webtemplate\groups\EditGroupFunctions::saveGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::saveGroup(
             $this->tpl,
             $this->editgroup,
             $this->template,
@@ -709,7 +709,7 @@ class EditGroupFunctionsClassTest extends TestCase
         $inputdata['useforproduct'] = 'Y';
         $inputdata['autogroup'] = 'Y';
 
-        $result = \webtemplate\groups\EditGroupFunctions::saveGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::saveGroup(
             $this->tpl,
             $this->editgroup,
             $this->template,
@@ -743,7 +743,7 @@ class EditGroupFunctionsClassTest extends TestCase
         $inputdata['useforproduct'] = 'Y';
         $inputdata['autogroup'] = 'Y';
 
-        $result = \webtemplate\groups\EditGroupFunctions::saveGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::saveGroup(
             $this->tpl,
             $this->editgroup,
             $this->template,
@@ -754,7 +754,7 @@ class EditGroupFunctionsClassTest extends TestCase
         $groupdata = $this->tpl->getTemplateVars('RESULTS');
         $groupid = $groupdata[0]['groupid'];
         $inputdata['groupid'] = $groupid;
-        $nochangeresult = \webtemplate\groups\EditGroupFunctions::saveGroup(
+        $nochangeresult = \g7mzr\webtemplate\groups\EditGroupFunctions::saveGroup(
             $this->tpl,
             $this->editgroup,
             $this->template,
@@ -786,7 +786,7 @@ class EditGroupFunctionsClassTest extends TestCase
         $inputdata['useforproduct'] = 'Y';
         $inputdata['autogroup'] = 'Y';
 
-        $result = \webtemplate\groups\EditGroupFunctions::saveGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::saveGroup(
             $this->tpl,
             $this->editgroup,
             $this->template,
@@ -798,7 +798,7 @@ class EditGroupFunctionsClassTest extends TestCase
         $groupid = $groupdata[0]['groupid'];
         $inputdata['groupid'] = $groupid;
          $inputdata['description'] = "This is an updated test group for PHPUNIT";
-        $changeresult = \webtemplate\groups\EditGroupFunctions::saveGroup(
+        $changeresult = \g7mzr\webtemplate\groups\EditGroupFunctions::saveGroup(
             $this->tpl,
             $this->editgroup,
             $this->template,
@@ -830,7 +830,7 @@ class EditGroupFunctionsClassTest extends TestCase
         $inputdata['useforproduct'] = 'Y';
         $inputdata['autogroup'] = 'Y';
 
-        $result = \webtemplate\groups\EditGroupFunctions::saveGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::saveGroup(
             $this->tpl,
             $this->mockeditgroup,
             $this->template,
@@ -893,7 +893,7 @@ class EditGroupFunctionsClassTest extends TestCase
         $this->mockDB->getDataDriver()->control($functions, $data);
 
 
-        $result = \webtemplate\groups\EditGroupFunctions::saveGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::saveGroup(
             $this->tpl,
             $this->mockeditgroup,
             $this->template,
@@ -970,7 +970,7 @@ class EditGroupFunctionsClassTest extends TestCase
         $this->mockDB->getDataDriver()->control($functions, $data);
 
 
-        $result = \webtemplate\groups\EditGroupFunctions::saveGroup(
+        $result = \g7mzr\webtemplate\groups\EditGroupFunctions::saveGroup(
             $this->tpl,
             $this->mockeditgroup,
             $this->template,

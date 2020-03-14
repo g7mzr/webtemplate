@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\rest\endpoints;
+namespace g7mzr\webtemplate\rest\endpoints;
 
 /**
  * Webtemplate Restful API Permissions Traits

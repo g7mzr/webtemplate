@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
@@ -44,7 +44,7 @@ class WebTemplateCommonTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->object = new \webtemplate\application\SmartyTemplate();
+        $this->object = new\g7mzr\webtemplate\application\SmartyTemplate();
     }
 
     /**
@@ -69,7 +69,7 @@ class WebTemplateCommonTest extends TestCase
     public function testLoadDSN()
     {
         $dsn = array();
-        \webtemplate\application\WebTemplateCommon::loadDSN($this->object, $dsn);
+        \g7mzr\webtemplate\application\WebTemplateCommon::loadDSN($this->object, $dsn);
         $this->assertEquals($dsn["dbtype"], 'pgsql');
     }
 
@@ -85,7 +85,7 @@ class WebTemplateCommonTest extends TestCase
     {
         global $testdsn;
         $dbname = $testdsn["databasename"];
-        $result = \webtemplate\application\WebTemplateCommon::getDatabaseName(
+        $result = \g7mzr\webtemplate\application\WebTemplateCommon::getDatabaseName(
             $this->object
         );
         $this->assertEquals($dbname, $result);

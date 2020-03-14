@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\general;
+namespace g7mzr\webtemplate\general;
 
  /**
  * GeneralCode Class is a static class containing common application functions.
@@ -350,7 +350,7 @@ class General
      */
     public static function isError($data)
     {
-        return is_a($data, '\webtemplate\application\Error', false);
+        return is_a($data, '\g7mzr\webtemplate\application\Error', false);
     }
 
     /**
@@ -365,6 +365,6 @@ class General
      */
     public static function raiseError(string $message = "", int $code = 0)
     {
-        return new \webtemplate\application\Error($message, $code);
+        return new \g7mzr\webtemplate\application\Error($message, $code);
     }
 }

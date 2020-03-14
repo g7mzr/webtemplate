@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\users;
+namespace g7mzr\webtemplate\users;
 
 /**
  * Webtemplate User Class
@@ -209,12 +209,12 @@ class User
                 $errorMsg = gettext("Error Running SQL Query");
                 $errorCode = 1;
             }
-            return \webtemplate\general\General::raiseError($errorMsg, $errorCode);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, $errorCode);
         }
 
         // Test if the correct password has been entered
         $userpwd = chop($userArray['user_passwd']);
-        if (\webtemplate\general\General::verifyPasswd($passwd, $userpwd) == false) {
+        if (\g7mzr\webtemplate\general\General::verifyPasswd($passwd, $userpwd) == false) {
             // Set the Last invalid Password field
             $insertData = array('last_failed_login' => 'now()');
             $searchData = array('user_name' => $userArray['user_name']);
@@ -223,7 +223,7 @@ class User
             // Return Error Message
             $errorMsg = gettext("Invalid Username and password");
             $errorCode = 1;
-            return \webtemplate\general\General::raiseError($errorMsg, $errorCode);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, $errorCode);
         }
 
         // Check is is more than x seconds since the last failed login
@@ -238,7 +238,7 @@ class User
             // Return Error Message
             $errorMsg = gettext("Invalid Username and password");
             $errorCode = 1;
-            return \webtemplate\general\General::raiseError($errorMsg, $errorCode);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, $errorCode);
         }
 
         // Check if the account has been locked.
@@ -247,7 +247,7 @@ class User
             // Account Locked.
             $errorMsg = gettext("Invalid Username and password");
             $errorCode = 2;
-            return \webtemplate\general\General::raiseError($errorMsg, $errorCode);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, $errorCode);
         }
 
         // User is logged in
@@ -257,17 +257,17 @@ class User
 
         $result = $this->passwordAge($passwdage, $changedate);
 
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\webtemplate\general\General::isError($result)) {
             return $result;
         }
         // Logged in. Register the user
         $registeredOk = $this->register($userName, $config);
-        if (!\webtemplate\general\General::isError($registeredOk)) {
+        if (!\g7mzr\webtemplate\general\General::isError($registeredOk)) {
             return true;
         } else {
             // Failed to register the user okay
             $errorMsg = gettext("Unable to Complete Login Process");
-            return \webtemplate\general\General::raiseError($errorMsg, 4);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 4);
         }
     }
 
@@ -321,7 +321,7 @@ class User
             // Error encountered when selecting user from database
             // Registration process has failed
             $msg = gettext("Unable to Register User");
-            return \webtemplate\general\General::raiseError($msg, 1);
+            return\g7mzr\webtemplate\general\General::raiseError($msg, 1);
         }
 
         // Populate the class variables with the collected data
@@ -341,7 +341,7 @@ class User
             // Error encountered when selecting user from database
             // Registration process has failed
             $msg = gettext("Unable to Register User");
-            return \webtemplate\general\General::raiseError($msg, 1);
+            return\g7mzr\webtemplate\general\General::raiseError($msg, 1);
         }
         return true;
     }
@@ -418,7 +418,7 @@ class User
     */
     final public function checkPasswd(string $passwd)
     {
-        return \webtemplate\general\General::verifyPasswd(
+        return\g7mzr\webtemplate\general\General::verifyPasswd(
             $passwd,
             $this->encryptedPasswd
         );
@@ -538,7 +538,7 @@ class User
         );
 
         // Missing Preferences do not stop registration
-        if (!\webtemplate\general\General::isError($userArray)) {
+        if (!\g7mzr\webtemplate\general\General::isError($userArray)) {
             foreach ($userArray as $value) {
                 // Walk through the results
                 // Get theme
@@ -676,7 +676,7 @@ class User
         if (($daysleft < 1) or ($changedate == null)) {
             $errorMsg = gettext("Your password has expired and must be changed");
             $errorCode = 5;
-            return \webtemplate\general\General::raiseError(
+            return\g7mzr\webtemplate\general\General::raiseError(
                 $errorMsg,
                 $errorCode
             );

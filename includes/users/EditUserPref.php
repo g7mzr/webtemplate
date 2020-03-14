@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\users;
+namespace g7mzr\webtemplate\users;
 
 /**
  * UserPreferences Class

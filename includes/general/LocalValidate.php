@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\general;
+namespace g7mzr\webtemplate\general;
 
 /**
  * Local Validation Class is a static class used to validate user input

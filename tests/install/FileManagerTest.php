@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -39,9 +39,9 @@ class FileManagerTest extends TestCase
     protected $vsffilestream;
 
     /**
-     * \webtemplate\install\FileManager Object
+     *\g7mzr\webtemplate\install\FileManager Object
      *
-     * @var \webtemplate\install\FileManager
+     * @var\g7mzr\webtemplate\install\FileManager
      */
     protected $filemanager;
 
@@ -61,7 +61,7 @@ class FileManagerTest extends TestCase
     protected function setUp(): void
     {
         $this->vsffilestream = vfsStream::setup($this->rootdir);
-        $this->filemanager = new \webtemplate\install\FileManager(
+        $this->filemanager = new\g7mzr\webtemplate\install\FileManager(
             vfsStream::url($this->rootdir)
         );
     }
@@ -88,7 +88,7 @@ class FileManagerTest extends TestCase
     {
         $installConfig = array();
         $testresult = $this->filemanager->checkInstallConfig($installConfig);
-        if (\webtemplate\general\General::isError($testresult)) {
+        if (\g7mzr\webtemplate\general\General::isError($testresult)) {
             $this->assertStringContainsString(
                 'Please copy config.php.dist',
                 $testresult->getMessage()
@@ -124,7 +124,7 @@ class FileManagerTest extends TestCase
 
 
         $testresult = $this->filemanager->checkInstallConfig($installConfig);
-        if (\webtemplate\general\General::isError($testresult)) {
+        if (\g7mzr\webtemplate\general\General::isError($testresult)) {
             $this->assertStringContainsString(
                 'Please update config.php to match your installation',
                 $testresult->getMessage()
@@ -159,7 +159,7 @@ class FileManagerTest extends TestCase
 
 
         $testresult = $this->filemanager->checkInstallConfig($installConfig);
-        if (!\webtemplate\general\General::isError($testresult)) {
+        if (!\g7mzr\webtemplate\general\General::isError($testresult)) {
             $this->assertTrue($testresult);
         } else {
             $this->fail(__FUNCTION__ . ": Error Testing for a config file");
@@ -192,7 +192,7 @@ class FileManagerTest extends TestCase
 
         // This should fail as the directory does not exist to put the file in.
         $testresult = $this->filemanager->createLocalConf($installConfig);
-        if (\webtemplate\general\General::isError($testresult)) {
+        if (\g7mzr\webtemplate\general\General::isError($testresult)) {
             $this->assertStringContainsString(
                 'Error creating local.conf',
                 $testresult->getMessage()
@@ -207,7 +207,7 @@ class FileManagerTest extends TestCase
 
         // test to see if a local config file can be created
         $testresult = $this->filemanager->createLocalConf($installConfig);
-        if (!\webtemplate\general\General::isError($testresult)) {
+        if (!\g7mzr\webtemplate\general\General::isError($testresult)) {
             $this->assertTrue($testresult);
             $this->assertFileEquals(
                 __DIR__ . '/../../configs/local.conf',
@@ -219,7 +219,7 @@ class FileManagerTest extends TestCase
 
         // Check that we will not over write an existing file
         $testresult = $this->filemanager->createLocalConf($installConfig);
-        if (!\webtemplate\general\General::isError($testresult)) {
+        if (!\g7mzr\webtemplate\general\General::isError($testresult)) {
             $this->assertFalse($testresult);
         } else {
             $this->fail(__FUNCTION__ . ": Error creating a Local Config File");
@@ -251,7 +251,7 @@ class FileManagerTest extends TestCase
 
         // Test with the incorrect directory structure for failure
         $testresult = $this->filemanager->createTestConf($installConfig);
-        if (\webtemplate\general\General::isError($testresult)) {
+        if (\g7mzr\webtemplate\general\General::isError($testresult)) {
             $this->assertStringContainsString(
                 'Error creating tests/_data/database.php',
                 $testresult->getMessage()
@@ -269,7 +269,7 @@ class FileManagerTest extends TestCase
 
         // test to see if a local config file can be created
         $testresult = $this->filemanager->createTestConf($installConfig);
-        if (!\webtemplate\general\General::isError($testresult)) {
+        if (!\g7mzr\webtemplate\general\General::isError($testresult)) {
             $this->assertTrue($testresult);
         } else {
             $this->fail(__FUNCTION__ . ": Error creating a Local Config File");
@@ -483,7 +483,7 @@ class FileManagerTest extends TestCase
         $installConfig['webservergroup'] = 'wwwran';
 
         $result = $this->filemanager->setPermissions($installConfig);
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\webtemplate\general\General::isError($result)) {
             $this->assertStringContainsString(
                 'Invalid Web Server Group',
                 $result->getMessage()

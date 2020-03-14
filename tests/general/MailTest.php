@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -29,35 +29,35 @@ class MailTest extends TestCase
     /**
      * Mail Class Object
      *
-     * @var \webtemplate\general\Mail
+     * @var\g7mzr\webtemplate\general\Mail
      */
     protected $object;
 
     /**
      * Mail Class Object
      *
-     * @var \webtemplate\general\Mail
+     * @var\g7mzr\webtemplate\general\Mail
      */
     protected $object2;
 
      /**
      * Mail Class Object
      *
-     * @var \webtemplate\general\Mail
+     * @var\g7mzr\webtemplate\general\Mail
      */
     protected $object3;
 
      /**
      * Mail Class Object
      *
-     * @var \webtemplate\general\Mail
+     * @var\g7mzr\webtemplate\general\Mail
      */
     protected $object4;
 
      /**
      * Mail Class Object
      *
-     * @var \webtemplate\general\Mail
+     * @var\g7mzr\webtemplate\general\Mail
      */
     protected $object5;
 
@@ -76,23 +76,23 @@ class MailTest extends TestCase
         $mailParam['smtppassword'] = "smtppasswd";
         $mailParam['smtpdebug'] = false;
 
-        $this->object = new \webtemplate\general\Mail($mailParam);
+        $this->object = new\g7mzr\webtemplate\general\Mail($mailParam);
 
         // Set up a second instance to check the test procedure
         $mailParam['smtpdeliverymethod'] = 'test';
-        $this->object2 = new \webtemplate\general\Mail($mailParam);
+        $this->object2 = new\g7mzr\webtemplate\general\Mail($mailParam);
 
         // Set up an unkno Delivery Method
         $mailParam['smtpdeliverymethod'] = 'down';
-        $this->object3 = new \webtemplate\general\Mail($mailParam);
+        $this->object3 = new\g7mzr\webtemplate\general\Mail($mailParam);
 
         // Set up an SMTP Delivery Method
         $mailParam['smtpdeliverymethod'] = 'smtp';
-        $this->object4 = new \webtemplate\general\Mail($mailParam);
+        $this->object4 = new\g7mzr\webtemplate\general\Mail($mailParam);
 
         // Set up an sendmail Delivery Method
         $mailParam['smtpdeliverymethod'] = 'sendmail';
-        $this->object5 = new \webtemplate\general\Mail($mailParam);
+        $this->object5 = new\g7mzr\webtemplate\general\Mail($mailParam);
     }
 
     /**

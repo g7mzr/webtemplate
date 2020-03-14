@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\groups;
+namespace g7mzr\webtemplate\groups;
 
 /**
  * Webtemplate Edit Users Group Class
@@ -84,7 +84,7 @@ class EditUsersGroups
 
         // Add users to groups they are explicitly members off
         $result = $this->getUsersExplicitGroups($userid, $grouplist);
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\webtemplate\general\General::isError($result)) {
             $err = $result;
             $searchok = false;
         }
@@ -148,7 +148,7 @@ class EditUsersGroups
             if ($uaodb->getCode() == \DB_ERROR_NOT_FOUND) {
                 $searchok = true;
             } else {
-                $err =  new \webtemplate\application\Error($uaodb->getMessage(), $uaodb->getCode());
+                $err =  new\g7mzr\webtemplate\application\Error($uaodb->getMessage(), $uaodb->getCode());
             }
         }
 
@@ -196,7 +196,7 @@ class EditUsersGroups
      * @param integer $userid     Integer containing users ID No.
      * @param array   $grouparray Array containing list of users group.
      *
-     * @return boolean true if search is ok or \WEBTEMPLATE error type
+     * @return boolean true if search is ok or\g7mzr\webtemplate error type
      * @access public
      */
     final public function groupsChanged(int $userid, array $grouparray)
@@ -208,7 +208,7 @@ class EditUsersGroups
         $msg = '';
 
         $result = $this->getUsersExplicitGroups($userid, $grouparray);
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\webtemplate\general\General::isError($result)) {
             $err = $result;
             $searchok = false;
         }
@@ -249,7 +249,7 @@ class EditUsersGroups
      * @param integer $userid     Integer containing users ID No.
      * @param array   $grouparray Array containing list of users group.
      *
-     * @return boolean true if search is ok or \WEBTEMPLATE error type
+     * @return boolean true if search is ok or\g7mzr\webtemplate error type
      * @access public
      */
     final public function saveUsersGroups(int $userid, array $grouparray)
@@ -289,7 +289,7 @@ class EditUsersGroups
                 return true;
             } else {
                 $msg = gettext("Unable to save groups");
-                $err = \webtemplate\general\General::raiseError(
+                $err = \g7mzr\webtemplate\general\General::raiseError(
                     $msg,
                     \DB_ERROR
                 );
@@ -297,7 +297,7 @@ class EditUsersGroups
             }
         } else {
             $msg = gettext("Unable to create database transaction");
-            $err = \webtemplate\general\General::raiseError(
+            $err = \g7mzr\webtemplate\general\General::raiseError(
                 $msg,
                 \DB_ERROR_TRANSACTION
             );

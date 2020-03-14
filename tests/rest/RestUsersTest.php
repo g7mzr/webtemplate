@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
@@ -37,7 +37,7 @@ class RestUsersTest extends TestCase
      * property: webtemplate
      * Webtemplate application class
      *
-     * @var \webtemplate\application\Application
+     * @var\g7mzr\webtemplate\application\Application
      */
     protected $webtemplate;
 
@@ -45,7 +45,7 @@ class RestUsersTest extends TestCase
      * property: version
      * Webtemplate application class
      *
-     * @var \webtemplate\rest\endpoint\Version
+     * @var\g7mzr\webtemplate\rest\endpoint\Version
      */
     protected $users;
     /**
@@ -59,8 +59,8 @@ class RestUsersTest extends TestCase
         global $sessiontest;
 
         $sessiontest = array(true);
-        $this->webtemplate = new \webtemplate\application\Application();
-        $this->users = new \webtemplate\rest\endpoints\Users($this->webtemplate);
+        $this->webtemplate = new\g7mzr\webtemplate\application\Application();
+        $this->users = new\g7mzr\webtemplate\rest\endpoints\Users($this->webtemplate);
     }
 
     /**
@@ -117,7 +117,7 @@ class RestUsersTest extends TestCase
             'secnone',
             $this->webtemplate->config()->read('pref')
         );
-        if (\webtemplate\general\General::isError($registered)) {
+        if (\g7mzr\webtemplate\general\General::isError($registered)) {
             $this->fail('Failed to register user for ' . __METHOD__);
         }
 
@@ -163,7 +163,7 @@ class RestUsersTest extends TestCase
             'secuser',
             $this->webtemplate->config()->read('pref')
         );
-        if (\webtemplate\general\General::isError($registered)) {
+        if (\g7mzr\webtemplate\general\General::isError($registered)) {
             $this->fail('Failed to register user for ' . __METHOD__);
         }
 

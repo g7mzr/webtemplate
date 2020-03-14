@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\install;
+namespace g7mzr\webtemplate\install;
 
 /**
  * FileManger Class is a static class used to setup and modify the required
@@ -219,14 +219,14 @@ class FileManager
             $msg = "Please copy config.php.dist to config.php and update";
             $msg .= " to match your installation.\n";
             $msg .=  "Without this information installation cannot take place\n\n";
-            return \webtemplate\general\General::raiseError($msg);
+            return\g7mzr\webtemplate\general\General::raiseError($msg);
         }
         $result = $this->CheckConfigFileConfigured($installConfig);
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\webtemplate\general\General::isError($result)) {
             $msg = "Please update config.php to match your installation.\n";
             $msg .= "Without this information installation cannot take place\n\n";
             $msg .= $result->getMessage();
-            return \webtemplate\general\General::raiseError($msg);
+            return\g7mzr\webtemplate\general\General::raiseError($msg);
         }
         return true;
     }
@@ -271,7 +271,7 @@ class FileManager
         }
         if ($errorcreatingfile == true) {
             $msg =  "Error creating local.conf\n\n";
-            return \webtemplate\general\General::raiseError($msg);
+            return\g7mzr\webtemplate\general\General::raiseError($msg);
         } else {
             return $filecreated;
         }
@@ -322,7 +322,7 @@ class FileManager
         }
         if ($errorcreatingfile == true) {
             $msg =  "Error creating tests/_data/database.php\n\n";
-            return \webtemplate\general\General::raiseError($msg);
+            return\g7mzr\webtemplate\general\General::raiseError($msg);
         } else {
             return true;
         }
@@ -385,7 +385,7 @@ class FileManager
         $webservergroupdetails = posix_getgrnam($installConfig['webservergroup']) ;
         if ($webservergroupdetails === false) {
             $msg = "Invalid Web Server Group.  Unable to set file permissions\n\n";
-            return \webtemplate\general\General::raiseError($msg);
+            return\g7mzr\webtemplate\general\General::raiseError($msg);
         }
 
         $owner = "root";
@@ -643,7 +643,7 @@ class FileManager
         if ($configOk == true) {
             return $configOk;
         } else {
-            return \webtemplate\general\General::raiseError($msg);
+            return\g7mzr\webtemplate\general\General::raiseError($msg);
         }
     }
 
@@ -669,7 +669,7 @@ class FileManager
         if ($keyok == true) {
             return $secret;
         } else {
-            return \webtemplate\general\General::raiseError($msg);
+            return\g7mzr\webtemplate\general\General::raiseError($msg);
         }
     }
 }

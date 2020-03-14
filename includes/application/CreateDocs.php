@@ -13,9 +13,9 @@
  *
  */
 
-namespace webtemplate\application;
+namespace g7mzr\webtemplate\application;
 
-use webtemplate\application\exceptions\AppException;
+use g7mzr\webtemplate\application\exceptions\AppException;
 
 /**
  * Create Documentation

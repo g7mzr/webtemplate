@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\general;
+namespace g7mzr\webtemplate\general;
 
 /**
  * Webtemplate Application Logging Class

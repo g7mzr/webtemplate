@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\admin\parameters;
+namespace g7mzr\webtemplate\admin\parameters;
 
 /**
  * Parameters REQUIRED Interface Class
@@ -72,11 +72,11 @@ class Required extends ParametersAbstract
     /**
      * Constructor
      *
-     * @param \webtemplate\config\Configure $config Configuration class.
+     * @param \g7mzr\webtemplate\config\Configure $config Configuration class.
      *
      * @access public
      */
-    public function __construct(\webtemplate\config\Configure $config)
+    public function __construct(\g7mzr\webtemplate\config\Configure $config)
     {
 
         parent::__construct($config);
@@ -215,7 +215,7 @@ class Required extends ParametersAbstract
             $this->urlbase = substr($inputData['url_base_id'], 0, 100);
         }
 
-        if (!\webtemplate\general\LocalValidate::url($this->urlbase)) {
+        if (!\g7mzr\webtemplate\general\LocalValidate::url($this->urlbase)) {
             $this->lastMsg .= gettext("Invalid URL Base") . "\n";
             $dataok = false;
         }
@@ -243,7 +243,7 @@ class Required extends ParametersAbstract
             $this->maintainer = substr($inputData['maintainer_id'], 0, 60);
         }
 
-        if (!\webtemplate\general\LocalValidate::email($this->maintainer)) {
+        if (!\g7mzr\webtemplate\general\LocalValidate::email($this->maintainer)) {
             $this->lastMsg .= gettext("Invalid Maintainer's Email Address") . "\n";
             $dataok = false;
         }
@@ -272,7 +272,7 @@ class Required extends ParametersAbstract
         }
 
         if ($this->docbase != '') {
-            if (!\webtemplate\general\LocalValidate::docPath($this->docbase)) {
+            if (!\g7mzr\webtemplate\general\LocalValidate::docPath($this->docbase)) {
                 $this->lastMsg .= gettext("Invalid Document Path") . "\n";
                 $dataok = false;
             }
@@ -302,7 +302,7 @@ class Required extends ParametersAbstract
         }
 
         if ($this->cookiedomain != '') {
-            if (!\webtemplate\general\LocalValidate::domain($this->cookiedomain)) {
+            if (!\g7mzr\webtemplate\general\LocalValidate::domain($this->cookiedomain)) {
                 $this->lastMsg .= gettext("Invalid Cookie Domain") . "\n";
                 $dataok = false;
             }
@@ -331,7 +331,7 @@ class Required extends ParametersAbstract
             $this->cookiepath = substr($inputData['cookie_path_id'], 0, 60);
         }
 
-        if (!\webtemplate\general\LocalValidate::path($this->cookiepath, false)) {
+        if (!\g7mzr\webtemplate\general\LocalValidate::path($this->cookiepath, false)) {
             $this->lastMsg .= gettext("Invalid Cookie Path") . "\n";
             $dataok = false;
         }

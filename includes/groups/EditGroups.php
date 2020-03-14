@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\groups;
+namespace g7mzr\webtemplate\groups;
 
 /**
  * Webtemplate Edit Group Class
@@ -134,7 +134,7 @@ class EditGroups
                              "editable" => $gao['group_editable']);
             $gotdataok = true;
         } else {
-            $err = new \webtemplate\application\Error($gao->getMEssage(), $gao->getCode());
+            $err = new\g7mzr\webtemplate\application\Error($gao->getMEssage(), $gao->getCode());
         }
         if ($gotdataok == true) {
             return $gData;
@@ -193,7 +193,7 @@ class EditGroups
                     $gao
                 );
             } else {
-                $err = new \webtemplate\application\Error($gao->getMEssage(), $gao->getCode());
+                $err = new\g7mzr\webtemplate\application\Error($gao->getMEssage(), $gao->getCode());
             }
         } else {
             // New Group need to return true
@@ -345,7 +345,7 @@ class EditGroups
             return true;
             ;
         } else {
-            return \webtemplate\general\General::raiseError($errorMsg, 1);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
         }
     }
 
@@ -377,7 +377,7 @@ class EditGroups
         if ($deleteok) {
             return $this->db->rowCount();
         } else {
-            return \webtemplate\general\General::raiseError($errorMsg, 1);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
         }
     }
 
@@ -411,7 +411,7 @@ class EditGroups
             $groupExists = true;
         } else {
             if ($gao->getCode() != \DB_ERROR_NOT_FOUND) {
-                $err = new \webtemplate\application\Error($gao->getMessage(), $gao->getCode());
+                $err = new\g7mzr\webtemplate\application\Error($gao->getMessage(), $gao->getCode());
                 $searchok = false;
             }
         }
@@ -472,17 +472,17 @@ class EditGroups
         // Validate user input
 
         $msg = '';
-        if (!\webtemplate\general\LocalValidate::dbid($groupId)) {
+        if (!\g7mzr\webtemplate\general\LocalValidate::dbid($groupId)) {
             $msg = $msg . gettext("Invalid Group Id") . "\n";
             $groupDataOk = false;
         }
-        if (!\webtemplate\general\LocalValidate::groupName($groupName)) {
+        if (!\g7mzr\webtemplate\general\LocalValidate::groupName($groupName)) {
             $msg = $msg . gettext("Invalid Group Name") . "\n";
             $groupDataOk = false;
         }
 
         $tempstr = $groupDescription;
-        if (!\webtemplate\general\LocalValidate::groupDescription($tempstr)) {
+        if (!\g7mzr\webtemplate\general\LocalValidate::groupDescription($tempstr)) {
             $msg = $msg . gettext("Invalid Group Description") . "\n";
             $groupDataOk = false;
         }
@@ -526,7 +526,7 @@ class EditGroups
             return $gao['group_id'];
         } else {
             // An error was encountered
-            return new \webtemplate\application\Error($gao->getMessage(), $gao->getCode());
+            return new\g7mzr\webtemplate\application\Error($gao->getMessage(), $gao->getCode());
         }
     }
 }

@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\rest\endpoints;
+namespace g7mzr\webtemplate\rest\endpoints;
 
 /**
  *  Webtemplate RestFul API example endpoint class
@@ -40,11 +40,11 @@ class Example
     /**
      * Constructor
      *
-     * @param \webtemplate\application\Application $webtemplate Webtemplate Application Class Object.
+     * @param \g7mzr\webtemplate\application\Application $webtemplate Webtemplate Application Class Object.
      *
      * @access public
      */
-    public function __construct(\webtemplate\application\Application &$webtemplate)
+    public function __construct(\g7mzr\webtemplate\application\Application &$webtemplate)
     {
             $this->webtemplate = $webtemplate;
     }

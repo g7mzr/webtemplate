@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\general;
+namespace g7mzr\webtemplate\general;
 
 /**
  * Tokens Class
@@ -47,13 +47,13 @@ class Tokens
     /**
      * Constructor for the edit user class.
      *
-     * @param \webtemplate\application\SmartyTemplate      $tpl Smarty Template variable.
-     * @param \g7mzr\db\interfaces\InterfaceDatabaseDriver $db  Database Connection Object.
+     * @param \g7mzr\webtemplate\application\SmartyTemplate $tpl Smarty Template variable.
+     * @param \g7mzr\db\interfaces\InterfaceDatabaseDriver  $db  Database Connection Object.
      *
      * @access public
      */
     public function __construct(
-        \webtemplate\application\SmartyTemplate &$tpl,
+        \g7mzr\webtemplate\application\SmartyTemplate &$tpl,
         \g7mzr\db\interfaces\InterfaceDatabaseDriver $db
     ) {
         $this->db = $db;
@@ -153,7 +153,7 @@ class Tokens
         if ($saveok) {
             return $token;
         } else {
-            return \webtemplate\general\General::raiseError($errorMsg, 1);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
         }
     }
 
@@ -274,11 +274,11 @@ class Tokens
             $errorMsg = gettext("Unable to Delete Token");
         }
 
-        // If deleted return true. else return a \webtemplate\general\General::Error
+        // If deleted return true. else return a\g7mzr\webtemplate\general\General::Error
         if ($tokendeleted) {
             return true;
         } else {
-            return \webtemplate\general\General::raiseError($errorMsg, 1);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
         }
     }
 
@@ -325,11 +325,11 @@ class Tokens
             $errorMsg = gettext("Unable to Delete Token");
         }
 
-        // If deleted return true. else return a \webtemplate\general\General::Error
+        // If deleted return true. else return a\g7mzr\webtemplate\general\General::Error
         if ($tokendeleted) {
             return true;
         } else {
-            return \webtemplate\general\General::raiseError($errorMsg, 1);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
         }
     }
 }

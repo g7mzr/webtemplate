@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -32,21 +32,21 @@ class EditUsersGroupsClassTest extends TestCase
     /**
      * Edit Uses Groups Class Object
      *
-     * @var \webtemplate\groups\EditUsersGroups
+     * @var\g7mzr\webtemplate\groups\EditUsersGroups
      */
     protected $object;
 
     /**
      * Database Connection Object
      *
-     * @var \webtemplate\db\DB
+     * @var\g7mzr\webtemplate\db\DB
      */
     protected $object2;
 
     /**
      * Group Class Object using Mock Database driver
      *
-     * @var \webtemplate\groups\EditUsersGroups
+     * @var\g7mzr\webtemplate\groups\EditUsersGroups
      */
     protected $mockGroup;
 
@@ -93,7 +93,7 @@ class EditUsersGroupsClassTest extends TestCase
         }
 
         // Create Main test Class
-        $this->object = new \webtemplate\groups\EditUsersGroups($this->object2->getDataDriver());
+        $this->object = new\g7mzr\webtemplate\groups\EditUsersGroups($this->object2->getDataDriver());
 
         // Create a Mock database object
         $testdsn['dbtype'] = 'mock';
@@ -105,7 +105,7 @@ class EditUsersGroupsClassTest extends TestCase
         $setresult = $this->mockDB->setMode("datadriver");
 
         // Create Group Obkect Using the mockDB obkect
-        $this->mockGroup = new \webtemplate\groups\EditUsersGroups($this->mockDB->getDataDriver());
+        $this->mockGroup = new\g7mzr\webtemplate\groups\EditUsersGroups($this->mockDB->getDataDriver());
     }
 
     /**
@@ -134,7 +134,7 @@ class EditUsersGroupsClassTest extends TestCase
     {
         if ($this->databaseconnection == true) {
             $group = $this->object->getGroupList();
-            if (\webtemplate\general\General::isError($group)) {
+            if (\g7mzr\webtemplate\general\General::isError($group)) {
                 $this->fail("Error : " . $group->getMessage());
             } else {
                 $this->assertEquals('admin', $group[0]['groupname']);
@@ -157,7 +157,7 @@ class EditUsersGroupsClassTest extends TestCase
     public function testMockGetGroupList()
     {
         $group = $this->mockGroup->getGroupList();
-        if (\webtemplate\general\General::isError($group)) {
+        if (\g7mzr\webtemplate\general\General::isError($group)) {
             $this->assertEquals('SQL Query Error', $group->getMessage());
         } else {
             $this->fail("GetGroupList Test Failed using Mock DB");
@@ -191,10 +191,10 @@ class EditUsersGroupsClassTest extends TestCase
     {
         if ($this->databaseconnection == true) {
             $groupArray = $this->object->getGroupList();
-            if (!\webtemplate\general\General::isError($groupArray)) { // Found groups
+            if (!\g7mzr\webtemplate\general\General::isError($groupArray)) { // Found groups
                 // Select groups user is a member off.
                 $addUsersGroups = $this->object->getUsersGroups(1, $groupArray);
-                if (\webtemplate\general\General::isError($addUsersGroups)) {
+                if (\g7mzr\webtemplate\general\General::isError($addUsersGroups)) {
                     // An database error was encountered
                     $this->fail("Error : " . $addUsersGroups->getMessage());
                 }
@@ -242,9 +242,9 @@ class EditUsersGroupsClassTest extends TestCase
         );
         $this->mockDB->getDataDriver()->control($functions, $data);
         $group = $this->mockGroup->getGroupList();
-        if (!\webtemplate\general\General::isError($group)) {
+        if (!\g7mzr\webtemplate\general\General::isError($group)) {
             $addUsersGroups = $this->mockGroup->getUsersGroups(1, $group);
-            if (\webtemplate\general\General::isError($addUsersGroups)) {
+            if (\g7mzr\webtemplate\general\General::isError($addUsersGroups)) {
                 // An database error was encountered
                 $this->assertEquals(
                     "SQL Query Error",
@@ -270,12 +270,12 @@ class EditUsersGroupsClassTest extends TestCase
     {
         if ($this->databaseconnection == true) {
             $group = $this->object->getGroupList();
-            if (\webtemplate\general\General::isError($group)) {
+            if (\g7mzr\webtemplate\general\General::isError($group)) {
                 $this->fail("Error : " . $group->getMessage());
             } else {
                 // Test for a group Change
                 $groupchangedresult = $this->object->groupsChanged(1, $group);
-                if (\webtemplate\general\General::isError($groupchangedresult)) {
+                if (\g7mzr\webtemplate\general\General::isError($groupchangedresult)) {
                     $this->fail("Error : " . $group->getMessage());
                 } else {
                     $this->assertTrue($groupchangedresult);
@@ -305,7 +305,7 @@ class EditUsersGroupsClassTest extends TestCase
     {
         if ($this->databaseconnection == true) {
             $group = $this->object->getGroupList();
-            if (\webtemplate\general\General::isError($group)) {
+            if (\g7mzr\webtemplate\general\General::isError($group)) {
                 $this->fail("Error : " . $group->getMessage());
             } else {
                 // Test for no group Change
@@ -317,7 +317,7 @@ class EditUsersGroupsClassTest extends TestCase
                     $counter++;
                 }
                 $groupchangedresult = $this->object->groupsChanged(1, $group);
-                if (\webtemplate\general\General::isError($groupchangedresult)) {
+                if (\g7mzr\webtemplate\general\General::isError($groupchangedresult)) {
                     $this->fail("Error : " . $group->getMessage());
                 } else {
                     $this->assertFalse($groupchangedresult);
@@ -346,7 +346,7 @@ class EditUsersGroupsClassTest extends TestCase
     {
         if ($this->databaseconnection == true) {
             $group = $this->object->getGroupList();
-            if (\webtemplate\general\General::isError($group)) {
+            if (\g7mzr\webtemplate\general\General::isError($group)) {
                 $this->fail("Error : " . $group->getMessage());
             } else {
                 // Test for Group Change
@@ -358,7 +358,7 @@ class EditUsersGroupsClassTest extends TestCase
                     $counter++;
                 }
                 $groupchangedresult = $this->object->groupsChanged(1, $group);
-                if (\webtemplate\general\General::isError($groupchangedresult)) {
+                if (\g7mzr\webtemplate\general\General::isError($groupchangedresult)) {
                     $this->fail("Error : " . $group->getMessage());
                 } else {
                     $this->assertTrue($groupchangedresult);
@@ -409,13 +409,13 @@ class EditUsersGroupsClassTest extends TestCase
         );
         $this->mockDB->getDataDriver()->control($functions, $data);
         $group = $this->mockGroup->getGroupList();
-        if (\webtemplate\general\General::isError($group)) {
+        if (\g7mzr\webtemplate\general\General::isError($group)) {
             $this->fail("GroupsChanged Failed getting group list using Mock DB");
         }
 
         // No Groups Found
         $groupchangedresult = $this->mockGroup->groupsChanged(1, $group);
-        if (!\webtemplate\general\General::isError($groupchangedresult)) {
+        if (!\g7mzr\webtemplate\general\General::isError($groupchangedresult)) {
             $this->assertFalse($groupchangedresult);
         } else {
             $this->fail("Error : " . $groupchangedresult->getMessage());
@@ -426,7 +426,7 @@ class EditUsersGroupsClassTest extends TestCase
         $functions['getUsersExplicitGroups']['notfound'] = false;
         $this->mockDB->getDataDriver()->control($functions, $data);
         $groupchangedresult = $this->mockGroup->groupsChanged(1, $group);
-        if (\webtemplate\general\General::isError($groupchangedresult)) {
+        if (\g7mzr\webtemplate\general\General::isError($groupchangedresult)) {
             $this->assertEquals(
                 "SQL Query Error",
                 $groupchangedresult->getMessage()
@@ -451,23 +451,23 @@ class EditUsersGroupsClassTest extends TestCase
             $group = $this->object->getGroupList();
 
             // Delete Permissions
-            if (\webtemplate\general\General::isError($group)) {
+            if (\g7mzr\webtemplate\general\General::isError($group)) {
                 $this->fail("Error : " . $group->getMessage());
             } else {
                 // Delete Permissions
                 $datasaved = $this->object->saveUsersGroups(1, $group);
-                if (\webtemplate\general\General::isError($datasaved)) {
+                if (\g7mzr\webtemplate\general\General::isError($datasaved)) {
                     $this->fail("Error : " . $datasaved->getMessage());
                 } else {
                     // Test that the Group Permissions have been deleted
                     $groupArray = $this->object->getGroupList();
-                    if (!\webtemplate\general\General::isError($groupArray)) {
+                    if (!\g7mzr\webtemplate\general\General::isError($groupArray)) {
                         // Select groups user is a member off.
                         $addUsersGroups = $this->object->getUsersGroups(
                             1,
                             $groupArray
                         );
-                        if (\webtemplate\general\General::isError($addUsersGroups)) {
+                        if (\g7mzr\webtemplate\general\General::isError($addUsersGroups)) {
                             // An database error was encountered
                             $this->fail(
                                 "Error : " . $addUsersGroups->getMessage()
@@ -506,7 +506,7 @@ class EditUsersGroupsClassTest extends TestCase
             $group = $this->object->getGroupList();
 
             // Delete Permissions
-            if (\webtemplate\general\General::isError($group)) {
+            if (\g7mzr\webtemplate\general\General::isError($group)) {
                 $this->fail("Error : " . $group->getMessage());
             } else {
                 // Add Permissions Back on
@@ -518,18 +518,18 @@ class EditUsersGroupsClassTest extends TestCase
                     $counter++;
                 }
                 $datasaved = $this->object->saveUsersGroups(1, $group);
-                if (\webtemplate\general\General::isError($datasaved)) {
+                if (\g7mzr\webtemplate\general\General::isError($datasaved)) {
                     $this->fail("Error : " . $datasaved->getMessage());
                 } else {
                     // Test that the Group Permissions have been deleted
                     $groupArray = $this->object->getGroupList();
-                    if (!\webtemplate\general\General::isError($groupArray)) {
+                    if (!\g7mzr\webtemplate\general\General::isError($groupArray)) {
                         // Select groups user is a member off.
                         $addUsersGroups = $this->object->getUsersGroups(
                             1,
                             $groupArray
                         );
-                        if (\webtemplate\general\General::isError($addUsersGroups)) {
+                        if (\g7mzr\webtemplate\general\General::isError($addUsersGroups)) {
                             // An database error was encountered
                             $this->fail(
                                 "Error : " . $addUsersGroups->getMessage()
@@ -544,7 +544,7 @@ class EditUsersGroupsClassTest extends TestCase
                     }
                 }
                 $datasaved = $this->object->saveUsersGroups(80, $group);
-                if (\webtemplate\general\General::isError($datasaved)) {
+                if (\g7mzr\webtemplate\general\General::isError($datasaved)) {
                     $this->assertStringContainsString(
                         "Unable to save groups",
                         $datasaved->getMessage()
@@ -576,7 +576,7 @@ class EditUsersGroupsClassTest extends TestCase
             $group = $this->object->getGroupList();
 
             // Delete Permissions
-            if (\webtemplate\general\General::isError($group)) {
+            if (\g7mzr\webtemplate\general\General::isError($group)) {
                 $this->fail("Error : " . $group->getMessage());
             } else {
                 // Add Permissions Back on
@@ -589,7 +589,7 @@ class EditUsersGroupsClassTest extends TestCase
                 }
 
                 $datasaved = $this->object->saveUsersGroups(80, $group);
-                if (\webtemplate\general\General::isError($datasaved)) {
+                if (\g7mzr\webtemplate\general\General::isError($datasaved)) {
                     $this->assertStringContainsString(
                         "Unable to save groups",
                         $datasaved->getMessage()
@@ -641,13 +641,13 @@ class EditUsersGroupsClassTest extends TestCase
         );
         $this->mockDB->getDataDriver()->control($functions, $data);
         $group = $this->mockGroup->getGroupList();
-        if (\webtemplate\general\General::isError($group)) {
+        if (\g7mzr\webtemplate\general\General::isError($group)) {
             $this->fail("SaveUsersGroups Failed getting group list using Mock DB");
         }
 
         // Fail to start Transaction
         $datasaved = $this->mockGroup->saveUsersGroups(1, $group);
-        if (\webtemplate\general\General::isError($datasaved)) {
+        if (\g7mzr\webtemplate\general\General::isError($datasaved)) {
             $this->assertStringContainsString(
                 "Unable to create database transaction",
                 $datasaved->getMessage()
@@ -659,7 +659,7 @@ class EditUsersGroupsClassTest extends TestCase
         $functions["saveUsersGroups"]["starttransaction"] = true;
         $this->mockDB->getDataDriver()->control($functions, $data);
         $datasaved = $this->mockGroup->saveUsersGroups(1, $group);
-        if (\webtemplate\general\General::isError($datasaved)) {
+        if (\g7mzr\webtemplate\general\General::isError($datasaved)) {
             $this->assertStringContainsString(
                 "Unable to save groups",
                 $datasaved->getMessage()

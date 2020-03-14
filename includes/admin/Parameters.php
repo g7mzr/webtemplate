@@ -13,9 +13,9 @@
  *
  */
 
-namespace webtemplate\admin;
+namespace g7mzr\webtemplate\admin;
 
-use \webtemplate\application\exceptions\AppException;
+use\g7mzr\webtemplate\application\exceptions\AppException;
 /**
  * Parameters Interface Class
  *
@@ -25,25 +25,25 @@ class Parameters
     /**
      * Configuration class object
      *
-     * @var \webtemplate\config\Configuration
+     * @var \g7mzr\webtemplate\config\Configuration
      */
     protected $config;
 
     /**
      * Parameters Section Class object
      *
-     * @var \webtemplate\admin\parameters\Required
+     * @var \g7mzr\webtemplate\admin\parameters\Required
      */
     protected $section;
 
     /**
      * Constructor
      *
-     * @param \webtemplate\config\Configure $config Configuration class.
+     * @param \g7mzr\webtemplate\config\Configure $config Configuration class.
      *
      * @access public
      */
-    public function __construct(\webtemplate\config\Configure $config)
+    public function __construct(\g7mzr\webtemplate\config\Configure $config)
     {
         $this->config = $config;
     } // end constructor
@@ -65,7 +65,7 @@ class Parameters
         if (file_exists($classFile)) {
             require_once $classFile;
 
-            $classname = '\\webtemplate\\admin\\parameters\\' . ucfirst($section);
+            $classname = '\\g7mzr\\webtemplate\\admin\\parameters\\' . ucfirst($section);
             if (class_exists($classname)) {
                  $this->section = new $classname($this->config);
                  return true;
@@ -98,7 +98,7 @@ class Parameters
      */
     final public function getLastMsg()
     {
-        $classname = "\\webtemplate\\admin\\parameters\\ParametersAbstract";
+        $classname = "\\g7mzr\\webtemplate\\admin\\parameters\\ParametersAbstract";
         if (is_a($this->section, $classname)) {
             return $this->section->getLastMsg();
         } else {
@@ -118,7 +118,7 @@ class Parameters
      */
     final public function getCurrentParameters()
     {
-        $classname = "\\webtemplate\\admin\\parameters\\ParametersAbstract";
+        $classname = "\\g7mzr\\webtemplate\\admin\\parameters\\ParametersAbstract";
         if (is_a($this->section, $classname)) {
             return $this->section->getCurrentParameters();
         } else {
@@ -142,7 +142,7 @@ class Parameters
      */
     final public function saveParamFile(string $configDir)
     {
-        $classname = "\\webtemplate\\admin\\parameters\\ParametersAbstract";
+        $classname = "\\g7mzr\\webtemplate\\admin\\parameters\\ParametersAbstract";
         if (is_a($this->section, $classname)) {
             return $this->section->saveParamFile($configDir);
         } else {
@@ -165,7 +165,7 @@ class Parameters
      */
     final public function validateParameters(array &$inputData)
     {
-        $classname = "\\webtemplate\\admin\\parameters\\ParametersAbstract";
+        $classname = "\\g7mzr\\webtemplate\\admin\\parameters\\ParametersAbstract";
         if (is_a($this->section, $classname)) {
             return $this->section->validateParameters($inputData);
         } else {
@@ -191,7 +191,7 @@ class Parameters
      */
     final public function checkParametersChanged(array $parameters)
     {
-        $classname = "\\webtemplate\\admin\\parameters\\ParametersAbstract";
+        $classname = "\\g7mzr\\webtemplate\\admin\\parameters\\ParametersAbstract";
         if (is_a($this->section, $classname)) {
             return $this->section->checkParametersChanged($parameters);
         } else {

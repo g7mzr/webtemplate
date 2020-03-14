@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -29,7 +29,7 @@ class LocalValidateTest extends TestCase
     /**
      * Local Validate Object
      *
-     * @var \webtemplate\general\LocalValidate
+     * @var\g7mzr\webtemplate\general\LocalValidate
      */
     protected $object;
 
@@ -41,7 +41,7 @@ class LocalValidateTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->object = new \webtemplate\general\LocalValidate();
+        $this->object = new\g7mzr\webtemplate\general\LocalValidate();
     }
 
     /**

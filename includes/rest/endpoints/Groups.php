@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\rest\endpoints;
+namespace g7mzr\webtemplate\rest\endpoints;
 
 /**
  *  Webtemplate RestFul API groups endpoint class
@@ -48,11 +48,11 @@ class Groups
     /**
      * Constructor
      *
-     * @param \webtemplate\application\Application $webtemplate Webtemplate Application Class Object.
+     * @param \g7mzr\webtemplate\application\Application $webtemplate Webtemplate Application Class Object.
      *
      * @access public
      */
-    public function __construct(\webtemplate\application\Application  &$webtemplate)
+    public function __construct(\g7mzr\webtemplate\application\Application  &$webtemplate)
     {
             $this->webtemplate = $webtemplate;
     }
@@ -73,7 +73,7 @@ class Groups
 
         if (\count($this->args) == 0) {
             $groups = $this->webtemplate->editgroups()->getGroupList();
-            if (\webtemplate\general\General::isError($groups)) {
+            if (\g7mzr\webtemplate\general\General::isError($groups)) {
                 $errmsg = array('ErrorMsg' => $groups->getMessage());
                 return array('data' => $errmsg, 'code' => 400);
             }
@@ -85,7 +85,7 @@ class Groups
                 $result = $this->webtemplate->editgroups()->getGroupid(
                     $this->args[0]
                 );
-                if (!\webtemplate\general\General::isError($result)) {
+                if (!\g7mzr\webtemplate\general\General::isError($result)) {
                     $guid = $result;
                 } else {
                     $errmsg = array('ErrorMsg' => $result->getMessage());
@@ -93,7 +93,7 @@ class Groups
                 }
             }
             $groups = $this->webtemplate->editgroups()->getSingleGroup($guid);
-            if (\webtemplate\general\General::isError($groups)) {
+            if (\g7mzr\webtemplate\general\General::isError($groups)) {
                 $errmsg = array('ErrorMsg' => $groups->getMessage());
                 return array('data' => $errmsg, 'code' => 400);
             }
@@ -143,7 +143,7 @@ class Groups
             $resultArray[0]['autogroup']
         );
 
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\webtemplate\general\General::isError($result)) {
             $data = array('ErrorMsg' => $result->getMessage());
             return array('data' => $data, 'code' => 500);
         }
@@ -151,7 +151,7 @@ class Groups
         $data = $this->webtemplate->editgroups()->getSingleGroup(
             $resultArray[0]['groupid']
         );
-        if (\webtemplate\general\General::isError($data)) {
+        if (\g7mzr\webtemplate\general\General::isError($data)) {
             // Return error message
             $errmsg = array('Errormsg' => $data->getMessage());
             return array('data' => $errmsg, 'code' => 404);
@@ -178,7 +178,7 @@ class Groups
             $gid = $this->args[0];
         } else {
             $result = $this->webtemplate->editgroups()->getGroupid($this->args[0]);
-            if (!\webtemplate\general\General::isError($result)) {
+            if (!\g7mzr\webtemplate\general\General::isError($result)) {
                 $gid = $result;
             } else {
                 $errmsg = array('ErrorMsg' => $result->getMessage());
@@ -211,7 +211,7 @@ class Groups
             $resultArray[0]['autogroup']
         );
 
-        if (\webtemplate\general\General::isError($datachanged)) {
+        if (\g7mzr\webtemplate\general\General::isError($datachanged)) {
             $data = array('ErrorMsg' => $datachanged->getMessage());
             return array('data' => $data, 'code' => 500);
         }
@@ -230,7 +230,7 @@ class Groups
             $resultArray[0]['autogroup']
         );
 
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\webtemplate\general\General::isError($result)) {
             $data = array('ErrorMsg' => $result->getMessage());
             return array('data' => $data, 'code' => 500);
         }
@@ -238,7 +238,7 @@ class Groups
         $data = $this->webtemplate->editgroups()->getSingleGroup(
             $resultArray[0]['groupid']
         );
-        if (\webtemplate\general\General::isError($data)) {
+        if (\g7mzr\webtemplate\general\General::isError($data)) {
             // Return error message
             $errmsg = array('Errormsg' => $data->getMessage());
             return array('data' => $errmsg, 'code' => 404);
@@ -268,7 +268,7 @@ class Groups
             $result = $this->webtemplate->editgroups()->getGroupid(
                 $this->args[0]
             );
-            if (!\webtemplate\general\General::isError($result)) {
+            if (!\g7mzr\webtemplate\general\General::isError($result)) {
                 $gid = $result;
             } else {
                 if ($result->getCode() == DB_ERROR_NOT_FOUND) {
@@ -280,7 +280,7 @@ class Groups
             }
         }
         $groupdetails = $this->webtemplate->editgroups()->getSingleGroup($gid);
-        if (\webtemplate\general\General::isError($groupdetails)) {
+        if (\g7mzr\webtemplate\general\General::isError($groupdetails)) {
             if ($groupdetails->getCode() == DB_ERROR_NOT_FOUND) {
                 return array('code' => 204);
             } else {
@@ -293,7 +293,7 @@ class Groups
             return array('data' => $errmsg, 'code' => 400);
         }
         $deleteresult = $this->webtemplate->editgroups()->deleteGroup($gid);
-        if (\webtemplate\general\General::isError($deleteresult)) {
+        if (\g7mzr\webtemplate\general\General::isError($deleteresult)) {
             $errmsg = array('ErrorMsg' => "Error deleteing group: " . $this->args[0]);
             return array('data' => $errmsg, 'code' => 500);
         } else {

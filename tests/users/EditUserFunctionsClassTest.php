@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -45,7 +45,7 @@ class EditUserFunctionsClassTest extends TestCase
 
     /*
      * Property: tpl
-     * @var    \webtemplate\application\SmartyTemplate
+     * @var   \g7mzr\webtemplate\application\SmartyTemplate
      * @access protected
      */
     protected $tpl = null;
@@ -58,31 +58,31 @@ class EditUserFunctionsClassTest extends TestCase
     protected $template = '';
 
     /* property: edituser
-     * @var    \webtemplate\users\EditUser
+     * @var   \g7mzr\webtemplate\users\EditUser
      * @access protected
      */
     protected $edituser = null;
 
     /* property: mockedituser
-     * @var    \webtemplate\users\EditUser
+     * @var   \g7mzr\webtemplate\users\EditUser
      * @access protected
      */
     protected $mockedituser = null;
     /* property: editusergroups
-     * @var    \webtemplate\groups\EditUserGroups
+     * @var   \g7mzr\webtemplate\groups\EditUserGroups
      * @access protected
      */
     protected $editusergroups = null;
 
     /* property: mockeditusergroups
-     * @var    \webtemplate\groups\EditUserGroups
+     * @var   \g7mzr\webtemplate\groups\EditUserGroups
      * @access protected
      */
     protected $mockeditusergroups = null;
 
     /*
      * property: config
-     * @var    \webtemplate\config\Configure
+     * @var   \g7mzr\webtemplate\config\Configure
      * @access private
      */
     protected $config = null;
@@ -122,11 +122,11 @@ class EditUserFunctionsClassTest extends TestCase
         } catch (Exception $ex) {
             throw new \Exception('Unable to connect to the database');
         }
-        $this->tpl = new \webtemplate\application\SmartyTemplate();
-        $this->edituser = new \webtemplate\users\EditUser($this->db->getDataDriver());
+        $this->tpl = new\g7mzr\webtemplate\application\SmartyTemplate();
+        $this->edituser = new\g7mzr\webtemplate\users\EditUser($this->db->getDataDriver());
         $configDir = __DIR__ . "/../../configs";
-        $this->config = new \webtemplate\config\Configure($configDir);
-        $this->editusergroups = new \webtemplate\groups\EditUsersGroups($this->db->getDataDriver());
+        $this->config = new\g7mzr\webtemplate\config\Configure($configDir);
+        $this->editusergroups = new\g7mzr\webtemplate\groups\EditUsersGroups($this->db->getDataDriver());
 
         // Create a Mock database object
         $testdsn['dbtype'] = 'mock';
@@ -145,10 +145,10 @@ class EditUserFunctionsClassTest extends TestCase
         }
 
         // Create a Mock Edit User object
-        $this->mockedituser = new \webtemplate\users\EditUser($this->mockdb->getDataDriver());
+        $this->mockedituser = new\g7mzr\webtemplate\users\EditUser($this->mockdb->getDataDriver());
 
         // Create Group Object Using the mockDB object
-        $this->mockeditusergroups = new \webtemplate\groups\EditUsersGroups(
+        $this->mockeditusergroups = new\g7mzr\webtemplate\groups\EditUsersGroups(
             $this->mockdb->getDataDriver()
         );
         $this->newuserflag = false;
@@ -220,7 +220,7 @@ class EditUserFunctionsClassTest extends TestCase
     public function testListUsersNoSearchType()
     {
         $testdata = array();
-        $searchresult = \webtemplate\users\EditUserFunctions::listUsers(
+        $searchresult = \g7mzr\webtemplate\users\EditUserFunctions::listUsers(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -247,7 +247,7 @@ class EditUserFunctionsClassTest extends TestCase
     {
         $testdata = array();
         $testdata['searchtype'] = 'dummy';
-        $searchresult = \webtemplate\users\EditUserFunctions::listUsers(
+        $searchresult = \g7mzr\webtemplate\users\EditUserFunctions::listUsers(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -275,7 +275,7 @@ class EditUserFunctionsClassTest extends TestCase
     {
         $testdata = array();
         $testdata['searchtype'] = 'username';
-        $searchresult = \webtemplate\users\EditUserFunctions::listUsers(
+        $searchresult = \g7mzr\webtemplate\users\EditUserFunctions::listUsers(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -302,7 +302,7 @@ class EditUserFunctionsClassTest extends TestCase
         $testdata = array();
         $testdata['searchtype'] = 'username';
         $testdata['searchstr'] = 'phpunit';
-        \webtemplate\users\EditUserFunctions::listUsers(
+        \g7mzr\webtemplate\users\EditUserFunctions::listUsers(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -331,7 +331,7 @@ class EditUserFunctionsClassTest extends TestCase
         $testdata = array();
         $testdata['searchtype'] = 'username';
         $testdata['searchstr'] = 'phpunit9';
-        \webtemplate\users\EditUserFunctions::listUsers(
+        \g7mzr\webtemplate\users\EditUserFunctions::listUsers(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -356,7 +356,7 @@ class EditUserFunctionsClassTest extends TestCase
     {
         $testdata = array();
         $testdata['searchtype'] = 'email';
-        $searchresult = \webtemplate\users\EditUserFunctions::listUsers(
+        $searchresult = \g7mzr\webtemplate\users\EditUserFunctions::listUsers(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -383,7 +383,7 @@ class EditUserFunctionsClassTest extends TestCase
         $testdata = array();
         $testdata['searchtype'] = 'email';
         $testdata['searchstr'] = 'phpunit@example.com';
-        \webtemplate\users\EditUserFunctions::listUsers(
+        \g7mzr\webtemplate\users\EditUserFunctions::listUsers(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -412,7 +412,7 @@ class EditUserFunctionsClassTest extends TestCase
         $testdata = array();
         $testdata['searchtype'] = 'email';
         $testdata['searchstr'] = 'phpunit99@example.com';
-        \webtemplate\users\EditUserFunctions::listUsers(
+        \g7mzr\webtemplate\users\EditUserFunctions::listUsers(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -437,7 +437,7 @@ class EditUserFunctionsClassTest extends TestCase
     {
         $testdata = array();
         $testdata['searchtype'] = 'realname';
-        $searchresult = \webtemplate\users\EditUserFunctions::listUsers(
+        $searchresult = \g7mzr\webtemplate\users\EditUserFunctions::listUsers(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -464,7 +464,7 @@ class EditUserFunctionsClassTest extends TestCase
         $testdata = array();
         $testdata['searchtype'] = 'realname';
         $testdata['searchstr'] = 'Phpunit User';
-        \webtemplate\users\EditUserFunctions::listUsers(
+        \g7mzr\webtemplate\users\EditUserFunctions::listUsers(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -493,7 +493,7 @@ class EditUserFunctionsClassTest extends TestCase
         $testdata = array();
         $testdata['searchtype'] = 'realname';
         $testdata['searchstr'] = 'John Doe';
-        \webtemplate\users\EditUserFunctions::listUsers(
+        \g7mzr\webtemplate\users\EditUserFunctions::listUsers(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -517,7 +517,7 @@ class EditUserFunctionsClassTest extends TestCase
     public function testNewUser()
     {
 
-        \webtemplate\users\EditUserFunctions::newUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::newUser(
             $this->tpl,
             $this->template
         );
@@ -543,7 +543,7 @@ class EditUserFunctionsClassTest extends TestCase
     {
         $testdata = array();
         $testdata['userid'] = 'aaa';
-        \webtemplate\users\EditUserFunctions::editUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::editUser(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -570,7 +570,7 @@ class EditUserFunctionsClassTest extends TestCase
     {
         $testdata = array();
         $testdata['userid'] = '100';
-        \webtemplate\users\EditUserFunctions::editUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::editUser(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -598,7 +598,7 @@ class EditUserFunctionsClassTest extends TestCase
     {
         $testdata = array();
         $testdata['userid'] = '2';
-        \webtemplate\users\EditUserFunctions::editUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::editUser(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -640,7 +640,7 @@ class EditUserFunctionsClassTest extends TestCase
     {
         $testdata = array();
         $testdata['userid'] = '2';
-        \webtemplate\users\EditUserFunctions::editUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::editUser(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -697,7 +697,7 @@ class EditUserFunctionsClassTest extends TestCase
         $this->mockdb->getDataDriver()->control($functions, $data);
         $testdata = array();
         $testdata['userid'] = '2';
-        \webtemplate\users\EditUserFunctions::editUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::editUser(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -741,7 +741,7 @@ class EditUserFunctionsClassTest extends TestCase
         $testdata['realname'] = 'Phpunit User.';
         $testdata['passwd'] = 'password';
         $testdata['useremail'] = "phpunit.example.com";
-        \webtemplate\users\EditUserFunctions::saveUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -782,7 +782,7 @@ class EditUserFunctionsClassTest extends TestCase
     public function testSaveExistingUserInvalidData()
     {
         $existinguser = $this->edituser->getuser('1');
-        if (\webtemplate\general\General::isError($existinguser)) {
+        if (\g7mzr\webtemplate\general\General::isError($existinguser)) {
             $this->fail("Failed to retrieve userdata");
         }
 
@@ -792,7 +792,7 @@ class EditUserFunctionsClassTest extends TestCase
         $testdata['realname'] = $existinguser[0]['realname'];
         $testdata['passwd'] = '';
         $testdata['useremail'] = "phpunit.example.com";
-        \webtemplate\users\EditUserFunctions::saveUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -829,7 +829,7 @@ class EditUserFunctionsClassTest extends TestCase
         $testdata['realname'] = 'Phpunit User';
         $testdata['passwd'] = 'Password77';
         $testdata['useremail'] = "phpunit@example.com";
-        \webtemplate\users\EditUserFunctions::saveUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -866,7 +866,7 @@ class EditUserFunctionsClassTest extends TestCase
         $testdata['realname'] = 'Phpunit User';
         $testdata['passwd'] = 'Password77';
         $testdata['useremail'] = "phpunit@example.com";
-        \webtemplate\users\EditUserFunctions::saveUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -911,7 +911,7 @@ class EditUserFunctionsClassTest extends TestCase
         $testdata['realname'] = 'Phpunit User';
         $testdata['passwd'] = 'Password77';
         $testdata['useremail'] = "phpunit@example.com";
-        \webtemplate\users\EditUserFunctions::saveUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -937,7 +937,7 @@ class EditUserFunctionsClassTest extends TestCase
         $modifieddata['realname'] = 'Phpunit User';
         $modifieddata['passwd'] = '';
         $modifieddata['useremail'] = "phpunit2@example.com";
-        \webtemplate\users\EditUserFunctions::saveUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -959,7 +959,7 @@ class EditUserFunctionsClassTest extends TestCase
         );
 
         $userdata = $this->edituser->getuser($userid);
-        if (\webtemplate\general\General::isError($userdata)) {
+        if (\g7mzr\webtemplate\general\General::isError($userdata)) {
             $this->fail("Failed to retrieve userdata");
         } else {
             $this->assertEquals("phpunit2@example.com", $userdata[0]['useremail']);
@@ -983,7 +983,7 @@ class EditUserFunctionsClassTest extends TestCase
         $testdata['realname'] = 'Phpunit User';
         $testdata['passwd'] = 'Password77';
         $testdata['useremail'] = "phpunit@example.com";
-        \webtemplate\users\EditUserFunctions::saveUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,
             $this->template,
             $this->mockedituser,
@@ -1018,7 +1018,7 @@ class EditUserFunctionsClassTest extends TestCase
         $testdata['realname'] = 'Phpunit User';
         $testdata['passwd'] = 'Password77';
         $testdata['useremail'] = "phpunit@example.com";
-        \webtemplate\users\EditUserFunctions::saveUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -1044,7 +1044,7 @@ class EditUserFunctionsClassTest extends TestCase
         $modifieddata['realname'] = 'Phpunit User';
         $modifieddata['passwd'] = '';
         $modifieddata['useremail'] = "phpunit@example.com";
-        \webtemplate\users\EditUserFunctions::saveUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -1078,7 +1078,7 @@ class EditUserFunctionsClassTest extends TestCase
         $testdata['realname'] = 'Phpunit User';
         $testdata['passwd'] = 'Password77';
         $testdata['useremail'] = "phpunit@example.com";
-        \webtemplate\users\EditUserFunctions::saveUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -1105,7 +1105,7 @@ class EditUserFunctionsClassTest extends TestCase
         $modifieddata['passwd'] = '';
         $modifieddata['useremail'] = "phpunit@example.com";
         $modifieddata['admin'] = 'Y';
-        \webtemplate\users\EditUserFunctions::saveUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,
             $this->template,
             $this->edituser,
@@ -1155,7 +1155,7 @@ class EditUserFunctionsClassTest extends TestCase
         // Set up Valid Data so the save passes but the getid fails
         $this->mockdb->getDataDriver()->control($functions, $mockdata);
 
-        \webtemplate\users\EditUserFunctions::saveUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,
             $this->template,
             $this->mockedituser,
@@ -1206,7 +1206,7 @@ class EditUserFunctionsClassTest extends TestCase
         // Set up Valid Data so the save passes but the getid fails
         $this->mockdb->getDataDriver()->control($functions, $mockdata);
 
-        \webtemplate\users\EditUserFunctions::saveUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,
             $this->template,
             $this->mockedituser,
@@ -1270,7 +1270,7 @@ class EditUserFunctionsClassTest extends TestCase
         // Set up Valid Data so the save passes but the getid fails
         $this->mockdb->getDataDriver()->control($functions, $mockdata);
 
-        \webtemplate\users\EditUserFunctions::saveUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,
             $this->template,
             $this->mockedituser,
@@ -1367,7 +1367,7 @@ class EditUserFunctionsClassTest extends TestCase
         // Set up Valid Data so the save passes but the getid fails
         $this->mockdb->getDataDriver()->control($functions, $mockdata);
 
-        \webtemplate\users\EditUserFunctions::saveUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::saveUser(
             $this->tpl,
             $this->template,
             $this->mockedituser,

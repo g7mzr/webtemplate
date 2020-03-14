@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\application;
+namespace g7mzr\webtemplate\application;
 
 /**
  * Extended SMARTY Class to set up local variables

@@ -111,11 +111,11 @@ if (file_exists("config.php")) {
     include 'config.php';
 }
 
-$filemanger = new \webtemplate\install\FileManager(__DIR__);
+$filemanger = new \g7mzr\webtemplate\install\FileManager(__DIR__);
 
 echo "Checking config.php:  ";
 $result = $filemanger->checkInstallConfig($installConfig);
-if (webtemplate\general\General::isError($result)) {
+if (\g7mzr\webtemplate\general\General::isError($result)) {
     echo "\n\n";
     echo $result->getMessage();
     exit(1);
@@ -124,10 +124,10 @@ echo "Done\n";
 
 
 // Check the PHP, PEAR and other dependancies
-$dep = new \webtemplate\install\Dependencies();
+$dep = new \g7mzr\webtemplate\install\Dependencies();
 
-$result = $dep->checkPHP(\webtemplate\install\DependenciesData::$phpVersion);
-if (webtemplate\general\General::isError($result)) {
+$result = $dep->checkPHP(\g7mzr\webtemplate\install\DependenciesData::$phpVersion);
+if (\g7mzr\webtemplate\general\General::isError($result)) {
     echo "\n\n";
     echo $result->getMessage();
     echo "\n\n";
@@ -135,8 +135,8 @@ if (webtemplate\general\General::isError($result)) {
 }
 
 
-$dep->checkPHPModules(\webtemplate\install\DependenciesData::$phpModules);
-$dep->checkComposerModules(\webtemplate\install\DependenciesData::$composerModules);
+$dep->checkPHPModules(\g7mzr\webtemplate\install\DependenciesData::$phpModules);
+$dep->checkComposerModules(\g7mzr\webtemplate\install\DependenciesData::$composerModules);
 $result = $dep->printErrorMsgs();
 if ($result == true) {
     echo "\n\n";
@@ -146,7 +146,7 @@ if ($result == true) {
 // Check that the database and drivers are available
 $result = $dep->checkDatabases(
     $installConfig['database_type'],
-    \webtemplate\install\DependenciesData::$databases,
+    \g7mzr\webtemplate\install\DependenciesData::$databases,
     $installConfig
 );
 if ($result == false) {
@@ -162,14 +162,14 @@ if ($modulesOnly == true) {
 
 echo "\nDatabase:\n";
 
-\webtemplate\install\DataBase::createDatabase($installConfig, $unittestdb);
+\g7mzr\webtemplate\install\DataBase::createDatabase($installConfig, $unittestdb);
 
 echo "\nConfiguration Files:\n";
 
 // Create local.conf if it does not exist
 echo "Checking local.conf:  ";
 $result = $filemanger->createLocalConf($installConfig);
-if (webtemplate\general\General::isError($result)) {
+if (\g7mzr\webtemplate\general\General::isError($result)) {
     echo "\n\n";
     echo $result->getMessage();
     exit(1);
@@ -182,7 +182,7 @@ if ($result == true) {
 
 
 // Create or update the parameters file
-echo "Checking parameters.php:  ";
+echo "Checking parameters.json:  ";
 $result = $filemanger->createParameters($parameters);
 if ($result === true) {
     echo "File Created/Updated\n\n";
@@ -191,7 +191,7 @@ if ($result === true) {
 }
 
 // Create or update the preferences file
-echo "checking preferences.php: ";
+echo "checking preferences.json: ";
 $result = $filemanger->createPreferences($sitePreferences);
 if ($result === true) {
     echo "File Created/Updated\n\n";
@@ -206,7 +206,7 @@ if ($unittestdb == true) {
 
     // Create the config file to be used for testing
     $result = $filemanger->createTestConf($installConfig);
-    if (webtemplate\general\General::isError($result)) {
+    if (\g7mzr\webtemplate\general\General::isError($result)) {
         echo "\n\n";
         echo $result->getMessage();
         exit(1);

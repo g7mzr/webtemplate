@@ -21,7 +21,7 @@ require_once "../includes/global.php";
 
 // Create a WEBTEMPLATE CLASS
 try {
-    $app = new \webtemplate\application\Application();
+    $app = new \g7mzr\webtemplate\application\Application();
 } catch (\Throwable $e) {
     error_log(basename(__FILE__) . ": " . $e->getMessage());
     header('Location: syserror.html');
@@ -40,7 +40,7 @@ $mainmenu = $app->config()->readMenu('mainmenu');
 $app->tpl()->assign('MAINMENU', $mainmenu);
 
 /* Send the HTTP Headers required by the application */
-$headerResult = \webtemplate\application\Header::sendHeaders();
+$headerResult = \g7mzr\webtemplate\application\Header::sendHeaders();
 if ($headerResult == false) {
     // Log error is headers not sent
     $app->log()->error(basename(__FILE__) . ":  Failed to send HTTP Headers");
@@ -49,7 +49,7 @@ if ($headerResult == false) {
 // Check if the user is logged in.
 if ($app->session()->getUserName() == '') {
     //The user is not logged in. Display a login screen
-    $headerResult = \webtemplate\application\Header::sendRedirect('index.php');
+    $headerResult = \g7mzr\webtemplate\application\Header::sendRedirect('index.php');
     if ($headerResult == false) {
         // Log error is headers not sent
         $app->log()->error(basename(__FILE__) . ":  Failed to send Redirect HTTP Header");
@@ -88,7 +88,7 @@ $app->tpl()->assign("REFERER", '');
 $app->tpl()->assign("GROUPRESULT", "");
 
 // Check if the docbase parameter is set and the document files are available
-$docsAvailable = \webtemplate\general\General::checkdocs(
+$docsAvailable = \g7mzr\webtemplate\general\General::checkdocs(
     $app->config()->read('param.docbase'),
     $language
 );
@@ -141,7 +141,7 @@ if ($tempAction != '') {
     }
 
     if ($action == "list") {
-        \webtemplate\users\EditUserFunctions::listUsers(
+        \g7mzr\webtemplate\users\EditUserFunctions::listUsers(
             $app->tpl(),
             $template,
             $app->edituser(),
@@ -149,7 +149,7 @@ if ($tempAction != '') {
             $_GET
         );
     } elseif ($action == "new") {
-        \webtemplate\users\EditUserFunctions::newUser($app->tpl(), $template);
+        \g7mzr\webtemplate\users\EditUserFunctions::newUser($app->tpl(), $template);
     } elseif ($action == "edit") {
         // Set the link to return to the search page
         if (isset($_SERVER["HTTP_REFERER"])) {
@@ -159,7 +159,7 @@ if ($tempAction != '') {
         }
         // Set the page referer
         $app->tpl()->assign("REFERER", $referer);
-        \webtemplate\users\EditUserFunctions::editUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::editUser(
             $app->tpl(),
             $template,
             $app->edituser(),
@@ -178,7 +178,7 @@ if ($tempAction != '') {
             $app->tpl()->display($template);
             exit();
         }
-        \webtemplate\users\EditUserFunctions::saveUser(
+        \g7mzr\webtemplate\users\EditUserFunctions::saveUser(
             $app->tpl(),
             $template,
             $app->edituser(),

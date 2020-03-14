@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -29,14 +29,14 @@ class ParametersAuthTest extends TestCase
     /**
      * Parameters Class Object
      *
-     * @var \webtemplate\admin\Parameters
+     * @var\g7mzr\webtemplate\admin\Parameters
      */
     protected $object;
 
     /**
      * Configuration Object
      *
-     * @var \webtemplate\config\Configure
+     * @var\g7mzr\webtemplate\config\Configure
      */
     protected $confobj;
 
@@ -51,11 +51,11 @@ class ParametersAuthTest extends TestCase
 
         // Create configuration Object
         $configDir = __DIR__ . "/../../configs";
-        $this->confobj = new \webtemplate\config\Configure($configDir);
+        $this->confobj = new\g7mzr\webtemplate\config\Configure($configDir);
         $this->defaultParameters();
 
         // Create the Parameters Class
-        $this->object = new \webtemplate\admin\Parameters($this->confobj);
+        $this->object = new\g7mzr\webtemplate\admin\Parameters($this->confobj);
         $this->object->setSection('auth');
     }
 

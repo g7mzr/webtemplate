@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
@@ -37,7 +37,7 @@ class RestGroupsTest extends TestCase
      * property: webtemplate
      * Webtemplate application class
      *
-     * @var \webtemplate\application\Application
+     * @var\g7mzr\webtemplate\application\Application
      */
     protected $webtemplate;
 
@@ -45,7 +45,7 @@ class RestGroupsTest extends TestCase
      * property: version
      * Webtemplate application class
      *
-     * @var \webtemplate\rest\endpoint\Version
+     * @var\g7mzr\webtemplate\rest\endpoint\Version
      */
     protected $groups;
 
@@ -68,8 +68,8 @@ class RestGroupsTest extends TestCase
         global $sessiontest;
 
         $sessiontest = array(true);
-        $this->webtemplate = new \webtemplate\application\Application();
-        $this->groups = new \webtemplate\rest\endpoints\Groups($this->webtemplate);
+        $this->webtemplate = new\g7mzr\webtemplate\application\Application();
+        $this->groups = new\g7mzr\webtemplate\rest\endpoints\Groups($this->webtemplate);
     }
 
     /**
@@ -83,7 +83,7 @@ class RestGroupsTest extends TestCase
         $this->webtemplate->session()->destroy();
         if ($this->groupid <> 0) {
             $result = $this->webtemplate->editgroups()->deleteGroup($this->groupid);
-            if (\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\webtemplate\general\General::isError($result)) {
                 echo "Unable to delete test group\n";
             }
         }
@@ -133,7 +133,7 @@ class RestGroupsTest extends TestCase
             'secnone',
             $this->webtemplate->config()->read('pref')
         );
-        if (\webtemplate\general\General::isError($registered)) {
+        if (\g7mzr\webtemplate\general\General::isError($registered)) {
             $this->fail('Failed to register user for ' . __METHOD__);
         }
 
@@ -179,7 +179,7 @@ class RestGroupsTest extends TestCase
             'secgroups',
             $this->webtemplate->config()->read('pref')
         );
-        if (\webtemplate\general\General::isError($registered)) {
+        if (\g7mzr\webtemplate\general\General::isError($registered)) {
             $this->fail('Failed to register user for ' . __METHOD__);
         }
 

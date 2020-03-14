@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\rest\endpoints;
+namespace g7mzr\webtemplate\rest\endpoints;
 
 /**
  * Webtemplate RestFul API Traits
@@ -23,7 +23,7 @@ trait TraitEndPointCommon
     /**
      * Property: webtemplate
      *
-     * @var    \webtemplate\application\Application
+     * @var   \g7mzr\webtemplate\application\Application
      * @access protected
      */
     protected $webtemplate = null;

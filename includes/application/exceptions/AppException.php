@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\application\exceptions;
+namespace g7mzr\webtemplate\application\exceptions;
 
 /**
 * Webtemplate Exception Class

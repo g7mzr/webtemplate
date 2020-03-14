@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\groups;
+namespace g7mzr\webtemplate\groups;
 
 /**
  * Webtemplate Group Traits
@@ -68,7 +68,7 @@ trait TraitGroupFunctions
             return $resultarray; //$this->db->getGroupList();
         } else {
             $gotdata = false;
-            return new \webtemplate\application\Error($uaodb->getMessage(), $uaodb->getCode());
+            return new\g7mzr\webtemplate\application\Error($uaodb->getMessage(), $uaodb->getCode());
         }
     }
 }

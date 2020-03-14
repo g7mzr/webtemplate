@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\users;
+namespace g7mzr\webtemplate\users;
 
 /**
  * Global Edit User Functions
@@ -29,18 +29,18 @@ class EditUserFunctions
      * the user and outputs the result in a table containing username, realname
      * and e-mail address.  If no user is found an error page is displayed.
      *
-     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Template class.
-     * @param string                                  $template Template name.
-     * @param EditUser                                $editUser Edituser class.
-     * @param string                                  $regexp   Regular expression for valid user names.
-     * @param array                                   $data     The sanitised $_GET super array.
+     * @param \g7mzr\webtemplate\application\SmartyTemplate $tpl      Smarty Template class.
+     * @param string                                        $template Template name.
+     * @param EditUser                                      $editUser Edituser class.
+     * @param string                                        $regexp   Regular expression for valid user names.
+     * @param array                                         $data     The sanitised $_GET super array.
      *
      * @return boolean
      *
      * @access public
      */
     public static function listUsers(
-        \webtemplate\application\SmartyTemplate $tpl,
+        \g7mzr\webtemplate\application\SmartyTemplate $tpl,
         string &$template,
         EditUser $editUser,
         string $regexp,
@@ -62,7 +62,7 @@ class EditUserFunctions
             $searchData = '';
             if (isset($data['searchstr'])) {
                 if ($searchType == "username") {
-                    if (\webtemplate\general\LocalValidate::username(
+                    if (\g7mzr\webtemplate\general\LocalValidate::username(
                         $data['searchstr'],
                         $regexp
                     )
@@ -70,14 +70,14 @@ class EditUserFunctions
                         $searchData = $data['searchstr'];
                     }
                 } elseif ($searchType == "realname") {
-                    if (\webtemplate\general\LocalValidate::realname(
+                    if (\g7mzr\webtemplate\general\LocalValidate::realname(
                         $data['searchstr']
                     )
                     ) {
                         $searchData = $data['searchstr'];
                     }
                 } elseif ($searchType == "email") {
-                    if (\webtemplate\general\LocalValidate::email(
+                    if (\g7mzr\webtemplate\general\LocalValidate::email(
                         $data['searchstr']
                     )
                     ) {
@@ -93,7 +93,7 @@ class EditUserFunctions
             $resultArray = $editUser->search($searchType, $searchData);
 
             // Check if the search encounter errors
-            if (!\webtemplate\general\General::isError($resultArray)) {
+            if (!\g7mzr\webtemplate\general\General::isError($resultArray)) {
                 // Populate the template with the results data.
                 $usersFound = count($resultArray);
                 $template = "users/list.tpl";
@@ -122,15 +122,15 @@ class EditUserFunctions
      *
      * This method displays and empty form to be completed for a new user.
      *
-     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Template class.
-     * @param string                                  $template Template name.
+     * @param \g7mzr\webtemplate\application\SmartyTemplate $tpl      Smarty Template class.
+     * @param string                                        $template Template name.
      *
      * @return boolean
      *
      * @access public
      */
     public static function newUser(
-        \webtemplate\application\SmartyTemplate $tpl,
+        \g7mzr\webtemplate\application\SmartyTemplate $tpl,
         string &$template
     ) {
         // Initialise global variables for this method.
@@ -162,21 +162,21 @@ class EditUserFunctions
      * This method displays the selected user for editing
      * If no user is found an error page is displayed.
      *
-     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Template class.
-     * @param string                                  $template Template name.
-     * @param EditUser                                $editUser Edituser class.
-     * @param \webtemplate\groups\EditUsersGroups     $groups   Edit Users Group Class.
-     * @param array                                   $data     The sanitised $_GET super array.
+     * @param \g7mzr\webtemplate\application\SmartyTemplate $tpl      Smarty Template class.
+     * @param string                                        $template Template name.
+     * @param EditUser                                      $editUser Edituser class.
+     * @param \g7mzr\webtemplate\groups\EditUsersGroups     $groups   Edit Users Group Class.
+     * @param array                                         $data     The sanitised $_GET super array.
      *
      * @return void
      *
      * @access public
      */
     public static function editUser(
-        \webtemplate\application\SmartyTemplate $tpl,
+        \g7mzr\webtemplate\application\SmartyTemplate $tpl,
         string &$template,
         EditUser $editUser,
-        \webtemplate\groups\EditUsersGroups $groups,
+        \g7mzr\webtemplate\groups\EditUsersGroups $groups,
         array &$data
     ) {
         // Initialise global variables for this method.
@@ -185,7 +185,7 @@ class EditUserFunctions
         // The UserID does not have to exist at this point
         $validUserID = false;
         if (isset($data['userid'])) {
-            if (\webtemplate\general\LocalValidate::dbid($data['userid'])) {
+            if (\g7mzr\webtemplate\general\LocalValidate::dbid($data['userid'])) {
                 $userId = $data['userid'];
                 $validUserID = true;
             }
@@ -194,17 +194,17 @@ class EditUserFunctions
         if ($validUserID == true) { //User id is valid
             // Get the users information from the database
             $resultArray = $editUser->getuser($userId);
-            if (!\webtemplate\general\General::isError($resultArray)) {
+            if (!\g7mzr\webtemplate\general\General::isError($resultArray)) {
                 // Got the user's information
                 $template = "users/edit.tpl";
 
 
                 // Get the list of groups
                 $groupArray = $groups->getGroupList();
-                if (!\webtemplate\general\General::isError($groupArray)) {
+                if (!\g7mzr\webtemplate\general\General::isError($groupArray)) {
                     // Select groups user is a member off.
                     $addUsersGroups = $groups->getUsersGroups($userId, $groupArray);
-                    if (\webtemplate\general\General::isError($addUsersGroups)) {
+                    if (\g7mzr\webtemplate\general\General::isError($addUsersGroups)) {
                         // An database error was encountered
                         $tpl->assign("MSG", $addUsersGroups->getMessage());
                     }
@@ -248,22 +248,22 @@ class EditUserFunctions
      *
      * This method saves the edited user information in the database.
      *
-     * @param \webtemplate\application\SmartyTemplate $tpl        Template class.
-     * @param string                                  $template   Template name.
-     * @param EditUser                                $editUser   Edituser class.
-     * @param \webtemplate\groups\EditUsersGroups     $groups     Edit Users Group Class.
-     * @param array                                   $userparams Configuration vars.
-     * @param array                                   $data       Sanitised $_POST.
+     * @param \g7mzr\webtemplate\application\SmartyTemplate $tpl        Template class.
+     * @param string                                        $template   Template name.
+     * @param EditUser                                      $editUser   Edituser class.
+     * @param \g7mzr\webtemplate\groups\EditUsersGroups     $groups     Edit Users Group Class.
+     * @param array                                         $userparams Configuration vars.
+     * @param array                                         $data       Sanitised $_POST.
      *
      * @return boolean
      *
      * @access public
      */
     public static function saveUser(
-        \webtemplate\application\SmartyTemplate $tpl,
+        \g7mzr\webtemplate\application\SmartyTemplate $tpl,
         string &$template,
         EditUser $editUser,
-        \webtemplate\groups\EditUsersGroups $groups,
+        \g7mzr\webtemplate\groups\EditUsersGroups $groups,
         array $userparams,
         array &$data
     ) {
@@ -284,7 +284,7 @@ class EditUserFunctions
         // Check if a new user exist in the database
         if (($userDataOk == true) and ($resultArray[0]['userid'] == '0')) {
             $checkname = $editUser->checkUserExists($resultArray[0]['username']);
-            if (\webtemplate\general\General::isError($checkname)) {
+            if (\g7mzr\webtemplate\general\General::isError($checkname)) {
                 $template = "global/error.tpl";
                 $msg = gettext("An error occured checking if the user exists.");
                 $msg .= " " . gettext("Please try again.");
@@ -308,7 +308,7 @@ class EditUserFunctions
 
         // Load the grouparray with data
         $groupArray = $groups->getGroupList();
-        if (\webtemplate\general\General::isError($groupArray)) {
+        if (\g7mzr\webtemplate\general\General::isError($groupArray)) {
             $template = "global/error.tpl";
             $msg = \gettext("An error occured when retrieving the groups.");
             $msg .= " " . \gettext("Please try again.");
@@ -341,7 +341,7 @@ class EditUserFunctions
                 $resultArray[0]['userid'],
                 $groupArray
             );
-            if (\webtemplate\general\General::isError($groupchangedresult)) {
+            if (\g7mzr\webtemplate\general\General::isError($groupchangedresult)) {
                 $groupdatatosave = false;
             } else {
                 $groupdatatosave = $groupchangedresult;
@@ -371,7 +371,7 @@ class EditUserFunctions
                 $resultArray[0]['userenabled'],
                 $resultArray[0]['passwdchange']
             );
-            if (\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\webtemplate\general\General::isError($result)) {
                 $template = "global/error.tpl";
                 $msg = \gettext("An error occured when saving the user's details.");
                 $msg .= " " . \gettext("Please try again.");
@@ -380,7 +380,7 @@ class EditUserFunctions
                 return false;
             }
             $resultArray = $editUser->getUser($resultArray[0]['userid']);
-            if (\webtemplate\general\General::isError($resultArray)) {
+            if (\g7mzr\webtemplate\general\General::isError($resultArray)) {
                 $template = "global/error.tpl";
                 $msg = \gettext("An error occured retrieving the user's details.");
                 $msg .= " " . \gettext("Please try again.");
@@ -397,7 +397,7 @@ class EditUserFunctions
                 $resultArray[0]['userid'],
                 $groupArray
             );
-            if (\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\webtemplate\general\General::isError($result)) {
                 $template = "global/error.tpl";
                 $msg = \gettext("An error occured when saving the user's groups.");
                 $msg .= " " . \gettext("Please try again.");
@@ -410,7 +410,7 @@ class EditUserFunctions
                 $resultArray[0]['userid'],
                 $groupArray
             );
-            if (\webtemplate\general\General::isError($addUsersGroups)) {
+            if (\g7mzr\webtemplate\general\General::isError($addUsersGroups)) {
                 $template = "global/error.tpl";
                 $msg = \gettext("An error occured retrieving the user's groups.");
                 $msg .= " " . \gettext("Please try again.");

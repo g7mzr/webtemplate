@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -36,7 +36,7 @@ class DependenciesTest extends TestCase
     /**
      * Dependencies Object
      *
-     * @var \webtemplate\install\Dependencies Object
+     * @var\g7mzr\webtemplate\install\Dependencies Object
      */
     protected $object;
 
@@ -71,7 +71,7 @@ class DependenciesTest extends TestCase
      */
     public function testCreateClass()
     {
-        $this->object = new \webtemplate\install\Dependencies();
+        $this->object = new\g7mzr\webtemplate\install\Dependencies();
         $this->expectOutputRegex("/Checking configuration:/");
         $this->object = null;
     }
@@ -88,7 +88,7 @@ class DependenciesTest extends TestCase
      */
     public function testPHPVersionPass()
     {
-        $this->object = new \webtemplate\install\Dependencies();
+        $this->object = new\g7mzr\webtemplate\install\Dependencies();
 
         //  PHP Version Pass
         $this->object->checkPHP("5.6.1");
@@ -108,7 +108,7 @@ class DependenciesTest extends TestCase
      */
     public function testPHPVersionFail()
     {
-        $this->object = new \webtemplate\install\Dependencies();
+        $this->object = new\g7mzr\webtemplate\install\Dependencies();
 
         //  PHP Version Fail
         $this->object->checkPHP("10.6.1");
@@ -128,11 +128,11 @@ class DependenciesTest extends TestCase
      */
     public function testPHPModulesPass()
     {
-        $this->object = new \webtemplate\install\Dependencies();
+        $this->object = new\g7mzr\webtemplate\install\Dependencies();
 
         //  PHP Modules Pass
         $result = $this->object->checkPHPModules(
-            \webtemplate\install\DependenciesData::$phpModules
+            \g7mzr\webtemplate\install\DependenciesData::$phpModules
         );
         $this->expectOutputRegex("/Checking for POSIX                 Ok: Found/");
         $this->expectOutputRegex("/Checking for SESSION               Ok: Found/");
@@ -155,7 +155,7 @@ class DependenciesTest extends TestCase
      */
     public function testPHPModulesFail()
     {
-        $this->object = new \webtemplate\install\Dependencies();
+        $this->object = new\g7mzr\webtemplate\install\Dependencies();
 
         //  PHP Modules Fail
         $testdata = array(
@@ -187,7 +187,7 @@ class DependenciesTest extends TestCase
      */
     public function testOtherModulesPass()
     {
-        $this->object = new \webtemplate\install\Dependencies();
+        $this->object = new\g7mzr\webtemplate\install\Dependencies();
 
 
         $testData = array(
@@ -222,7 +222,7 @@ class DependenciesTest extends TestCase
      */
     public function testOtherModulesPassAny()
     {
-        $this->object = new \webtemplate\install\Dependencies();
+        $this->object = new\g7mzr\webtemplate\install\Dependencies();
 
 
         $testData = array(
@@ -256,7 +256,7 @@ class DependenciesTest extends TestCase
      */
     public function testOtherModulesNotFound()
     {
-        $this->object = new \webtemplate\install\Dependencies();
+        $this->object = new\g7mzr\webtemplate\install\Dependencies();
 
 
         $testData = array(
@@ -290,7 +290,7 @@ class DependenciesTest extends TestCase
      */
     public function testOtherModulesWrongVersion()
     {
-        $this->object = new \webtemplate\install\Dependencies();
+        $this->object = new\g7mzr\webtemplate\install\Dependencies();
 
 
         $testData = array(
@@ -328,12 +328,12 @@ class DependenciesTest extends TestCase
         global $installConfig;
 
 
-        $this->object = new \webtemplate\install\Dependencies();
+        $this->object = new\g7mzr\webtemplate\install\Dependencies();
 
         $database = "test";
         $result = $this->object->checkDatabases(
             $database,
-            \webtemplate\install\DependenciesData::$databases,
+            \g7mzr\webtemplate\install\DependenciesData::$databases,
             $installConfig
         );
         $this->expectOutputRegex("/test Databases are not supported/");
@@ -356,7 +356,7 @@ class DependenciesTest extends TestCase
         global $installConfig;
 
         // Set up dependancy class
-        $this->object = new \webtemplate\install\Dependencies();
+        $this->object = new\g7mzr\webtemplate\install\Dependencies();
 
         // Set up database array to pass initial check but fail pdo test
         $databasearray = array(
@@ -400,7 +400,7 @@ class DependenciesTest extends TestCase
         global $installConfig;
 
         // Set up dependancy class
-        $this->object = new \webtemplate\install\Dependencies();
+        $this->object = new\g7mzr\webtemplate\install\Dependencies();
 
         // Set up database array to pass initial check but fail pdo test
         $databasearray = array(
@@ -443,7 +443,7 @@ class DependenciesTest extends TestCase
         global $installConfig;
 
         // Set up dependancy class
-        $this->object = new \webtemplate\install\Dependencies();
+        $this->object = new\g7mzr\webtemplate\install\Dependencies();
 
         // Set up database array to pass initial check but fail pdo test
         $databasearray = array(
@@ -496,7 +496,7 @@ class DependenciesTest extends TestCase
         global $installConfig;
 
         // Set up dependancy class
-        $this->object = new \webtemplate\install\Dependencies();
+        $this->object = new\g7mzr\webtemplate\install\Dependencies();
 
         // Set up database array to pass initial check but fail pdo test
         $databasearray = array(

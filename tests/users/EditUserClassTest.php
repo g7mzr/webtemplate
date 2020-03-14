@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -35,7 +35,7 @@ class EditUserClassTest extends TestCase
     /**
      * Edit User Class
      *
-     * @var \webtemplate\users\EditUser
+     * @var\g7mzr\webtemplate\users\EditUser
      */
     protected $object;
 
@@ -49,14 +49,14 @@ class EditUserClassTest extends TestCase
      /**
      * Edit User Class Object for MOCK database Class
      *
-     * @var \webtemplate\users\EditUser
+     * @var\g7mzr\webtemplate\users\EditUser
      */
     protected $object3;
 
     /**
      * User Class
      *
-     * @var \webtemplate\users\User
+     * @var\g7mzr\webtemplate\users\User
      */
     protected $userclass;
 
@@ -117,13 +117,13 @@ class EditUserClassTest extends TestCase
         }
 
         // Create a new User Object
-        $this->object = new \webtemplate\users\EditUser($this->object2->getDataDriver());
+        $this->object = new\g7mzr\webtemplate\users\EditUser($this->object2->getDataDriver());
 
         // Set newuserflag
         $this->newuserflag = false;
 
         //User Class
-        $this->user_class = new \webtemplate\users\User($this->object2->getDataDriver());
+        $this->user_class = new\g7mzr\webtemplate\users\User($this->object2->getDataDriver());
 
         // Set up MOCK Connection
         $tempDBDriver = $testdsn['dbtype'];
@@ -134,14 +134,14 @@ class EditUserClassTest extends TestCase
             $testdsn['password']
         );
         $setresult = $this->mockdatabaseconnection->setMode("datadriver");
-        $this->object3 = new \webtemplate\users\EditUser(
+        $this->object3 = new\g7mzr\webtemplate\users\EditUser(
             $this->mockdatabaseconnection->getDataDriver()
         );
         $testdsn['dbtype'] = $tempDBDriver;
 
         // Set up the configuration object
         $configDir = __DIR__ . "/../../configs";
-        $this->config = new \webtemplate\config\Configure($configDir);
+        $this->config = new\g7mzr\webtemplate\config\Configure($configDir);
     }
 
     /**
@@ -200,7 +200,7 @@ class EditUserClassTest extends TestCase
         if ($this->databaseconnection == true) {
             //Test Username Search
             $resultarray = $this->object->search('username', 'phpunit');
-            if (\webtemplate\general\General::isError($resultarray)) {
+            if (\g7mzr\webtemplate\general\General::isError($resultarray)) {
                 $this->fail(
                     "Edit User search username : " . $resultarray->getMessage()
                 );
@@ -210,7 +210,7 @@ class EditUserClassTest extends TestCase
 
             //Test Realname Search
              $resultarray = $this->object->search('realname', 'Phpunit');
-            if (\webtemplate\general\General::isError($resultarray)) {
+            if (\g7mzr\webtemplate\general\General::isError($resultarray)) {
                 $this->fail(
                     "Edit User search realname : " . $resultarray->getMessage()
                 );
@@ -220,7 +220,7 @@ class EditUserClassTest extends TestCase
 
             //Test email Search
             $resultarray = $this->object->search('email', 'example');
-            if (\webtemplate\general\General::isError($resultarray)) {
+            if (\g7mzr\webtemplate\general\General::isError($resultarray)) {
                 $this->fail(
                     "Edit User Search e-mail : " . $resultarray->getMessage()
                 );
@@ -235,7 +235,7 @@ class EditUserClassTest extends TestCase
                 $this->config->read('pref')
             );
             $resultarray = $this->object->search('username', 'phpunit');
-            if (\webtemplate\general\General::isError($resultarray)) {
+            if (\g7mzr\webtemplate\general\General::isError($resultarray)) {
                 $this->fail("Last Seen Date : " . $resultarray->getMessage());
             } else {
                 $this->assertEquals($date, $resultarray[0]['lastseendate']);
@@ -243,7 +243,7 @@ class EditUserClassTest extends TestCase
 
             //Test invalid search column - Default to username
             $resultarray = $this->object->search('nocolumn', 'phpunit');
-            if (\webtemplate\general\General::isError($resultarray)) {
+            if (\g7mzr\webtemplate\general\General::isError($resultarray)) {
                 $this->fail(
                     "Edit User search username : " . $resultarray->getMessage()
                 );
@@ -253,7 +253,7 @@ class EditUserClassTest extends TestCase
 
             //Test Username Search - No user Found
             $resultarray = $this->object->search('username', 'nouser');
-            if (\webtemplate\general\General::isError($resultarray)) {
+            if (\g7mzr\webtemplate\general\General::isError($resultarray)) {
                 $this->assertEquals('Not Found', $resultarray->getMessage());
             } else {
                 $this->fail("Edit User search username : No User Found test failed");
@@ -276,7 +276,7 @@ class EditUserClassTest extends TestCase
         if ($this->databaseconnection == true) {
             //Test GET USER
             $resultarray = $this->object->search('username', 'phpunit');
-            if (\webtemplate\general\General::isError($resultarray)) {
+            if (\g7mzr\webtemplate\general\General::isError($resultarray)) {
                 $msg = "Get User - Search Failed to find phpunit user : ";
                 $msg .= $resultarray->getMessage();
                 $this->fail($msg);
@@ -290,7 +290,7 @@ class EditUserClassTest extends TestCase
 
                 // Get the users details
                 $user = $this->object->getuser($resultarray[0]['userid']);
-                if (\webtemplate\general\General::isError($user)) {
+                if (\g7mzr\webtemplate\general\General::isError($user)) {
                     $msg = "Get User - Search Failed to find phpunit user : ";
                     $msg .= $user->getMessage();
                     $this->fail($msg);
@@ -305,7 +305,7 @@ class EditUserClassTest extends TestCase
 
             // Tst for invalid User ID
             $user = $this->object->getuser(900);
-            if (\webtemplate\general\General::isError($user)) {
+            if (\g7mzr\webtemplate\general\General::isError($user)) {
                 $this->assertEquals('Not Found', $user->getMessage());
             } else {
                 $this->fail("Get User : No User Found test failed");
@@ -339,7 +339,7 @@ class EditUserClassTest extends TestCase
                 'Y',
                 'N'
             );
-            if (\webtemplate\general\General::isERROR($usersaved)) {
+            if (\g7mzr\webtemplate\general\General::isERROR($usersaved)) {
                 $this->fail("Save User : " . $usersaved->getMessage());
             } else {
                 $this->assertTrue($usersaved);
@@ -358,7 +358,7 @@ class EditUserClassTest extends TestCase
                     'Y',
                     'N'
                 );
-                if (\webtemplate\general\General::isERROR($usersaved)) {
+                if (\g7mzr\webtemplate\general\General::isERROR($usersaved)) {
                     $msg = "Update User (Password) : " . $usersaved->getMessage();
                     $this->fail($msg);
                 } else {
@@ -376,7 +376,7 @@ class EditUserClassTest extends TestCase
                     'Y',
                     'N'
                 );
-                if (\webtemplate\general\General::isERROR($usersaved)) {
+                if (\g7mzr\webtemplate\general\General::isERROR($usersaved)) {
                     $msg = "Update User (No Password) : " . $usersaved->getMessage();
                     $this->fail($msg);
                 } else {
@@ -396,7 +396,7 @@ class EditUserClassTest extends TestCase
                     'Y',
                     'N'
                 );
-                if (!\webtemplate\general\General::isERROR($usersaved)) {
+                if (!\g7mzr\webtemplate\general\General::isERROR($usersaved)) {
                     $msg = "Update User (Password) : Saved testing password fail" ;
                     $this->fail($msg);
                 } else {
@@ -435,7 +435,7 @@ class EditUserClassTest extends TestCase
                 'Y',
                 'Y'
             );
-            if (\webtemplate\general\General::isERROR($usersaved)) {
+            if (\g7mzr\webtemplate\general\General::isERROR($usersaved)) {
                 $this->assertEquals(
                     "Errors Saving user phpunit2",
                     $usersaved->getMessage()
@@ -480,7 +480,7 @@ class EditUserClassTest extends TestCase
                 'Y',
                 'Y'
             );
-            if (\webtemplate\general\General::isERROR($usersaved)) {
+            if (\g7mzr\webtemplate\general\General::isERROR($usersaved)) {
                 $this->assertEquals(
                     "Error getting id for user phpunit2",
                     $usersaved->getMessage()
@@ -503,7 +503,7 @@ class EditUserClassTest extends TestCase
                 'Y',
                 'Y'
             );
-            if (\webtemplate\general\General::isERROR($usersaved)) {
+            if (\g7mzr\webtemplate\general\General::isERROR($usersaved)) {
                 $this->assertEquals(
                     "Error updating user: phpunit2",
                     $usersaved->getMessage()
@@ -529,7 +529,7 @@ class EditUserClassTest extends TestCase
         if ($this->databaseconnection == true) {
             //Test Datachanged
             $resultarray = $this->object->search('username', 'phpunit');
-            if (\webtemplate\general\General::isError($resultarray)) {
+            if (\g7mzr\webtemplate\general\General::isError($resultarray)) {
                 $msg = "Datachanged - Search Failed to find phpunit user : ";
                 $msg .= $resultarray->getMessage();
                 $this->fail($msg);
@@ -654,7 +654,7 @@ class EditUserClassTest extends TestCase
         if ($this->databaseconnection == true) {
               //Test user exists
               $userexists = $this->object->checkUserExists('phpunit');
-            if (\webtemplate\general\General::isError($userexists)) {
+            if (\g7mzr\webtemplate\general\General::isError($userexists)) {
                 $this->fail("Check User Exists  : " . $userexists->getMessage());
             } else {
                 $this->assertTrue($userexists);
@@ -662,7 +662,7 @@ class EditUserClassTest extends TestCase
 
             //Test user does not exists
             $userexists = $this->object->checkUserExists('nouser');
-            if (\webtemplate\general\General::isError($userexists)) {
+            if (\g7mzr\webtemplate\general\General::isError($userexists)) {
                 $this->fail("Check User Exists  : " . $userexists->getMessage());
             } else {
                 $this->assertFalse($userexists);
@@ -686,7 +686,7 @@ class EditUserClassTest extends TestCase
         if ($this->databaseconnection == true) {
               //Test user exists
               $userexists = $this->object3->checkUserExists('phpunit');
-            if (!\webtemplate\general\General::isError($userexists)) {
+            if (!\g7mzr\webtemplate\general\General::isError($userexists)) {
                 $this->fail("Check User Exists using Mock database failed");
             } else {
                 $this->assertEquals("SQL Query Error", $userexists->getMessage());
@@ -709,7 +709,7 @@ class EditUserClassTest extends TestCase
         if ($this->databaseconnection == true) {
             //Test user enabled
             $userenabled = $this->object->checkUserEnabled('phpunit');
-            if (\webtemplate\general\General::isError($userenabled)) {
+            if (\g7mzr\webtemplate\general\General::isError($userenabled)) {
                 $this->fail("Check User Enabled  : " . $userenabled->getMessage());
             } else {
                 $this->assertTrue($userenabled);
@@ -734,7 +734,7 @@ class EditUserClassTest extends TestCase
         if ($this->databaseconnection == true) {
             //Test user enabled
             $userenabled = $this->object3->checkUserEnabled('phpunit');
-            if (!\webtemplate\general\General::isError($userenabled)) {
+            if (!\g7mzr\webtemplate\general\General::isError($userenabled)) {
                  $this->fail("Check User enabled using Mock database failed");
             } else {
                 $this->assertEquals("SQL Query Error", $userenabled->getMessage());
@@ -757,7 +757,7 @@ class EditUserClassTest extends TestCase
         if ($this->databaseconnection == true) {
             //Test user exists
             $emailexists = $this->object->checkEmailExists("phpunit@example.com");
-            if (\webtemplate\general\General::isError($emailexists)) {
+            if (\g7mzr\webtemplate\general\General::isError($emailexists)) {
                 $this->fail("Check Email Exists  : " . $emailexists->getMessage());
             } else {
                 $this->assertTrue($emailexists);
@@ -765,7 +765,7 @@ class EditUserClassTest extends TestCase
 
             //Test user does not exists
             $emailexists = $this->object->checkEmailExists('nouser@example.com');
-            if (\webtemplate\general\General::isError($emailexists)) {
+            if (\g7mzr\webtemplate\general\General::isError($emailexists)) {
                 $this->fail("Check Email Exists  : " . $emailexists->getMessage());
             } else {
                 $this->assertFalse($emailexists);
@@ -789,7 +789,7 @@ class EditUserClassTest extends TestCase
         if ($this->databaseconnection == true) {
             //Test user enabled
             $emailexists = $this->object3->checkEmailExists('phpunit@example.com');
-            if (!\webtemplate\general\General::isError($emailexists)) {
+            if (!\g7mzr\webtemplate\general\General::isError($emailexists)) {
                  $this->fail("Check email exists using Mock database failed");
             } else {
                 $this->assertEquals("SQL Query Error", $emailexists->getMessage());
@@ -813,7 +813,7 @@ class EditUserClassTest extends TestCase
         if ($this->databaseconnection == true) {
             //Test Update USER no Password
             $resultarray = $this->object->search('username', 'phpunit');
-            if (\webtemplate\general\General::isError($resultarray)) {
+            if (\g7mzr\webtemplate\general\General::isError($resultarray)) {
                 $msg = "Update User Details - Search Failed to find phpunit user : ";
                 $msg .= $resultarray->getMessage();
                 $this->fail($msg);
@@ -824,7 +824,7 @@ class EditUserClassTest extends TestCase
                     'phpunit@example.com',
                     $resultarray[0]['userid']
                 );
-                if (\webtemplate\general\General::isError($updateuser)) {
+                if (\g7mzr\webtemplate\general\General::isError($updateuser)) {
                     $msg = "Update User - Failed to update phpunit user : ";
                     $msg .= $updateuser->getMessage();
                     $this->fail($msg);
@@ -835,7 +835,7 @@ class EditUserClassTest extends TestCase
 
             //Test Update USER with Password
             $resultarray = $this->object->search('username', 'phpunit');
-            if (\webtemplate\general\General::isError($resultarray)) {
+            if (\g7mzr\webtemplate\general\General::isError($resultarray)) {
                 $msg = "Update User Details - Search Failed to find phpunit user : ";
                 $msg .= $resultarray->getMessage();
                 $this->fail($msg);
@@ -846,7 +846,7 @@ class EditUserClassTest extends TestCase
                     'phpunit@example.com',
                     $resultarray[0]['userid']
                 );
-                if (\webtemplate\general\General::isError($updateuser)) {
+                if (\g7mzr\webtemplate\general\General::isError($updateuser)) {
                     $msg = "Update User - Failed to update phpunit user : ";
                     $msg .= $updateuser->getMessage();
                     $this->fail($msg);
@@ -857,7 +857,7 @@ class EditUserClassTest extends TestCase
 
             //Test Update USER no Password
             $resultarray = $this->object->search('username', 'phpunit');
-            if (\webtemplate\general\General::isError($resultarray)) {
+            if (\g7mzr\webtemplate\general\General::isError($resultarray)) {
                 $msg = "Update User Details - Search Failed to find phpunit user : ";
                 $msg .= $resultarray->getMessage();
                 $this->fail($msg);
@@ -868,7 +868,7 @@ class EditUserClassTest extends TestCase
                     'phpunit@example.com',
                     $resultarray[0]['userid']
                 );
-                if (\webtemplate\general\General::isError($updateuser)) {
+                if (\g7mzr\webtemplate\general\General::isError($updateuser)) {
                     $msg = "Update User - Failed to update phpunit user : ";
                     $msg .= $updateuser->getMessage();
                     $this->fail($msg);
@@ -884,7 +884,7 @@ class EditUserClassTest extends TestCase
                 'phpunit@example.com',
                 1000
             );
-            if (\webtemplate\general\General::isError($updateuser)) {
+            if (\g7mzr\webtemplate\general\General::isError($updateuser)) {
                 $this->assertEquals("Record not found", $updateuser->getMessage());
             } else {
                 $this->fail("Updated userdetails on invalid user. ");
@@ -911,7 +911,7 @@ class EditUserClassTest extends TestCase
             // Test that the password creation fails
             $GLOBALS['passwdfail'] = true;
             $resultarray = $this->object->search('username', 'phpunit');
-            if (\webtemplate\general\General::isError($resultarray)) {
+            if (\g7mzr\webtemplate\general\General::isError($resultarray)) {
                 $msg = "Update User Details - Search Failed to find phpunit user : ";
                 $msg .= $resultarray->getMessage();
                 $this->fail($msg);
@@ -922,7 +922,7 @@ class EditUserClassTest extends TestCase
                     'phpunit@example.com',
                     $resultarray[0]['userid']
                 );
-                if (!\webtemplate\general\General::isError($updateuser)) {
+                if (!\g7mzr\webtemplate\general\General::isError($updateuser)) {
                     $msg = "Update User: Saved testing Password fail";
                     $this->fail($msg);
                 } else {
@@ -949,13 +949,13 @@ class EditUserClassTest extends TestCase
         if ($this->databaseconnection == true) {
             //Update Password
             $passwordupdated = $this->object->updatePasswd('phpunit', 'phpUnit2');
-            if (\webtemplate\general\General::isError($passwordupdated)) {
+            if (\g7mzr\webtemplate\general\General::isError($passwordupdated)) {
                 $this->fail("Update Password : " . $passwordupdated->getMessage());
             } else {
                 $this->assertTrue($passwordupdated);
             }
             $passwordupdated = $this->object->updatePasswd('phpunit', 'phpUnit1');
-            if (\webtemplate\general\General::isError($passwordupdated)) {
+            if (\g7mzr\webtemplate\general\General::isError($passwordupdated)) {
                 $this->fail("Update Password : " . $passwordupdated->getMessage());
             } else {
                 $this->assertTrue($passwordupdated);
@@ -966,7 +966,7 @@ class EditUserClassTest extends TestCase
                 'phpunituser',
                 'phpUnit1'
             );
-            if (\webtemplate\general\General::isError($passwordupdated)) {
+            if (\g7mzr\webtemplate\general\General::isError($passwordupdated)) {
                 $this->assertEquals(
                     "Record not found",
                     $passwordupdated->getMessage()
@@ -978,7 +978,7 @@ class EditUserClassTest extends TestCase
             //  Fail to create a new password
             $GLOBALS['passwdfail'] = true;
             $passwordupdated = $this->object->updatePasswd('phpunit', 'phpUnit2');
-            if (!\webtemplate\general\General::isError($passwordupdated)) {
+            if (!\g7mzr\webtemplate\general\General::isError($passwordupdated)) {
                 $this->fail("Update Password :  Saved testing password fail");
             } else {
                 $this->assertStringContainsString(

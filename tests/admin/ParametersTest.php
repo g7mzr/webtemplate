@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -29,14 +29,14 @@ class ParametersTest extends TestCase
     /**
      * Parameters Class Object
      *
-     * @var \webtemplate\admin\Parameters
+     * @var\g7mzr\webtemplate\admin\Parameters
      */
     protected $object;
 
     /**
      * Configuration Object
      *
-     * @var \webtemplate\config\Configure
+     * @var\g7mzr\webtemplate\config\Configure
      */
     protected $confobj;
 
@@ -51,10 +51,10 @@ class ParametersTest extends TestCase
 
         // Create configuration Object
         $configDir = __DIR__ . "/../../configs";
-        $this->confobj = new \webtemplate\config\Configure($configDir);
+        $this->confobj = new \g7mzr\webtemplate\config\Configure($configDir);
 
         // Create the Parameters Class
-        $this->object = new \webtemplate\admin\Parameters($this->confobj);
+        $this->object = new \g7mzr\webtemplate\admin\Parameters($this->confobj);
     }
 
     /**
@@ -91,7 +91,7 @@ class ParametersTest extends TestCase
      */
     public function testSetSectionFail()
     {
-        $classname = "\\webtemplate\\application\\exceptions\\AppException";
+        $classname = "\\g7mzr\\webtemplate\\application\\exceptions\\AppException";
         try {
             $this->object->setSection('faulty');
             $this->fail(__Function__ . "No exeption thrown");
@@ -115,7 +115,7 @@ class ParametersTest extends TestCase
      */
     public function testGetLastMessageFail()
     {
-        $classname = "\\webtemplate\\application\\exceptions\\AppException";
+        $classname = "\\g7mzr\\webtemplate\\application\\exceptions\\AppException";
         try {
             $this->object->getLastMsg();
             $this->fail(__Function__ . "No exeption thrown");
@@ -156,7 +156,7 @@ class ParametersTest extends TestCase
      */
     public function testGetCurrentParametersFail()
     {
-        $classname = "\\webtemplate\\application\\exceptions\\AppException";
+        $classname = "\\g7mzr\\webtemplate\\application\\exceptions\\AppException";
         try {
             $this->object->getCurrentParameters();
             $this->fail(__Function__ . "No exeption thrown");
@@ -180,7 +180,7 @@ class ParametersTest extends TestCase
      */
     public function testsaveParamFileFail()
     {
-        $classname = "\\webtemplate\\application\\exceptions\\AppException";
+        $classname = "\\g7mzr\\webtemplate\\application\\exceptions\\AppException";
         try {
             $this->object->saveParamFile('dummy');
             $this->fail(__Function__ . "No exeption thrown");
@@ -204,7 +204,7 @@ class ParametersTest extends TestCase
      */
     public function testvalidateParametersFail()
     {
-        $classname = "\\webtemplate\\application\\exceptions\\AppException";
+        $classname = "\\g7mzr\\webtemplate\\application\\exceptions\\AppException";
         try {
             $data = array("test" => "one");
             $this->object->validateParameters($data);
@@ -229,7 +229,7 @@ class ParametersTest extends TestCase
      */
     public function testcheckParametersChangedFail()
     {
-        $classname = "\\webtemplate\\application\\exceptions\\AppException";
+        $classname = "\\g7mzr\\webtemplate\\application\\exceptions\\AppException";
         try {
             $data = array("test" => "one");
             $this->object->checkParametersChanged($data);

@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\phpunit;
+namespace g7mzr\webtemplate\phpunit;
 
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
@@ -32,7 +32,7 @@ class SessionTest extends TestCase
     /**
      * Session Class
      *
-     * @var \webtemplate\application\Session
+     * @var\g7mzr\webtemplate\application\Session
      */
     protected $object;
 
@@ -67,7 +67,7 @@ class SessionTest extends TestCase
         }
 
         // Set up a Smarty Template object to get config variables
-        $tpl = new \webtemplate\application\SmartyTemplate();
+        $tpl = new\g7mzr\webtemplate\application\SmartyTemplate();
 
         if ($this->getName() == "testGarbageCollection") {
             // Alter location of Config Directory to tests/_data
@@ -138,7 +138,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -161,7 +161,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -197,7 +197,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -217,7 +217,7 @@ class SessionTest extends TestCase
             $_COOKIE['webdatabase'] = $sessiontest['value'];
 
             // Create a new Session Object
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -255,7 +255,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -291,7 +291,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -327,7 +327,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -365,7 +365,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -414,7 +414,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -433,7 +433,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -474,7 +474,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -498,7 +498,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -538,7 +538,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -561,7 +561,7 @@ class SessionTest extends TestCase
             $_COOKIE['webdatabase'] = $sessiontest['value'];
 
             // Create a new session and retreve the session name;
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -601,7 +601,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -624,7 +624,7 @@ class SessionTest extends TestCase
             $_COOKIE['webdatabase'] = $sessiontest['value'];
 
             // Create a new session and retreve the session name;
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -663,7 +663,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -715,7 +715,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -733,7 +733,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // and check that the username has been set to ""
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -754,7 +754,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // and check that the username has been set to ""
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -794,7 +794,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -818,7 +818,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -839,7 +839,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // and check that the username has been set to ""
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -878,7 +878,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -896,7 +896,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // and check that the username has been set to ""
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -917,7 +917,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // and check that the username has been set to ""
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -957,7 +957,7 @@ class SessionTest extends TestCase
 
             // Create a new Session Object
             // Test  Session created using Session Close
-            $this->object = new \webtemplate\application\Session(
+            $this->object = new\g7mzr\webtemplate\application\Session(
                 $cookiepath,
                 $cookiedomain,
                 $autologout,
@@ -1001,7 +1001,7 @@ class SessionTest extends TestCase
             // Create a new Session Object
             // Test  Session created using Session Close
             try {
-                $this->object = new \webtemplate\application\Session(
+                $this->object = new\g7mzr\webtemplate\application\Session(
                     $cookiepath,
                     $cookiedomain,
                     $autologout,

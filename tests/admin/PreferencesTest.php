@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\unittest;
+namespace g7mzr\webtemplate\unittest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -29,14 +29,14 @@ class PreferencesTest extends TestCase
     /**
      * Preference Class Object
      *
-     * @var \webtemplate\admin\Preferences
+     * @var\g7mzr\webtemplate\admin\Preferences
      */
 
     protected $object;
     /**
      * Configuration Object
      *
-     * @var \webtemplate\config\Configure
+     * @var\g7mzr\webtemplate\config\Configure
      */
     protected $confobj;
 
@@ -51,7 +51,7 @@ class PreferencesTest extends TestCase
 
         // Create configuration Object
         $configDir = __DIR__ . "/../../configs";
-        $this->confobj = new \webtemplate\config\Configure($configDir);
+        $this->confobj = new\g7mzr\webtemplate\config\Configure($configDir);
 
         $this->confobj->write('pref.theme.value', 'Dusk');
         $this->confobj->write('pref.theme.enabled', true);
@@ -61,7 +61,7 @@ class PreferencesTest extends TestCase
         $this->confobj->write('pref.displayrows.enabled', true);
 
 
-        $this->object = new \webtemplate\admin\Preferences($this->confobj);
+        $this->object = new\g7mzr\webtemplate\admin\Preferences($this->confobj);
     }
 
     /**

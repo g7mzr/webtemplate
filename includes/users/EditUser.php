@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\users;
+namespace g7mzr\webtemplate\users;
 
 /**
  * Edit User Class
@@ -131,7 +131,7 @@ class EditUser
         if ($gotdata == true) {
             return $resultArray;
         } else {
-            return \webtemplate\general\General::raiseError($errorMsg, 1);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
         }
     }
 
@@ -180,7 +180,7 @@ class EditUser
         if ($gotdata == true) {
             return $resultarray;
         } else {
-            return \webtemplate\general\General::raiseError($errorMsg, 1);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
         }
     }
 
@@ -215,12 +215,12 @@ class EditUser
         if ($passwd == '') {
             $encryptPasswd = '';
         } else {
-            $encryptPasswd = \webtemplate\general\General::encryptPasswd($passwd);
+            $encryptPasswd = \g7mzr\webtemplate\general\General::encryptPasswd($passwd);
 
             // If unable to create password abort save
             if ($encryptPasswd === false) {
                 $errorMsg = gettext("Unable to create Encrypted Password");
-                return \webtemplate\general\General::raiseError($errorMsg, 1);
+                return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
             }
         }
 
@@ -257,11 +257,11 @@ class EditUser
             );
         }
 
-        if (!\webtemplate\general\General::isError($saveok)) {
+        if (!\g7mzr\webtemplate\general\General::isError($saveok)) {
             return true;
             ;
         } else {
-            return \webtemplate\general\General::raiseError(
+            return\g7mzr\webtemplate\general\General::raiseError(
                 $saveok->getMessage(),
                 1
             );
@@ -297,7 +297,7 @@ class EditUser
         // Get the existing data for the user
         if ($userId <> '0') {
             $resultArray = $this->getuser($userId);
-            if (!\webtemplate\general\General::isError($resultArray)) {
+            if (!\g7mzr\webtemplate\general\General::isError($resultArray)) {
                 // Create a blank change string
                 $msg = '';
 
@@ -399,7 +399,7 @@ class EditUser
         if ($searchok) {
             return $userExists;
         } else {
-            return \webtemplate\general\General::raiseError($errorMsg, 1);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
         }
     }
 
@@ -443,7 +443,7 @@ class EditUser
         if ($searchok) {
             return $emailExists;
         } else {
-            return \webtemplate\general\General::raiseError($errorMsg, 1);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
         }
     }
 
@@ -490,7 +490,7 @@ class EditUser
         if ($searchok) {
             return $userEnabled;
         } else {
-            return \webtemplate\general\General::raiseError($errorMsg, 1);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
         }
     }
 
@@ -519,12 +519,12 @@ class EditUser
             $encryptPasswd = '';
         } else {
             // User has changed password.. Encrypt it
-            $encryptPasswd = \webtemplate\general\General::encryptPasswd($passwd);
+            $encryptPasswd = \g7mzr\webtemplate\general\General::encryptPasswd($passwd);
 
             // If unable to create password abort save
             if ($encryptPasswd === false) {
                 $errorMsg = gettext("Unable to create Encrypted Password");
-                return \webtemplate\general\General::raiseError($errorMsg, 1);
+                return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
             }
         }
 
@@ -555,12 +555,12 @@ class EditUser
         }
 
         // If query run okay return true.
-        // Else return a \webtemplate\general\General::Error
+        // Else return a\g7mzr\webtemplate\general\General::Error
         if ($saveok) {
             return true;
             ;
         } else {
-            return \webtemplate\general\General::raiseError($errorMsg, 1);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
         }
     }
 
@@ -580,12 +580,12 @@ class EditUser
         $saveok = true;
 
         // Encrypt the password
-        $encryptPasswd = \webtemplate\general\General::encryptPasswd($passwd);
+        $encryptPasswd = \g7mzr\webtemplate\general\General::encryptPasswd($passwd);
 
         // If unable to create password abort save
         if ($encryptPasswd === false) {
             $errorMsg = gettext("Unable to create Encrypted Password");
-            return \webtemplate\general\General::raiseError($errorMsg, 1);
+            return \g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
         }
 
         $insertData = array(
@@ -602,12 +602,12 @@ class EditUser
         }
 
         // If query run okay return true.
-        // Else return a \webtemplate\general\General::Error
+        // Else return a\g7mzr\webtemplate\general\General::Error
         if ($saveok) {
             return true;
             ;
         } else {
-            return \webtemplate\general\General::raiseError($errorMsg, 1);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
         }
     }
 
@@ -701,7 +701,7 @@ class EditUser
             $data['userId'] = '';
         }
 
-        if ((!\webtemplate\general\LocalValidate::dbid($data['userId']))
+        if ((!\g7mzr\webtemplate\general\LocalValidate::dbid($data['userId']))
             and ($prefsOnly == false)
         ) {
             $data['msg'] .= gettext("Invalid User ID") . "\n";
@@ -737,7 +737,7 @@ class EditUser
             $data['userName'] = '';
         }
 
-        $validUsername = \webtemplate\general\LocalValidate::username(
+        $validUsername = \g7mzr\webtemplate\general\LocalValidate::username(
             $data['userName'],
             $params['regexp']
         );
@@ -775,7 +775,7 @@ class EditUser
             $data['realName'] = '';
         }
 
-        if (!\webtemplate\general\LocalValidate::realname($data['realName'])) {
+        if (!\g7mzr\webtemplate\general\LocalValidate::realname($data['realName'])) {
             $data['msg'] .= gettext("Invalid Real Name") . "\n";
             $userDataOk = false;
         }
@@ -808,7 +808,7 @@ class EditUser
             $data['userMail'] = '';
         }
 
-        if (!\webtemplate\general\LocalValidate::email($data['userMail'])) {
+        if (!\g7mzr\webtemplate\general\LocalValidate::email($data['userMail'])) {
             $data['msg'] .= gettext("Invalid Email Address") . "\n";
             $userDataOk = false;
         }
@@ -849,21 +849,21 @@ class EditUser
         }
 
         if (($data['passwd'] <> '') or ($data['userId'] == '0')) {
-            if (!\webtemplate\general\LocalValidate::password(
+            if (!\g7mzr\webtemplate\general\LocalValidate::password(
                 $data['passwd'],
                 $params['passwdstrength']
             )
             ) {
                 $data['msg'] .= gettext("Invalid Password: ");
                 $tempno = $params['passwdstrength'];
-                $data['msg'] .= \webtemplate\general\General::passwdFormat($tempno);
+                $data['msg'] .= \g7mzr\webtemplate\general\General::passwdFormat($tempno);
                 $data['msg'] .= "\n";
                 $userDataOk = false;
             }
         }
 
         if ($data['passwd2'] <> '') {
-            if (!\webtemplate\general\LocalValidate::password(
+            if (!\g7mzr\webtemplate\general\LocalValidate::password(
                 $data['passwd2'],
                 $params['passwdstrength']
             )
@@ -945,7 +945,7 @@ class EditUser
             return true;
             ;
         } else {
-            return \webtemplate\general\General::raiseError($errorMsg, 1);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
         }
     }
     /**
@@ -997,7 +997,7 @@ class EditUser
         if ($saveok) {
             return true;
         } else {
-            return \webtemplate\general\General::raiseError($errorMsg, 1);
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
         }
     }
 }

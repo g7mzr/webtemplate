@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\groups;
+namespace g7mzr\webtemplate\groups;
 
 /**
  * Global GroupFunctions
@@ -25,16 +25,16 @@ class EditGroupFunctions
      *
      * This method lists the database groups.
      *
-     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Object.
-     * @param EditGroups                              $groups   Edit Group Object.
-     * @param string                                  $template Name of template.
+     * @param \g7mzr\webtemplate\application\SmartyTemplate $tpl      Smarty Object.
+     * @param EditGroups                                    $groups   Edit Group Object.
+     * @param string                                        $template Name of template.
      *
      * @return void
      *
      * @access public
      */
     public static function listGroups(
-        \webtemplate\application\SmartyTemplate $tpl,
+        \g7mzr\webtemplate\application\SmartyTemplate $tpl,
         EditGroups $groups,
         string &$template
     ) {
@@ -42,7 +42,7 @@ class EditGroupFunctions
         $groupArray = $groups->getGroupList();
 
         // Check is the list has been returned ok
-        if (!\webtemplate\general\General::isError($groupArray)) {
+        if (!\g7mzr\webtemplate\general\General::isError($groupArray)) {
             // List returned ok.  Display
             $tpl->assign("RESULTS", $groupArray);
             $template = "groups/list.tpl";
@@ -65,15 +65,15 @@ class EditGroupFunctions
      *
      * This method displays an empty form to create a new group.
      *
-     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Object.
-     * @param string                                  $template Name of template.
+     * @param \g7mzr\webtemplate\application\SmartyTemplate $tpl      Smarty Object.
+     * @param string                                        $template Name of template.
      *
      * @return boolean
      *
      * @access public
      */
     public static function newGroup(
-        \webtemplate\application\SmartyTemplate $tpl,
+        \g7mzr\webtemplate\application\SmartyTemplate $tpl,
         string &$template
     ) {
         //Set default blank results
@@ -97,17 +97,17 @@ class EditGroupFunctions
      *
      * This method displays a group for editing.
      *
-     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Object.
-     * @param EditGroups                              $groups   Edit Group Object.
-     * @param string                                  $template Name of template.
-     * @param string                                  $groupId  Group to be edited.
+     * @param \g7mzr\webtemplate\application\SmartyTemplate $tpl      Smarty Object.
+     * @param EditGroups                                    $groups   Edit Group Object.
+     * @param string                                        $template Name of template.
+     * @param string                                        $groupId  Group to be edited.
      *
      * @return boolean
      *
      * @access public
      */
     public static function editGroup(
-        \webtemplate\application\SmartyTemplate $tpl,
+        \g7mzr\webtemplate\application\SmartyTemplate $tpl,
         EditGroups $groups,
         string &$template,
         string $groupId
@@ -126,17 +126,17 @@ class EditGroupFunctions
      *
      * This method displays the group to be deleted for confirmation
      *
-     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Object.
-     * @param EditGroups                              $groups   Edit Group Object.
-     * @param string                                  $template Name of template.
-     * @param string                                  $groupId  Group to be edited.
+     * @param \g7mzr\webtemplate\application\SmartyTemplate $tpl      Smarty Object.
+     * @param EditGroups                                    $groups   Edit Group Object.
+     * @param string                                        $template Name of template.
+     * @param string                                        $groupId  Group to be edited.
      *
      * @return boolean
      *
      * @access public
      */
     public static function confirmDeleteGroup(
-        \webtemplate\application\SmartyTemplate $tpl,
+        \g7mzr\webtemplate\application\SmartyTemplate $tpl,
         EditGroups $groups,
         string &$template,
         string $groupId
@@ -154,24 +154,24 @@ class EditGroupFunctions
      *
      * This method deletes the selected group.
      *
-     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Object.
-     * @param EditGroups                              $groups   Edit Group Object.
-     * @param string                                  $template Name of template.
-     * @param string                                  $groupId  Group to be edited.
+     * @param \g7mzr\webtemplate\application\SmartyTemplate $tpl      Smarty Object.
+     * @param EditGroups                                    $groups   Edit Group Object.
+     * @param string                                        $template Name of template.
+     * @param string                                        $groupId  Group to be edited.
      *
      * @return boolean
      *
      * @access public
      */
     public static function deleteGroup(
-        \webtemplate\application\SmartyTemplate $tpl,
+        \g7mzr\webtemplate\application\SmartyTemplate $tpl,
         EditGroups $groups,
         string &$template,
         string $groupId
     ) {
         // Check the user has sent a valid group id.
         // For this check it does not matter if the group exists.
-        if (\webtemplate\general\LocalValidate::dbid($groupId) === false) {
+        if (\g7mzr\webtemplate\general\LocalValidate::dbid($groupId) === false) {
             $msg = gettext("Invalid Group");
             $tpl->assign("MSG", $msg);
             return false;
@@ -181,7 +181,7 @@ class EditGroupFunctions
         $deleteResult = $groups->deleteGroup($groupId);
 
         // Check for errors
-        if (\webtemplate\general\General::isERROR($deleteResult)) {
+        if (\g7mzr\webtemplate\general\General::isERROR($deleteResult)) {
             $template = "global/error.tpl";
             $msg =  gettext("Error encountered when deleting group.");
             $msg .= "\n\n";
@@ -214,17 +214,17 @@ class EditGroupFunctions
      *
      * This method saves the selected group.
      *
-     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Object.
-     * @param EditGroups                              $groups   Edit Group Object.
-     * @param string                                  $template Name of template.
-     * @param array                                   $data     Data to be saved.
+     * @param \g7mzr\webtemplate\application\SmartyTemplate $tpl      Smarty Object.
+     * @param EditGroups                                    $groups   Edit Group Object.
+     * @param string                                        $template Name of template.
+     * @param array                                         $data     Data to be saved.
      *
      * @return boolean
      *
      * @access public
      */
     public static function saveGroup(
-        \webtemplate\application\SmartyTemplate $tpl,
+        \g7mzr\webtemplate\application\SmartyTemplate $tpl,
         EditGroups $groups,
         string &$template,
         array $data
@@ -252,7 +252,7 @@ class EditGroupFunctions
 
         if ($groupData[0]['groupid'] == '0') {
             $checkName = $groups->checkGroupExists($groupData[0]['groupname']);
-            if (\webtemplate\general\General::isError($checkName)) {
+            if (\g7mzr\webtemplate\general\General::isError($checkName)) {
                 $template = "global/error.tpl";
                 $msg = gettext("An error occured checking if the group exists.");
                 $msg .= " " . gettext("Please try again.");
@@ -318,7 +318,7 @@ class EditGroupFunctions
             );
 
             // Check for save error
-            if (\webtemplate\general\General::isError($saveResult)) {
+            if (\g7mzr\webtemplate\general\General::isError($saveResult)) {
                 $template = "global/error.tpl";
                 $msg = \gettext("An error occured when saving the group details.");
                 $msg .= " " . \gettext("Please try again.");
@@ -329,7 +329,7 @@ class EditGroupFunctions
 
             // Reload the group data to show changes
             $groupData = $groups->getSingleGroup($groupData[0]['groupid']);
-            if (\webtemplate\general\General::isError($groupData)) {
+            if (\g7mzr\webtemplate\general\General::isError($groupData)) {
                 $template = "global/error.tpl";
                 $msg = \gettext("An error occured retrieving the group details.");
                 $msg .= " " . \gettext("Please try again.");
@@ -364,17 +364,17 @@ class EditGroupFunctions
     /**
      * This function covers common code in editGroup and confirm delete
      *
-     * @param \webtemplate\application\SmartyTemplate $tpl      Smarty Object.
-     * @param EditGroups                              $groups   Edit Group Object.
-     * @param string                                  $template Name of template.
-     * @param string                                  $groupId  Group to be edited.
+     * @param \g7mzr\webtemplate\application\SmartyTemplate $tpl      Smarty Object.
+     * @param EditGroups                                    $groups   Edit Group Object.
+     * @param string                                        $template Name of template.
+     * @param string                                        $groupId  Group to be edited.
      *
      * @return boolean
      *
      * @access private
      */
     private static function getGroupData(
-        \webtemplate\application\SmartyTemplate $tpl,
+        \g7mzr\webtemplate\application\SmartyTemplate $tpl,
         EditGroups $groups,
         string &$template,
         string $groupId
@@ -382,14 +382,14 @@ class EditGroupFunctions
 
             // Check the user has sent a valid group id.
         // For this check it does not matter if the group exists.
-        if (\webtemplate\general\LocalValidate::dbid($groupId) === false) {
+        if (\g7mzr\webtemplate\general\LocalValidate::dbid($groupId) === false) {
             $msg = gettext("Invalid Group");
             $tpl->assign("MSG", $msg);
             return false;
         }
         // Retrieve the group information from the database.
         $resultArray = $groups->getSingleGroup($groupId);
-        if (\webtemplate\general\General::isError($resultArray)) {
+        if (\g7mzr\webtemplate\general\General::isError($resultArray)) {
             if ($resultArray->getCode() == DB_ERROR_NOT_FOUND) {
                 $msg = gettext("Group Not Found");
                 $tpl->assign("MSG", $msg);

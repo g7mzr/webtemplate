@@ -13,7 +13,7 @@
  *
  */
 
-namespace webtemplate\admin\parameters;
+namespace g7mzr\webtemplate\admin\parameters;
 
 /**
  * Parameters Interface Class
@@ -91,11 +91,11 @@ class Auth extends ParametersAbstract
     /**
      * Constructor
      *
-     * @param \webtemplate\config\Configure $config Configuration class.
+     * @param \g7mzr\webtemplate\config\Configure $config Configuration class.
      *
      * @access public
      */
-    public function __construct(\webtemplate\config\Configure $config)
+    public function __construct(\g7mzr\webtemplate\config\Configure $config)
     {
 
         parent::__construct($config);
@@ -422,7 +422,7 @@ class Auth extends ParametersAbstract
         }
 
         // Check the username regexp contains valid characters
-        if ((!\webtemplate\general\LocalValidate::regexp($this->username_regexp))
+        if ((!\g7mzr\webtemplate\general\LocalValidate::regexp($this->username_regexp))
             or (strlen($this->username_regexp) == 0)
         ) {
             $dataok = false;
@@ -455,7 +455,7 @@ class Auth extends ParametersAbstract
         }
 
         // Check the username regexp description contains valid characters
-        if ((!\webtemplate\general\LocalValidate::generaltext($this->uname_regx_des))
+        if ((!\g7mzr\webtemplate\general\LocalValidate::generaltext($this->uname_regx_des))
             or (strlen($this->uname_regx_des) == 0)
         ) {
             $dataok = false;
