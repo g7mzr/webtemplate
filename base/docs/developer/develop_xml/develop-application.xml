@@ -154,12 +154,12 @@
 				</step>
 				<step>
 					<para>
-					Update <filename>test/admin/PreferencesClassTest.php</filename> to test that the new preference can be validated, and saved.
+					Update <filename>test/admin/Preferences.ClassTest.php</filename> to test that the new preference can be validated, and saved.
 					</para>
 				</step>
 				<step>
 					<para>
-					Update<filename>includes/users/edituserspref.class.php</filename>.  You will need modify the following functions for new preferences you have added.
+					Update<filename>includes/users/EditUsersPref.php</filename>.  You will need modify the following functions for new preferences you have added.
 					<itemizedlist mark="bullet">
 						<listitem>
 							<para>
@@ -193,7 +193,7 @@
 				<step>
 					<para>
 					Update <filename>includes/users/user_class.php</filename> to enable the chosen value for your new preferences to be used.  You will need to modify 
-					UserClass::register to save the chosen prefernce value in a Class Variable and add a function which can retrevie and store the preference value in the Class Veriable.
+					UserClass::register to save the chosen preference value in a Class Variable and add a function which can retrevie and store the preference value in the Class Veriable.
 					</para>
 				</step>
 				<step>

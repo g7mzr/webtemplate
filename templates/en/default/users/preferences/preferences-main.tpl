@@ -17,11 +17,11 @@
   <table class="tabs" cellspacing="0" cellpadding="10" border="0" width="100%">
     <tr>
       <td class="spacer">&nbsp;</td>
-            {foreach $PAGELIST as $page}
+            {foreach $PAGELIST as $key => $page}
                 {if $page.selected == true}
-                    <td id="tab_settings" class="selected">{$page.description}</TD>
+                    <td id="tab_{$key}" class="selected">{$page.description}</TD>
                 {else}
-                    <td id="tab_settings" class="clickable_area" onClick="document.location='{$page.url}';">
+                    <td id="tab_{$key}" class="clickable_area" onClick="document.location='{$page.url}';">
                         <a href="{$page.url}">{$page.description}</a>
                     </td>
                 {/if}

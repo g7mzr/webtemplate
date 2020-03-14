@@ -33,7 +33,7 @@ header("Content-Type: application/json");
 
 // Create a WEBTEMPLATE CLASS
 try {
-    $webtemplate = new \webtemplate\application\Application();
+    $webtemplate = new \g7mzr\webtemplate\application\Application();
 } catch (\Throwable $e) {
     if ($e->getCode() == 1) {
         header("HTTP/1.1 500 Internal Server Error");
@@ -122,7 +122,7 @@ $file = file_get_contents("php://input");
 
 try {
     // Create the RESTful API class
-    $api = new \webtemplate\rest\RESTapi(
+    $api = new \g7mzr\webtemplate\rest\RESTapi(
         $request,
         $method,
         $post,

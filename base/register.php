@@ -21,7 +21,7 @@ require_once "../includes/global.php";
 
 // Create a WEBTEMPLATE CLASS
 try {
-    $app = new \webtemplate\application\Application();
+    $app = new \g7mzr\webtemplate\application\Application();
 } catch (\Throwable $e) {
     error_log(basename(__FILE__) . ": " . $e->getMessage());
     header('Location: syserror.html');
@@ -40,7 +40,7 @@ $mainmenu = $app->config()->readMenu('mainmenu');
 $app->tpl()->assign('MAINMENU', $mainmenu);
 
 /* Send the HTTP Headers required by the application */
-$headerResult = \webtemplate\application\Header::sendHeaders();
+$headerResult = \g7mzr\webtemplate\application\Header::sendHeaders();
 if ($headerResult == false) {
     // Log error is headers not sent
     $app->log()->error(basename(__FILE__) . ":  Failed to send HTTP Headers");
@@ -439,7 +439,7 @@ if ($action == "savenewaccount") {
     }
 
     // Validate the username.  If invalid flag data as false
-    if (!\webtemplate\general\LocalValidate::username(
+    if (!\g7mzr\webtemplate\general\LocalValidate::username(
         $username,
         $app->config()->read('param.users.regexp')
     )
@@ -449,7 +449,7 @@ if ($action == "savenewaccount") {
     } else {
         // If the username format is valid check if it already in use.
         $checkname = $app->edituser()->checkUserExists($username);
-        if (\webtemplate\general\General::isError($checkname)) {
+        if (\g7mzr\webtemplate\general\General::isError($checkname)) {
             $userexists = true;
             $userdataok = false;
         } else {
@@ -461,7 +461,7 @@ if ($action == "savenewaccount") {
     }
 
     // Validate the realname.  If invalid flag data as false
-    if (!\webtemplate\general\LocalValidate::realname($realname)) {
+    if (!\g7mzr\webtemplate\general\LocalValidate::realname($realname)) {
         $realnameok = false;
         $userdataok = false;
     }
@@ -469,7 +469,7 @@ if ($action == "savenewaccount") {
     // Check the passwords match and are valid. If invalid flag data as false.
     $passwdstrength = $app->config()->read('param.users.passwdstrength');
     if (($passwdOne <> '') and ($passwdOne == $passwdTwo)) {
-        if (!\webtemplate\general\LocalValidate::password(
+        if (!\g7mzr\webtemplate\general\LocalValidate::password(
             $passwdOne,
             $passwdstrength
         )
@@ -505,7 +505,7 @@ if ($action == "savenewaccount") {
             'Y',
             'N'
         );
-        if (\webtemplate\general\General::isError($result)) {
+        if (\g7mzr\webtemplate\general\General::isError($result)) {
             $template = "global/error.tpl";
             $msg =  $result->getMessage();
             $header = gettext("Database Error");

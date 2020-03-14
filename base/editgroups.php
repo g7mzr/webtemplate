@@ -21,7 +21,7 @@ require_once "../includes/global.php";
 
 // Create a WEBTEMPLATE CLASS
 try {
-    $app = new \webtemplate\application\Application();
+    $app = new \g7mzr\webtemplate\application\Application();
 } catch (\Throwable $e) {
     error_log(basename(__FILE__) . ": " . $e->getMessage());
     header('Location: syserror.html');
@@ -41,7 +41,7 @@ $mainmenu = $app->config()->readMenu('mainmenu');
 $app->tpl()->assign('MAINMENU', $mainmenu);
 
 /* Send the HTTP Headers required by the application */
-$headerResult = \webtemplate\application\Header::sendHeaders();
+$headerResult = \g7mzr\webtemplate\application\Header::sendHeaders();
 if ($headerResult == false) {
     // Log error is headers not sent
     $app->log()->error(basename(__FILE__) . ":  Failed to send HTTP Headers");
@@ -50,7 +50,7 @@ if ($headerResult == false) {
 // Check if the user is logged in.
 if ($app->session()->getUserName() == '') {
     //The user is not logged in. Display a login screen
-    $headerResult = \webtemplate\application\Header::sendRedirect('index.php');
+    $headerResult = \g7mzr\webtemplate\application\Header::sendRedirect('index.php');
     if ($headerResult == false) {
         // Log error is headers not sent
         $app->log()->error(basename(__FILE__) . ":  Failed to send Redirect HTTP Header");
@@ -77,7 +77,7 @@ $app->tpl()->assign('ADMINACCESS', $app->usergroups()->getAdminAccess());
 $app->tpl()->assign('LOGIN', false);
 
 // Check if the docbase parameter is set and the document files are available
-$docsAvailable = \webtemplate\general\General::checkdocs(
+$docsAvailable = \g7mzr\webtemplate\general\General::checkdocs(
     $app->config()->read('param.docbase'),
     $language
 );
@@ -129,7 +129,7 @@ if (preg_match($teststr, $tempAction, $regs)) {
 $template = '';
 
 if ($action == "new") {
-    \webtemplate\groups\EditGroupFunctions::newGroup($app->tpl(), $template);
+    \g7mzr\webtemplate\groups\EditGroupFunctions::newGroup($app->tpl(), $template);
 } elseif ($action == "edit") {
     if (\filter_input(INPUT_GET, 'groupid') !== null) {
         $groupId = substr(\filter_input(INPUT_GET, 'groupid'), 0, 5);
@@ -137,14 +137,14 @@ if ($action == "new") {
         $groupId = '';
     }
 
-    $result = \webtemplate\groups\EditGroupFunctions::editGroup(
+    $result = \g7mzr\webtemplate\groups\EditGroupFunctions::editGroup(
         $app->tpl(),
         $app->editgroups(),
         $template,
         $groupId
     );
     if (($result === false) and ($template != 'global/error.tpl')) {
-        \webtemplate\groups\EditGroupFunctions::listGroups(
+        \g7mzr\webtemplate\groups\EditGroupFunctions::listGroups(
             $app->tpl(),
             $app->editgroups(),
             $template
@@ -156,14 +156,14 @@ if ($action == "new") {
     } else {
         $groupId = '';
     }
-    $result = \webtemplate\groups\EditGroupFunctions::confirmDeleteGroup(
+    $result = \g7mzr\webtemplate\groups\EditGroupFunctions::confirmDeleteGroup(
         $app->tpl(),
         $app->editgroups(),
         $template,
         $groupId
     );
     if (($result === false) and ($template != 'global/error.tpl')) {
-        \webtemplate\groups\EditGroupFunctions::listGroups($app->tpl(), $app->editgroups(), $template);
+        \g7mzr\webtemplate\groups\EditGroupFunctions::listGroups($app->tpl(), $app->editgroups(), $template);
     }
 } elseif ($action == "del") {
     // Abort the script if the session and page tokens are not the same.
@@ -184,14 +184,14 @@ if ($action == "new") {
         $groupId = '';
     }
 
-    $result = \webtemplate\groups\EditGroupFunctions::deleteGroup(
+    $result = \g7mzr\webtemplate\groups\EditGroupFunctions::deleteGroup(
         $app->tpl(),
         $app->editgroups(),
         $template,
         $groupId
     );
     if ($template != 'global/error.tpl') {
-        \webtemplate\groups\EditGroupFunctions::listGroups(
+        \g7mzr\webtemplate\groups\EditGroupFunctions::listGroups(
             $app->tpl(),
             $app->editgroups(),
             $template
@@ -210,14 +210,14 @@ if ($action == "new") {
         $app->tpl()->display($template);
         exit();
     }
-    \webtemplate\groups\EditGroupFunctions::saveGroup(
+    \g7mzr\webtemplate\groups\EditGroupFunctions::saveGroup(
         $app->tpl(),
         $app->editgroups(),
         $template,
         $_POST
     );
 } elseif ($action == "list") {
-    \webtemplate\groups\EditGroupFunctions::listGroups(
+    \g7mzr\webtemplate\groups\EditGroupFunctions::listGroups(
         $app->tpl(),
         $app->editgroups(),
         $template
@@ -226,7 +226,7 @@ if ($action == "new") {
     // Invalid comman entered
     $app->tpl()->assign("MSG", gettext("Invalid Command"));
     $groupArray = $app->editgroups()->getGroupList();
-    if (!\webtemplate\general\General::isError($groupArray)) {
+    if (!\g7mzr\webtemplate\general\General::isError($groupArray)) {
         $app->tpl()->assign("RESULTS", $groupArray);
         $template = "groups/list.tpl";
     } else {

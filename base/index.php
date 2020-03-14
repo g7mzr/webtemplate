@@ -21,7 +21,7 @@ require_once "../includes/global.php";
 
 // Create a WEBTEMPLATE CLASS
 try {
-    $app = new \webtemplate\application\Application();
+    $app = new \g7mzr\webtemplate\application\Application();
 } catch (\Throwable $e) {
     error_log(basename(__FILE__) . ": " . $e->getMessage());
     header('Location: syserror.html');
@@ -49,7 +49,7 @@ $app->tpl()->assign("NEWPASSWDENABLED", $app->config()->read('param.users.newpas
 $app->tpl()->assign("SELFREGISTER", $app->config()->read('param.users.newaccount'));
 
 // Check if the docbase parameter is set and the document files are available
-$docsAvailable = \webtemplate\general\General::checkdocs(
+$docsAvailable = \g7mzr\webtemplate\general\General::checkdocs(
     $app->config()->read('param.docbase'),
     $language
 );
@@ -70,7 +70,7 @@ $mainmenu = $app->config()->readMenu('mainmenu');
 $app->tpl()->assign('MAINMENU', $mainmenu);
 
 /* Send the HTTP Headers required by the application */
-$headerResult = \webtemplate\application\Header::sendHeaders();
+$headerResult = \g7mzr\webtemplate\application\Header::sendHeaders();
 if ($headerResult == false) {
     // Log error is headers not sent
     $app->log()->error(basename(__FILE__) . ":  Failed to send HTTP Headers");
@@ -100,11 +100,11 @@ if ($app->session()->getUserName() == '') {
 
             // Check that username and password meet our standards.
             $regexp = $app->config()->read('param.users.regexp');
-            if ((\webtemplate\general\LocalValidate::username(
+            if ((\g7mzr\webtemplate\general\LocalValidate::username(
                 $tantedTempUser,
                 $regexp
             ))
-                and (\webtemplate\general\LocalValidate::password(
+                and (\g7mzr\webtemplate\general\LocalValidate::password(
                     $tantedTempPass,
                     $passwdstrength
                 ))
@@ -120,7 +120,7 @@ if ($app->session()->getUserName() == '') {
                     $app->config()->read('param.users.passwdage'),
                     $app->config()->read('pref')
                 );
-                if (!\webtemplate\general\General::isError($userLoggedIn)) {
+                if (!\g7mzr\webtemplate\general\General::isError($userLoggedIn)) {
                     // User is logged in
                     // Set the Session userName and userId Session Variables
                     //$app->session()->setUserName($username);
@@ -158,7 +158,7 @@ if ($app->session()->getUserName() == '') {
                     // if the mandatory parameters are set.
                     // If not display an error.
                     if ($app->usergroups()->checkGroup("admin") == true) {
-                        $msg .= \webtemplate\general\General::checkkeyParameters(
+                        $msg .= \g7mzr\webtemplate\general\General::checkkeyParameters(
                             $app->config()->read("param.urlbase"),
                             $app->config()->read("param.email.emailaddress"),
                             $app->config()->read("param.maintainer")
@@ -211,7 +211,7 @@ if ($app->session()->getUserName() == '') {
     // User is logged in.  Display the main page using User's own preferences.
     $app->tpl()->assign('LOGIN', false);
     $result = $app->user()->register($app->session()->getUserName(), $app->config()->read('pref'));
-    if (\webtemplate\general\General::isError($result)) {
+    if (\g7mzr\webtemplate\general\General::isError($result)) {
         $app->log()->error(
             basename(__FILE__) . ": Failed To Register logged in user $username"
         );
@@ -229,7 +229,7 @@ if ($app->session()->getUserName() == '') {
     // If the user is a member of the admin group chek to see if the mandatory
     // parameters are set.  If not display an error.
     if ($app->usergroups()->checkGroup("admin") == true) {
-        $msg = \webtemplate\general\General::checkkeyParameters(
+        $msg = \g7mzr\webtemplate\general\General::checkkeyParameters(
             $app->config()->read("param.urlbase"),
             $app->config()->read("param.email.emailaddress"),
             $app->config()->read("param.maintainer")

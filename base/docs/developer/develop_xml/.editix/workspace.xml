@@ -20,11 +20,11 @@
 <param name="encoding" value="AUTOMATIC"/>
 <param name="lastView" value="Source"/>
 </file>
-<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/develop-structure.xml" type="XML">
+<file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/develop-structure.xml" type="XML">
 <param name="lastView" value="Source"/>
 </file>
 <file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/ci-setup.xml" type="XML"/>
-<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/develop-application.xml" type="XML">
+<file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/develop-application.xml" type="XML">
 <param name="lastView" value="Source"/>
 </file>
 <file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/develop-restapi.xml" type="XML"/>

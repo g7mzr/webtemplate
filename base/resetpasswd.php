@@ -21,7 +21,7 @@ require_once "../includes/global.php";
 
 // Create a WEBTEMPLATE CLASS
 try {
-    $app = new \webtemplate\application\Application();
+    $app = new \g7mzr\webtemplate\application\Application();
 } catch (\Throwable $e) {
     error_log(basename(__FILE__) . ": " . $e->getMessage());
     header('Location: syserror.html');
@@ -39,7 +39,7 @@ $mainmenu = $app->config()->readMenu('mainmenu');
 $app->tpl()->assign('MAINMENU', $mainmenu);
 
 /* Send the HTTP Headers required by the application */
-$headerResult = \webtemplate\application\Header::sendHeaders();
+$headerResult = \g7mzr\webtemplate\application\Header::sendHeaders();
 if ($headerResult == false) {
     // Log error is headers not sent
     $app->log()->error(basename(__FILE__) . ":  Failed to send HTTP Headers");
@@ -48,7 +48,7 @@ if ($headerResult == false) {
 // Check is requesting new passwords is allowed
 if ($app->config()->read('param.users.newpassword') == false) {
     // Requesting new passwords is not allowed
-    $headerResult = \webtemplate\application\Header::sendRedirect('index.php');
+    $headerResult = \g7mzr\webtemplate\application\Header::sendRedirect('index.php');
     if ($headerResult == false) {
         // Log error is headers not sent
         $app->log()->error(basename(__FILE__) . ":  Failed to send Redirect HTTP Header");
@@ -71,7 +71,7 @@ $app->tpl()->assign('LOGIN', true);
 $app->tpl()->assign("PAGETITLE", gettext("Request New Password"));
 
 // Check if the docbase parameter is set and the document files are available
-$docsAvailable = \webtemplate\general\General::checkdocs(
+$docsAvailable = \g7mzr\webtemplate\general\General::checkdocs(
     $app->config()->read('param.docbase'),
     $language
 );
@@ -136,7 +136,7 @@ if ($action == "new") {
     //error_log("Passwd user name: " . $tempuser);
 
     // Check that the username is in a valid format
-    if (\webtemplate\general\LocalValidate::username(
+    if (\g7mzr\webtemplate\general\LocalValidate::username(
         $tempuser,
         $app->config()->read('param.users.regexp')
     )
@@ -178,7 +178,7 @@ if ($action == "new") {
     }
 
     $searchresults = $app->edituser()->search('username', $tempuser);
-    if ((\webtemplate\general\General::isError($searchresults))
+    if ((\g7mzr\webtemplate\general\General::isError($searchresults))
         or (count($searchresults) != 1)
     ) {
         // Get the year for the Copyright Statement
@@ -200,7 +200,7 @@ if ($action == "new") {
 
     $userid = $searchresults[0]['userid'];
     $usertoken = $app->tokens()->createToken($userid, 'PASSWORD', 1, "", false, false);
-    if (\webtemplate\general\General::isError($usertoken)) {
+    if (\g7mzr\webtemplate\general\General::isError($usertoken)) {
         // Get the year for the Copyright Statement
         $dateArray = getdate();
         $app->tpl()->assign('YEAR', "$dateArray[year]");
@@ -244,7 +244,7 @@ if ($action == "new") {
     $passwdstrength = $app->config()->read('param.users.passwdstrength');
     $app->tpl()->assign(
         "PASSWDFORMAT",
-        \webtemplate\general\General::passwdFormat($passwdstrength)
+        \g7mzr\webtemplate\general\General::passwdFormat($passwdstrength)
     );
 
     // Get the completed e-mail template
@@ -368,11 +368,11 @@ if ($action == "save") {
     $app->tpl()->assign("USERID", $userid);
 
     $passwdstrength = $app->config()->read('param.users.passwdstrength');
-    if ((\webtemplate\general\LocalValidate::password($temppass1, $passwdstrength))
+    if ((\g7mzr\webtemplate\general\LocalValidate::password($temppass1, $passwdstrength))
         and ($temppass1 == $temppass2)
     ) {
         $validpasswdtoken = false;
-        if (\webtemplate\general\LocalValidate::token($passwdreq) == true) {
+        if (\g7mzr\webtemplate\general\LocalValidate::token($passwdreq) == true) {
             $userid = $app->tokens()->getTokenUserid($passwdreq, 'PASSWORD');
             if ($userid > 0) {
                 $validpasswdtoken = true;
@@ -381,17 +381,17 @@ if ($action == "save") {
 
         if ($validpasswdtoken == true) {
             // Get username
-            if (\webtemplate\general\LocalValidate::dbid($userid) == true) {
+            if (\g7mzr\webtemplate\general\LocalValidate::dbid($userid) == true) {
                 $temuserdetails = $app->edituser()->getUser($userid);
-                if (!\webtemplate\general\General::isError($temuserdetails)) {
+                if (!\g7mzr\webtemplate\general\General::isError($temuserdetails)) {
                     $passwdstatus = $app->edituser()->updatePasswd(
                         $temuserdetails[0]['username'],
                         $temppass1
                     );
-                    if (!\webtemplate\general\General::isError($passwdstatus)) {
+                    if (!\g7mzr\webtemplate\general\General::isError($passwdstatus)) {
                         $app->tpl()->assign("PAGETITLE", gettext("Password Updated"));
                         $deletetoken = $app->tokens()->deleteToken($passwdreq);
-                        if (\webtemplate\general\General::isError($deletetoken)) {
+                        if (\g7mzr\webtemplate\general\General::isError($deletetoken)) {
                             $tempstr = gettext("resetpasswd: ");
                             $tempstr .= gettext("Failed to delete token");
                             $tempstr .= gettext(" after password changed");
@@ -429,7 +429,7 @@ if ($action == "save") {
         $app->tpl()->assign("PAGETITLE", gettext("Enter Password"));
 
         $msg = gettext("Unable to validate passwords.\n");
-        $msg .= \webtemplate\general\General::passwdFormat(
+        $msg .= \g7mzr\webtemplate\general\General::passwdFormat(
             $app->config()->read('param.users.passwdstrength')
         );
         $msg .= "\n";
