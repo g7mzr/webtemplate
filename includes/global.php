@@ -32,7 +32,7 @@ $loader->addNamespace("\g7mzr\webtemplate", $appdir . "/includes");
 // Include and register the Webtemplate error handler for webbased Applications
 if (php_sapi_name() !== 'cli') {
     // include the Default Error handler
-    require_once __DIR__ . '/application/errorHandler.class.php';
+    require_once __DIR__ . '/application/ErrorHandler.php';
 
     // SET the Error Handler
     \set_error_handler("\g7mzr\webtemplate\application\ErrorHandler::handleError");
