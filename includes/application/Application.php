@@ -257,6 +257,10 @@ class Application
         // Get the application development mode
         $this->var_production = $this->var_tpl->getConfigVars('Production');
 
+        // Enable Smarty Debugging on Development system
+        if ($this->var_production === false) {
+            $this->var_tpl->debugging_ctrl = 'URL';
+        }
 
         // Get the Database login information
         WebTemplateCommon::loadDSN($this->var_tpl, $dsn);
@@ -310,7 +314,7 @@ class Application
 
         // Initialise the Plugin Class and all active plugins
         $plugindir = $basedir . "/plugins";
-        $this->var_plugin = new \webtemplate\application\Plugin($plugindir);
+        $this->var_plugin = new \g7mzr\webtemplate\application\Plugin($plugindir, $this);
 
         // Create a user class
         $this->var_user = new \g7mzr\webtemplate\users\User($this->var_db);
@@ -527,11 +531,11 @@ class Application
     /**
      * This function returns the Plugin Class
      *
-     *  @return \webtemplate\application\Plugin
+     *  @return \g7mzr\webtemplate\application\Plugin
      *
      * @access protected
      */
-    public function plugin ()
+    public function plugin()
     {
         return $this->var_plugin;
     }

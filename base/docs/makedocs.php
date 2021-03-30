@@ -116,7 +116,7 @@ $verbose = false;
 $clean = $getOpt->getOption('clean');
 $withpdf = $getOpt->getOption('with-pdf');
 $withdevelop = $getOpt->getOption('with-develop');
-if ($getOpt->getOption('verbose')  === true) {
+if ($getOpt->getOption('verbose')  == true) {
     $verbose = true;
 }
 

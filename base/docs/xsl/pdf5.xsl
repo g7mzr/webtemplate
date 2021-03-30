@@ -13,6 +13,7 @@
  * @link      http://www.g7mzr.demon.co.uk
 -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	     xmlns:d="http://docbook.org/ns/docbook"
                 xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 version="1.0">
 
@@ -20,7 +21,7 @@
     <!-- Some layout parameters -->
     <xsl:param name="paper.type">A4</xsl:param>
     <xsl:param name="fop1.extensions" select="1"/>
-    <xsl:param name="section.autolabel" select="1"/>
+    <xsl:param name="section.autolabel" select="0"/>
     <xsl:param name="section.label.include.component.label" select="1"/>
     <xsl:param name="xref.with.number.and.title" select="0"/>
     <xsl:param name="generate.toc">book title,toc,figure</xsl:param>
@@ -33,7 +34,8 @@
     <xsl:param name="latex.hyperparam">colorlinks,linkcolor=blue,urlcolor=blue</xsl:param>
     <xsl:param name="shade.verbatim" select="1"/>
     <xsl:param name="glossary.numbered">0</xsl:param>
-
+    <xsl:param name="chapter.autolabel">0</xsl:param>
+    
     <!-- Set olink parameters-->
     <xsl:param name="target.database.document">olinkpdf.xml</xsl:param>
     <xsl:param name="current.docid" select="/*/@xml:id"/>
@@ -72,6 +74,8 @@
             <xsl:with-param name="probe" select="$probe"/>
         </xsl:call-template>
     </xsl:template>
+    
+    
     <!-- Set xref properties -->
     <xsl:attribute-set name="xref.properties">
 
@@ -93,6 +97,20 @@
         </xsl:attribute>
 
     </xsl:attribute-set>
+
+   <!-- Remove text body indenting -->
+   <xsl:param name="body.start.indent">0pt</xsl:param>
+
+    <!-- Paragraph Numbering  Level 0 --> 
+    <xsl:template match="d:para[parent::d:section or parent::d:chapter]">
+  	<fo:block xsl:use-attribute-sets="normal.para.spacing">
+    		<xsl:call-template name="anchor"/>
+    		<xsl:number from="d:chapter" count="d:para[parent::d:section or parent::d:chapter]" level="any" format="1"/>
+    		<xsl:text>. &#009;</xsl:text>
+    		<xsl:apply-templates/>
+  	</fo:block>
+  </xsl:template> 
+
 
     <!-- Set the TOC Hyperlinks to blue -->
     <xsl:attribute-set name="toc.line.properties">

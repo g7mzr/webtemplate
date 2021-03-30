@@ -271,7 +271,8 @@ class CreateDocs
         string $filename
     ) {
         $stylesheet = $this->DocBase . '/tmp/stylesheet.xsl';
-        $this->stylesheetcombiner($stylesheet, $dbstylesheet, $chunks);
+        $imagedir = $this->DocBase . '/images/';
+        $this->stylesheetcombiner($stylesheet, $dbstylesheet, $chunks, $imagedir);
         $cmd = $this->xsltproc;
         $cmd .= " --xinclude";
         $cmd .= " --nonet";
@@ -420,7 +421,21 @@ class CreateDocs
             // If the image directory is not null set the xsl:param to point to
             // that directory
             if ($imagedir != null) {
+                // Set admon graphic path
                 $xslparam = '     <xsl:param name="admon.graphics.path">';
+                $xslparam .= $imagedir;
+                $xslparam .= '</xsl:param>';
+                fwrite(
+                    $handle,
+                    $xslparam
+                );
+                fwrite(
+                    $handle,
+                    "\n"
+                );
+
+                // Set link to images
+                $xslparam = '     <xsl:param name="img.src.path">';
                 $xslparam .= $imagedir;
                 $xslparam .= '</xsl:param>';
                 fwrite(
@@ -436,9 +451,6 @@ class CreateDocs
                 $handle,
                 '</xsl:stylesheet>' . "\n"
             );
-
-
-
             fclose($handle);
             return true;
         } else {

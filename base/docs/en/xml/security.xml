@@ -58,7 +58,7 @@
 	  		<title>Remote Admin</title>
 	  		<para>
 	  		In most cases servers are managed remotely and it is recommended you use applications like <filename>ssh</filename>	
-	  		trather than <filename>telnet</filename> to administer them.  To further protect your system it is recomended that the port used by 
+	  		rather than <filename>telnet</filename> to administer them.  To further protect your system it is recomended that the port used by 
 	  		<filename>ssh</filename> is cnaged and thay you used public key encryption to identify yourself to the server and log in.
 	  		</para>
 	  	</section>

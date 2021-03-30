@@ -1,0 +1,23 @@
+{
+    "version": "1",
+    "name" : "example",
+    "tables": {
+        "items": {
+            "columns": {
+                "id": {"type": "serial", "primary": true},
+                "name": {"type": "varchar(100)", "notnull": true, "unique": true},
+                "description": {"type": "varchar(255)"},
+                "price": {"type": "numeric(3,2)", "notnull": true},
+                "customer": {"type": "integer"},
+                "flag": {"type": "char", "notnull": true, "default": "Y"},
+                "date": {"type": "DATETIME"}
+            },
+            "fk": {
+                "fk_items_customer": {"columnname": "customer", "linktable": "users", "linkcolumn": "user_id"}
+            },
+            "index": {
+                "items_name_idx": {"column": "name", "unique": true}
+            }
+        }
+    }
+}

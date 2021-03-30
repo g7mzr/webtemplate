@@ -21,7 +21,7 @@
 <file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/rest_xml/groups.xml" type="XML">
 <param name="lastView" value="Source"/>
 </file>
-<file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/rest_xml/introduction.xml" type="XML">
+<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/rest_xml/introduction.xml" type="XML">
 <param name="lastView" value="Source"/>
 </file>
 <file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/rest_xml/glossary.xml" type="XML">
@@ -53,5 +53,13 @@
 <file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/xsl/docs5.xsl">
 <param name="encoding" value="AUTOMATIC"/>
 <param name="lastView" value="Source"/>
+</file>
+<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/xsl/pdf.xsl">
+<param name="xslt.data.file" value="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/develop-install.xml"/>
+<param name="xslt.xslt.file" value="/home/sandy/Documents/src/git/github/webtemplate/base/docs/xsl/pdf.xsl"/>
+<param name="encoding" value="AUTOMATIC"/>
+</file>
+<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/xsl/pdf5.xsl">
+<param name="encoding" value="AUTOMATIC"/>
 </file>
 </root>

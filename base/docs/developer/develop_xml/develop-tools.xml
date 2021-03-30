@@ -36,15 +36,5 @@
 				</para>
 			</listitem>
 		</varlistentry>
-		<varlistentry>
-        			<term>Review Board</term>
-        			<listitem>
-          				<para>
-          				Review Board is a web based application written in Python.  It is used to simplify code review.  review board can be found at 
-          				<ulink url="https://www.reviewboard.org/" />.
-          				
-				</para>
-			</listitem>
-		</varlistentry>
 	</variablelist>
 </appendix>
