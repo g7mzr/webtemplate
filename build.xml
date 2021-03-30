@@ -108,7 +108,7 @@
 
     <target name="db-update">
         <exec executable="php" dir="${basedir}" logoutput="true">
-            <arg line="install.php --unit-test" />
+            <arg line="setup.php install --unit-test" />
         </exec>
     </target>
 

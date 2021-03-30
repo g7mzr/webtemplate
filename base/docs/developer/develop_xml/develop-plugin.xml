@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter SYSTEM "../../xsl/webtemplate.dtd" [
+    <!ENTITY % myents SYSTEM "webtemplate.ent">
+   %myents;
+]>
+
+<chapter id="template-plugin">
+	<title>Plugin Development</title>
+	<section id="plugin-introduction">
+		<title>Introduction</title>
+		<para>
+		The capability that &progname; delivers can be enhanced by the use of <olink targetptr="gloss-plugin" targetdoc="develop" role="glossterm">Plugins</olink>  and 
+		<olink targetptr="gloss-hook" targetdoc="develop" role="glossterm">Hooking</olink>. 
+		</para>
+		<warning>
+			<para>
+			Always use <filename>setup.php</filename> to enable and disable plugins so that the database schema changes required for the plugin are applied.
+			</para>
+		</warning>
+
+		<para>
+		<olink targetptr="gloss-plugin" targetdoc="develop" role="glossterm">Plugins</olink> are installed manually in the <filename class="directory" >plugin</filename> directory. They
+		are activated and deactivated using <programlisting>php setup.php plugins -a &lt;plugin_name&gt;</programlisting> and <programlisting>php setup.php plugins -d &lt;plugin_name&gt;</programlisting>
+		The activate command will also install or update the plugin schema if one exists.
+		</para>
+	</section>
+	<section id="plugin-create">
+		<title>Create New Plugin</title>
+		<para>
+		To create a <olink targetptr="gloss-plugin" targetdoc="develop" role="glossterm">Plugin</olink> skeleton for &progname; use <filename>setup.php</filename>.  The command syntax to create a
+		 <olink targetptr="gloss-plugin" targetdoc="develop" role="glossterm">Plugin</olink>  is: <programlisting>php setup.php plugins -c &lt;plugin_name&gt;</programlisting> This will create the 
+		 directory structure, the main class file <filename>Plugin.php</filename> and disable the <olink targetptr="gloss-plugin" targetdoc="develop" role="glossterm">Plugin</olink>.  The structure 
+		 is shown in <xref linkend="plugin-dir-structure" xrefstyle="select: label"  /> below.	 
+		</para>
+		<figure id="plugin-dir-structure" >
+			<title>
+			&progname; <emphasis>Example</emphasis> <olink targetptr="gloss-plugin" targetdoc="develop" role="glossterm">Plugin</olink> directory structure.
+			</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="plugin.png" format="PNG" scale= "75"/>
+				</imageobject>
+				<textobject>
+					<phrase>Structure of a &progname; Plugin </phrase>
+				</textobject>
+			</mediaobject>
+		</figure>
+		<para>
+		A description of each of the directories and files included in a plugin can be found in <xref linkend="plugin-contents" xrefstyle="select: label"  /> below.
+		</para>
+		<table id="plugin-contents" ><title>Plugin Structure</title>
+			<tgroup cols="4" align="left">
+			<colspec colnum="1" colname="name" colwidth="6*" />
+			<colspec colnum="2" colname="type" colwidth="4*" />
+			<colspec colnum="3" colname="purpose" colwidth="6*" />
+			<colspec colnum="4" colname="manditory" colwidth="4*" />
+			<thead>
+				<row>
+					<entry>Name</entry>
+					<entry>Type</entry>
+					<entry>Purpose</entry>
+					<entry>Required</entry>
+				</row>
+			</thead>
+			<tbody>
+				<row>
+					<entry>lib</entry>
+					<entry>directory</entry>
+					<entry>Location of plugin libraries for complex implementations</entry>
+					<entry>No</entry>
+				</row>
+				<row>
+					<entry>templates</entry>
+					<entry>directory</entry>
+					<entry>Location of Plugin's Smarty Template files if needed by plugin</entry>
+					<entry>No</entry>
+				</row>
+				<row>
+					<entry>Plugin.php</entry>
+					<entry>file</entry>
+					<entry>Main Class and Entry point for plugin</entry>
+					<entry>Yes</entry>
+				</row>
+				<row>
+					<entry>schema.json</entry>
+					<entry>file</entry>
+					<entry>Schema changes for plugin. Should not exist unless schema changes are required</entry>
+					<entry>No</entry>
+				</row>
+				<row>
+					<entry>about.tpl</entry>
+					<entry>file</entry>
+					<entry>Plugin Extension Template</entry>
+					<entry>No</entry>
+				</row>
+			</tbody>			
+			</tgroup>
+		</table>
+		<para>
+		</para>
+	</section>
+	<section id="plugin-schema">
+		<title>Plugin Schema</title>
+		<para>
+		sssss
+		</para>
+	</section>
+	<section id="plugin-methods" >
+		<title>Plugin Methods</title>
+		<para>
+		ssss
+		</para>
+	</section>
+	<section id="plugin-hooks">
+		<title>&progname; Hooks</title>
+		<para>
+		This section contains a list of hooks implemented in &progname; and their description.
+		</para>
+		<table><title>Hooks</title>
+			<tgroup cols="6" align="left" >
+			<colspec colnum="1" colname="module" colwidth="4*" />
+			<colspec colnum="2" colname="hook" colwidth="6*" />
+			<colspec colnum="3" colname="purpose" colwidth="5*" />
+			<colspec colnum="4" colname="called" colwidth="4*" />
+			<colspec colnum="5" colname="arguments" colwidth="5*" />
+			<colspec colnum="6" colname="template hook" colwidth="5*" />
+			<thead>
+				<row>
+					<entry>Module</entry>
+					<entry>Hook</entry>
+					<entry>Purpose</entry>
+					<entry>Called</entry>
+					<entry>Arguments</entry>
+					<entry>Template Hook</entry>
+				</row>
+			</thead>
+			<tbody>
+				<row>
+					<entry>about.php</entry>
+					<entry>hookAboutDisplay</entry>
+					<entry>To allow plugins to add aditional information to the About page</entry>
+					<entry>Before page is displayed</entry>
+					<entry>None</entry>
+					<entry>abouthook</entry>
+				</row>
+			</tbody>
+			</tgroup>
+		</table>
+	</section>
+</chapter>

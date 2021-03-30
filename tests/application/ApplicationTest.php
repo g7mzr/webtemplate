@@ -404,6 +404,23 @@ class ApplicationTest extends TestCase
     }
 
     /**
+     * This function test that a plugin object can be created
+     *
+     * @group unittest
+     * @group application
+     *
+     * @return void
+     */
+    public function testPluginObject()
+    {
+        $result = is_a(
+            $this->object->plugin(),
+            '\g7mzr\webtemplate\application\Plugin'
+        );
+        $this->assertTrue($result);
+    }
+
+    /**
      * This function tests that a username can be retrieved from the session
      *
      * @group unittest

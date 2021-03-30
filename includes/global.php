@@ -28,6 +28,7 @@ $loader->register();
 // Register WebApp Namespaces
 $appdir = dirname(__DIR__);
 $loader->addNamespace("\g7mzr\webtemplate", $appdir . "/includes");
+$loader->addNamespace("\g7mzr\webtemplate\plugins", $appdir . "/plugins");
 
 // Include and register the Webtemplate error handler for webbased Applications
 if (php_sapi_name() !== 'cli') {

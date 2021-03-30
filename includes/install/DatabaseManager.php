@@ -15,22 +15,52 @@
 
 namespace g7mzr\webtemplate\install;
 
+use g7mzr\webtemplate\application\exceptions\AppException;
+
 /**
- * DataBase Class is a static class used to setup and update the database
- **/
-class DataBase
+ * Description of CreateDatabase
+ *
+ * @author sandy
+ */
+class DatabaseManager
 {
     /**
-     * This function creates or updates the database
+     * Property: dsn
+     *
+     * @var array
+     * @access private
+     */
+    private $dsn = array();
+
+    /**
+     * Property: unittest
+     *
+     * @var boolean
+     * @access private
+     */
+    private $unittestdb = false;
+
+    /**
+     * Property dbManager
+     *
+     * @var \g7mzr\db\DBManager
+     * @access private
+     */
+    private $dbManager = null;
+
+    /**
+     * Constructor
      *
      * @param array   $installConfig Array with info needed to setup the app.
      * @param boolean $unittestdb    True if a test system is to be set up.
      *
-     * @return true
+     * @throws AppException If unable to connect to the database.
+     *
+     * @access public
      */
-    public function createDatabase(array $installConfig, bool $unittestdb)
+    public function __construct(array $installConfig, bool $unittestdb = false)
     {
-        $dsn = array(
+        $this->dsn = array(
             'dbtype'  => $installConfig['database_type'],
             'hostspec' => $installConfig['database_host'],
             'databasename' => $installConfig['database_name'],
@@ -38,99 +68,64 @@ class DataBase
             'password' => $installConfig['database_user_passwd'],
             'disable_iso_date' => 'disable'
         );
-
+        $this->unittestdb = $unittestdb;
         try {
-            $dbmanager = new \g7mzr\db\DBManager(
-                $dsn,
+            $this->dbManager = new \g7mzr\db\DBManager(
+                $this->dsn,
                 $installConfig['database_superuser'],
                 $installConfig['database_superuser_passwd']
             );
         } catch (Exception $ex) {
-            echo $ex->getMessage();
-            return exit(1);
+            throw AppException("Unable to connect to dbManager: " . $ex->getMessage());
         }
+    }
 
-        $result = $dbmanager->setMode("admin");
+    /**
+     * dbExists
+     *
+     * Check if the database exists. If the database exists and unittestdb is true
+     * drop the existing database
+     *
+     * @param string $dbname The name of the database to be checked.
+     *
+     * @return boolean True if the database exists false if it does not.
+     *
+     * @access public
+     */
+    public function dbExists(string $dbname)
+    {
+        $result = $this->dbManager->setMode("admin");
         if (\g7mzr\db\common\Common::isError($result)) {
             echo "Unable to switch DBManager to admin mode\n";
             return exit(1);
         }
-
-        // Create the Database User
-        DataBase::createDatabaseUser(
-            $dbmanager,
-            $installConfig['database_user'],
-            $installConfig['database_user_passwd'],
-            $unittestdb
-        );
-
-
-        // Create the blank database owned by the application database user.
-        // If $unittestdb is true drop and recreate the test database.
-        $databaseExists = DataBase::buildDatabase(
-            $dbmanager,
-            $installConfig['database_name'],
-            $installConfig['database_user'],
-            $unittestdb
-        );
-
-
-        // Create or update the schema
-        $setschemaresult = $dbmanager->setMode("schema");
-        if (\g7mzr\db\common\Common::isError($setschemaresult)) {
-            echo "Unable to switch DBManager to schema mode\n";
-            return exit(1);
+        // Check if the database exists
+        echo substr("Checking if database exists           ", 0, 35);
+        $databaseExists = $this->dbManager->getAdminDriver()->databaseExists($dbname);
+        if (\g7mzr\db\common\Common::isError($databaseExists)) {
+            fwrite(STDERR, "FAILED " . $databaseExists->getMessage() . "\n");
+            exit(1);
         }
 
-        $schemafile = __DIR__ . "/configure/schema.json";
-        $schemabuilt = DataBase::buildSchema(
-            $dbmanager,
-            $schemafile,
-            $databaseExists
-        );
-
-        // Populate the database with initial data and where appropriate test data.
-        // Create or update the schema
-        $setdataresult = $dbmanager->setMode("datadriver");
-        if (\g7mzr\db\common\Common::isError($setdataresult)) {
-            echo "Unable to switch DBManager to data access mode\n";
-            return exit(1);
+        if ($databaseExists == true) {
+            echo "Ok: Database Exists\n";
+        } else {
+            "Ok: New database\n";
         }
 
-        $groupNumber = array();
-        $groupfile = __DIR__ . "/configure/default_groups.json";
-        $defaultgroups = DataBase::createGroups(
-            $dbmanager,
-            $groupfile,
-            $groupNumber
-        );
-
-        $userfile = __DIR__ . "/configure/default_users.json";
-        $defaultusers = DataBase::createusers(
-            $dbmanager,
-            $userfile,
-            $groupNumber
-        );
-
-
-        // Create the Test Database.
-        if ($unittestdb == true) {
-            $groupfile = __DIR__ . "/configure/test_groups.json";
-            $testgroups = DataBase::createGroups(
-                $dbmanager,
-                $groupfile,
-                $groupNumber
-            );
-            $userfile = __DIR__ . "/configure/test_users.json";
-            $testusers = DataBase::createusers(
-                $dbmanager,
-                $userfile,
-                $groupNumber
-            );
+        // If the database exists and it is a test system drop it.
+        if (($databaseExists == true) and ($this->unittestdb == true)) {
+            echo substr("Dropping test database               ", 0, 35);
+            $result = $this->dbManager->getAdminDriver()->dropDatabase($dbname);
+            $databaseExists = false;
+            if (\g7mzr\db\common\Common::isError($result)) {
+                // If the database create fails terminate the install.
+                fwrite(STDERR, "FAILED " . $result->getMessage() . "\n");
+                exit(1);
+            }
+            echo "Ok: Database dropped\n";
         }
-
-        echo "Database Created\n\n";
-        return true;
+        return $databaseExists;
     }
 
 
@@ -138,21 +133,25 @@ class DataBase
      * This function creates the database user.  It terminates the install if it
      * encounters any problems
      *
-     * @param \g7mzr\db\DBManager $dbmanager  Database class object.
-     * @param string              $name       Database User Name.
-     * @param string              $passwd     Database Users password.
-     * @param boolean             $unittestdb True if a test user is being created.
+     * @param string  $name       Database User Name.
+     * @param string  $passwd     Database Users password.
+     * @param boolean $unittestdb True if a test user is being created.
      *
      * @return boolean Always return true
      */
-    private function createDatabaseUser(
-        \g7mzr\db\DBManager &$dbmanager,
+    public function createDatabaseUser(
         string $name,
         string $passwd,
         bool $unittestdb
     ) {
+        $result = $this->dbManager->setMode("admin");
+        if (\g7mzr\db\common\Common::isError($result)) {
+            echo "Unable to switch DBManager to admin mode\n";
+            return exit(1);
+        }
+
         echo substr("Checking if database user exists      ", 0, 35);
-        $checkuser = $dbmanager->getAdminDriver()->userExists($name);
+        $checkuser = $this->dbManager->getAdminDriver()->userExists($name);
         if (\g7mzr\db\common\Common::isError($checkuser)) {
             echo "Error checking if databaseuser exists\n";
             return exit(1);
@@ -161,9 +160,9 @@ class DataBase
         if ($checkuser === true) {
             echo "Ok: Exists\n";
         } else {
-            $result = $dbmanager->getAdminDriver()->createUser($name, $passwd, $unittestdb);
-            if (\g7mzr\db\common\Common::isError($checkuser)) {
-                echo "Error checking if databaseuser exists\n";
+            $result = $this->dbManager->getAdminDriver()->createUser($name, $passwd, $unittestdb);
+            if (\g7mzr\db\common\Common::isError($result)) {
+                echo "Error creating database user\n";
                 return exit(1);
             }
             echo "Ok: Created\n";
@@ -174,86 +173,64 @@ class DataBase
 
 
     /**
-     * This function creates the database user.  It terminates the install if it
-     * encounters any problems
+     * dbCreate
      *
-     * @param \g7mzr\db\DBManager $dbmanager  Database class object.
-     * @param string              $dbname     Database name.
-     * @param string              $name       Database User Name.
-     * @param boolean             $unittestdb True if a test database is being created.
+     * Create the blank Database
      *
-     * @return boolean Always return true
+     * @param string $dbname The name of the database to be created.
+     * @param string $name   Database User Name.
+     *
+     * @return boolean True if the database is created false if it os not.
+     *
+     * @access public
      */
-    private function buildDatabase(
-        \g7mzr\db\DBManager &$dbmanager,
-        string $dbname,
-        string $name,
-        bool $unittestdb
-    ) {
-        // Create the blank database owned by the application database user.
-        // If $unittestdb is true drop and recreate the test database.
+    public function dbCreate(string $dbname, string $name)
+    {
+        $result = $this->dbManager->setMode("admin");
+        if (\g7mzr\db\common\Common::isError($result)) {
+            echo "Unable to switch DBManager to admin mode\n";
+            return exit(1);
+        }
 
-        // Check if the database exists
-        echo substr("Checking if database exists           ", 0, 35);
-        $databaseExists = $dbmanager->getAdminDriver()->databaseExists($dbname);
-        if (\g7mzr\db\common\Common::isError($databaseExists)) {
-            fwrite(STDERR, "FAILED " . $databaseExists->getMessage() . "\n");
+        echo substr("Creating New Database:             ", 0, 35);
+        $result = $this->dbManager->getAdminDriver()->createDatabase(
+            $dbname,
+            $name
+        );
+        // Test that no error was encountered
+        if (\g7mzr\db\common\Common::isError($result)) {
+            // If the database create fails terminate the install.
+            fwrite(STDERR, "FAILED " . $result->getMessage() . "\n");
             exit(1);
         }
-
-        if ($databaseExists == true) {
-            echo "Ok: Exists\n";
-        } else {
-            "No: New database\n";
-        }
-
-        // If the database exists and it is a test system drop it.
-        if (($databaseExists == true) and ($unittestdb == true)) {
-            echo substr("Dropping test database               ", 0, 35);
-            $result = $dbmanager->getAdminDriver()->dropDatabase($dbname);
-            $databaseExists = false;
-            if (\g7mzr\db\common\Common::isError($result)) {
-                // If the database create fails terminate the install.
-                fwrite(STDERR, "FAILED " . $result->getMessage() . "\n");
-                exit(1);
-            }
-        }
-        echo "Ok: Database dropped\n";
-
-        if ($databaseExists == false) {
-            echo substr("Creating New Database:             ", 0, 35);
-            $result = $dbmanager->getAdminDriver()->createDatabase(
-                $dbname,
-                $name
-            );
-            // Test that no error was encountered
-            if (\g7mzr\db\common\Common::isError($result)) {
-                // If the database create fails terminate the install.
-                fwrite(STDERR, "FAILED " . $result->getMessage() . "\n");
-                exit(1);
-            }
-        }
         echo "Ok: Created\n";
-        return $databaseExists;
+        return true;
     }
+
 
     /**
      * This function creates the database schema.  It terminates the install if it
      * encounters any problems
      *
-     * @param \g7mzr\db\DBManager $dbmanager      Database class object.
-     * @param string              $schemafile     Name of the schema file.
-     * @param boolean             $databaseExists True if the database exists.
+     * @param string  $schemafile     Name of the schema file.
+     * @param boolean $databaseExists True if the database exists.
      *
      * @return boolean Always return true
      */
-    private function buildSchema(
-        \g7mzr\db\DBManager $dbmanager,
+    public function buildSchema(
         string $schemafile,
         bool $databaseExists
     ) {
+
+        // Create or update the schema
+        $setschemaresult = $this->dbManager->setMode("schema");
+        if (\g7mzr\db\common\Common::isError($setschemaresult)) {
+            echo "Unable to switch DBManager to schema mode\n";
+            return exit(1);
+        }
+
         try {
-            $schemaManager = new \g7mzr\db\SchemaManager($dbmanager);
+            $schemaManager = new \g7mzr\db\SchemaManager($this->dbManager);
         } catch (throwable $e) {
             echo "Unable to create new SchemaManager\n";
             echo $e->getMessage() . "\n";
@@ -280,17 +257,21 @@ class DataBase
      * This function adds the groups to the new database. It stops if it encounters
      * a problem
      *
-     * @param \g7mzr\db\DBManager $dbmanager   Database class object.
-     * @param string              $filename    The name of the group data file.
-     * @param array               $groupNumber GroupID/Name cross reference.
+     * @param string $filename    The name of the group data file.
+     * @param array  $groupNumber GroupID/Name cross reference.
      *
      * @return boolean Always return true
      */
-    private function createGroups(
-        \g7mzr\db\DBManager $dbmanager,
+    public function createGroups(
         string $filename,
         array &$groupNumber
     ) {
+
+        $setdataresult = $this->dbManager->setMode("datadriver");
+        if (\g7mzr\db\common\Common::isError($setdataresult)) {
+            echo "Unable to switch DBManager to data access mode\n";
+            return exit(1);
+        }
 
         // Get the Group Datafile.
         $jsonfile = @fopen($filename, 'r');
@@ -326,12 +307,12 @@ class DataBase
             );
 
             // Insert a new group to the database
-            $result = $dbmanager->getDataDriver()->dbinsert('groups', $insertdata);
+            $result = $this->dbManager->getDataDriver()->dbinsert('groups', $insertdata);
 
 
             // Always check that result is not an error
             if (!\g7mzr\db\common\Common::isError($result)) {
-                $groupId = $dbmanager->getDataDriver()->dbinsertid(
+                $groupId = $this->dbManager->getDataDriver()->dbinsertid(
                     "groups",
                     "group_id",
                     "group_name",
@@ -359,17 +340,20 @@ class DataBase
      * This function adds the groups to the new database. It stops if it encounters
      * a problem
      *
-     * @param \g7mzr\db\DBManager $dbmanager   Database class object.
-     * @param string              $filename    The name of the group data file.
-     * @param array               $groupNumber GroupID/Name cross reference.
+     * @param string $filename    The name of the group data file.
+     * @param array  $groupNumber GroupID/Name cross reference.
      *
      * @return boolean Always return true
      */
-    private function createUsers(
-        \g7mzr\db\DBManager $dbmanager,
+    public function createUsers(
         string $filename,
         array &$groupNumber
     ) {
+        $setdataresult = $this->dbManager->setMode("datadriver");
+        if (\g7mzr\db\common\Common::isError($setdataresult)) {
+            echo "Unable to switch DBManager to data access mode\n";
+            return exit(1);
+        }
 
         // Get the users Datafile.
         $jsonfile = @fopen($filename, 'r');
@@ -422,10 +406,10 @@ class DataBase
             );
 
             // Insert a new group to the database
-            $result = $dbmanager->getDataDriver()->dbinsert('users', $insertdata);
+            $insertresult = $this->dbManager->getDataDriver()->dbinsert('users', $insertdata);
 
             // Check if there was an error
-            if (\g7mzr\db\common\Common::isError($result)) {
+            if (\g7mzr\db\common\Common::isError($insertresult)) {
                 $errorMsg = gettext("ERROR Creating Database users. ");
                 $errorMsg .= gettext("Unable to create user: ");
                 $errorMsg .= $name;
@@ -436,7 +420,7 @@ class DataBase
 
 
             // Get the Id of the iuser just inserted
-            $userId = $dbmanager->getDataDriver()->dbinsertid(
+            $userId = $this->dbManager->getDataDriver()->dbinsertid(
                 "users",
                 "user_id",
                 "user_name",
@@ -456,13 +440,13 @@ class DataBase
 
 
             // Add the suer to any groups specified in the UserArray
-            $result = DataBase::processUserGroups(
-                $dbmanager,
+            $processgroupsresult = $this->processUserGroups(
+                $this->dbManager,
                 $userId,
                 $groupNumber,
                 $userdata
             );
-            if (\g7mzr\webtemplate\general\General::isError($result)) {
+            if (\g7mzr\webtemplate\general\General::isError($processgroupsresult)) {
                 $errorMsg = gettext("ERROR Creating Database users. ");
                 $errorMsg .= gettext("Unable to create groups for user: ");
                 $errorMsg .= $name;
@@ -472,8 +456,8 @@ class DataBase
             }
 
             // Add any user specific preferences.
-            $result = DataBase::processUserPrefs(
-                $dbmanager,
+            $result = $this->processUserPrefs(
+                $this->dbManager,
                 $userId,
                 $userdata
             );
@@ -496,7 +480,7 @@ class DataBase
     /**
      * This function assigns new users created during the install process to groups
      *
-     * @param \g7mzr\db\DBManager $dbmanager   Database class object.
+     * @param \g7mzr\db\DBManager $dbManager   Database class object.
      * @param integer             $userId      The users id.
      * @param array               $groupNumber The ids of each of the installed groups.
      * @param array               $userdata    The array used to create the users.
@@ -506,7 +490,7 @@ class DataBase
      * @access private
      */
     private function processUserGroups(
-        \g7mzr\db\DBManager $dbmanager,
+        \g7mzr\db\DBManager $dbManager,
         int $userId,
         array $groupNumber,
         array $userdata
@@ -527,7 +511,7 @@ class DataBase
                 );
 
                 // Insert the group map
-                $result = $dbmanager->getDataDriver()->dbinsert('user_group_map', $mapdata);
+                $result = $dbManager->getDataDriver()->dbinsert('user_group_map', $mapdata);
 
                 // check if there is an error
                 if (\g7mzr\db\common\Common::isError($result)) {
@@ -552,7 +536,7 @@ class DataBase
      * This function creates user specific preferences. It is mainly used for
      * unit and Selenium Tests I
      *
-     * @param \g7mzr\db\DBManager $dbmanager Database class object.
+     * @param \g7mzr\db\DBManager $dbManager Database class object.
      * @param integer             $userId    The users id.
      * @param array               $userdata  The array used to create the users.
      *
@@ -561,7 +545,7 @@ class DataBase
      * @access private
      */
     private function processUserPrefs(
-        \g7mzr\db\DBManager $dbmanager,
+        \g7mzr\db\DBManager $dbManager,
         int $userId,
         array $userdata
     ) {
@@ -581,7 +565,7 @@ class DataBase
                 );
 
                 // Insert the preferences
-                $result = $dbmanager->getDataDriver()->dbinsert('userprefs', $insertData);
+                $result = $dbManager->getDataDriver()->dbinsert('userprefs', $insertData);
 
                 // Check if there was an error
                 if (\g7mzr\db\common\Common::isError($result)) {

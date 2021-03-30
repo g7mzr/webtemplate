@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><root>
-<file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/developer.xml" type="XML">
+<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/developer.xml" type="DOCBOOK">
 <param name="lastView" value="Source"/>
 </file>
 <file path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml"/>
-<file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/develop-introduction.xml" type="XML">
+<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/develop-introduction.xml" type="XML">
 <param name="lastView" value="Source"/>
 </file>
 <file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/develop-philosophy.xml" type="XML">
@@ -13,7 +13,7 @@
 <param name="lastView" value="Source"/>
 </file>
 <file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/develop-versions.xml" type="XML"/>
-<file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/develop-install.xml" type="XML">
+<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/develop-install.xml" type="XML">
 <param name="lastView" value="Source"/>
 </file>
 <file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/webtemplate.ent">
@@ -30,5 +30,17 @@
 <file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/develop-restapi.xml" type="XML"/>
 <file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/selenium.xml" type="XML">
 <param name="lastView" value="Source"/>
+</file>
+<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/develop-tools.xml" type="XML">
+<param name="lastView" value="Source"/>
+</file>
+<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/develop-plugin.xml" type="XML">
+<param name="lastView" value="Source"/>
+</file>
+<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/xsl/pdf.xsl">
+<param name="encoding" value="AUTOMATIC"/>
+</file>
+<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/xsl/docs.xsl">
+<param name="encoding" value="AUTOMATIC"/>
 </file>
 </root>

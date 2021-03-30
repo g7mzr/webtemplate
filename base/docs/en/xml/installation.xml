@@ -35,10 +35,6 @@
 				</para>
 			</step>
 			<step>
-				<para><olink targetptr="install-smarty" targetdoc="manual" >Install SMARTY</olink>
-				</para>
-			</step>
-			<step>
 				<para><olink targetptr="install-webserver" targetdoc="manual" >Install Apache</olink>
 				</para>
 			</step>
@@ -48,6 +44,10 @@
 			</step>
 			<step>
 				<para><olink targetptr="install-webtemplate" targetdoc="manual" >Install &progname;</olink>
+				</para>
+			</step>
+			<step>
+				<para><olink targetptr="install-dependancies" targetdoc="manual" >Install Dependancies</olink>
 				</para>
 			</step>
 			 <step>
@@ -145,22 +145,16 @@
 			</para>
 		</section>
 
-		<section id="install-smarty">
-			<title>Install SMARTY</title>
+		<section id="install-dependancies">
+			<title>Install Dependancies</title>
 			<para>
-			&progname; requires SMARTY to display its output.  Smarty is a template engine for PHP, facilitating the separation of 
-			presentation (HTML/CSS) from application logic. 	&progname; requires SMARTY version &min-smarty-ver;.  
-			The SMARTY homepage is <ulink url="http://www.smarty.net"/>.
+			&progname; requires several PHP dependancies to operate.  These dependeancies are installed using <olink targetptr="gloss-composer" targetdoc="manual" role="glossterm">Composer</olink>.
+			 It is suggested that you install composer using your distibutions package manager.  If you wish to install the latest version it can befound at
+			 <ulink url="https://getcomposer.org/"/>
 			</para>
 			<para>
-			SMARTY is installed using <olink targetptr="gloss-composer"  targetdoc="manual" role="glossterm">Composer</olink>.  If you do 
-			not have Composer installed on your server the instructions for installing it can be found at 
-			<ulink url="https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx" />.  If you only require Composer for &progname; then 
-			you should install it locally in the top directory of &progname; 
-			</para>
-			<para>
-			One you have installed Composer run the following command <programlisting>php composer.phar install --no-dev</programlisting>.  This will
-			install the correct version of the Smarty Template Engine in the <filename class="directory">vendor</filename> directory.  if you leave the 
+			One you have installed Composer run the following command: <programlisting>php composer.phar install --no-dev</programlisting>  This will
+			install the correct version of each of the dependancies in the <filename class="directory">vendor</filename> directory.  If you leave the 
 			<emphasis>--no-dev</emphasis> option out all dependancies including those for developing the application will be installed.
 			</para>
 		</section>
@@ -227,12 +221,12 @@
 				</step>
 				<step>
 					<para> </para>
-					<para>Run the following command from the &progname; directory: <programlisting>./install.php --check-modules</programlisting></para>
+					<para>Run the following command from the &progname; directory: <programlisting>php setup php install --check-modules</programlisting></para>
 				</step>
 				<step>
 					<para>
 					Install any missing modules and run the command again omitting the --check-modules switch.
-					<programlisting>./install.php</programlisting>
+					<programlisting>php setup.php install</programlisting>
 					</para>
 				</step>
 			</procedure>
@@ -308,8 +302,30 @@
 		</para>
 	          <para>
 	          Once you have ensured the three commands have been installed navigate to the <filename class="directory">base/docs</filename> and run 
-	          the following command <programlisting>./makedocs.php --with-pdf</programlisting>.  This will make the html and pdf documentation for each installed 
+	          the following command: <programlisting>./makedocs.php --with-pdf</programlisting>  This will make the html and pdf documentation for each installed 
 	          language pack.
 	          </para>
+	</section>
+	<section id="plugins">
+	<title>Plugins</title>
+		<para>
+		&progname; supports the use of plugins to enhace its capabilty.  Plugin code is run by calling hooks within the main code. All plugins reside in the 
+		<filename class="directory">plugins</filename> directory.  An example plugin called Example is included for those who want to develop there own plugins.  If enabled
+		Example displays the total mumber of users in the &progname; About page. 
+		</para>
+		<warning>
+			<para>
+			Always use <filename>setup.php</filename> to enable and disable plugins so that the database schema changes required for the plugin are applied.
+			</para>
+		</warning>
+		<para>
+		To install your new plugin untar the archive in the <filename class="directory">plugins</filename> directory.  This should create a new directory with the same name as the plugin.  The plugin will be
+		disabled at this point.  To enable the plugin run the following command from the &progname; directory: <programlisting>php setup.php plugins -a &lt;plugin name&gt;</programlisting> This will
+		activate the plugin and make the required changes to the database schema. 
+		</para>
+		<para>
+		To disable a plugin run the following command from the &progname; directory: <programlisting>php setup.php plugins -d &lt;plugin name&gt;</programlisting> This will deactivate the plugin.  It will
+		not revert the changes to the database schema.
+		</para>
 	</section>
 </chapter>

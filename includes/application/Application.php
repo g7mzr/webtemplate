@@ -115,6 +115,15 @@ class Application
     protected $var_session = null;
 
     /**
+     * Property: plugin
+     * Webtemplate Plugin object
+     *
+     * @var \webtemplate\application\Plugin
+     * @access protected
+     */
+    protected $var_plugin = null;
+
+    /**
      * Property: user
      * Webtemplate User class
      *
@@ -223,6 +232,8 @@ class Application
             'disable_iso_date' => 'disable'
         );
 
+        // Set the base directory for the application
+        $basedir = dirname(dirname(__DIR__));
 
         // Create the Smart Template class
         $this->var_tpl = new \g7mzr\webtemplate\application\SmartyTemplate();
@@ -246,6 +257,10 @@ class Application
         // Get the application development mode
         $this->var_production = $this->var_tpl->getConfigVars('Production');
 
+        // Enable Smarty Debugging on Development system
+        if ($this->var_production === false) {
+            $this->var_tpl->debugging_ctrl = 'URL';
+        }
 
         // Get the Database login information
         WebTemplateCommon::loadDSN($this->var_tpl, $dsn);
@@ -296,6 +311,10 @@ class Application
             $this->var_tpl,
             $this->var_db
         );
+
+        // Initialise the Plugin Class and all active plugins
+        $plugindir = $basedir . "/plugins";
+        $this->var_plugin = new \g7mzr\webtemplate\application\Plugin($plugindir, $this);
 
         // Create a user class
         $this->var_user = new \g7mzr\webtemplate\users\User($this->var_db);
@@ -507,6 +526,18 @@ class Application
     public function session()
     {
         return $this->var_session;
+    }
+
+    /**
+     * This function returns the Plugin Class
+     *
+     *  @return \g7mzr\webtemplate\application\Plugin
+     *
+     * @access protected
+     */
+    public function plugin()
+    {
+        return $this->var_plugin;
     }
 
     /**

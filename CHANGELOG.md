@@ -4,10 +4,11 @@
 ### Added
 - Selenium User Interface Testing
 - RestFUL API
-- PHP Class Autoloading
+- PHP Class Autoloading (PSR4)
 - Password Reset
 - Auto Logout
 - Failed Login Throttling
+- Plugin Capability
 
 ### Changed
 - Split Parameters Class and Template into individual Classes for each section

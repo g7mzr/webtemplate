@@ -45,7 +45,7 @@
     <xsl:param name="admon.graphics.extension">.gif</xsl:param>
     <xsl:param name="admon.textlabel" select="1"/>
     <xsl:param name="admon.style">margin-left: 1em; margin-right: 1em</xsl:param>
-
+   
     <xsl:template match="olink[@role = 'glossterm']" mode="class.value">
           <xsl:value-of select="'glossterm'"/>
     </xsl:template>

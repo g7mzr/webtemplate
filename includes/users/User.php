@@ -135,12 +135,12 @@ class User
     protected $failedLoginTimeout = 15;
 
     /**
-    * User Class Constructor
-    *
-    * @param \\g7mzr\db\interfaces\InterfaceDatabaseDriver $db Database Connection Object.
-    *
-    * @access public
-    */
+     * User Class Constructor
+     *
+     * @param \g7mzr\db\interfaces\InterfaceDatabaseDriver $db Database Connection Object.
+     *
+     * @access public
+     */
     public function __construct(\g7mzr\db\interfaces\InterfaceDatabaseDriver $db)
     {
         $this->db       = $db ;

@@ -42,6 +42,7 @@
 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-application.xml" />
 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="selenium.xml" />
 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-restapi.xml" />
+	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-plugin.xml" />
 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="glossary.xml" />
 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-versions.xml" />
 	<xi:include  xmlns:xi="http://www.w3.org/2001/XInclude" href="develop-tools.xml" /> 

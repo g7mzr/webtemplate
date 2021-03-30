@@ -20,7 +20,7 @@
     <!-- Some layout parameters -->
     <xsl:param name="paper.type">A4</xsl:param>
     <xsl:param name="fop1.extensions" select="1"/>
-    <xsl:param name="section.autolabel" select="1"/>
+    <xsl:param name="section.autolabel" select="0"/>
     <xsl:param name="section.label.include.component.label" select="1"/>
     <xsl:param name="xref.with.number.and.title" select="0"/>
     <xsl:param name="generate.toc">book title,toc,figure</xsl:param>
@@ -33,6 +33,7 @@
     <xsl:param name="latex.hyperparam">colorlinks,linkcolor=blue,urlcolor=blue</xsl:param>
     <xsl:param name="shade.verbatim" select="1"/>
     <xsl:param name="glossary.numbered">0</xsl:param>
+    <xsl:param name="chapter.autolabel">0</xsl:param>
 
     <!-- Set olink parameters-->
     <xsl:param name="target.database.document">olinkpdf.xml</xsl:param>
@@ -58,7 +59,7 @@
     <xsl:param name="figure.warning">warning</xsl:param>
     <xsl:param name="figure.caution">caution</xsl:param>
     <xsl:param name="figure.important">important</xsl:param>
-
+   
     <!-- Make pdflatex shut up about <prompt> and <command> within <programlisting>, -->
     <!-- see http://dblatex.sourceforge.net/doc/manual/sec-verbatim.html             -->
     <xsl:template match="prompt|command" mode="latex.programlisting">
@@ -72,6 +73,39 @@
             <xsl:with-param name="probe" select="$probe"/>
         </xsl:call-template>
     </xsl:template>
+    
+    <!-- Paragraph Numbering  Level 0 --> 
+    <xsl:template match="para[parent::section or parent::chapter]">
+  	<fo:block xsl:use-attribute-sets="normal.para.spacing">
+    		<xsl:call-template name="anchor"/>
+    		<xsl:number from="chapter" count="para[parent::section or parent::chapter]" level="any" format="1"/>
+    		<xsl:text>. &#009;</xsl:text>
+    		<xsl:apply-templates/>
+  	</fo:block>
+  </xsl:template> 
+
+    <!-- Paragraph Numbering  Level 1
+    <xsl:template match="para[parent::para]">
+  	<fo:block xsl:use-attribute-sets="normal.para.spacing">
+ 		<xsl:attribute name="margin-left">2pc</xsl:attribute>
+ 		<xsl:call-template name="anchor"/>
+ 		<xsl:number from="section/para" count="para[parent::para]"  level="any" format="a"/>
+     		<xsl:text>.    </xsl:text>
+     		<xsl:apply-templates/>
+  	</fo:block>
+  </xsl:template>
+<xsl:template match="chapter/para|sect1/para">
+  	<fo:block xsl:use-attribute-sets="normal.para.spacing">
+    		<xsl:call-template name="anchor"/>
+    		<xsl:number from="chapter" count="para[parent::chapter or parent::sect1]" level="any" format="1"/>
+    		<xsl:text>.    </xsl:text>
+    		<xsl:apply-templates/>
+  	</fo:block>
+
+</xsl:template>
+   -->
+   <!-- Remove text body indenting -->
+   <xsl:param name="body.start.indent">0pt</xsl:param>
 
     <!-- Set xref properties -->
     <xsl:attribute-set name="xref.properties">
@@ -99,5 +133,23 @@
     <xsl:attribute-set name="toc.line.properties">
         <xsl:attribute name="color">blue</xsl:attribute>
     </xsl:attribute-set>
+
+<xsl:attribute-set name="list.block.properties">
+  <xsl:attribute name="margin-left">
+    <xsl:choose>
+      <xsl:when test="count(ancestor::listitem)">inherit</xsl:when>
+      <xsl:otherwise>2pc</xsl:otherwise>
+    </xsl:choose>
+  </xsl:attribute>
+</xsl:attribute-set>
+
+<xsl:attribute-set name="procedure.block.properties">
+  <xsl:attribute name="margin-left">
+    <xsl:choose>
+      <xsl:when test="count(ancestor::listitem)">inherit</xsl:when>
+      <xsl:otherwise>2pc</xsl:otherwise>
+    </xsl:choose>
+  </xsl:attribute>
+</xsl:attribute-set>
 
 </xsl:stylesheet>

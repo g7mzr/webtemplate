@@ -120,6 +120,9 @@ $space = round(($ar['size'] / 1024), 1);
 $dskspace = round((disk_free_space($dir) / 1024), 1);
 $percentage = round((($space / $dskspace) * 100), 2);
 
+// Get the plugin details
+$pluginlist = $app->plugin()->getPluginVersionInformation();
+
 $app->tpl()->assign("PHPVERSION", phpversion());
 $app->tpl()->assign("SERVERNAME", $_SERVER['SERVER_NAME']);
 $app->tpl()->assign("SERVERSOFTWARE", $_SERVER['SERVER_SOFTWARE']);
@@ -127,12 +130,17 @@ $app->tpl()->assign("SERVERADMIN", $_SERVER['SERVER_ADMIN']);
 $app->tpl()->assign("DATABASEVERSION", $databaseversion);
 $app->tpl()->assign("LOGDIRSIZE", $size);
 $app->tpl()->assign("PERCENTAGE", $percentage);
+$app->tpl()->assign("PLUGINS", $pluginlist);
 
 $template = 'admin/about.tpl';
 
 // Get the year for the Copyright Statement
 $dateArray = getdate();
 $app->tpl()->assign('YEAR', "$dateArray[year]");
+
+//  About pre display Hook
+$dataarray = array();
+$app->plugin()->processHook("hookAboutDisplay", $dataarray);
 
 // Display the Web Page
 $app->tpl()->display($template);

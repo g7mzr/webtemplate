@@ -24,7 +24,10 @@
             </TR>
             <TR>
                 <TH Width=100 Align=left>Password</TH>
-                <TH Width=100><input type="PASSWORD" name="password" {if $AUTOCOMPLETE == true}autocomplete="on"{else}autocomplete="off"{/if}></TH>
+                <TH Width=100><input type="PASSWORD" name="password" id="password" {if $AUTOCOMPLETE == true}autocomplete="on"{else}autocomplete="off"{/if}></TH>
+            </TR>
+            <TR>
+                <TH Align="left" colspan="2">Show Password <input type="checkbox" onclick="viewPassword();"></TH>
             </TR>
         </TABLE>
         <input type="Submit" value="Login" name="Login_Button" id="Login_Button">
@@ -36,6 +39,18 @@
     {if $NEWPASSWDENABLED == true}
         <a href="/resetpasswd.php">[Forgot Your Password?]</a>
     {/if}
+
+    <script>
+        function viewPassword() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
+
 {else}
     {include file="global/homeloggedin.tpl"}
     {if $LASTLOGEDIN <> ''}
