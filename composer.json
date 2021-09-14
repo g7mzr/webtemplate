@@ -18,7 +18,7 @@
     },
 
     "require-dev": {
-        "facebook/webdriver": "~1.5",
+        "php-webdriver/webdriver": "~1.5",
         "mikey179/vfsstream": "~1",
         "g7mzr/restclient-php": "dev-master"
     }
