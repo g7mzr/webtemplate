@@ -16,3 +16,4 @@ cache.properties
 composer.phar
 .phpunit.result.cache
 .directory
+/tools/

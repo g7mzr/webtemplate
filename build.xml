@@ -12,7 +12,7 @@
 
     <!-- Set up default directories -->
     <property name="basedir" value="${project.basedir}" />
-    <property name="toolsdir" value="${basedir}/vendor/bin/"/>
+    <property name="toolsdir" value="${basedir}/tools/"/>
 
     <!-- The default location for the compser phar -->
     <property name="composer" value="${basedir}/build/composer.phar"/>
