@@ -99,7 +99,7 @@ class Groups
         if ($this->userId > 0) {
             $this->loadusersgroups($userId);
         }
-    } // end constructor
+    }
 
     /**
      * Get the last message created by class
@@ -183,7 +183,8 @@ class Groups
     final public function checkGroup(string $groupName)
     {
 
-        if ((in_array($groupName, $this->groups))
+        if (
+            (in_array($groupName, $this->groups))
             or (in_array('admin', $this->groups))
         ) {
             return true;

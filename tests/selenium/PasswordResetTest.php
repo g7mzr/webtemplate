@@ -15,7 +15,7 @@
 
 namespace Facebook\WebDriver;
 
-use\g7mzr\webtemplate\application\exceptions\AppException;
+useg7mzr\webtemplate\application\exceptions\AppException;
 use PHPUnit\Framework\TestCase;
 
 // Load the Selenium Driver and Application Data.
@@ -118,12 +118,14 @@ class PasswordResetTest extends TestCase
         // do anything
         if (is_a($this->webDriver, "Facebook\WebDriver\Remote\RemoteWebDriver")) {
             // Check if the test has failed
-            if ($status == \PHPUnit\Runner\BaseTestRunner::STATUS_ERROR
+            if (
+                $status == \PHPUnit\Runner\BaseTestRunner::STATUS_ERROR
                 || $status == \PHPUnit\Runner\BaseTestRunner::STATUS_FAILURE
             ) {
                 //Check that the browser is not htmlunit or that we are testing
                 // the Help Files.
-                if ((BROWSER != "htmlunit")
+                if (
+                    (BROWSER != "htmlunit")
                     and ($this->getName() != 'testHelpFiles')
                 ) {
                     // Build up the file name

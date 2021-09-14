@@ -73,7 +73,7 @@ class ConfigureClassTest extends TestCase
      *
      * @return void
      */
-    protected function tearDown():void
+    protected function tearDown(): void
     {
         $configDir = dirname(__FILE__) . "/../_data";
         $filename = $configDir . '/parameters.php';

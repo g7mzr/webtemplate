@@ -15,9 +15,9 @@
 
 namespace g7mzr\webtemplate\application;
 
-use \g7mzr\webtemplate\application\exceptions\AppException;
-use \g7mzr\webtemplate\general\General;
-use \g7mzr\webtemplate\application\WebTemplateCommon;
+use g7mzr\webtemplate\application\exceptions\AppException;
+use g7mzr\webtemplate\general\General;
+use g7mzr\webtemplate\application\WebTemplateCommon;
 
 /**
  *  Webtemplate Application

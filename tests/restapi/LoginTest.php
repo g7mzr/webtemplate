@@ -19,11 +19,11 @@ namespace g7mzr\webtemplate\apitest;
 require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/constants.php';
 
-use \PHPUnit\Framework\TestCase;
-use \g7mzr\restclient\http\APIClient;
-use \g7mzr\restclient\options\Options;
-use \g7mzr\restclient\http\request\Request;
-use \g7mzr\restclient\http\response\DecodeResponse;
+use PHPUnit\Framework\TestCase;
+use g7mzr\restclient\http\APIClient;
+use g7mzr\restclient\options\Options;
+use g7mzr\restclient\http\request\Request;
+use g7mzr\restclient\http\response\DecodeResponse;
 
 /**
  * Login/Logout Endpoint Tests

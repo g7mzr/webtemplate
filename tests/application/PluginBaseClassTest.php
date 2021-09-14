@@ -24,7 +24,7 @@ require_once dirname(__FILE__) . '/../_data/database.php';
 use PHPUnit\Framework\TestCase;
 use g7mzr\webtemplate\application\SmartyTemplate;
 use g7mzr\db;
-use \g7mzr\webtemplate\application\plugins\PluginConst;
+use g7mzr\webtemplate\application\plugins\PluginConst;
 
 /**
  * Plugin Base Class Unit Tests called using Example Plugin

@@ -153,7 +153,7 @@ class Preferences
         }
         $this->installedThemes = $installedThemes;
         return $gotThemes;
-    }  // End of getThemes
+    }
 
     /**
     * Set the Selected element of the applications default theme. Using
@@ -238,7 +238,7 @@ class Preferences
         // Save the resulst to the file
         $result = $this->config->savePrefs($configDir);
         return $result;
-    } // End of savePreferences
+    }
 
     /**
      * Validate the Preferences input by the users. lastMsg contains a list of
@@ -284,7 +284,7 @@ class Preferences
         $this->displayRowsEnabled = isset($inputArray['display_rows_enabled']);
 
         return $dataValid;
-    } // End of validatePrefrences
+    }
 
     /**
      * Validate the chosen theme
@@ -390,16 +390,18 @@ class Preferences
             $msg .= gettext("Zoom Text Areas Enabled Updated") . "\n";
             $dataUpdated = true;
         }
-        if ($this->displayRowsValue != $this->config->read(
-            'pref.displayrows.value'
-        )
+        if (
+            $this->displayRowsValue != $this->config->read(
+                'pref.displayrows.value'
+            )
         ) {
             $msg .= gettext("Display Rows Updated") . "\n";
             $dataUpdated = true;
         }
-        if ($this->displayRowsEnabled != $this->config->read(
-            'pref.displayrows.enabled'
-        )
+        if (
+            $this->displayRowsEnabled != $this->config->read(
+                'pref.displayrows.enabled'
+            )
         ) {
             $msg .= gettext("Display Rows Enabled Updated") . "\n";
             $dataUpdated = true;

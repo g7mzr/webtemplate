@@ -117,7 +117,7 @@ class Configure
         $adminmenufilename = $configDir . '/menus/adminmenu.json';
         $adminmenustr = file_get_contents($adminmenufilename);
         $this->adminmenu = json_decode($adminmenustr, true);
-    } // end constructor
+    }
 
 
     /**

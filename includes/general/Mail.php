@@ -176,7 +176,7 @@ class Mail
         }
 
         $this->logDir = dirname(dirname(dirname(__FILE__))) . "/logs/";
-    } // end constructor
+    }
 
 
     /**

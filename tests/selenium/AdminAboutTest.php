@@ -63,12 +63,14 @@ class AdminAboutTest extends TestCase
         // do anything
         if (is_a($this->webDriver, "Facebook\WebDriver\Remote\RemoteWebDriver")) {
             // Check if the test has failed
-            if ($status == \PHPUnit\Runner\BaseTestRunner::STATUS_ERROR
+            if (
+                $status == \PHPUnit\Runner\BaseTestRunner::STATUS_ERROR
                 || $status == \PHPUnit\Runner\BaseTestRunner::STATUS_FAILURE
             ) {
                 //Check that the browser is not htmlunit or that we are testing
                 // the Help Files.
-                if ((BROWSER != "htmlunit")
+                if (
+                    (BROWSER != "htmlunit")
                     and ($this->getName() != 'testHelpFiles')
                 ) {
                     // Build up the file name
@@ -140,7 +142,7 @@ class AdminAboutTest extends TestCase
         $this->assertEquals(WEBSITENAME . ': About', $this->webDriver->getTitle());
         // Check the Version Number is correct
         $h2 = $this->webDriver->findElement(WebDriverBy::cssSelector('h2'));
-        $this->assertEquals('About: ' . WEBSITENAME, $h2->getText());
+        $this->assertEquals(WEBSITENAME, $h2->getText());
 
         // Check the pagename is correct
         $checkPageName =  $this->webDriver->findElement(

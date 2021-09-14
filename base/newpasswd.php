@@ -131,7 +131,8 @@ if ($action == "save") {
     $app->tpl()->assign("USERID", $app->session()->getUserName());
 
     $passwdstrength = $app->config()->read('param.users.passwdstrength');
-    if ((LocalValidate::password($temppass1, $passwdstrength))
+    if (
+        (LocalValidate::password($temppass1, $passwdstrength))
         and ($temppass1 == $temppass2)
     ) {
         $passwdstatus = $app->edituser()->updatePasswd(

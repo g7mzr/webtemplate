@@ -15,8 +15,8 @@
 
 namespace g7mzr\webtemplate\application\plugins;
 
-use \g7mzr\webtemplate\application\exceptions\AppException;
-use \g7mzr\webtemplate\application\plugins\PluginConst;
+use g7mzr\webtemplate\application\exceptions\AppException;
+use g7mzr\webtemplate\application\plugins\PluginConst;
 
 /**
  * The Base Class that all Webtemplate plugins are built on
@@ -28,17 +28,17 @@ class PluginBaseClass
     /**
      * Constant: Default Plugin name
      */
-    const PLUGIN_NAME = "PLUGIN BASE CLASS";
+    public const PLUGIN_NAME = "PLUGIN BASE CLASS";
 
     /**
      * Constant: Default Plugin Version
      */
-    const PLUGIN_VERSION = "1.0.0";
+    public const PLUGIN_VERSION = "1.0.0";
 
     /**
      * Constant: The default home directory of the current plugin
      */
-    const PLUGIN_DIR = __DIR__;
+    public const PLUGIN_DIR = __DIR__;
 
     /**
      * Property: app

@@ -110,7 +110,7 @@ class Auth extends ParametersAbstract
         $this->passwdAge = $this->config->read('param.users.passwdage');
         $this->autocomplete = $this->config->read('param.users.autocomplete');
         $this->autologout = $this->config->read('param.users.autologout');
-    } // end constructor
+    }
 
     /**
      * Validate the Auth set of parameters input by the user.  Last Msg will
@@ -422,7 +422,8 @@ class Auth extends ParametersAbstract
         }
 
         // Check the username regexp contains valid characters
-        if ((!\g7mzr\webtemplate\general\LocalValidate::regexp($this->username_regexp))
+        if (
+            (!\g7mzr\webtemplate\general\LocalValidate::regexp($this->username_regexp))
             or (strlen($this->username_regexp) == 0)
         ) {
             $dataok = false;
@@ -455,7 +456,8 @@ class Auth extends ParametersAbstract
         }
 
         // Check the username regexp description contains valid characters
-        if ((!\g7mzr\webtemplate\general\LocalValidate::generaltext($this->uname_regx_des))
+        if (
+            (!\g7mzr\webtemplate\general\LocalValidate::generaltext($this->uname_regx_des))
             or (strlen($this->uname_regx_des) == 0)
         ) {
             $dataok = false;

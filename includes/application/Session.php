@@ -135,7 +135,7 @@ class Session
      * @param SmartyTemplate                               $tpl          Smarty Template variable.
      * @param \g7mzr\db\interfaces\InterfaceDatabaseDriver $db           Database Object.
      *
-     * @return boolean Function run okay
+     * @return void
      *
      * @since Method available since Release 1.0.0
      *

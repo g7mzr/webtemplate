@@ -74,7 +74,7 @@ class EditGroups
         if (!\g7mzr\db\common\Common::isError($sqlresult)) {
             $this->admingroupid = $sqlresult['group_id'];
         }
-    } // end constructor
+    }
 
      /**
      * This function returns the contents of the ChangeString variable

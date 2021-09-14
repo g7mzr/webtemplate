@@ -22,8 +22,8 @@ namespace g7mzr\webtemplate\application\plugins;
  */
 class PluginConst
 {
-    const GET_PLUGIN_INFO = 0;
-    const GET_PLUGIN_NAME = 1;
-    const GET_PLUGIN_VERSION = 2;
-    const GET_PLUGIN_VERSION_STRING = 3;
+    public const GET_PLUGIN_INFO = 0;
+    public const GET_PLUGIN_NAME = 1;
+    public const GET_PLUGIN_VERSION = 2;
+    public const GET_PLUGIN_VERSION_STRING = 3;
 }

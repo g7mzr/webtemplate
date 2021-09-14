@@ -114,7 +114,7 @@ class EditGroupsClassTest extends TestCase
      *
      * @return void
      */
-    protected function tearDown():void
+    protected function tearDown(): void
     {
         if ($this->databaseconnection === true) {
             $this->object2->getDataDriver()->disconnect();

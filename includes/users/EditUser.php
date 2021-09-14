@@ -50,7 +50,7 @@ class EditUser
     {
         $this->db       = $db;
         $this->userName = "None";
-    } // end constructor
+    }
 
 
     /**
@@ -701,7 +701,8 @@ class EditUser
             $data['userId'] = '';
         }
 
-        if ((!\g7mzr\webtemplate\general\LocalValidate::dbid($data['userId']))
+        if (
+            (!\g7mzr\webtemplate\general\LocalValidate::dbid($data['userId']))
             and ($prefsOnly == false)
         ) {
             $data['msg'] .= gettext("Invalid User ID") . "\n";
@@ -849,10 +850,11 @@ class EditUser
         }
 
         if (($data['passwd'] <> '') or ($data['userId'] == '0')) {
-            if (!\g7mzr\webtemplate\general\LocalValidate::password(
-                $data['passwd'],
-                $params['passwdstrength']
-            )
+            if (
+                !\g7mzr\webtemplate\general\LocalValidate::password(
+                    $data['passwd'],
+                    $params['passwdstrength']
+                )
             ) {
                 $data['msg'] .= gettext("Invalid Password: ");
                 $tempno = $params['passwdstrength'];
@@ -863,10 +865,11 @@ class EditUser
         }
 
         if ($data['passwd2'] <> '') {
-            if (!\g7mzr\webtemplate\general\LocalValidate::password(
-                $data['passwd2'],
-                $params['passwdstrength']
-            )
+            if (
+                !\g7mzr\webtemplate\general\LocalValidate::password(
+                    $data['passwd2'],
+                    $params['passwdstrength']
+                )
             ) {
                 // Password 2 is not valid
                 $data['msg'] .= gettext("Invaild Confirmation Password") . "\n";

@@ -15,10 +15,10 @@
 
 namespace g7mzr\webtemplate\install\commands;
 
-use \GetOpt\Command;
-use \GetOpt\GetOpt;
-use \GetOpt\Operand;
-use \GetOpt\Option;
+use GetOpt\Command;
+use GetOpt\GetOpt;
+use GetOpt\Operand;
+use GetOpt\Option;
 
 /**
  * Setup is a test command for PharApp.
@@ -341,13 +341,12 @@ class InstallCommand extends Command
             }
         }
         echo "Database Created\n\n";
-
     }
 
     /**
      * Install Plugins
      *
-     * @param array   $installConfig Array with info needed to setup the app.
+     * @param array $installConfig Array with info needed to setup the app.
      *
      * @return void
      *

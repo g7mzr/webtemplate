@@ -122,7 +122,7 @@ class EditUserPref
     ) {
         $this->db     = $db ;
         $this->userId = $userId;
-    } // end constructor
+    }
 
 
     /**
@@ -275,7 +275,7 @@ class EditUserPref
         $this->lastMsg = $msg;
 
         return $gotCurrentPrefs and $gotThemes;
-    }  // End of getThemes
+    }
 
 
     /**
@@ -661,10 +661,11 @@ class EditUserPref
         $dataValid = true;
 
         if (isset($inputArray['zoom_textareas'])) {
-            if (preg_match(
-                "/^(default)|(on)|(off)$/",
-                $inputArray['zoom_textareas']
-            ) == true
+            if (
+                preg_match(
+                    "/^(default)|(on)|(off)$/",
+                    $inputArray['zoom_textareas']
+                ) == true
             ) {
                 $zoomTextAreaValid = true;
                 $this->newZoomTextAreaValue = $inputArray['zoom_textareas'];
@@ -691,7 +692,8 @@ class EditUserPref
         $themchanged = false;
 
         foreach ($this->installedThemes as $value) {
-            if (($value['selected'])
+            if (
+                ($value['selected'])
                 and ($this->newThemeValue != '')
                 and ($value['name'] != $this->newThemeValue)
             ) {
@@ -716,7 +718,8 @@ class EditUserPref
         $zoomTextAreaChanged = false;
 
         foreach ($this->installedZoomText as $value) {
-            if (($value['selected'])
+            if (
+                ($value['selected'])
                 and ($this->newZoomTextAreaValue != '')
                 and ($value['name'] != $this->newZoomTextAreaValue)
             ) {
@@ -740,7 +743,8 @@ class EditUserPref
         $displayRowsChanged = false;
 
         foreach ($this->installedDisplayRows as $value) {
-            if (($value['selected'])
+            if (
+                ($value['selected'])
                 and ($this->newDisplayRowsValue != '')
                 and ($value['name'] != $this->newDisplayRowsValue)
             ) {
@@ -764,7 +768,8 @@ class EditUserPref
     {
         $updateok = true;
 
-        if (($this->newThemeValue != 'default')
+        if (
+            ($this->newThemeValue != 'default')
             and ($this->newThemeValue != '')
         ) {
             $data = array(
@@ -791,7 +796,8 @@ class EditUserPref
     {
         $updateok = true;
 
-        if (($this->newZoomTextAreaValue != 'default')
+        if (
+            ($this->newZoomTextAreaValue != 'default')
             and ($this->newZoomTextAreaValue != '')
         ) {
             if ($this->newZoomTextAreaValue == 'on') {
@@ -830,7 +836,8 @@ class EditUserPref
     {
         $updateok = true;
 
-        if (($this->newDisplayRowsValue  != 'default')
+        if (
+            ($this->newDisplayRowsValue  != 'default')
             and ($this->newDisplayRowsValue  != '')
         ) {
             $data = array(

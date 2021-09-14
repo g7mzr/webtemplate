@@ -51,7 +51,7 @@ class Blank
     public function __construct(\g7mzr\db\interfaces\InterfaceDatabaseDriver $db)
     {
         $this->db       = $db;
-    } // end constructor
+    }
 
 
     /**

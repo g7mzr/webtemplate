@@ -20,7 +20,6 @@ namespace g7mzr\webtemplate\rest\endpoints;
  **/
 class Example
 {
-
     /**
      * Traits to be used by this Class
      */

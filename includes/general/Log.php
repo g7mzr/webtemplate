@@ -75,7 +75,7 @@ class Log
         $this->rotateLevel = $rotateLevel;
         $this->logDir = dirname(dirname(dirname(__FILE__))) . "/logs/";
         //error_log($this->errorLevel);
-    } // end constructor
+    }
 
 
 

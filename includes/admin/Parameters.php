@@ -15,7 +15,8 @@
 
 namespace g7mzr\webtemplate\admin;
 
-use\g7mzr\webtemplate\application\exceptions\AppException;
+use g7mzr\webtemplate\application\exceptions\AppException;
+
 /**
  * Parameters Interface Class
  *
@@ -46,7 +47,7 @@ class Parameters
     public function __construct(\g7mzr\webtemplate\config\Configure $config)
     {
         $this->config = $config;
-    } // end constructor
+    }
 
 
     /**

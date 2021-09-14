@@ -15,7 +15,7 @@
 
 namespace g7mzr\webtemplate\rest;
 
-use \g7mzr\webtemplate\application\exceptions\AppException;
+use g7mzr\webtemplate\application\exceptions\AppException;
 
 /**
  *  Webtemplate REST API
@@ -114,7 +114,7 @@ class RESTapi
         string $file,
         string $contenttype,
         string $accepttype,
-        \g7mzr\webtemplate\application\Application  &$webtemplate
+        \g7mzr\webtemplate\application\Application &$webtemplate
     ) {
 
         $this->args = explode('/', rtrim($args, '/'));

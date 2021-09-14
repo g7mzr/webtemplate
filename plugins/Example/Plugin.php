@@ -15,7 +15,7 @@
 
 namespace g7mzr\webtemplate\plugins\Example;
 
-use \g7mzr\webtemplate\application\plugins\PluginBaseClass;
+use g7mzr\webtemplate\application\plugins\PluginBaseClass;
 
 /**
  * Description of Example
@@ -27,17 +27,17 @@ class Plugin extends PluginBaseClass
     /**
      * Constant: Default Plugin name
      */
-    const PLUGIN_NAME = "Example Plugin";
+    public const PLUGIN_NAME = "Example Plugin";
 
     /**
      * Constant: Default Plugin Version
      */
-    const PLUGIN_VERSION = "0.1.0";
+    public const PLUGIN_VERSION = "0.1.0";
 
     /**
      * Constant: The home directory of the current plugin
      */
-    const PLUGIN_DIR = __DIR__;
+    public const PLUGIN_DIR = __DIR__;
 
     /**
      * hook_about_display Hook

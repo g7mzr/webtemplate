@@ -152,7 +152,7 @@ if ($action == "saveemail") {
 
     // Validate the email address.  If invalid flag data as false
     if ($usermail1 <> '') {
-        if (webtemplate\general\LocalValidate::email($usermail1)) {
+        if (\g7mzr\webtemplate\general\LocalValidate::email($usermail1)) {
             $emailok = true;
         }
     }
@@ -259,7 +259,7 @@ if ($action == "saveemail") {
  */
 if (\filter_input(INPUT_GET, 'newuser') !== null) {
     $temptoken = \filter_input(INPUT_GET, 'newuser', FILTER_SANITIZE_STRING);
-    if (!webtemplate\general\LocalValidate::token($temptoken)) {
+    if (!\g7mzr\webtemplate\general\LocalValidate::token($temptoken)) {
         // This is not a valid webtemplate token
         $template = 'global/error.tpl';
         $msg = gettext("Unable to validate new account request.\n\n");
@@ -322,7 +322,7 @@ if ($action == "cancelnewaccount") {
     }
 
     $temptoken = \filter_input(INPUT_POST, 'newacc', FILTER_SANITIZE_STRING);
-    if (!webtemplate\general\LocalValidate::token($temptoken)) {
+    if (!\g7mzr\webtemplate\general\LocalValidate::token($temptoken)) {
         // This is not a valid webtemplate token
         $template = 'global/error.tpl';
         $msg = gettext("Unable to validate  new account cancelation request.\n");
@@ -337,7 +337,7 @@ if ($action == "cancelnewaccount") {
     $requestToken = \filter_input(INPUT_POST, 'newacc', FILTER_SANITIZE_STRING);
 
     $result = $app->tokens()->deleteToken($requestToken);
-    if (webtemplate\general\General::isError($result)) {
+    if (\g7mzr\webtemplate\general\General::isError($result)) {
         $msg = gettext(__FILE__ . "Error cancelling new account request");
         $app->log()->error($msg);
     }
@@ -367,7 +367,7 @@ if ($action == "savenewaccount") {
 
     // Check the New Account Token is Valid
     $temptoken = \filter_input(INPUT_POST, 'newacc', FILTER_SANITIZE_STRING);
-    if (!webtemplate\general\LocalValidate::token($temptoken)) {
+    if (!\g7mzr\webtemplate\general\LocalValidate::token($temptoken)) {
         // This is not a valid webtemplate token
         $template = 'global/error.tpl';
         $msg = gettext("Unable to validate new account request.\n\n");
@@ -439,10 +439,11 @@ if ($action == "savenewaccount") {
     }
 
     // Validate the username.  If invalid flag data as false
-    if (!\g7mzr\webtemplate\general\LocalValidate::username(
-        $username,
-        $app->config()->read('param.users.regexp')
-    )
+    if (
+        !\g7mzr\webtemplate\general\LocalValidate::username(
+            $username,
+            $app->config()->read('param.users.regexp')
+        )
     ) {
         $usernameok = false;
         $userdataok = false;
@@ -469,10 +470,11 @@ if ($action == "savenewaccount") {
     // Check the passwords match and are valid. If invalid flag data as false.
     $passwdstrength = $app->config()->read('param.users.passwdstrength');
     if (($passwdOne <> '') and ($passwdOne == $passwdTwo)) {
-        if (!\g7mzr\webtemplate\general\LocalValidate::password(
-            $passwdOne,
-            $passwdstrength
-        )
+        if (
+            !\g7mzr\webtemplate\general\LocalValidate::password(
+                $passwdOne,
+                $passwdstrength
+            )
         ) {
             $passwdok = false;
             $userdataok = false;
@@ -520,7 +522,7 @@ if ($action == "savenewaccount") {
 
             // Delete the request Token
             $result = $app->tokens()->deleteToken($requestToken);
-            if (webtemplate\general\General::isError($result)) {
+            if (\g7mzr\webtemplate\general\General::isError($result)) {
                 $msg = gettext(__FILE__ . "Error deleteing new account token");
                 $app->log()->error($msg);
             }
@@ -546,7 +548,7 @@ if ($action == "savenewaccount") {
         if ($passwdok == false) {
             $passwdstrength = $app->config()->read('param.users.passwdstrength');
             $msg .= gettext("Invalid Password: ");
-            $msg .= webtemplate\general\General::passwdFormat($passwdstrength);
+            $msg .= \g7mzr\webtemplate\general\General::passwdFormat($passwdstrength);
             $msg .= "\n";
         }
         $app->tpl()->assign("MSG", $msg);

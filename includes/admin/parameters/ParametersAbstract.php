@@ -47,7 +47,7 @@ abstract class ParametersAbstract
     public function __construct(\g7mzr\webtemplate\config\Configure $config)
     {
         $this->config = $config;
-    } // end constructor
+    }
 
 
     /**

@@ -21,7 +21,6 @@ namespace g7mzr\webtemplate\rest\endpoints;
  **/
 class Groups
 {
-
     /**
      * Traits to be used by this Class
      */
@@ -52,7 +51,7 @@ class Groups
      *
      * @access public
      */
-    public function __construct(\g7mzr\webtemplate\application\Application  &$webtemplate)
+    public function __construct(\g7mzr\webtemplate\application\Application &$webtemplate)
     {
             $this->webtemplate = $webtemplate;
     }

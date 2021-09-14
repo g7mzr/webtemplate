@@ -15,7 +15,7 @@
 
 namespace g7mzr\webtemplate\install;
 
-use \g7mzr\webtemplate\application\plugins\InitiatePlugins;
+use g7mzr\webtemplate\application\plugins\InitiatePlugins;
 
 /**
  * Description of PluginDataBase
@@ -39,7 +39,7 @@ class PluginDataBase
     public static function getPluginDBFiles(string $pluginDir)
     {
         $app = new \g7mzr\webtemplate\application\Application();
-        $pluginlist = InitiatePlugins::initatePlugins($pluginDir,$app);
+        $pluginlist = InitiatePlugins::initatePlugins($pluginDir, $app);
         $filelist = array();
         foreach ($pluginlist as $pluginName => $pointer) {
             $filelist[$pluginName] = array();

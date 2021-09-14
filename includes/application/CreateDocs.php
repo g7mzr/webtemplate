@@ -159,7 +159,7 @@ class CreateDocs
         $this->development['develop']['html'] = 'develop_html';
         $this->development['develop']['pdf'] = 'develop_pdf';
         $this->development['develop']['dbversion'] = 4;
-    } // end constructor
+    }
 
     /******************************************************************************
      * PROTECTED FUNCTIONS

@@ -15,8 +15,8 @@
 
 namespace g7mzr\webtemplate\application;
 
-use \g7mzr\webtemplate\application\plugins\InitiatePlugins;
-use \g7mzr\webtemplate\application\plugins\PluginConst;
+use g7mzr\webtemplate\application\plugins\InitiatePlugins;
+use g7mzr\webtemplate\application\plugins\PluginConst;
 
 /**
  * Plugin class identifies, activates and manages access to Webtemplate Plugins

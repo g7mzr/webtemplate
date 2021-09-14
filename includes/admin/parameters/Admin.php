@@ -15,7 +15,7 @@
 
 namespace g7mzr\webtemplate\admin\parameters;
 
-use \g7mzr\webtemplate\config\Configure;
+use g7mzr\webtemplate\config\Configure;
 
 /**
  * Parameters ADMIN Interface Class
@@ -74,7 +74,7 @@ class Admin extends ParametersAbstract
         $this->logrotate = $this->config->read('param.admin.logrotate');
         $this->newwindow = $this->config->read('param.admin.newwindow');
         $this->maxrecords = $this->config->read('param.admin.maxrecords');
-    } // end constructor
+    }
 
     /**
      * Validate the Admin set of parameters input by the user.  Last Msg will
