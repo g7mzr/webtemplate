@@ -1,4 +1,4 @@
-{***********************************************************************************
+ {***********************************************************************************
 
  This file is part of Webtemplate.
 
@@ -17,6 +17,7 @@
 <input type="hidden" name="action" value="save" />
 <input type="hidden" name="token" value ="{$TOKEN}">
 <input type="hidden" name="groupid" value="{$RESULTS[0].groupid|default:0}" />
+<input type="hidden" name="editable" value="{$RESULTS[0].editable}" />
 <TABLE class="editgroup">
     <TR>
         <TH>Group Name</TH>
