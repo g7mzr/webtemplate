@@ -151,25 +151,6 @@ class InstallCommand extends Command
             echo "File exists. No updates carried out\n\n";
         }
 
-
-        // Create or update the parameters file
-        echo "Checking parameters.json:  ";
-        $result = $filemanger->createParameters($parameters);
-        if ($result === true) {
-            echo "File Created/Updated\n\n";
-        } else {
-            echo "Error creating/Updating parameters.php\n\n";
-        }
-
-        // Create or update the preferences file
-        echo "checking preferences.json: ";
-        $result = $filemanger->createPreferences($sitePreferences);
-        if ($result === true) {
-            echo "File Created/Updated\n\n";
-        } else {
-            echo "Error creating/Updating parameters.php\n\n";
-        }
-
         echo "installing Plugins:    ";
         $this->installPlugins($installConfig);
         echo "Done \n\n";
@@ -310,7 +291,7 @@ class InstallCommand extends Command
             $schemafile,
             $checkdbExists
         );
-        // Populate the database with its initual users and groups
+        // Populate the database with its inital users, groups and configuration
         if ($checkdbExists === false) {
             $groupNumber = array();
             $groupfile = __DIR__ . "/../configure/default_groups.json";
@@ -325,6 +306,11 @@ class InstallCommand extends Command
                 $groupNumber
             );
 
+            $parameterfile = __DIR__ . "/../configure/parameters.json";
+            $configCreated = $db->createConfigParameters($parameterfile);
+
+            $preferencesfile = __DIR__ . "/../configure/preferences.json";
+            $configCreated = $db->createConfigPreferences($preferencesfile);
 
             // Create the Test Database.
             if ($unittestdb == true) {
@@ -338,6 +324,10 @@ class InstallCommand extends Command
                     $userfile,
                     $groupNumber
                 );
+
+                //Load the Test parmeters
+                $testparameterfile = __DIR__ . "/../configure/testparams.json";
+                $testparams = $db->updateTestParameters($testparameterfile);
             }
         }
         echo "Database Created\n\n";

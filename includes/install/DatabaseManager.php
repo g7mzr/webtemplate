@@ -25,6 +25,22 @@ use g7mzr\webtemplate\application\exceptions\AppException;
 class DatabaseManager
 {
     /**
+     * This array contains the initial application parameters settings
+     *
+     * @var    array
+     * @access private
+     */
+    private $newParameters = array();
+
+    /**
+     * This array contains the initial contents of the applications preferences array.
+     *
+     * @var    array
+     * @access private
+     */
+    private $newsitePreferences = array();
+
+    /**
      * Property: dsn
      *
      * @var array
@@ -580,6 +596,489 @@ class DatabaseManager
             $msg = gettext("ERROR Creating user preferences");
             $err = \g7mzr\webtemplate\general\General::raiseError($msg, DB_ERROR);
             return $err;
+        }
+    }
+
+    /**
+     * This function creates the application default configuration Parameters
+     *
+     * @param string $filename The name of the parameters data file.
+     *
+     * @return mixed True is groups assigned error otherwise.
+     *
+     * @access public
+     */
+    public function createConfigParameters(string $filename)
+    {
+        echo substr("Adding Configuration Parameters:         ", 0, 35);
+        $setdataresult = $this->dbManager->setMode("datadriver");
+        if (\g7mzr\db\common\Common::isError($setdataresult)) {
+            echo "Unable to switch DBManager to data access mode\n";
+            return exit(1);
+        }
+
+        // Get the parameters Datafile.
+        $jsonfile = @fopen($filename, 'r');
+        if ($jsonfile !== false) {
+            $jsonstr = fread($jsonfile, filesize($filename));
+            fclose($jsonfile);
+        }
+        if ($jsonstr === false) {
+            $fileloaded = false;
+            echo "Unable to load parameter file: " . $filename . "\n";
+            exit(1);
+        } else {
+            // Convert the json string to an array
+            $this->newParameters = json_decode($jsonstr, true);
+            if ($this->newParameters === null) {
+                echo "Unable to convert parameter file" . $filename . "\n";
+                exit(1);
+            }
+        }
+        $configCreated = true;
+
+        // Walk through the Parameters array adding thye details
+        // to the config table
+        foreach ($this->newParameters as $key => $value) {
+            if (is_int($value)) {
+                $type = "int";
+            } elseif (is_bool($value)) {
+                $type = "bool";
+            } else {
+                $type = "string";
+            }
+
+            $insertData = array(
+                'config_key'  => $key,
+                'config_array' => "parameters",
+                'config_value' => $value,
+                'config_type' => $type
+            );
+
+            // Insert the preferences
+            $result = $this->dbManager->getDataDriver()->dbinsert('config', $insertData);
+
+            // Check if there was an error
+            if (\g7mzr\db\common\Common::isError($result)) {
+                $configCreated = false;
+            }
+        }
+        echo "Done\n";
+
+        if ($configCreated == true) {
+            return true;
+        } else {
+            // Else return a WEBTEMPLATE error
+            $msg = gettext("ERROR Creating application configuration parameters.\n");
+            echo $msg;
+            exit(1);
+        }
+    }
+
+
+    /**
+     * This function creates the application default site preferences
+     *
+     * @param string $filename The name of the parameters data file.
+     *
+     * @return mixed True is groups assigned error otherwise.
+     *
+     * @access public
+     */
+    public function createConfigPreferences(string $filename)
+    {
+        echo substr("Adding Site Preferences:         ", 0, 35);
+        $setdataresult = $this->dbManager->setMode("datadriver");
+        if (\g7mzr\db\common\Common::isError($setdataresult)) {
+            echo "Unable to switch DBManager to data access mode\n";
+            return exit(1);
+        }
+
+        // Get the parameters Datafile.
+        $jsonfile = @fopen($filename, 'r');
+        if ($jsonfile !== false) {
+            $jsonstr = fread($jsonfile, filesize($filename));
+            fclose($jsonfile);
+        }
+        if ($jsonstr === false) {
+            $fileloaded = false;
+            echo "Unable to load test parameter file: " . $filename . "\n";
+            exit(1);
+        } else {
+            // Convert the json string to an array
+            $this->newsitePreferences = json_decode($jsonstr, true);
+            if ($this->newsitePreferences === null) {
+                echo "Unable to convert site preferences file" . $filename . "\n";
+                exit(1);
+            }
+        }
+        $configCreated = true;
+
+        //Load the Default Application Site Preferences
+
+        foreach ($this->newsitePreferences as $key => $value) {
+            if (is_int($value)) {
+                $type = "int";
+            } elseif (is_bool($value)) {
+                $type = "bool";
+            } else {
+                $type = "string";
+            }
+
+            $insertData = array(
+                'config_key'  => $key,
+                'config_array' => "preferences",
+                'config_value' => $value,
+                'config_type' => $type
+            );
+
+            // Insert the preferences
+            $result = $this->dbManager->getDataDriver()->dbinsert('config', $insertData);
+
+            // Check if there was an error
+            if (\g7mzr\db\common\Common::isError($result)) {
+                $configCreated = false;
+            }
+        }
+
+        echo "Done\n";
+
+        if ($configCreated == true) {
+            return true;
+        } else {
+            // Else return a WEBTEMPLATE error
+            $msg = gettext("ERROR Creating application Site Preference Data.\n");
+            echo $msg;
+            exit(1);
+        }
+    }
+
+    /**
+     * This function adds the groups to the new database. It stops if it encounters
+     * a problem
+     *
+     * @param string $filename The name of the parameters data file.
+     *
+     * @return boolean Always return true
+     */
+    public function updateTestParameters(string $filename)
+    {
+
+        echo substr("Adding Application Test Data:         ", 0, 35);
+        $setdataresult = $this->dbManager->setMode("datadriver");
+        if (\g7mzr\db\common\Common::isError($setdataresult)) {
+            echo "Unable to switch DBManager to data access mode\n";
+            return exit(1);
+        }
+
+        // Get the parameters Datafile.
+        $jsonfile = @fopen($filename, 'r');
+        if ($jsonfile !== false) {
+            $jsonstr = fread($jsonfile, filesize($filename));
+            fclose($jsonfile);
+        }
+        if ($jsonstr === false) {
+            $fileloaded = false;
+            echo "Unable to load test parameter file: " . $filename . "\n";
+            exit(1);
+        } else {
+            // Convert the json string to an array
+            $testparameters = json_decode($jsonstr, true);
+            if ($testparameters === null) {
+                echo "Unable to convert test parameter file" . $filename . "\n";
+                exit(1);
+            }
+        }
+
+        $saveResult = true;
+        // Start the database transaction
+        $this->dbManager->getDataDriver()->startTransaction();
+
+        // Process the array
+        foreach ($testparameters as $key => $value) {
+            //  Create the array of data values to be updated
+            $updateData = array('config_value' => $value);
+
+            // Create the array of the data to be used to select the correct field to update
+            $searchData = array('config_key'  => $key);
+
+            // Update the preferences
+            $result = $this->dbManager->getDataDriver()->dbupdate('config', $updateData, $searchData);
+
+            // Check if there was an error
+            if (\g7mzr\db\common\Common::isError($result)) {
+                   $saveResult = false;
+            }
+        }
+        $this->dbManager->getDataDriver()->endTransaction($saveResult);
+        echo "Done\n";
+        return $saveResult;
+    }
+
+
+
+
+    /**
+     * This function updates the application default configuration Parameters
+     *
+     * @param string $filename The name of the parameters data file.
+     *
+     * @return mixed True is groups assigned error otherwise.
+     *
+     * @access public
+     */
+    public function updateConfigParameters(string $filename)
+    {
+        echo substr("Updating Configuration Parameters:         ", 0, 35);
+        $setdataresult = $this->dbManager->setMode("datadriver");
+        if (\g7mzr\db\common\Common::isError($setdataresult)) {
+            echo "Unable to switch DBManager to data access mode\n";
+            return exit(1);
+        }
+
+        // Get the parameters Datafile.
+        $jsonfile = @fopen($filename, 'r');
+        if ($jsonfile !== false) {
+            $jsonstr = fread($jsonfile, filesize($filename));
+            fclose($jsonfile);
+        }
+        if ($jsonstr === false) {
+            $fileloaded = false;
+            echo "Unable to load parameter file: " . $filename . "\n";
+            exit(1);
+        } else {
+            // Convert the json string to an array
+            $this->newParameters = json_decode($jsonstr, true);
+            if ($this->newParameters === null) {
+                echo "Unable to convert parameter file" . $filename . "\n";
+                exit(1);
+            }
+        }
+        $configUpdated = true;
+
+        // Get the existing parameters and update the new parameter valuses.  This
+        // includes deleting  unused parameters and adding newones.
+        $oldParameters = $this->loadConfigArray("parameters");
+
+        // Step throug newParameter list updating values from old parameters
+        foreach ($this->newParameters as $key => $value) {
+            if (array_key_exists($key, $oldParameters)) {
+                $this->newParameters[$key] = $oldParameters[$key];
+            }
+        }
+
+        $transactionResult = $this->dbManager->getDataDriver()->startTransaction();
+        if ($transactionResult != true) {
+            echo "Unable to start DB Transaction to update Application Parameters\n";
+            exit(1);
+        }
+
+        // Delete the existing Application Parameters
+        $searchData = array("config_array" => "parameters");
+        $deleteResult = $this->dbManager->getDataDriver()->dbdeletemultiple('config', $searchData);
+        if (\g7mzr\db\common\Common::isError($deleteResult)) {
+                $configCreated = false;
+        }
+
+        if ($configCreated == true) {
+            // Walk through the preferences array adding thye details
+            // to the config table
+            foreach ($this->newParameters as $key => $value) {
+                if (is_int($value)) {
+                    $type = "int";
+                } elseif (is_bool($value)) {
+                    $type = "bool";
+                } else {
+                    $type = "string";
+                }
+
+                $insertData = array(
+                    'config_key'  => $key,
+                    'config_array' => "parameters",
+                    'config_value' => $value,
+                    'config_type' => $type
+                );
+
+                // Insert the preferences
+                $result = $this->dbManager->getDataDriver()->dbinsert('config', $insertData);
+
+                // Check if there was an error
+                if (\g7mzr\db\common\Common::isError($result)) {
+                    $configCreated = false;
+                }
+            }
+        }
+        echo "Done\n";
+
+        $this->dbManager->getDataDriver()->endTransaction($configUpdated);
+
+        if ($configUpdated == true) {
+            return true;
+        } else {
+            // Else return a WEBTEMPLATE error
+            $msg = gettext("ERROR Updating application configuration parameters.\n");
+            echo $msg;
+            exit(1);
+        }
+    }
+
+
+
+
+
+    /**
+     * This function updates the application default User Preferences
+     *
+     * @param string $filename The name of the preferences data file.
+     *
+     * @return mixed True is groups assigned error otherwise.
+     *
+     * @access public
+     */
+    public function updateConfigPreferences(string $filename)
+    {
+        echo substr("Updating Site Preferences:                   ", 0, 35);
+        $setdataresult = $this->dbManager->setMode("datadriver");
+        if (\g7mzr\db\common\Common::isError($setdataresult)) {
+            echo "Unable to switch DBManager to data access mode\n";
+            return exit(1);
+        }
+
+        // Get the parameters Datafile.
+        $jsonfile = @fopen($filename, 'r');
+        if ($jsonfile !== false) {
+            $jsonstr = fread($jsonfile, filesize($filename));
+            fclose($jsonfile);
+        }
+        if ($jsonstr === false) {
+            $fileloaded = false;
+            echo "Unable to load site preferences file: " . $filename . "\n";
+            exit(1);
+        } else {
+            // Convert the json string to an array
+            $this->newsitePreferences = json_decode($jsonstr, true);
+            if ($this->newsitePreferences === null) {
+                echo "Unable to convert site preferenced file" . $filename . "\n";
+                exit(1);
+            }
+        }
+        $configUpdated = true;
+
+        // Get the existing defaut user preferences and update.  This
+        // includes deleting  unused user preferences and adding new ones.
+        $oldParameters = $this->loadConfigArray("preferences");
+
+        // Step throug newParameter list updating values from old parameters
+        foreach ($this->newsitePreferences as $key => $value) {
+            if (array_key_exists($key, $oldParameters)) {
+                $this->newsitePreferences[$key] = $oldParameters[$key];
+            }
+        }
+
+        $transactionResult = $this->dbManager->getDataDriver()->startTransaction();
+        if ($transactionResult != true) {
+            echo "Unable to start DB Transaction to update Site Preferences\n";
+            exit(1);
+        }
+
+        // Delete the existing Application Parameters
+        $searchData = array("config_array" => "preferences");
+        $deleteResult = $this->dbManager->getDataDriver()->dbdeletemultiple('config', $searchData);
+        if (\g7mzr\db\common\Common::isError($deleteResult)) {
+                $configCreated = false;
+        }
+
+        if ($configCreated == true) {
+            // Walk through the preferences array adding thye details
+            // to the config table
+            foreach ($this->newsitePreferences as $key => $value) {
+                if (is_int($value)) {
+                    $type = "int";
+                } elseif (is_bool($value)) {
+                    $type = "bool";
+                } else {
+                    $type = "string";
+                }
+
+                $insertData = array(
+                    'config_key'  => $key,
+                    'config_array' => "preferences",
+                    'config_value' => $value,
+                    'config_type' => $type
+                );
+
+                // Insert the preferences
+                $result = $this->dbManager->getDataDriver()->dbinsert('config', $insertData);
+
+                // Check if there was an error
+                if (\g7mzr\db\common\Common::isError($result)) {
+                    $configCreated = false;
+                }
+            }
+        }
+        echo "Done\n";
+
+        $this->dbManager->getDataDriver()->endTransaction($configUpdated);
+
+        if ($configUpdated == true) {
+            return true;
+        } else {
+            // Else return a WEBTEMPLATE error
+            $msg = gettext("ERROR Updating application site preferences.\n");
+            echo $msg;
+            exit(1);
+        }
+    }
+
+    /**
+     * Load Configuration Array
+     *
+     * This function loads the Configuration Array named in $arrayName from the
+     * database
+     *
+     * @param string $arrayName The Name of the configuration array to be loaded.
+     *
+     * @throws \InvalidArgumentException If path has more than 4 elements.
+     *
+     * @return mixed True if the parameter array is loaded or an Error if it fails
+     *
+     * @access private
+     */
+    private function loadConfigArray(string $arrayName)
+    {
+        $gotdata = true;
+        $fields = array(
+            "config_key",
+            "config_value",
+            "config_type"
+        );
+        $searchdata = array(
+            "config_array" => $arrayName
+        );
+        $result = $this->db->dbselectmultiple("config", $fields, $searchdata);
+        if (\g7mzr\db\common\Common::isError($result)) {
+            $gotdata = false;
+            $errorMsg =  $result->getMessage();
+            ;
+        } else {
+            $temparray = array();
+            foreach ($result as $uao) {
+                if ($uao['config_type'] == "bool") {
+                    $temparray[$uao['config_key']]
+                        = $this->setBool($uao['config_value']);
+                } elseif ($uao['config_type'] == "int") {
+                    $this->parameters[$key[0]][$key[1]][$key[2]][$key[3]]
+                        = (int) $uao['config_value'];
+                } else {
+                    $this->parameters[$uao["config_key"]]
+                        = (string) $uao['config_value'];
+                }
+            }
+        }
+        if ($gotdata == true) {
+            return $temparray;
+        } else {
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
         }
     }
 }

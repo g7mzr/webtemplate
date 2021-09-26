@@ -40,7 +40,7 @@ $language = $app->language();
 $app->tpl()->assign("SYSADMINEMAIL", $app->config()->read("param.maintainer"));
 
 // Load the menu and assign it to a SMARTY Variable
-$mainmenu = $app->config()->readMenu('mainmenu');
+$mainmenu = $app->menus()->readMenu('mainmenu');
 $app->tpl()->assign('MAINMENU', $mainmenu);
 
 /* Send the HTTP Headers required by the application */

@@ -139,7 +139,7 @@
 			<para>
 			Preferences are used by the Webtemplate/your application users to set the look and feel of the application.    This is one of the most complecated areas to update as it
 			affect both the Administration and Users subsystem.  Default Preferences can be set by the adminstrator who can also set if users are allowed to change them.  Users
-			can then set the preferences to suite themselves and the application then has to use them.  
+			can then set the preferences to suite themselves and the application then has to use them.  The default site preferences are stored in the Config Table of the application database.
 			</para>
 			<para>
 			It is recommended that the following steps are followed to add new Preferences to ths application.
@@ -186,8 +186,7 @@
 				</step>
 				<step>
 					<para>
-					Update <filename>test/users/UserPrefsClassTest.php</filename> to test that the new preference can be validated, and saved for a user. This includes
-					the dummy parameter test file <filename>parameter_test_file.php</filename> located in the <filename>tests/_data</filename> directory.
+					Update <filename>test/users/UserPrefsClassTest.php</filename> to test that the new preference can be validated, and saved for a user. 
 					</para>
 				</step>
 				<step>
@@ -225,8 +224,8 @@
 				</step>
 				<step>
 					<para>
-					Update <filename>includes/install/filemanager.php</filename> to add the new default preference variable to <filename>configs/preferences.php</filename>.  
-					This update has to cover both new installs and updated to existing installs.  The function to be updated is called FileManger::createPreferences.
+					Update <filename>includes/install/configure/preferences.json</filename> to add the new default preference variable to the config table in the database.
+					This update has to cover both new installs and updated to existing installs.
 					</para>
 				</step>
 				<step>
@@ -240,7 +239,8 @@
 		<section id="develop-parameters">
 	  		<title>Parameters</title>
 			<para>
-			The configuration Parameters control how your application works.  You will need to follow the steps below to add new parameters to Webtemplate.
+			The configuration Parameters control how your application works.  You will need to follow the steps below to add new parameters to Webtemplate.  The Site Parameters are stored in the 
+			Config Table of the application database.
 			</para>
 			<procedure>
 				<step>
@@ -273,8 +273,7 @@
 				</step>
 				<step>
 					<para>
-					Create a phpUnitTest file in <filename class="directory" >test/admin/</filename> to test that the new parameters can be validated, and saved.  This includes
-					the dummy parameter test file <filename>parameter_test_file.php</filename> located in the <filename>tests/_data</filename> directory.
+					Create a phpUnitTest file in <filename class="directory" >test/admin/</filename> to test that the new parameters can be validated, and saved. 
 					</para>
 				</step>
 				<step>
@@ -294,13 +293,13 @@
 				</step>
 				<step>
 					<para>
-					Update <filename>includes/install/filemanager.php</filename> to add the new default preference variable to <filename>configs/parametersphp</filename>.  
-					This update has to cover both new installs and updated to existing installs.  The function to be updated is called FileManger::createParameters.
+					Update <filename>includes/install/configure/parameters.json</filename> to add the new parameters to the config table in the database.  
+					This update has to cover both new installs and updated to existing installs. 
 					</para>
 				</step>
 				<step>
 					<para>
-					Create new phpUnit test file in <filename class="directory">tests/selenium/</filename>filename> to test the new parameters from the admin screen.
+					Create new phpUnit test file in <filename class="directory">tests/selenium/</filename>filename to test the new parameters from the admin screen.
 					</para>
 				</step>
 			</procedure>

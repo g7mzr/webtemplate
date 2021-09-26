@@ -224,19 +224,17 @@ class Preferences
      * Save the current Preferences to a file called preferences.php
      * located in the $configDir.
      *
-     * @param string $configDir Directory Containing Configuration Files.
-     *
      * @return boolean true if Preferences Saved
      *
      * @access public
      */
-    final public function savePrefFile(string $configDir)
+    final public function savePrefFile()
     {
         // Write the data to the config class
         $this->savetoConfigurationClass();
 
         // Save the resulst to the file
-        $result = $this->config->savePrefs($configDir);
+        $result = $this->config->savePrefs();
         return $result;
     }
 

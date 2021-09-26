@@ -140,8 +140,7 @@ class EditUserClassTest extends TestCase
         $testdsn['dbtype'] = $tempDBDriver;
 
         // Set up the configuration object
-        $configDir = __DIR__ . "/../../configs";
-        $this->config = new\g7mzr\webtemplate\config\Configure($configDir);
+        $this->config = new\g7mzr\webtemplate\config\Configure($this->object2->getDataDriver());
     }
 
     /**

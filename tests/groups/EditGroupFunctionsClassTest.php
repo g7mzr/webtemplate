@@ -107,8 +107,7 @@ class EditGroupFunctionsClassTest extends TestCase
         }
         $this->tpl = new \g7mzr\webtemplate\application\SmartyTemplate();
         $this->editgroup = new\g7mzr\webtemplate\groups\EditGroups($this->db->getDataDriver());
-        $configDir = __DIR__ . "/../../configs";
-        $this->config = new\g7mzr\webtemplate\config\Configure($configDir);
+        $this->config = new\g7mzr\webtemplate\config\Configure($this->db->getDataDriver());
 
         // Create a Mock database object
         $testdsn['dbtype'] = 'mock';

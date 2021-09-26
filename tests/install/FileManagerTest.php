@@ -300,64 +300,6 @@ class FileManagerTest extends TestCase
         }
     }
 
-
-    /**
-     * Test the parameters.json file can be created
-     *
-     * @group unittest
-     * @group install
-     *
-     * @return void
-     */
-    public function testcreateParameters()
-    {
-        $parametersfile = vfsStream::url($this->rootdir . "/configs/parameters.json");
-        // Test with the configs directory missing.  It should report back false
-        $parameters = array();
-        $result = $this->filemanager->createParameters($parameters);
-        $this->assertFalse($result);
-
-        // Test with the configs directory existing.  It should report back true
-        $this->vsffilestream->addChild(vfsStream::newDirectory('configs'));
-        $result = $this->filemanager->createParameters($parameters);
-        $this->assertTrue($result);
-
-        // Test that an error occurs if the file cannot be opened for writing
-        chmod($parametersfile, 0444);
-        $result = $this->filemanager->createParameters($parameters);
-        $this->assertFalse($result);
-    }
-
-    /**
-     * Test the preferences.json file can be created
-     *
-     * @group unittest
-     * @group install
-     *
-     * @return void
-     */
-    public function testcreatePreferences()
-    {
-        $preferencesfile = vfsStream::url(
-            $this->rootdir . "/configs/preferences.json"
-        );
-        // Test with the configs directory missing.  It should report back false
-        $sitePreferences = array();
-        $result = $this->filemanager->createPreferences($sitePreferences);
-        $this->assertFalse($result);
-
-        // Test with the configs directory existing.  It should report back true
-        $this->vsffilestream->addChild(vfsStream::newDirectory('configs'));
-        $result = $this->filemanager->createPreferences($sitePreferences);
-        $this->assertTrue($result);
-
-        // Test that an error occurs if the file cannot be opened for writing
-        chmod($preferencesfile, 0444);
-        $result = $this->filemanager->createPreferences($sitePreferences);
-        $this->assertFalse($result);
-    }
-
-
     /**
      * Test the preferences.json file can be created
      *

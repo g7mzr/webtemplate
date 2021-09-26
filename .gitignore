@@ -5,8 +5,7 @@
 index.html
 config.php
 local.conf
-parameters.json
-preferences.json
+testparams.json
 database.php
 constants.php
 mailer.testfile

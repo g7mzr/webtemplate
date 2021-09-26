@@ -15,6 +15,7 @@
 - Moved from PHP Sessions to Webtemplate Sessions using database as backend
 - Rewrote dependency checking class for installation
 - Registration process to validate user's email address
+- Moved Configuration Parameters and Site Preferences from file system to database
 
 ### Removed
 

@@ -40,7 +40,7 @@ class ConfigureClassTest extends TestCase
     /**
      * Database Driver Class
      *
-     * @var\g7mzr\webtemplate\db\DB::load
+     * @var \g7mzr\db\interfaces\InterfaceDatabaseDriver
      */
     protected $db;
 
@@ -58,13 +58,30 @@ class ConfigureClassTest extends TestCase
         //global $testdsn, $options;
 
         // Create a database object
-        //$this->db =\g7mzr\webtemplate\db\DB::load($testdsn);
+        global $testdsn;
+        // Check that we can connect to the database
+        try {
+            $this->db = new \g7mzr\db\DBManager(
+                $testdsn,
+                $testdsn['username'],
+                $testdsn['password']
+            );
+            $setresult = $this->db->setMode("datadriver");
+            if (!\g7mzr\db\common\Common::isError($setresult)) {
+                $this->databaseconnection = true;
+            } else {
+                $this->databaseconnection = false;
+                echo $setresult->getMessage();
+            }
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+            $this->databaseconnection = false;
+        }
 
-        $this->db = null;
+        //$this->db = null;
 
         // Create configuration Object
-        $configDir = __DIR__ . "/../../configs";
-        $this->object = new\g7mzr\webtemplate\config\Configure($configDir);
+        $this->object = new\g7mzr\webtemplate\config\Configure($this->db->getDataDriver());
     }
 
     /**
@@ -75,11 +92,6 @@ class ConfigureClassTest extends TestCase
      */
     protected function tearDown(): void
     {
-        $configDir = dirname(__FILE__) . "/../_data";
-        $filename = $configDir . '/parameters.php';
-        if (file_exists($filename)) {
-            unlink($filename);
-        }
     }
 
     /**
@@ -703,65 +715,13 @@ class ConfigureClassTest extends TestCase
      */
     public function testSaveParams()
     {
-        // Set up the config parameters with the test values.  They may be
-        // different from the default ones.
-        $this->object->write('param.urlbase', 'http://www.example.com');
-        $this->object->write('param.maintainer', 'phpunit@example.com');
-        $this->object->write('param.docbase', 'docs/');
-        $this->object->write('param.cookiedomain', '');
-        $this->object->write('param.cookiepath', '/');
-        $this->object->write('param.admin.logging', '1');
-        $this->object->write('param.admin.logrotate', '2');
-        $this->object->write('param.admin.newwindow', true);
-        $this->object->write('param.admin.maxrecords', '2');
-        $this->object->write('param.users.newaccount', false);
-        $this->object->write('param.users.newpassword', true);
-        $this->object->write('param.users.regexp', '/^[a-zA-Z0-9]{5,12}$/');
-        $regExpStr = 'Must contain upper and lower case letters and numbers only';
-        $this->object->write('param.users.regexpdesc', $regExpStr);
-        $this->object->write('param.users.passwdstrength', '4');
-        $this->object->write('param.users.passwdage', '1');
-        $this->object->write('param.users.autocomplete', false);
-        $this->object->write('param.users.autologout', '1');
-        $this->object->write('param.email.smtpdeliverymethod', 'smtp');
-        $this->object->write('param.email.emailaddress', 'phpunit@example.com');
-        $this->object->write('param.email.smtpserver', 'smtp.example.com');
-        $this->object->write('param.email.smtpusername', 'user');
-        $this->object->write('param.email.smtppassword', 'password');
-        $this->object->write('param.email.smtpdebug', false);
-
-        // SET UP VALID FILE NAMES
-        $configDir = dirname(__FILE__) . "/../_data";
-        $faultyconfigDir = dirname(__FILE__) . "/../data";
-        $filename = $configDir . '/parameters.json';
-        $expectedfilename = $configDir . '/parameters_test_file.json';
-
-
-        // Test saving the file
-        $filesaved = $this->object->saveParams($configDir);
+        $filesaved = $this->object->saveParams();
         $this->assertTrue($filesaved);
-        $filename = $configDir . '/parameters.json';
-        $expectedfilename = $configDir . '/parameters_test_file.json';
-        $this->assertFileExists($filename);
-        $this->assertFileEquals($expectedfilename, $filename);
-
-        // Test the file will save with other boolean values
-        $this->object->write('param.admin.newwindow', false);
-        $this->object->write('param.users.newaccount', true);
-        $this->object->write('param.users.newpassword', false);
-        $this->object->write('param.users.autocomplete', true);
-        $this->object->write('param.email.smtpdebug', true);
-        $filesaved = $this->object->saveParams($configDir);
-        $this->assertTrue($filesaved);
-
-        // test save with faulty config directory
-        $faultyfilesaved = $this->object->saveParams($faultyconfigDir);
-        $this->assertFalse($faultyfilesaved);
     }
 
 
     /**
-     * Test that the configuration parametersdefault preferences
+     * Test that the configuration preferences are saved to the database
      *
      * @group unittest
      * @group config
@@ -770,45 +730,7 @@ class ConfigureClassTest extends TestCase
      */
     public function testSavePref()
     {
-        // SET UP VALID FILE NAMES
-        $configDir = dirname(__FILE__) . "/../_data";
-        $faultyconfigDir = dirname(__FILE__) . "/../data";
-        $filename = $configDir . '/preferences.json';
-        $expectedfilename = $configDir . '/preferences_test_file.json';
-
-        // Set test values. They may or may not be the same as the default values
-        $this->object->write('pref.theme.value', 'Dusk');
-        $this->object->write('pref.theme.enabled', true);
-        $this->object->write('pref.zoomtext.value', true);
-        $this->object->write('pref.zoomtext.enabled', true);
-        $this->object->write('pref.displayrows.value', '2');
-        $this->object->write('pref.displayrows.enabled', true);
-
-        // Save the file
-        $filesaved = $this->object->savePrefs($configDir);
+        $filesaved = $this->object->savePrefs();
         $this->assertTrue($filesaved);
-
-        // Check the file exists and the contents are correct
-        $this->assertFileExists($filename);
-        $this->assertFileEquals($expectedfilename, $filename);
-
-        // Set all the Boolean values to false and resave the file.
-        // Cnnot check the contents are right
-        $this->object->write('pref.theme.enabled', false);
-        $this->object->write('pref.zoomtext.value', false);
-        $this->object->write('pref.zoomtext.enabled', false);
-        $this->object->write('pref.displayrows.enabled', false);
-
-        // Save the file
-        $filesaved = $this->object->savePrefs($configDir);
-        $this->assertTrue($filesaved);
-
-        // Check the file exists
-        $this->assertFileExists($filename);
-
-
-        // test save with faulty config directory
-        $faultyfilesaved = $this->object->savePrefs($faultyconfigDir);
-        $this->assertFalse($faultyfilesaved);
     }
 }

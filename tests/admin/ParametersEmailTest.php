@@ -20,6 +20,9 @@ use PHPUnit\Framework\TestCase;
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
 
+// Load the Test Database Configuration File
+require_once dirname(__FILE__) . '/../_data/database.php';
+
 /**
  * Parameters Email Class Unit Tests
  *
@@ -49,13 +52,34 @@ class ParametersEmailTest extends TestCase
     protected function setUp(): void
     {
 
+        global $testdsn;
+        // Check that we can connect to the database
+        try {
+            $db = new \g7mzr\db\DBManager(
+                $testdsn,
+                $testdsn['username'],
+                $testdsn['password']
+            );
+            $setresult = $db->setMode("datadriver");
+            if (!\g7mzr\db\common\Common::isError($setresult)) {
+                $this->databaseconnection = true;
+            } else {
+                $this->databaseconnection = false;
+                echo $setresult->getMessage();
+            }
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+            $this->databaseconnection = false;
+        }
+
         // Create configuration Object
-        $configDir = __DIR__ . "/../../configs";
-        $this->confobj = new\g7mzr\webtemplate\config\Configure($configDir);
+        $this->confobj = new\g7mzr\webtemplate\config\Configure($db->getDataDriver());
         $this->defaultParameters();
 
         // Create the Parameters Class
-        $this->object = new\g7mzr\webtemplate\admin\Parameters($this->confobj);
+        $configDir = __DIR__ . "/../../configs";
+        $menus = new \g7mzr\webtemplate\config\Menus($configDir);
+        $this->object = new\g7mzr\webtemplate\admin\Parameters($this->confobj, $menus);
         $this->object->setSection('email');
     }
 
@@ -344,37 +368,7 @@ class ParametersEmailTest extends TestCase
      */
     public function testsaveParamFile()
     {
-        $inputdata['mail_delivery_method'] = 'smtp';
-        $inputdata['email_address_id'] = 'phpunit@example.com';
-        $inputdata['smtp_server_id'] = 'smtp.example.com';
-        $inputdata['smtp_user_name_id'] = 'user';
-        $inputdata['smtp_passwd_id'] = 'password';
-        $inputdata['smtp_debug'] = 'np';
-        $result = $this->object->ValidateParameters($inputdata);
-        $this->assertTrue($result);
-
-        $configDir = dirname(__FILE__) . "/../_data";
-        $filesaved = $this->object->saveParamFile($configDir);
+        $filesaved = $this->object->saveParamFile();
         $this->assertTrue($filesaved);
-        $filename = $configDir . '/parameters.json';
-        $expectedfilename = $configDir . '/parameters_test_file.json';
-        $this->assertFileExists($filename);
-        $this->assertFileEquals($expectedfilename, $filename);
-    }
-
-    /**
-     * This function tests that an error is recorded if Parameter File cannot
-     * be saved
-     *
-     * @group unittest
-     * @group admin
-     *
-     * @return void
-     */
-    public function testsaveParamFileFail()
-    {
-        $configDir = dirname(__FILE__) . "/../data";
-        $filesaved = $this->object->saveParamFile($configDir);
-        $this->assertFalse($filesaved);
     }
 }

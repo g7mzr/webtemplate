@@ -31,6 +31,13 @@ class Parameters
     protected $config;
 
     /**
+     * Menu class object
+     *
+     * @var \g7mzr\webtemplate\config\Menus
+     */
+    protected $menus;
+
+    /**
      * Parameters Section Class object
      *
      * @var \g7mzr\webtemplate\admin\parameters\Required
@@ -41,12 +48,16 @@ class Parameters
      * Constructor
      *
      * @param \g7mzr\webtemplate\config\Configure $config Configuration class.
+     * @param \g7mzr\webtemplate\config\Menus     $menus  Menu Class class.
      *
      * @access public
      */
-    public function __construct(\g7mzr\webtemplate\config\Configure $config)
-    {
+    public function __construct(
+        \g7mzr\webtemplate\config\Configure $config,
+        \g7mzr\webtemplate\config\Menus $menus
+    ) {
         $this->config = $config;
+        $this->menus = $menus;
     }
 
 
@@ -84,7 +95,7 @@ class Parameters
      */
     public function getPageList()
     {
-        return $this->config->readMenu('parampagelist');
+        return $this->menus->readMenu('parampagelist');
     }
 
     /**
@@ -133,7 +144,6 @@ class Parameters
      * Save the current parameters to a file called parameters.php.  The
      * file is located in the $config directory,
      *
-     * @param string $configDir Location of the parameter file.
      *
      * @throws AppException If an invalid class is selected.
      *
@@ -141,11 +151,11 @@ class Parameters
      *
      * @access public
      */
-    final public function saveParamFile(string $configDir)
+    final public function saveParamFile()
     {
         $classname = "\\g7mzr\\webtemplate\\admin\\parameters\\ParametersAbstract";
         if (is_a($this->section, $classname)) {
-            return $this->section->saveParamFile($configDir);
+            return $this->section->saveParamFile();
         } else {
             throw new AppException("Invalid Class.");
         }
