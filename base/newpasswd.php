@@ -36,7 +36,7 @@ $language = $app->language();
 \textdomain('messages');
 
 // Load the menu and assign it to a SMARTY Variable
-$mainmenu = $app->config()->readMenu('mainmenu');
+$mainmenu = $app->menus()->readMenu('mainmenu');
 $app->tpl()->assign('MAINMENU', $mainmenu);
 
 /* Send the HTTP Headers required by the application */
@@ -131,7 +131,8 @@ if ($action == "save") {
     $app->tpl()->assign("USERID", $app->session()->getUserName());
 
     $passwdstrength = $app->config()->read('param.users.passwdstrength');
-    if ((LocalValidate::password($temppass1, $passwdstrength))
+    if (
+        (LocalValidate::password($temppass1, $passwdstrength))
         and ($temppass1 == $temppass2)
     ) {
         $passwdstatus = $app->edituser()->updatePasswd(

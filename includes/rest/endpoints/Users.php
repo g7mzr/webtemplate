@@ -21,7 +21,6 @@ namespace g7mzr\webtemplate\rest\endpoints;
  **/
 class Users
 {
-
     /**
      * Traits to be used by this Class
      */
@@ -53,7 +52,7 @@ class Users
      *
      * @access public
      */
-    public function __construct(\g7mzr\webtemplate\application\Application  &$webtemplate)
+    public function __construct(\g7mzr\webtemplate\application\Application &$webtemplate)
     {
             $this->webtemplate = $webtemplate;
     }
@@ -608,7 +607,8 @@ class Users
             $checkboxoptions
         );
         if ($passwdchange !== false) {
-            if (($passwdchange == 'Y')
+            if (
+                ($passwdchange == 'Y')
                 and ($this->webtemplate->config()->read('params.users.passwdage'))
             ) {
                 $this->inputdata['passwdchange'] = 'Y';

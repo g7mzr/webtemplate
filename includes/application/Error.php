@@ -45,7 +45,7 @@ class Error
     {
         $this->errorMsg = $errorMsg;
         $this->errorCode = $errorCode;
-    } // end constructor
+    }
 
 
     /**

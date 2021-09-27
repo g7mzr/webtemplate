@@ -74,7 +74,7 @@ class EditGroups
         if (!\g7mzr\db\common\Common::isError($sqlresult)) {
             $this->admingroupid = $sqlresult['group_id'];
         }
-    } // end constructor
+    }
 
      /**
      * This function returns the contents of the ChangeString variable
@@ -457,6 +457,13 @@ class EditGroups
         } else {
             $groupDescription = '';
         }
+
+        if (isset($inputArray['editable'])) {
+            $tempeditable = substr($inputArray['editable'], 0, 1);
+        } else {
+            $tempeditable = "N";
+        }
+
         if (isset($inputArray['useforproduct'])) {
             $groupUseForProduct = 'Y';
         } else {
@@ -487,11 +494,19 @@ class EditGroups
             $groupDataOk = false;
         }
 
+        $teststr = "/^(Y)|(N)$/";
+        if (preg_match($teststr, $tempeditable, $regs)) {
+            $editable = $tempeditable;
+        } else {
+            $editable = "N";
+        }
+
         $resultArray[] = array("groupid" => $groupId,
                                "groupname" => $groupName,
                                "description" => $groupDescription,
                                "useforproduct" => $groupUseForProduct,
                                "autogroup" => $groupAutoGroup,
+                               "editable" => $editable,
                                "msg" => $msg);
         return $resultArray;
     }

@@ -54,7 +54,7 @@ class EditUsersGroups
     public function __construct(\g7mzr\db\interfaces\InterfaceDatabaseDriver $db)
     {
         $this->db = $db;
-    } // end constructor
+    }
 
      /**
      * This function returns the contents of the ChangeString variable
@@ -219,7 +219,8 @@ class EditUsersGroups
             if ($group['useringroup'] != $group['addusertogroup']) {
                 // The user has been added to/removed from current group
                 $groupdatachanged = true;
-                if (($group['useringroup'] == 'N')
+                if (
+                    ($group['useringroup'] == 'N')
                     and  ($group['addusertogroup'] == 'Y')
                 ) {
                     // The user has been added. Create message

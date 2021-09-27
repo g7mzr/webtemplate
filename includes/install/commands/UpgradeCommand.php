@@ -15,10 +15,10 @@
 
 namespace g7mzr\webtemplate\install\commands;
 
-use \GetOpt\Command;
-use \GetOpt\GetOpt;
-use \GetOpt\Operand;
-use \GetOpt\Option;
+use GetOpt\Command;
+use GetOpt\GetOpt;
+use GetOpt\Operand;
+use GetOpt\Option;
 
 /**
  * Setup is a test command for PharApp.
@@ -85,24 +85,6 @@ class UpgradeCommand extends Command
             include $basedir . '/config.php';
         }
 
-        // Load the following files if they exist
-        // If not they will be created later
-        $preferencesfile = $basedir . "/configs/preferences.json";
-        if (file_exists($preferencesfile)) {
-            $preferencesstr = file_get_contents($preferencesfile);
-            $sitePreferences = json_decode($preferencesstr, true);
-        } else {
-            $sitePreferences = array();
-        }
-
-        $parametersfile = $basedir . "/configs/parameters.json";
-        if (file_exists($parametersfile)) {
-            $parameterstr = file_get_contents($parametersfile);
-            $parameters = json_decode($parameterstr, true);
-        } else {
-            $parameters = array();
-        }
-
         $filemanger = new \g7mzr\webtemplate\install\FileManager($basedir);
 
         echo "Checking config.php:  ";
@@ -144,26 +126,6 @@ class UpgradeCommand extends Command
         } else {
             echo "File exists. No updates carried out\n\n";
         }
-
-
-        // Create or update the parameters file
-        echo "Checking parameters.json:  ";
-        $result = $filemanger->createParameters($parameters);
-        if ($result === true) {
-            echo "File Created/Updated\n\n";
-        } else {
-            echo "Error creating/Updating parameters.php\n\n";
-        }
-
-        // Create or update the preferences file
-        echo "checking preferences.json: ";
-        $result = $filemanger->createPreferences($sitePreferences);
-        if ($result === true) {
-            echo "File Created/Updated\n\n";
-        } else {
-            echo "Error creating/Updating parameters.php\n\n";
-        }
-
 
         // Delete the existing templates
         echo "Deleting compiled templates: ";
@@ -265,13 +227,20 @@ class UpgradeCommand extends Command
             $schemafile,
             $checkdbExists
         );
+
+        $parameterfile = __DIR__ . "/../configure/parameters.json";
+        $parametersUpdated = $db->updateConfigParameters($parameterfile);
+
+        $preferencefile = __DIR__ . "/../configure/preferences.json";
+        $preferencesupdated = $db->updateConfigPreferences($preferencefile);
+
         echo "Database Updated\n\n";
     }
 
     /**
      * Install Plugins
      *
-     * @param array   $installConfig Array with info needed to setup the app.
+     * @param array $installConfig Array with info needed to setup the app.
      *
      * @return void
      *

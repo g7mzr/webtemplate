@@ -20,11 +20,11 @@ require_once __DIR__ . "/includes/global.php";
 // Include the composer Autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 
-use \GetOpt\GetOpt;
-use \GetOpt\Option;
-use \GetOpt\Command;
-use \GetOpt\ArgumentException;
-use \GetOpt\ArgumentException\Missing;
+use GetOpt\GetOpt;
+use GetOpt\Option;
+use GetOpt\Command;
+use GetOpt\ArgumentException;
+use GetOpt\ArgumentException\Missing;
 
 
 $getOpt = new GetOpt();

@@ -35,7 +35,7 @@ $language = $app->language();
 \bindtextdomain('messages', '../locale');
 \textdomain('messages');
 // Load the menu and assign it to a SMARTY Variable
-$mainmenu = $app->config()->readMenu('mainmenu');
+$mainmenu = $app->menus()->readMenu('mainmenu');
 $app->tpl()->assign('MAINMENU', $mainmenu);
 
 /* Send the HTTP Headers required by the application */
@@ -136,10 +136,11 @@ if ($action == "new") {
     //error_log("Passwd user name: " . $tempuser);
 
     // Check that the username is in a valid format
-    if (\g7mzr\webtemplate\general\LocalValidate::username(
-        $tempuser,
-        $app->config()->read('param.users.regexp')
-    )
+    if (
+        \g7mzr\webtemplate\general\LocalValidate::username(
+            $tempuser,
+            $app->config()->read('param.users.regexp')
+        )
     ) {
         $validusernameformat = true;
     }
@@ -178,7 +179,8 @@ if ($action == "new") {
     }
 
     $searchresults = $app->edituser()->search('username', $tempuser);
-    if ((\g7mzr\webtemplate\general\General::isError($searchresults))
+    if (
+        (\g7mzr\webtemplate\general\General::isError($searchresults))
         or (count($searchresults) != 1)
     ) {
         // Get the year for the Copyright Statement
@@ -368,7 +370,8 @@ if ($action == "save") {
     $app->tpl()->assign("USERID", $userid);
 
     $passwdstrength = $app->config()->read('param.users.passwdstrength');
-    if ((\g7mzr\webtemplate\general\LocalValidate::password($temppass1, $passwdstrength))
+    if (
+        (\g7mzr\webtemplate\general\LocalValidate::password($temppass1, $passwdstrength))
         and ($temppass1 == $temppass2)
     ) {
         $validpasswdtoken = false;

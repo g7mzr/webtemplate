@@ -947,22 +947,6 @@
 	password = testpassword
 			</programlisting>
 		</section>
-		<section id="develop-config-parameters">
-			<title>Parameters</title>
-			<para>
-			The <filename>parameters.json</filename> is created and updated by the user when they run <filename>install.php</filename>.  The file contains
-			the key configuration parameters used by the application.  They can be updated by an administror using the web interface.  There should be no 
-			need to manually edit this file
-			</para>
-		</section>
-		<section id="develop-config-preferences">
-			<title>Preferences</title>
-			<para>
-			The <filename>preferences.json</filename> is created and updated by the user when they run <filename>install.php</filename>.  The file contains
-			the user preferences used by the application.  They can be updated by an administror using the web interface.  There is no need to manually edit 
-			this file.
-			</para>
-		</section>
 		<section id="develop-config-tests-">
 			<title>Database Configuration File for PHPUNIT</title>
 			<para>

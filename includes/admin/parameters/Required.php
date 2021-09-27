@@ -88,8 +88,7 @@ class Required extends ParametersAbstract
         $this->docbase = $this->config->read('param.docbase');
         $this->cookiedomain = $this->config->read('param.cookiedomain');
         $this->cookiepath = $this->config->read('param.cookiepath');
-    } // end constructor
-
+    }
 
 
     /**

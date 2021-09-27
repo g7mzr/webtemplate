@@ -43,7 +43,7 @@ class Login
      *
      * @access public
      */
-    public function __construct(\g7mzr\webtemplate\application\Application  &$webtemplate)
+    public function __construct(\g7mzr\webtemplate\application\Application &$webtemplate)
     {
         $this->webtemplate = $webtemplate;
     }

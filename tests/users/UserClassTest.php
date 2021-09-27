@@ -107,7 +107,11 @@ class UserClassTest extends TestCase
         // Create a new User Object
         $this->object = new\g7mzr\webtemplate\users\User($this->object2->getDataDriver());
 
-        // Update the last password change date
+        // Set up the configuration object
+        $this->config = new \g7mzr\webtemplate\config\Configure($this->object2->getDataDriver());
+
+
+// Update the last password change date
 
         $todaysdate = time();
         $testdate = ($todaysdate - (55 * 86400));
@@ -129,15 +133,11 @@ class UserClassTest extends TestCase
             $testdsn['password']
         );
         $setresult = $this->mockdatabaseconnection->setMode("datadriver");
-        $this->object3 = new\g7mzr\webtemplate\users\User($this->mockdatabaseconnection->getDataDriver());
+        $this->object3 = new \g7mzr\webtemplate\users\User($this->mockdatabaseconnection->getDataDriver());
 
 
 
         $testName =  $this->getName();
-
-        // Set up the configuration object
-        $configDir = __DIR__ . "/../../configs";
-        $this->config = new\g7mzr\webtemplate\config\Configure($configDir);
     }
 
     /**
@@ -149,7 +149,7 @@ class UserClassTest extends TestCase
     protected function tearDown(): void
     {
         if ($this->databaseconnection === true) {
-            $this->object2->getDataDriver()->disconnect();
+            //$this->object2->getDataDriver()->disconnect();
         }
     }
 

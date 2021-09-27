@@ -37,7 +37,7 @@ $language = $app->language();
 
 
 // Load the menu and assign it to a SMARTY Variable
-$mainmenu = $app->config()->readMenu('mainmenu');
+$mainmenu = $app->menus()->readMenu('mainmenu');
 $app->tpl()->assign('MAINMENU', $mainmenu);
 
 /* Send the HTTP Headers required by the application */
@@ -105,7 +105,7 @@ if (!$app->usergroups()->getAdminAccess() == true) {
 }
 
 // Get the menu
-$menuitems = $app->config()->readMenu('adminpagelist');
+$menuitems = $app->menus()->readMenu('adminpagelist');
 $app->tpl()->assign("PAGELIST", $menuitems);
 
 // Get The users groups

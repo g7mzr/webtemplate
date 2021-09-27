@@ -47,7 +47,7 @@ $language = $app->language();
 \textdomain('messages');
 
 // Load the menu and assign it to a SMARTY Variable
-$mainmenu = $app->config()->readMenu('mainmenu');
+$mainmenu = $app->menus()->readMenu('mainmenu');
 $app->tpl()->assign('MAINMENU', $mainmenu);
 
 /* Send the HTTP Headers required by the application */

@@ -37,7 +37,7 @@ $language = $app->language();
 
 
 // Load the menu and assign it to a SMARTY Variable
-$mainmenu = $app->config()->readMenu('mainmenu');
+$mainmenu = $app->menus()->readMenu('mainmenu');
 $app->tpl()->assign('MAINMENU', $mainmenu);
 
 

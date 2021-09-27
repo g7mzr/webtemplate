@@ -94,6 +94,15 @@
                 "logindata_user_id_idx": {"column": "user_id", "unique": false},
                 "logindata_user_name_idx": {"column": "user_name", "unique": false}
             }
+        },
+        "config": {
+            "columns": {
+                "config_id": {"type": "serial", "primary": true},
+                "config_array":{"type": "varchar(20)", "notnull": true},
+                "config_key": {"type": "varchar(255)", "notnull": true},
+                "config_value":{"type": "varchar(255)", "notnull": true},
+                "config_type":{"type": "varchar(20)", "default": "string", "notnull": true}
+            }
         }
     }
 }

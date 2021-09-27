@@ -62,24 +62,27 @@ class EditUserFunctions
             $searchData = '';
             if (isset($data['searchstr'])) {
                 if ($searchType == "username") {
-                    if (\g7mzr\webtemplate\general\LocalValidate::username(
-                        $data['searchstr'],
-                        $regexp
-                    )
+                    if (
+                        \g7mzr\webtemplate\general\LocalValidate::username(
+                            $data['searchstr'],
+                            $regexp
+                        )
                     ) {
                         $searchData = $data['searchstr'];
                     }
                 } elseif ($searchType == "realname") {
-                    if (\g7mzr\webtemplate\general\LocalValidate::realname(
-                        $data['searchstr']
-                    )
+                    if (
+                        \g7mzr\webtemplate\general\LocalValidate::realname(
+                            $data['searchstr']
+                        )
                     ) {
                         $searchData = $data['searchstr'];
                     }
                 } elseif ($searchType == "email") {
-                    if (\g7mzr\webtemplate\general\LocalValidate::email(
-                        $data['searchstr']
-                    )
+                    if (
+                        \g7mzr\webtemplate\general\LocalValidate::email(
+                            $data['searchstr']
+                        )
                     ) {
                         $searchData = $data['searchstr'];
                     }

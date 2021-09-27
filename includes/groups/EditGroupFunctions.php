@@ -299,6 +299,9 @@ class EditGroupFunctions
                 $tpl->assign("RESULTS", $groupData);
                 $template = "groups/edit.tpl";
                 $tpl->assign("PAGETITLE", ' - ' . gettext("Edit Group"));
+                if ($groupData[0]['groupid'] != "0") {
+                    $tpl->assign("READONLY", "READONLY");
+                }
                 return false;
             }
         }

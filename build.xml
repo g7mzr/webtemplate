@@ -12,7 +12,7 @@
 
     <!-- Set up default directories -->
     <property name="basedir" value="${project.basedir}" />
-    <property name="toolsdir" value="${basedir}/vendor/bin/"/>
+    <property name="toolsdir" value="${basedir}/tools/"/>
 
     <!-- The default location for the compser phar -->
     <property name="composer" value="${basedir}/build/composer.phar"/>
@@ -83,7 +83,6 @@
         <delete dir="${basedir}/build/coverage"/>
         <delete dir="${basedir}/build/logs"/>
         <!--<delete dir="${basedir}/vendor"/> -->
-        <delete file="${basedir}/configs/preferences.json" />
         <delete>
             <fileset dir="${basedir}/templates_c" includes="**/*.php" />
         </delete>
@@ -97,7 +96,7 @@
     </target>
 
     <target name="clean-config" unless="functional.set" description="Delete Config files">
-        <delete file="${basedir}/configs/parameters.json" />
+        
     </target>
 
 

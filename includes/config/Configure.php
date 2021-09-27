@@ -22,14 +22,6 @@ namespace g7mzr\webtemplate\config;
 class Configure
 {
     /**
-     * Location of Configuration Directory
-     *
-     * @var    array
-     * @access protected
-     */
-    protected $configDir = null;
-
-    /**
      * Application configuration parameters
      *
      * @var    array
@@ -46,78 +38,44 @@ class Configure
     protected $preferences;
 
     /**
-     * Property Application Main Menu
+     * Database connection object
      *
-     * @var array
+     * @var    \g7mzr\db\interfaces\InterfaceDatabaseDriver
      * @access protected
      */
-    protected $mainmenu;
-
-    /**
-     * Property Application Parameters Menu
-     *
-     * @var array
-     * @access protected
-     */
-    protected $parametersmenu;
-
-    /**
-     * Property Application User Preferences Menu
-     *
-     * @var array
-     * @access protected
-     */
-    protected $userprefmenu;
-
-     /**
-     * Property Application Admin  Menu
-     *
-     * @var array
-     * @access protected
-     */
-    protected $adminmenu;
+    protected $db  = null;
 
     /**
      * Constructor for the edit user class.
      *
-     * @param string $configDir Location of the parameter file.
+     * @param \g7mzr\db\interfaces\InterfaceDatabaseDriver $db Database Object.
+     *
+     * @throws \Exception If Parameters are not loaded from Database.
+     * @throws \Exception If Preferences are not loaded from Database.
      *
      * @access public
      */
-    public function __construct(string $configDir)
+    public function __construct(\g7mzr\db\interfaces\InterfaceDatabaseDriver $db)
     {
-
-        $this->configDir = $configDir;
+        $this->db = $db;
 
         // Load global parameters and preferences
-        $parametersfile = $configDir . "/parameters.json";
-        $parameterstr = file_get_contents($parametersfile);
-        $this->parameters = json_decode($parameterstr, true);
+        $parameterResult = $this->loadParameters();
+        if (\g7mzr\webtemplate\general\General::isError($parameterResult)) {
+            throw new \Exception($parameterResult->getMessage());
+        }
+        //$parametersfile = $configDir . "/parameters.json";
+        //$parameterstr = file_get_contents($parametersfile);
+        //$this->parameters = json_decode($parameterstr, true);
 
-        $preferencesfile = $configDir . "/preferences.json";
-        $preferencesstr = file_get_contents($preferencesfile);
-        $this->preferences = json_decode($preferencesstr, true);
-
-        // Load the Main menu
-        $mainmenufilename = $configDir . '/menus/mainmenu.json';
-        $mainmenustr = file_get_contents($mainmenufilename);
-        $this->mainmenu = json_decode($mainmenustr, true);
-
-        // Load the Parameter Settings Menu
-        $parammenufilename = $configDir . '/menus/parammenu.json';
-        $parammenustr = file_get_contents($parammenufilename);
-        $this->parametersmenu = json_decode($parammenustr, true);
-
-        // Load the Users Preferences Menu
-        $userprefmenufilename = $configDir . '/menus/userprefmenu.json';
-        $userprefmenustr = file_get_contents($userprefmenufilename);
-        $this->userprefmenu = json_decode($userprefmenustr, true);
-
-        // Load the Main Admin Menu
-        $adminmenufilename = $configDir . '/menus/adminmenu.json';
-        $adminmenustr = file_get_contents($adminmenufilename);
-        $this->adminmenu = json_decode($adminmenustr, true);
-    } // end constructor
+        $preferenceResult = $this->loadPreferences();
+        if (\g7mzr\webtemplate\general\General::isError($preferenceResult)) {
+            throw new \Exception($preferenceResult->getMessage());
+        }
+        //$preferencesfile = $configDir . "/preferences.json";
+        //$preferencesstr = file_get_contents($preferencesfile);
+        //$this->preferences = json_decode($preferencesstr, true);
+    }
 
 
     /**
@@ -374,86 +332,308 @@ class Configure
 
 
     /**
-    * Save the current parameters to a file called parameters.json  The
-    * file is located in the $config directory,
+    * Save the current parameters to the database
     *
-    * @param string $configDir Location of the parameter file.
-    *
-    * @return boolean true if parameterfile saved false otherwise
+    * @return boolean true if parameters are saved to the database false otherwise
     *
     * @access public
     */
-    final public function saveParams(string $configDir)
+    final public function saveParams()
     {
+        // Set the result variable
+        $saveResult = true;
 
-        $filename = $configDir . "/parameters.json";
-        $jsonstr = json_encode($this->parameters, JSON_PRETTY_PRINT);
-        if (!is_writable($filename)) {
-            return false;
-        }
-        $result = file_put_contents($filename, $jsonstr);
-        if ($result === false) {
-            return false;
-        }
-        if (extension_loaded('Zend OPcache')) {
-            if (\opcache_get_status() !== false) {
-                \opcache_invalidate(\realpath($filename));
+        // Process the multi dimensional Parameters Array to a Single dimensional array
+        $arrayToSave = $this->processArray($this->parameters);
+
+        // Start the database transaction
+        $this->db->startTransaction();
+
+        // Process the array
+        foreach ($arrayToSave as $key => $value) {
+            //  Create the array of data values to be updated
+            $updateData = array('config_value' => $value);
+
+            // Create the array of the data to be used to select the correct field to update
+            $searchData = array('config_key'  => $key);
+
+            // Update the preferences
+            $result = $this->db->dbupdate('config', $updateData, $searchData);
+
+            // Check if there was an error
+            if (\g7mzr\db\common\Common::isError($result)) {
+                   $saveResult = false;
             }
         }
-        return true;
+        $this->db->endTransaction($saveResult);
+        return $saveResult;
     }
 
     /**
-    * Save the current preferences to a file called preferences.json.  The
-    * file is located in the $config directory,
+    * Save the current preferences to a the database
     *
-    * @param string $configDir Location of the parameter file.
-    *
-    * @return boolean true if preferences file saved false otherwise
+    * @return boolean true if preferences saved to database false otherwise
     *
     * @access public
     */
-    final public function savePrefs(string $configDir)
+    final public function savePrefs()
     {
-        $filename = $configDir . "/preferences.json";
-        $jsonstr = json_encode($this->preferences, JSON_PRETTY_PRINT);
-        if (!is_writable($filename)) {
-            return false;
-        }
-        $result = \file_put_contents($filename, $jsonstr);
-        if ($result === false) {
-            return false;
-        }
-        if (extension_loaded('Zend OPcache')) {
-            if (\opcache_get_status() !== false) {
-                \opcache_invalidate(\realpath($filename));
+        // Set the result variable
+        $saveResult = true;
+
+        // Process the multi dimensional Preferences  Array to a Single dimensional array
+        $arrayToSave = $this->processArray($this->preferences);
+
+        // Start the database transaction
+        $this->db->startTransaction();
+
+        // Process the array
+        foreach ($arrayToSave as $key => $value) {
+            //  Create the array of data values to be updated
+            $updateData = array('config_value' => $value);
+
+            // Create the array of the data to be used to select the correct field to update
+            $searchData = array('config_key'  => $key);
+
+            // Update the preferences
+            $result = $this->db->dbupdate('config', $updateData, $searchData);
+
+            // Check if there was an error
+            if (\g7mzr\db\common\Common::isError($result)) {
+                   $saveResult = false;
             }
         }
-        return true;
+        $this->db->endTransaction($saveResult);
+        return $saveResult;
     }
 
     /**
-     * This function returns the menu specified in menu
+     * Load Parameter Array
      *
-     * @param string $menu The menu being requested.
+     * This function loads the Parameters Array from the database
      *
-     * @return mixed The menu being requested or an empty array if it does not exist
-     * @access public
+     * @throws \InvalidArgumentException If path has more than 4 elements.
+     *
+     * @return mixed True if the parameter array is loaded or an Error if it fails
+     *
+     * @access private
      */
-    final public function readMenu(string $menu)
+    private function loadParameters()
     {
-        // Set up the super array containing all menus
-        $menulist = array();
-        $menulist['mainmenu'] = $this->mainmenu;
-        $menulist['parampagelist'] = $this->parametersmenu;
-        $menulist['userprefpagelist'] = $this->userprefmenu;
-        $menulist['adminpagelist'] = $this->adminmenu;
-
-        // Check if the requested menu exists and return it.
-        if (array_key_exists($menu, $menulist) == true) {
-            return $menulist[$menu];
+        $gotdata = true;
+        $fields = array(
+            "config_key",
+            "config_value",
+            "config_type"
+        );
+        $searchdata = array(
+            "config_array" => "parameters"
+        );
+        $result = $this->db->dbselectmultiple("config", $fields, $searchdata);
+        if (\g7mzr\db\common\Common::isError($result)) {
+            $gotdata = false;
+            $errorMsg =  $result->getMessage();
+            ;
         } else {
-            return array();
+            foreach ($result as $uao) {
+                $key = explode(".", $uao['config_key']);
+                switch (count($key)) {
+                    case 1:
+                        if ($uao['config_type'] == "bool") {
+                            $this->parameters[$key[0]]
+                                = $this->setBool($uao['config_value']);
+                        } else {
+                            $this->parameters[$key[0]]
+                                = (string) $uao['config_value'];
+                        }
+                        break;
+                    case 2:
+                        if ($uao['config_type'] == "bool") {
+                            $this->parameters[$key[0]][$key[1]]
+                                = $this->setBool($uao['config_value']);
+                        } else {
+                            $this->parameters[$key[0]][$key[1]]
+                                = (string) $uao['config_value'];
+                        }
+                        break;
+                    case 3:
+                        if ($uao['config_type'] == "bool") {
+                            $this->parameters[$key[0]][$key[1]][$key[2]]
+                                = $this->setBool($uao['config_value']);
+                        } else {
+                            $this->parameters[$key[0]][$key[1]][$key[2]]
+                                = (string) $uao['config_value'];
+                        }
+                        break;
+                    case 4:
+                        if ($uao['config_type'] == "bool") {
+                            $this->parameters[$key[0]][$key[1]][$key[2]][$key[3]]
+                                = $this->setBool($uao['config_value']);
+                        } elseif ($uao['config_type'] == "int") {
+                            $this->parameters[$key[0]][$key[1]][$key[2]][$key[3]]
+                                = (int) $uao['config_value'];
+                        } else {
+                            $this->parameters[$key[0]][$key[1]][$key[2]][$key[3]]
+                                = (string) $uao['config_value'];
+                        }
+                        break;
+                    default:
+                        throw new \InvalidArgumentException(
+                            sprintf(
+                                "Invalid Argument %s, path must contain less than 5 items",
+                                $key
+                            )
+                        );
+                }
+            }
         }
+        if ($gotdata == true) {
+            return true;
+        } else {
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
+        }
+    }
+
+
+    /**
+     * Load Preferences Array
+     *
+     * This function loads Preferences Array from the database
+     *
+     * @throws \InvalidArgumentException If path has more than 4 elements.
+     *
+     * @return mixed True if the preferences array is loaded or an Error if it fails
+     *
+     * @access private
+     */
+    private function loadPreferences()
+    {
+        $gotdata = true;
+        $fields = array(
+            "config_key",
+            "config_value",
+            "config_type"
+        );
+        $searchdata = array(
+            "config_array" => "preferences"
+        );
+        $result = $this->db->dbselectmultiple("config", $fields, $searchdata);
+        if (\g7mzr\db\common\Common::isError($result)) {
+            $gotdata = false;
+            $errorMsg =  $result->getMessage();
+            ;
+        } else {
+            foreach ($result as $uao) {
+                $key = explode(".", $uao['config_key']);
+                switch (count($key)) {
+                    case 1:
+                        if ($uao['config_type'] == "bool") {
+                            $this->preferences[$key[0]]
+                                = $this->setBool($uao['config_value']);
+                        } else {
+                            $this->preferences[$key[0]]
+                                = (string) $uao['config_value'];
+                        }
+                        break;
+                    case 2:
+                        if ($uao['config_type'] == "bool") {
+                            $this->preferences[$key[0]][$key[1]]
+                                = $this->setBool($uao['config_value']);
+                        } elseif ($uao['config_type'] == "int") {
+                            $this->parameters[$key[0]][$key[1]][$key[2]][$key[3]]
+                                = (int) $uao['config_value'];
+                        } else {
+                            $this->preferences[$key[0]][$key[1]]
+                                = (string) $uao['config_value'];
+                        }
+                        break;
+                    case 3:
+                        if ($uao['config_type'] == "bool") {
+                            $this->preferences[$key[0]][$key[1]][$key[2]]
+                                = $this->setBool($uao['config_value']);
+                        } else {
+                            $this->preferences[$key[0]][$key[1]][$key[2]]
+                                = (string) $uao['config_value'];
+                        }
+                        break;
+                    case 4:
+                        if ($uao['config_type'] == "bool") {
+                            $this->preferences[$key[0]][$key[1]][$key[2]][$key[3]]
+                                = $this->setBool($uao['config_value']);
+                        } else {
+                            $this->preferences[$key[0]][$key[1]][$key[2]][$key[3]]
+                                = (string) $uao['config_value'];
+                        }
+                        break;
+                    default:
+                        throw new \InvalidArgumentException(
+                            sprintf(
+                                "Invalid Argument %s, path must contain less than 5 items",
+                                $key
+                            )
+                        );
+                }
+            }
+        }
+        if ($gotdata == true) {
+            return true;
+        } else {
+            return\g7mzr\webtemplate\general\General::raiseError($errorMsg, 1);
+        }
+    }
+
+    /**
+     * Set Bool
+     *
+     * This function taked to string representation of a boolean value and converts
+     * it to boolean true if $inputstr is "t" otherwise false.
+     *
+     * @param string $inputstr The string value to be converted to boolean.
+     *
+     * @return boolean True if $inputstr is "t" otherwise false.
+     *
+     * @acess private
+     */
+    private function setBool(string $inputstr)
+    {
+        if (chop($inputstr) == "t") {
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * Process Array
+     *
+     * This function converts a multi dimensional array to a one dimensional array
+     * containing a key and value.  The key is a dot separated path made up of the
+     * original keys.
+     *
+     * @param array  $input     The array to be processed to a sot separated path.
+     * @param string $arrayroot The current path.
+     *
+     * @return array A one dimensional array containing the dpt separated path and value.
+     *
+     * @access private
+     */
+    private function processArray(array $input, string $arrayroot = "")
+    {
+        $result = array();
+
+        foreach ($input as $key => $value) {
+            if ($arrayroot == "") {
+                $path = $key;
+            } else {
+                $path = $arrayroot . "." . $key;
+            }
+            if (is_array($value)) {
+                $localresult = $this->processArray($value, $path);
+                $result = \array_merge($result, $localresult);
+            } else {
+                $result[$path] = $value;
+            }
+        }
+        return $result;
     }
 }

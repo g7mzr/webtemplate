@@ -66,7 +66,7 @@ if ($app->config()->read('param.admin.newwindow') == true) {
 }
 
 // Load the menu and assign it to a SMARTY Variable
-$mainmenu = $app->config()->readMenu('mainmenu');
+$mainmenu = $app->menus()->readMenu('mainmenu');
 $app->tpl()->assign('MAINMENU', $mainmenu);
 
 /* Send the HTTP Headers required by the application */
@@ -87,7 +87,8 @@ if ($app->session()->getUserName() == '') {
     // The user is not logged in.  Lets see what they want to do.
     if (filter_input(INPUT_POST, "Login_Button") !== null) {
         // The user is requesting to log in.
-        if ((filter_input(INPUT_POST, 'username') !== null)
+        if (
+            (filter_input(INPUT_POST, 'username') !== null)
             and filter_input(INPUT_POST, 'password') !== null
         ) {
             // The user name and password fields are set.
@@ -100,10 +101,11 @@ if ($app->session()->getUserName() == '') {
 
             // Check that username and password meet our standards.
             $regexp = $app->config()->read('param.users.regexp');
-            if ((\g7mzr\webtemplate\general\LocalValidate::username(
-                $tantedTempUser,
-                $regexp
-            ))
+            if (
+                (\g7mzr\webtemplate\general\LocalValidate::username(
+                    $tantedTempUser,
+                    $regexp
+                ))
                 and (\g7mzr\webtemplate\general\LocalValidate::password(
                     $tantedTempPass,
                     $passwdstrength

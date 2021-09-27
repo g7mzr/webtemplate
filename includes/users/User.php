@@ -146,8 +146,7 @@ class User
         $this->db       = $db ;
         $this->userName = "None";
         $this->styleDir = __DIR__ . "/style/";
-    } // end constructor
-
+    }
 
     /**
      * Login and register the current user.  Once a user is logged in only the

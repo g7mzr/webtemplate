@@ -66,7 +66,7 @@ class Tokens
         if (lcg_value() < ($this->_gc_probability / $this->_gc_divisor)) {
             $this->deleteStaleTokens();
         }
-    } // end constructor
+    }
 
 
     /**

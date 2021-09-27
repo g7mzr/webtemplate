@@ -36,7 +36,7 @@ $language = $app->language();
 \textdomain('messages');
 
 // Load the menu and assign it to a SMARTY Variable
-$mainmenu = $app->config()->readMenu('mainmenu');
+$mainmenu = $app->menus()->readMenu('mainmenu');
 $app->tpl()->assign('MAINMENU', $mainmenu);
 
 /* Send the HTTP Headers required by the application */
@@ -92,7 +92,7 @@ $app->tpl()->assign(
 );
 
 //Set up the page array.  This is a tempory location.
-$pagelist = $app->config()->readMenu('userprefpagelist');
+$pagelist = $app->menus()->readMenu('userprefpagelist');
 
 // Get which TAB has been selected.
 // If no TAB or Invalid TAB selected default to settings

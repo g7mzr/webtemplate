@@ -50,7 +50,7 @@ class BlankClassTest extends TestCase
      *
      * @return void
      */
-    protected function setUp():void
+    protected function setUp(): void
     {
         global $testdsn, $options;
 
@@ -74,7 +74,7 @@ class BlankClassTest extends TestCase
      *
      * @return void
      */
-    protected function tearDown():void
+    protected function tearDown(): void
     {
     }
 

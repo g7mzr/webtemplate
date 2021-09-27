@@ -20,6 +20,9 @@ use PHPUnit\Framework\TestCase;
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
 
+// Load the Test Database Configuration File
+require_once dirname(__FILE__) . '/../_data/database.php';
+
 /**
  * Parameters Class Unit Tests
  *
@@ -50,11 +53,35 @@ class ParametersTest extends TestCase
     {
 
         // Create configuration Object
+        global $testdsn;
+        // Check that we can connect to the database
+        try {
+            $db = new \g7mzr\db\DBManager(
+                $testdsn,
+                $testdsn['username'],
+                $testdsn['password']
+            );
+            $setresult = $db->setMode("datadriver");
+            if (!\g7mzr\db\common\Common::isError($setresult)) {
+                $this->databaseconnection = true;
+            } else {
+                $this->databaseconnection = false;
+                echo $setresult->getMessage();
+            }
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+            $this->databaseconnection = false;
+        }
+
+        // Create configuration Object
+        $this->confobj = new\g7mzr\webtemplate\config\Configure($db->getDataDriver());
+
+        // Create a menus object
         $configDir = __DIR__ . "/../../configs";
-        $this->confobj = new \g7mzr\webtemplate\config\Configure($configDir);
+        $menus = new \g7mzr\webtemplate\config\Menus($configDir);
 
         // Create the Parameters Class
-        $this->object = new \g7mzr\webtemplate\admin\Parameters($this->confobj);
+        $this->object = new \g7mzr\webtemplate\admin\Parameters($this->confobj, $menus);
     }
 
     /**

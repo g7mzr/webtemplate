@@ -15,10 +15,10 @@
 
 namespace g7mzr\webtemplate\install\commands;
 
-use \GetOpt\Command;
-use \GetOpt\GetOpt;
-use \GetOpt\Operand;
-use \GetOpt\Option;
+use GetOpt\Command;
+use GetOpt\GetOpt;
+use GetOpt\Operand;
+use GetOpt\Option;
 
 /**
  * Setup is a test command for PharApp.

@@ -84,7 +84,7 @@ class Email extends ParametersAbstract
         $this->smtpUserName = $this->config->read('param.email.smtpusername');
         $this->smtpPassword = $this->config->read('param.email.smtppassword');
         $this->smtpDebug = $this->config->read('param.email.smtpdebug');
-    } // end constructor
+    }
 
 
     /**

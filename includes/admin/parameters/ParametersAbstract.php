@@ -47,7 +47,7 @@ abstract class ParametersAbstract
     public function __construct(\g7mzr\webtemplate\config\Configure $config)
     {
         $this->config = $config;
-    } // end constructor
+    }
 
 
     /**
@@ -83,19 +83,17 @@ abstract class ParametersAbstract
     * Save the current parameters to a file called parameters.php.  The
     * file is located in the $config directory,
     *
-    * @param string $configDir Location of the parameter file.
-    *
     * @return boolean true if parameterfile saved false otherwise
     *
     * @access public
     */
-    final public function saveParamFile(string $configDir)
+    final public function saveParamFile()
     {
         // Load the values in to configuration object
         $this->savetoConfigurationClass();
 
         // Save the values
-        $result = $this->config->saveParams($configDir);
+        $result = $this->config->saveParams();
         return $result;
     }
 

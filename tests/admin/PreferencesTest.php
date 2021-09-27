@@ -20,6 +20,9 @@ use PHPUnit\Framework\TestCase;
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
 
+// Load the Test Database Configuration File
+require_once dirname(__FILE__) . '/../_data/database.php';
+
 /**
  * Preferences Class Unit Tests
  *
@@ -49,9 +52,30 @@ class PreferencesTest extends TestCase
     protected function setUp(): void
     {
 
+
         // Create configuration Object
-        $configDir = __DIR__ . "/../../configs";
-        $this->confobj = new\g7mzr\webtemplate\config\Configure($configDir);
+        global $testdsn;
+        // Check that we can connect to the database
+        try {
+            $db = new \g7mzr\db\DBManager(
+                $testdsn,
+                $testdsn['username'],
+                $testdsn['password']
+            );
+            $setresult = $db->setMode("datadriver");
+            if (!\g7mzr\db\common\Common::isError($setresult)) {
+                $this->databaseconnection = true;
+            } else {
+                $this->databaseconnection = false;
+                echo $setresult->getMessage();
+            }
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+            $this->databaseconnection = false;
+        }
+
+        // Create configuration Object
+        $this->confobj = new\g7mzr\webtemplate\config\Configure($db->getDataDriver());
 
         $this->confobj->write('pref.theme.value', 'Dusk');
         $this->confobj->write('pref.theme.enabled', true);
@@ -243,36 +267,8 @@ class PreferencesTest extends TestCase
      */
     public function testSavePrefFile()
     {
-        // Test using Default Data
-        $configDir = dirname(__FILE__) . "/../_data";
-        $filesaved = $this->object->savePrefFile($configDir);
+        $filesaved = $this->object->savePrefFile();
         $this->assertTrue($filesaved);
-        $filename = $configDir . '/preferences.json';
-        $expectedfilename = $configDir . '/preferences_test_file.json';
-        $this->assertFileExists($filename);
-
-        $this->assertFileEquals($expectedfilename, $filename);
-
-        // test Using NEw Data
-        $rootDir = dirname(dirname(__FILE__)) . "/_data";
-        $inputArray['theme'] = 'Dusk';
-        $result = $this->object->loadThemes($rootDir);
-        if ($result == true) {
-            $result = $this->object->validatePreferences($inputArray);
-            if ($result == true) {
-                $filesaved = $this->object->savePrefFile($configDir);
-                $this->assertTrue($filesaved);
-            } else {
-                $this->fail("Failed to Validate Theme for the test");
-            }
-        } else {
-            $this->fail("Failed to Load Themes for the test");
-        }
-
-        // Faile to save
-        $configDir = dirname(__FILE__) . "/../data";
-        $filesaved = $this->object->savePrefFile($configDir);
-        $this->assertFalse($filesaved);
     }
 
 

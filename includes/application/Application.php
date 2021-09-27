@@ -15,9 +15,9 @@
 
 namespace g7mzr\webtemplate\application;
 
-use \g7mzr\webtemplate\application\exceptions\AppException;
-use \g7mzr\webtemplate\general\General;
-use \g7mzr\webtemplate\application\WebTemplateCommon;
+use g7mzr\webtemplate\application\exceptions\AppException;
+use g7mzr\webtemplate\general\General;
+use g7mzr\webtemplate\application\WebTemplateCommon;
 
 /**
  *  Webtemplate Application
@@ -95,6 +95,15 @@ class Application
      * @access protected
      */
     protected $var_config = null;
+
+    /**
+     * Property: Menu
+     * Webtemplate Menu Class
+     *
+     * @var \g7mzr\webtemplate\config\Menus
+     * @access protected
+     */
+    protected $var_menus = null;
 
     /**
      * Property: log
@@ -293,9 +302,13 @@ class Application
         $this->var_db = $db->getDataDriver();
 
 
-        //Create new config class
+        //Create new menus class
         $configdir = $this->var_tpl->getConfigDir(0);
-        $this->var_config = new \g7mzr\webtemplate\config\Configure($configdir);
+        $this->var_menus = new \g7mzr\webtemplate\config\Menus($configdir);
+
+        // Create the new Config Class
+        $this->var_config = new \g7mzr\webtemplate\config\Configure($this->var_db);
+
 
         //Create the logclass
         $this->var_log = new \g7mzr\webtemplate\general\Log(
@@ -335,7 +348,10 @@ class Application
         $this->var_editgroups = new \g7mzr\webtemplate\groups\EditGroups($this->var_db);
 
         // Initalise the Parameters Object
-        $this->var_parameters = new \g7mzr\webtemplate\admin\Parameters($this->var_config);
+        $this->var_parameters = new \g7mzr\webtemplate\admin\Parameters(
+            $this->var_config,
+            $this->var_menus
+        );
 
         // Inialise the Preferences Object
         $this->var_preferences = new \g7mzr\webtemplate\admin\Preferences(
@@ -455,6 +471,17 @@ class Application
         return $this->var_config;
     }
 
+    /**
+     * This function returns the Menus class
+     *
+     * @return \g7mzr\webtemplate\config\Menus
+     *
+     * @access public
+     */
+    public function menus()
+    {
+        return $this->var_menus;
+    }
 
     /**
      * This function returns the database class
