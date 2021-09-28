@@ -35,7 +35,7 @@ class FileManager
      */
     private $filePermissions = array (
         array('dir', 'templates_c', 0770, 0660),
-        array('dir', 'configs', 0770, 0660),
+        array('dir', 'configs', 0750, 0640),
         array('dir', 'cache', 0770, 0660),
         array('dir', 'logs', 0770, 0660),
         array('dir', 'base', 0750, 0640),
