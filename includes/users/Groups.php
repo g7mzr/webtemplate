@@ -232,7 +232,7 @@ class Groups
     {
         // Get the groups the user is a member off
         $fields = array('group_id');
-        $searchData = array("user_id" => $this->userId);
+        $searchData = array("user_id" => (string) $this->userId);
         $usersGroupsList = $this->db->dbselectMultiple(
             'user_group_map',
             $fields,

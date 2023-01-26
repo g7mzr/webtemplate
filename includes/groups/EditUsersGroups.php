@@ -113,7 +113,7 @@ class EditUsersGroups
          // Set default variable values
         $searchok = false;
         $fieldNames = array("group_id");
-        $searchdata = array('user_id' => $userid);
+        $searchdata = array('user_id' => (string) $userid);
 
         $uaodb = $this->db->dbselectmultiple(
             'user_group_map',

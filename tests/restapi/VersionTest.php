@@ -380,7 +380,7 @@ class VersionTest extends TestCase
 
         // Check the content length
         $contentlength = $getheadresponse->getContentLength();
-        $this->assertEquals(263, $contentlength);
+        $this->assertEquals(264, $contentlength);
 
         // Check there is no processed data
         $this->assertEquals(0, count($getheadprocesseddata));

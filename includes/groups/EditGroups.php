@@ -121,7 +121,7 @@ class EditGroups
             "group_editable",
             "group_autogroup"
         );
-        $searchdata = array('group_id' => $groupId);
+        $searchdata = array('group_id' => (string) $groupId);
 
         $gao = $this->db->dbselectsingle('groups', $fieldNames, $searchdata);
 
@@ -180,7 +180,7 @@ class EditGroups
                 "group_editable",
                 "group_autogroup"
             );
-            $searchdata = array('group_id' => $gid);
+            $searchdata = array('group_id' => (string) $gid);
             $gao = $this->db->dbselectsingle('groups', $fieldNames, $searchdata);
 
             if (!\g7mzr\db\common\Common::isError($gao)) {
@@ -332,7 +332,7 @@ class EditGroups
                 "group_editable"      => $geditable
             );
             $searchdata = array(
-                "group_id" => $gid
+                "group_id" => (string) $gid
             );
             $result = $this->db->dbupdate("groups", $groupdata, $searchdata);
             if (\g7mzr\db\common\Common::isError($result)) {

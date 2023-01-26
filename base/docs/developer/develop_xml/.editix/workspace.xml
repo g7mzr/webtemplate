@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><root>
-<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/developer.xml" type="DOCBOOK">
+<file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/developer.xml" type="DOCBOOK">
 <param name="lastView" value="Source"/>
 </file>
 <file path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml"/>
@@ -20,7 +20,7 @@
 <param name="encoding" value="AUTOMATIC"/>
 <param name="lastView" value="Source"/>
 </file>
-<file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/develop-structure.xml" type="XML">
+<file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/develop-structure.xml" type="XML">
 <param name="lastView" value="Source"/>
 </file>
 <file open="true" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/developer/develop_xml/ci-setup.xml" type="XML"/>
@@ -42,5 +42,8 @@
 </file>
 <file open="false" path="/home/sandy/Documents/src/git/github/webtemplate/base/docs/xsl/docs.xsl">
 <param name="encoding" value="AUTOMATIC"/>
+</file>
+<file open="false" path="/home/sandy/Desktop/Kate.desktop">
+<param name="lastView" value="Source"/>
 </file>
 </root>

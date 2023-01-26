@@ -56,9 +56,9 @@ class EditUserClassTest extends TestCase
     /**
      * User Class
      *
-     * @var\g7mzr\webtemplate\users\User
+     * @var \g7mzr\webtemplate\users\Register
      */
-    protected $userclass;
+    protected $register_class;
 
     /**
      * Database Connection
@@ -123,7 +123,7 @@ class EditUserClassTest extends TestCase
         $this->newuserflag = false;
 
         //User Class
-        $this->user_class = new\g7mzr\webtemplate\users\User($this->object2->getDataDriver());
+        $this->register_class = new \g7mzr\webtemplate\users\Register($this->object2->getDataDriver());
 
         // Set up MOCK Connection
         $tempDBDriver = $testdsn['dbtype'];
@@ -229,9 +229,11 @@ class EditUserClassTest extends TestCase
 
             // Test the Last Seen column
             $date = date("Y-m-d");
-            $user = $this->user_class->register(
+            $userData = array();
+            $user = $this->register_class->register(
                 'phpunit',
-                $this->config->read('pref')
+                $this->config->read('pref'),
+                $userData
             );
             $resultarray = $this->object->search('username', 'phpunit');
             if (\g7mzr\webtemplate\general\General::isError($resultarray)) {
@@ -282,9 +284,11 @@ class EditUserClassTest extends TestCase
             } else {
                 // Set the lastseendate by registering the phpunit user
                 $date = date("Y-m-d");
-                $user = $this->user_class->register(
+                $userData = array();
+                $user = $this->register_class->register(
                     'phpunit',
-                    $this->config->read('pref')
+                    $this->config->read('pref'),
+                    $userData
                 );
 
                 // Get the users details

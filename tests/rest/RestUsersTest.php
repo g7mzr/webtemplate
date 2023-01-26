@@ -113,9 +113,11 @@ class RestUsersTest extends TestCase
     public function testUsersPermissionsLoggedinNoAccess()
     {
         // Register the user to look as if they are logged in
-        $registered = $this->webtemplate->user()->register(
+        $userData = array();
+        $registered = $this->webtemplate->register()->register(
             'secnone',
-            $this->webtemplate->config()->read('pref')
+            $this->webtemplate->config()->read('pref'),
+            $userData
         );
         if (\g7mzr\webtemplate\general\General::isError($registered)) {
             $this->fail('Failed to register user for ' . __METHOD__);
@@ -123,12 +125,12 @@ class RestUsersTest extends TestCase
 
         // Get the users groups
         $this->webtemplate->usergroups()->loadusersgroups(
-            $this->webtemplate->user()->getUserId()
+            $userData['userId']
         );
 
         $this->webtemplate->session()->createSession(
             'secnone',
-            $this->webtemplate->user()->getUserId(),
+            $userData['userId'],
             false
         );
 
@@ -159,9 +161,11 @@ class RestUsersTest extends TestCase
     {
 
         // Register the user to look as if they are logged in
-        $registered = $this->webtemplate->user()->register(
+        $userData = array();
+        $registered = $this->webtemplate->register()->register(
             'secuser',
-            $this->webtemplate->config()->read('pref')
+            $this->webtemplate->config()->read('pref'),
+            $userData
         );
         if (\g7mzr\webtemplate\general\General::isError($registered)) {
             $this->fail('Failed to register user for ' . __METHOD__);
@@ -169,12 +173,12 @@ class RestUsersTest extends TestCase
 
         // Get the users groups
         $this->webtemplate->usergroups()->loadusersgroups(
-            $this->webtemplate->user()->getUserId()
+            $userData['userId']
         );
 
         $this->webtemplate->session()->createSession(
             'secgroups',
-            $this->webtemplate->user()->getUserId(),
+            $userData['userId'],
             false
         );
 

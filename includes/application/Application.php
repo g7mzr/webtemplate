@@ -142,6 +142,24 @@ class Application
     protected $var_user = null;
 
     /**
+     * Property: login
+     * Webtemplate Login Class
+     *
+     * @var \g7mzr\webtemplate\users\User
+     * @access protected
+     */
+    protected $var_login = null;
+
+    /**
+     * Property: register
+     * Webtemplate Register User Class
+     *
+     * @var    \g7mzr\webtemplate\users\Register
+     * @access protected
+     */
+    protected $var_register = null;
+
+    /**
      * Property: usergroups
      * Webtemplate Usergroups class
      *
@@ -329,8 +347,14 @@ class Application
         $plugindir = $basedir . "/plugins";
         $this->var_plugin = new \g7mzr\webtemplate\application\Plugin($plugindir, $this);
 
-        // Create a user class
-        $this->var_user = new \g7mzr\webtemplate\users\User($this->var_db);
+        // Create a Login Class
+        $this->var_login = new \g7mzr\webtemplate\users\Login($this->var_db);
+
+        // Create a register user class
+        $this->var_register = new \g7mzr\webtemplate\users\Register($this->var_db);
+
+        // Create the User Object
+        $this->var_user = new \g7mzr\webtemplate\users\User();
 
         // Initalise an Edit User class
         $this->var_edituser = new \g7mzr\webtemplate\users\EditUser($this->var_db);
@@ -373,11 +397,14 @@ class Application
         $this->var_edituserprefs = new \g7mzr\webtemplate\users\EditUserPref(
             $this->var_db
         );
+
         // Check if user is logged in.  If they are register them.
         if ($this->var_session->getUserName() != '') {
-            $result = $this->var_user->register(
+            $userData = array();
+            $result = $this->var_register->register(
                 $this->var_session->getUserName(),
-                $this->var_config->read('pref')
+                $this->var_config->read('pref'),
+                $userData
             );
             if (\g7mzr\webtemplate\general\General::isError($result)) {
                 $this->var_log->error(
@@ -388,14 +415,15 @@ class Application
                 throw new AppException('Unable to register user', 1);
             }
 
+            // Lad the user Data into the User Object.
+            $this->var_user->loadUserData($userData);
+
             // Get the users groups
             $this->var_usergroups->loadusersgroups($this->var_user->getUserId());
 
             // Set the userid for edituserprefs
             $this->var_edituserprefs->setUserId($this->var_user->getUserId());
         }
-
-
         $this->var_log->debug('Application Class Initalised');
     }
 
@@ -590,6 +618,30 @@ class Application
     public function user()
     {
         return $this->var_user;
+    }
+
+     /**
+     * This function returns the login class
+     *
+     * @return \g7mzr\webtemplate\users\Login
+     *
+     * @access public
+     */
+    public function login()
+    {
+        return $this->var_login;
+    }
+
+    /**
+     * This function returns the register class
+     *
+     * @return \g7mzr\webtemplate\users\Register
+     *
+     * @access public
+     */
+    public function register()
+    {
+        return $this->var_register;
     }
 
     /**
