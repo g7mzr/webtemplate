@@ -105,8 +105,20 @@ if (\filter_input(INPUT_GET, 'tab') !== null) {
     $tempTab = 'settings';
 }
 
+$menuRegularExpression = "/";
+$currentElement = 1;
+$arrayLength = count($pagelist);
+foreach ($pagelist as $key => $value) {
+    $menuRegularExpression .= "(" . $key . ")";
+    if ($currentElement < $arrayLength) {
+        $menuRegularExpression .= "|";
+    }
+    $currentElement = $currentElement + 1;
+}
+$menuRegularExpression .= "/";
+$tabList = $menuRegularExpression;
 
-$tabList = "/(settings)|(account)|(permissions)/";
+//$tabList = "/(settings)|(account)|(permissions)/";
 if (preg_match($tabList, $tempTab, $regs) == true) {
     $tab = $tempTab;
 } else {

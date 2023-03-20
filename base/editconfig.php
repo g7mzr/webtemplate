@@ -137,7 +137,8 @@ if (\filter_input(INPUT_GET, 'section') !== null) {
 
 // Check that the requested section is valid.
 // If not default to required.
-$sectionRegex = "/(required)|(admin)|(auth)|(email)/";
+//$sectionRegex = "/(required)|(admin)|(auth)|(email)/";
+$sectionRegex = $app->parameters()->getPageListRegEx();
 if (preg_match($sectionRegex, $tempSection, $regs) == true) {
     $section = $tempSection;
 } else {

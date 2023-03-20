@@ -269,4 +269,19 @@ class ParametersTest extends TestCase
             );
         }
     }
+
+    /**
+     * This function tests that getPageListRegEx() function returns the correct
+     * Regular expression
+     *
+     * @group unittest
+     * @group admin
+     *
+     * @return void
+     */
+    public function testgetPageListRegEx()
+    {
+        $testRegEx = $this->object->getPageListRegEx();
+        $this->assertEquals("/(required)|(admin)|(auth)|(email)/", $testRegEx);
+    }
 }
