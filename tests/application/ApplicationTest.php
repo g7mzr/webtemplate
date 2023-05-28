@@ -278,7 +278,7 @@ class ApplicationTest extends TestCase
     {
         $result = is_a(
             $this->object->user(),
-            '\g7mzr\webtemplate\users\user'
+            '\g7mzr\webtemplate\users\User'
         );
         $this->assertTrue($result);
     }

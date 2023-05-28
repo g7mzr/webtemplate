@@ -220,7 +220,9 @@ if ($action == "new") {
     }
 
     // Set the e-mail template variables
-    $app->user()->register($tempuser, $app->config()->read('pref'));
+    $userData = array();
+    $app->register()->register($tempuser, $app->config()->read('pref'), $userData);
+    $app->user()->loadUserData($userData);
     if ($app->user()->getUserEmail() == "") {
         // Get the year for the Copyright Statement
         $dateArray = getdate();
@@ -314,7 +316,7 @@ if (\filter_input(INPUT_GET, 'passwdreq') !== null) {
     $validpasswdtoken = false;
     $userid = '0';
     $passwdreq = substr(\filter_input(INPUT_GET, 'passwdreq'), 0, 10);
-    if (webtemplate\general\LocalValidate::token($passwdreq) == true) {
+    if (\g7mzr\webtemplate\general\LocalValidate::token($passwdreq) == true) {
         $userid = $app->tokens()->getTokenUserid($passwdreq, 'PASSWORD');
         if ($userid > 0) {
             $validpasswdtoken = true;
@@ -479,7 +481,7 @@ if ($action == "cancelpasswdrequest") {
     }
 
     $temptoken = \filter_input(INPUT_POST, 'passwdreq', FILTER_SANITIZE_STRING);
-    if (!webtemplate\general\LocalValidate::token($temptoken)) {
+    if (!\g7mzr\webtemplate\general\LocalValidate::token($temptoken)) {
         // This is not a valid webtemplate token
         $template = 'global/error.tpl';
         $msg = gettext("Unable to validate  password reset cancelation request.\n");
@@ -493,7 +495,7 @@ if ($action == "cancelpasswdrequest") {
     }
 
     $result = $app->tokens()->deleteToken($temptoken);
-    if (webtemplate\general\General::isError($result)) {
+    if (\g7mzr\webtemplate\general\General::isError($result)) {
         $msg = gettext(__FILE__ . "Error cancelling new account request");
         $app->log()->error($msg);
     }

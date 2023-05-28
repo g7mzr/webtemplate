@@ -76,28 +76,39 @@ class Login
             );
         }
         if ($validusername and $validpasswd) {
-            $userloggedin = $this->webtemplate->user()->login(
+            $userData = array();
+            $userloggedin = $this->webtemplate->login()->login(
                 $this->requestdata['username'],
                 $this->requestdata['password'],
                 $this->webtemplate->config()->read('param.users.passwdage'),
-                $this->webtemplate->config()->read('pref')
+                $userData
             );
             if (!\g7mzr\webtemplate\general\General::isError($userloggedin)) {
-                $this->webtemplate->session()->createSession(
+                $userRegistered = $this->webtemplate->register()->register(
                     $this->requestdata['username'],
-                    $this->webtemplate->user()->getUserId(),
-                    false
+                    $this->webtemplate->config()->read('pref'),
+                    $userData
                 );
-                $dataarr = array(
-                    'Msg' => "Logged in",
-                    'user' => $this->webtemplate->user()->getUserName(),
-                    'realname' => $this->webtemplate->user()->getRealName(),
-                    'email' => $this->webtemplate->user()->getUserEmail(),
-                    'lastlogin' => $this->webtemplate->user()->getLastSeenDate(),
-                    'passwdagemsg' => $this->webtemplate->user()->getPasswdAgeMsg(),
-                    'displayrows' => $this->webtemplate->user()->getDisplayRows()
-                );
-                $code = 200;
+                if (!\g7mzr\webtemplate\general\General::isError($userRegistered)) {
+                    $this->webtemplate->session()->createSession(
+                        $userData['userName'],
+                        $userData['userId'],
+                        false
+                    );
+                    $dataarr = array(
+                        'Msg' => "Logged in",
+                        'user' => $userData['userName'],
+                        'realname' => $userData['realName'],
+                        'email' => $userData['userEmail'],
+                        'lastlogin' => $userData['last_seen_date'],
+                        'passwdagemsg' => $userData['passwdAgeMsg'],
+                        'displayrows' => $userData['displayRows']
+                    );
+                    $code = 200;
+                } else {
+                    $dataarr = array('ErrorMsg' => "Invalid username and password");
+                    $code = 403;
+                }
             } else {
                 $dataarr = array('ErrorMsg' => "Invalid username and password");
                 $code = 403;
