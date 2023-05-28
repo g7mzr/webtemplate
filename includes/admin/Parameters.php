@@ -99,6 +99,32 @@ class Parameters
     }
 
     /**
+     * This function returns the regular expression for the Parameters Menu.
+     *
+     *
+     * @return mixed The regular expression for the Parameters Menu
+     * @access public
+     */
+    final public function getPageListRegEx()
+    {
+        $menuRegularExpression = "/";
+        // Set up the super array containing all menus
+        $menulist = $this->menus->readMenu('parampagelist');
+
+        $currentElement = 1;
+        $arrayLength = count($menulist);
+        foreach ($menulist as $key => $value) {
+            $menuRegularExpression .= "(" . $key . ")";
+            if ($currentElement < $arrayLength) {
+                $menuRegularExpression .= "|";
+            }
+            $currentElement = $currentElement + 1;
+        }
+        $menuRegularExpression .= "/";
+        return $menuRegularExpression;
+    }
+
+    /**
      * This function returns the last message created by the class.
      * This could be either a error or status update.
      *
