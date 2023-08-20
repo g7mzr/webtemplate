@@ -79,7 +79,7 @@ trait TraitEndPointCommon
         // Check if the function exists in the class
         if (method_exists($this, $lowercasemethod)) {
             // If it does call the function and return the results
-            return $this->$lowercasemethod();
+            return $this->lowercasemethod();
         }
 
         // If the HTTP method does not exist return an invalid command

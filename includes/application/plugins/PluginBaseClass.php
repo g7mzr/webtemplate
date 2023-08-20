@@ -26,19 +26,19 @@ use g7mzr\webtemplate\application\plugins\PluginConst;
 class PluginBaseClass
 {
     /**
-     * Constant: Default Plugin name
+     * String: Default Plugin name
      */
-    public const PLUGIN_NAME = "PLUGIN BASE CLASS";
+    public $PLUGIN_NAME = "";
 
     /**
-     * Constant: Default Plugin Version
+     * String: Default Plugin Version
      */
-    public const PLUGIN_VERSION = "1.0.0";
+    public $PLUGIN_VERSION = "";
 
     /**
-     * Constant: The default home directory of the current plugin
+     * String: The default home directory of the current plugin
      */
-    public const PLUGIN_DIR = __DIR__;
+    public $PLUGIN_DIR = "";
 
     /**
      * Property: app
@@ -75,14 +75,14 @@ class PluginBaseClass
     public function getVersionInformation(int $versionData = PluginConst::GET_PLUGIN_INFO)
     {
         $versionArray = array(
-            "name" => $this::PLUGIN_NAME,
-            "version" => $this::PLUGIN_VERSION
+            "name" => $this->PLUGIN_NAME,
+            "version" => $this->PLUGIN_VERSION
         );
 
         $versionString = sprintf(
             "Name: %s Version: %s",
-            $this::PLUGIN_NAME,
-            $this::PLUGIN_VERSION
+            $this->PLUGIN_NAME,
+            $this->PLUGIN_VERSION
         );
 
         switch ($versionData) {
@@ -90,10 +90,10 @@ class PluginBaseClass
                 $result = $versionArray;
                 break;
             case PluginConst::GET_PLUGIN_NAME:
-                $result = $this::PLUGIN_NAME;
+                $result = $this->PLUGIN_NAME;
                 break;
             case PluginConst::GET_PLUGIN_VERSION:
-                $result = $this::PLUGIN_VERSION;
+                $result = $this->PLUGIN_VERSION;
                 break;
             case PluginConst::GET_PLUGIN_VERSION_STRING:
                 $result = $versionString;

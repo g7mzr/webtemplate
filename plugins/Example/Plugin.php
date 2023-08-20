@@ -16,6 +16,8 @@
 namespace g7mzr\webtemplate\plugins\Example;
 
 use g7mzr\webtemplate\application\plugins\PluginBaseClass;
+use g7mzr\webtemplate\plugins\Example\lib\Functions;
+use g7mzr\webtemplate\plugins\Example\lib\Version;
 
 /**
  * Description of Example
@@ -25,19 +27,28 @@ use g7mzr\webtemplate\application\plugins\PluginBaseClass;
 class Plugin extends PluginBaseClass
 {
     /**
-     * Constant: Default Plugin name
+     * Property: functions
+     *
+     * @var \g7mzr\webtemplate\plugins\Example\lib\Functions
+     * @access protected
      */
-    public const PLUGIN_NAME = "Example Plugin";
+    protected $functions = null;
 
     /**
-     * Constant: Default Plugin Version
+     * __construct()
+     *
+     * @param \g7mzr\webtemplate\application\Application $app Pointer to application class.
+     *
+     * @access public
      */
-    public const PLUGIN_VERSION = "0.1.0";
-
-    /**
-     * Constant: The home directory of the current plugin
-     */
-    public const PLUGIN_DIR = __DIR__;
+    public function __construct(\g7mzr\webtemplate\application\Application $app)
+    {
+        parent::__construct($app);
+        $this->PLUGIN_DIR = __DIR__;
+        $this->PLUGIN_NAME = Version::$PLUGIN_NAME;
+        $this->PLUGIN_VERSION = Version::$PLUGIN_VERSION;
+        $this->functions = new Functions($app);
+    }
 
     /**
      * hook_about_display Hook
@@ -54,24 +65,8 @@ class Plugin extends PluginBaseClass
      */
     public function hookAboutDisplay(array &$hookparam)
     {
-        $fieldNames = array(
-            'user_id',
-            'user_name',
-            'user_realname',
-            'user_email',
-            'user_enabled',
-            'user_disable_mail',
-            'date(last_seen_date)',
-            'date(passwd_changed) as passwd_changed'
-        );
-        $result = $this->app->db()->dbselectmultiple(
-            'users',
-            $fieldNames,
-            array(),
-            'user_id'
-        );
-        if (!\g7mzr\db\common\Common::isError($result)) {
-            $numberOfUsers = $this->app->db()->rowCount();
+        $numberOfUsers = $this->functions->noOfUsers();
+        if (!\g7mzr\db\common\Common::isError($numberOfUsers)) {
             $this->app->tpl()->assign("REGISTEREDUSERS", $numberOfUsers);
             $templatefilename = __DIR__ . "/templates/about.tpl";
             $this->app->tpl()->addPluginTemplate("abouthook", $templatefilename);
