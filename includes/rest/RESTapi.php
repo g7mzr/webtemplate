@@ -191,10 +191,32 @@ class RESTapi
      */
     public function processAPI()
     {
+        // Check for an implement CORE endpoints
         $classFile = __DIR__ . "/endpoints/" . ucfirst($this->endpoint) . ".php";
         if (file_exists($classFile)) {
             include $classFile;
             $classname = '\\g7mzr\\webtemplate\\rest\\endpoints\\' . ucfirst($this->endpoint);
+            if (class_exists($classname)) {
+                $endpointclass = new $classname($this->webtemplate);
+                $permissionsresult = $endpointclass->permissions();
+                if ($permissionsresult === true) {
+                    $result = $endpointclass->endpoint(
+                        $this->method,
+                        $this->args,
+                        $this->requestdata
+                    );
+                    return $this->response($result);
+                } else {
+                    return $this->response($permissionsresult);
+                }
+            }
+        }
+
+        // Check for and implement Plugin Checkpoints.
+        $classFile = dirname(dirname(__DIR__)) . "/plugins/" . ucfirst($this->endpoint) . "/lib/API.php";
+        if (file_exists($classFile)) {
+            include $classFile;
+            $classname = '\\g7mzr\\webtemplate\\plugins\\' . ucfirst($this->endpoint) . '\\lib\\API';
             if (class_exists($classname)) {
                 $endpointclass = new $classname($this->webtemplate);
                 $permissionsresult = $endpointclass->permissions();
