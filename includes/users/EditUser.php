@@ -158,7 +158,7 @@ class EditUser
             'date(last_seen_date)',
             'date(passwd_changed) as passwd_changed'
         );
-        $searchData = array('user_id' => $userId);
+        $searchData = array('user_id' => (string) $userId);
         $uao = $this->db->dbselectsingle('users', $fieldNames, $searchData);
 
         if (!\g7mzr\db\common\Common::isError($uao)) {
@@ -534,7 +534,7 @@ class EditUser
                 'user_realname' => $realname,
                 'user_email' => $usermail
             );
-            $searchData = array('user_id' => $userId);
+            $searchData = array('user_id' => (string) $userId);
             $result = $this->db->dbupdate('users', $insertData, $searchData);
         } else {
             // Update user details including their password;
@@ -544,7 +544,7 @@ class EditUser
                 'user_passwd' => $encryptPasswd,
                 'passwd_changed' => 'Now()'
             );
-            $searchData = array('user_id' => $userId);
+            $searchData = array('user_id' => (string) $userId);
             $result = $this->db->dbupdate('users', $insertData, $searchData);
         }
         if (\g7mzr\db\common\Common::isError($result)) {
@@ -990,7 +990,7 @@ class EditUser
             $insertData['user_passwd']    = $encryptPasswd;
             $insertData['passwd_changed'] = $passwdChangeText;
         }
-        $searchData = array('user_id' => $userId);
+        $searchData = array('user_id' => (string) $userId);
         $result = $this->db->dbupdate('users', $insertData, $searchData);
         if (\g7mzr\db\common\Common::isError($result)) {
             $saveok = false;

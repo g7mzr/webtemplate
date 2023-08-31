@@ -94,12 +94,7 @@
             <arg line="makedocs.php --clean" />
         </exec>
     </target>
-
-    <target name="clean-config" unless="functional.set" description="Delete Config files">
-
-    </target>
-
-
+  
     <!-- ================================================================== -->
     <!--           Targets used to PREPARE the BUILD ENVIRONMENT            -->
     <!-- ================================================================== -->
@@ -257,7 +252,7 @@
     <!-- ================================================================== -->
 
     <target name="clean"
-            depends="composer-install, clean-artifacts, clean-docs, clean-config"/>
+            depends="composer-install, clean-artifacts, clean-docs"/>
 
     <target name="prepare"
             depends=" clean, db-update, prepare-build"/>

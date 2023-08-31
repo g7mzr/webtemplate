@@ -116,63 +116,75 @@ if ($app->session()->getUserName() == '') {
 
                 // Username and password are in a valid format.
                 // Try to log the user in
-                $userLoggedIn = $app->user()->login(
+                $userData = array();
+                $userLoggedIn = $app->login()->login(
                     $username,
                     $password,
                     $app->config()->read('param.users.passwdage'),
-                    $app->config()->read('pref')
+                    $userData
                 );
                 if (!\g7mzr\webtemplate\general\General::isError($userLoggedIn)) {
-                    // User is logged in
-                    // Set the Session userName and userId Session Variables
-                    //$app->session()->setUserName($username);
-                    //$app->session()->setUserID($app->user()->getUserId());
-                    $app->session()->createSession($username, $app->user()->getUserId(), false);
+                    $userRegistered = $app->register()->register(
+                        $username,
+                        $app->config()->read('pref'),
+                        $userData
+                    );
+                    if (!\g7mzr\webtemplate\general\General::isError($userRegistered)) {
+                        $app->user()->loadUserData($userData);
+                        // User is logged in
+                        // Set the Session userName and userId Session Variables
+                        //$app->session()->setUserName($username);
+                        //$app->session()->setUserID($app->user()->getUserId());
+                        $app->session()->createSession($username, $app->user()->getUserId(), false);
 
-                    // Get the users groups
-                    $app->usergroups()->loadusersgroups($app->user()->getUserId());
+                        // Get the users groups
+                        $app->usergroups()->loadusersgroups($app->user()->getUserId());
 
-                    // Assign AdminAccess Rights to the template
-                    $app->tpl()->assign('ADMINACCESS', $app->usergroups()->getAdminAccess());
+                        // Assign AdminAccess Rights to the template
+                        $app->tpl()->assign('ADMINACCESS', $app->usergroups()->getAdminAccess());
 
-                    // Tell template the user is logged in.
-                    $app->tpl()->assign('LOGIN', false);
+                        // Tell template the user is logged in.
+                        $app->tpl()->assign('LOGIN', false);
 
-                    // Set the last logged in date
-                    $app->tpl()->assign("LASTLOGEDIN", $app->user()->getLastSeenDate());
+                        // Set the last logged in date
+                        $app->tpl()->assign("LASTLOGEDIN", $app->user()->getLastSeenDate());
 
-                    // Set up the users prefered style sheets
-                    $stylesheetarray = array();
-                    $tempStyle = 'style/';
-                    $tempStyle .= $app->user()->getUserTheme();
-                    $tempStyle .= '/main.css';
-                    $stylesheetarray[] = $tempStyle;
-                    $tempStyle = 'style/';
-                    $tempStyle .= $app->user()->getUserTheme();
-                    $tempStyle .= '/editsettings.css';
-                    //$stylesheetarray[] = $tempStyle;
-                    $app->tpl()->assign('STYLESHEET', $stylesheetarray);
+                        // Set up the users prefered style sheets
+                        $stylesheetarray = array();
+                        $tempStyle = 'style/';
+                        $tempStyle .= $app->user()->getUserTheme();
+                        $tempStyle .= '/main.css';
+                        $stylesheetarray[] = $tempStyle;
+                        $tempStyle = 'style/';
+                        $tempStyle .= $app->user()->getUserTheme();
+                        $tempStyle .= '/editsettings.css';
+                        //$stylesheetarray[] = $tempStyle;
+                        $app->tpl()->assign('STYLESHEET', $stylesheetarray);
 
-                    // Set up blank message
+                        // Set up blank message
 
-                    $msg = '';
-                    // If the user is a member of the admin group check to see
-                    // if the mandatory parameters are set.
-                    // If not display an error.
-                    if ($app->usergroups()->checkGroup("admin") == true) {
-                        $msg .= \g7mzr\webtemplate\general\General::checkkeyParameters(
-                            $app->config()->read("param.urlbase"),
-                            $app->config()->read("param.email.emailaddress"),
-                            $app->config()->read("param.maintainer")
-                        );
-                    }
+                        $msg = '';
+                        // If the user is a member of the admin group check to see
+                        // if the mandatory parameters are set.
+                        // If not display an error.
+                        if ($app->usergroups()->checkGroup("admin") == true) {
+                            $msg .= \g7mzr\webtemplate\general\General::checkkeyParameters(
+                                $app->config()->read("param.urlbase"),
+                                $app->config()->read("param.email.emailaddress"),
+                                $app->config()->read("param.maintainer")
+                            );
+                        }
 
-                    // Check Password age if enabled
-                    $msg .= $app->user()->getPasswdAgeMsg();
+                        // Check Password age if enabled
+                        $msg .= $app->user()->getPasswdAgeMsg();
 
-                    //Display Message
-                    if ($msg != '') {
-                        $app->tpl()->assign("MSG", $msg);
+                        //Display Message
+                        if ($msg != '') {
+                            $app->tpl()->assign("MSG", $msg);
+                        }
+                    } else {
+                        $app->tpl()->assign('MSG', $userRegistered->getMessage());
+                        $app->log()->error($userRegistered->getMessage());
                     }
                 } else {
                     // The user was not logged in for some reason.
@@ -212,12 +224,14 @@ if ($app->session()->getUserName() == '') {
 } else {
     // User is logged in.  Display the main page using User's own preferences.
     $app->tpl()->assign('LOGIN', false);
-    $result = $app->user()->register($app->session()->getUserName(), $app->config()->read('pref'));
+    $userData = array();
+    $result = $app->register()->register($app->session()->getUserName(), $app->config()->read('pref'), $userData);
     if (\g7mzr\webtemplate\general\General::isError($result)) {
         $app->log()->error(
             basename(__FILE__) . ": Failed To Register logged in user $username"
         );
     }
+    $app->user()->loadUserData($userData);
 
     // Get the users groups
     $app->usergroups()->loadusersgroups($app->user()->getUserId());

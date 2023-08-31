@@ -15,7 +15,7 @@
 
 namespace Facebook\WebDriver;
 
-useg7mzr\webtemplate\application\exceptions\AppException;
+use g7mzr\webtemplate\application\exceptions\AppException;
 use PHPUnit\Framework\TestCase;
 
 // Load the Selenium Driver and Application Data.

@@ -123,7 +123,7 @@ class ErrorHandler
 
         //Create new config class
         $configdir = $tpl->getConfigDir(0);
-        $config = new \g7mzr\webtemplate\config\Configure($configdir);
+        $config = new \g7mzr\webtemplate\config\Menus($configdir);
 
         // Load the menu and assign it to a SMARTY Variable
         $mainmenu = $config->readMenu('mainmenu');
