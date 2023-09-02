@@ -17,7 +17,6 @@ namespace g7mzr\webtemplate\plugins\Example\lib;
 /**
  * This class contains all the functions required for the Example Plugin to work
  */
-
 class Functions
 {
     /**

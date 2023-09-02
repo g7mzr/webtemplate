@@ -85,7 +85,6 @@ class API
             );
             $code = 400;
             return array('data' => $dataarr, 'code' => $code);
-
         }
 
 
