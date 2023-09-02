@@ -117,7 +117,7 @@ class PluginBaseClass
      */
     public function getDBSchema()
     {
-        $filename = $this::PLUGIN_DIR . "/schema.json";
+        $filename = $this->PLUGIN_DIR . "/schema.json";
         if (!file_exists($filename)) {
             return "";
         }
@@ -137,7 +137,7 @@ class PluginBaseClass
      */
     public function getDBData()
     {
-        $filename = $this::PLUGIN_DIR . "/data.json";
+        $filename = $this->PLUGIN_DIR . "/data.json";
         if (!file_exists($filename)) {
             return "";
         }
