@@ -214,7 +214,8 @@ class RESTapi
 
         // Check for and implement Plugin Checkpoints.
         $classFile = dirname(dirname(__DIR__)) . "/plugins/" . ucfirst($this->endpoint) . "/lib/API.php";
-        if (file_exists($classFile)) {
+        $disablefile = dirname(dirname(__DIR__)) . "/plugins/" . ucfirst($this->endpoint) . "/disable";
+        if ((file_exists($classFile)) and (!file_exists($disablefile))) {
             include $classFile;
             $classname = '\\g7mzr\\webtemplate\\plugins\\' . ucfirst($this->endpoint) . '\\lib\\API';
             if (class_exists($classname)) {
