@@ -1,0 +1,18 @@
+{
+   "release2": {
+        "date": "16 Feb 2024",
+        "version": "2.0.0"
+    },
+   "release1": {
+       "date": "15 Feb 2024",
+       "version": "1.0.0"
+   },
+   "alpha2": {
+        "date": "15 Feb 2024",
+        "version": "0.5.0"
+    },
+    "alpha1": {
+        "date": "16 May 2015",
+        "version": "0.1.0"
+    }
+}

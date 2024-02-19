@@ -61,6 +61,15 @@ class Application
     protected $var_appname = '';
 
     /**
+     * Property: appshortname
+     * String containing application short name
+     *
+     * @var    string
+     * @access protected
+     */
+    protected $var_appshortname = '';
+
+    /**
      * Property: appversion
      * String containing application version
      *
@@ -86,6 +95,15 @@ class Application
      * @access protected
      */
     protected $var_production = true;
+
+    /**
+     * Property updateserver
+     * String containing URL of update server.
+     *
+     * @var    string
+     * @access protected
+     */
+    protected $var_updateserver;
 
     /**
      * Property: config
@@ -278,6 +296,7 @@ class Application
 
         // Get the application name and version information
         $this->var_appname = $this->var_tpl->getConfigVars('application_name');
+        $this->var_appshortname = $this->var_tpl->getConfigVars('application_short_name');
         $this->var_appversion = $this->var_tpl->getConfigVars('application_version');
         $this->var_apiversion = $this->var_tpl->getConfigVars('api_version');
 
@@ -288,6 +307,9 @@ class Application
         if ($this->var_production === false) {
             $this->var_tpl->debugging_ctrl = 'URL';
         }
+
+        //get the URL of the Update Server
+        $this->var_updateserver = $this->var_tpl->getConfigVars('update_server');
 
         // Get the Database login information
         WebTemplateCommon::loadDSN($this->var_tpl, $dsn);
@@ -463,6 +485,18 @@ class Application
     }
 
     /**
+     * This function returns the application short name string
+     *
+     * @return string The application name
+     *
+     * @access public
+     */
+    public function appshortname()
+    {
+        return $this->var_appshortname;
+    }
+
+    /**
      * This function returns the application version string
      *
      * @return string The Application version
@@ -485,6 +519,18 @@ class Application
     public function production()
     {
         return $this->var_production;
+    }
+
+    /**
+     * This function returns the URL of the update Server
+     *
+     * @return string Update Server URL.
+     *
+     * @access public
+     */
+    public function updateserver()
+    {
+        return $this->var_updateserver;
     }
 
     /**

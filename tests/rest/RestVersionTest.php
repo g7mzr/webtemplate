@@ -248,7 +248,7 @@ class RestVersionTest extends TestCase
         $requestdata = array();
         $result = $this->version->endpoint($method, $args, $requestdata);
         $this->assertEquals(200, $result['code']);
-        $this->assertEquals(65, $result['head']);
+        $this->assertEquals(68, $result['head']);
     }
 
     /**

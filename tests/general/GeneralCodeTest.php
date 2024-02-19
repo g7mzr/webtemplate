@@ -20,6 +20,10 @@ use PHPUnit\Framework\TestCase;
 // Include the Class Autoloader
 require_once __DIR__ . '/../../includes/global.php';
 
+// Define Application Name and Versions for test
+DEFINE("UPDATESERVERGENERAL", "https://admin.starfleet.g7mzr.ampr.org/");
+DEFINE("APPSHORTNAMEGENERAL", "Webtemplate");
+
 /**
  * General Code Class Unit Tests
  *
@@ -315,5 +319,151 @@ class GeneralCodeTest extends TestCase
         // Test with an non error object
         $str = "This is a String";
         $this->assertFalse(\g7mzr\webtemplate\general\General::isError($str));
+    }
+
+    /**
+     * Test if an empty string is returned if any of the parameter strings  of
+     * checkupdate are empty.
+     *
+     * @group unittest
+     * @group general
+     *
+     * @return void
+     */
+    public function testUpdateEmptyParameters()
+    {
+        // Test with all parameters empty
+        $result1 = \g7mzr\webtemplate\general\General::checkUpdate();
+        $this->assertEquals("", $result1);
+
+        // Test with only $app name empty
+        $result2 = \g7mzr\webtemplate\general\General::checkUpdate(
+            "",
+            UPDATESERVERGENERAL,
+            "1.0.0"
+        );
+        $this->assertEquals("", $result2);
+
+
+        // Test with only $updateSever empty
+        $result3 = \g7mzr\webtemplate\general\General::checkUpdate(
+            APPSHORTNAMEGENERAL,
+            "",
+            "1.0.0"
+        );
+        $this->assertEquals("", $result3);
+
+
+        // Test with only $currentVersion empty
+        $result4 = \g7mzr\webtemplate\general\General::checkUpdate(
+            APPSHORTNAMEGENERAL,
+            UPDATESERVERGENERAL
+        );
+        $this->assertEquals("", $result4);
+    }
+
+    /**
+     * Test if an empty string is returned if an invalid URL is entered.
+     *
+     * @group unittest
+     * @group general
+     *
+     * @return void
+     */
+    public function testUpdateInvalidURL()
+    {
+        // Test for am invalid URL
+        $testurl = "htts://one";
+        $result = \g7mzr\webtemplate\general\General::checkUpdate(
+            APPSHORTNAMEGENERAL,
+            $testurl,
+            "1.0.0"
+        );
+        $this->assertEquals("", $result);
+    }
+
+    /**
+     * Test if an empty string is returned if an invalid URL is entered.
+     *
+     * @group unittest
+     * @group general
+     *
+     * @return void
+     */
+    public function testUpdateInvalidAppShortName()
+    {
+        // Test for am invalid URL
+        $testAppShortName = "example";
+        $result = \g7mzr\webtemplate\general\General::checkUpdate(
+            $testAppShortName,
+            UPDATESERVERGENERAL,
+            "1.0.0"
+        );
+        $this->assertEquals("", $result);
+    }
+
+    /**
+     * Test if one update message is returned.
+     *
+     * @group unittest
+     * @group general
+     *
+     * @return void
+     */
+    public function testUpdatePassOneUpdate()
+    {
+        // Test for am invalid URL
+        $result = \g7mzr\webtemplate\general\General::checkUpdate(
+            APPSHORTNAMEGENERAL,
+            UPDATESERVERGENERAL,
+            "1.0.0"
+        );
+        $this->assertStringContainsString("2.1.0", $result);
+        $this->assertStringNotContainsString("1.0.0", $result);
+        $this->assertStringNotContainsString("0.5.0", $result);
+        $this->assertStringNotContainsString("0.1.0", $result);
+    }
+
+    /**
+     * Test if two update messages are returned.
+     *
+     * @group unittest
+     * @group general
+     *
+     * @return void
+     */
+    public function testUpdatePassTwoUpdate()
+    {
+        // Test for am invalid URL
+        $result = \g7mzr\webtemplate\general\General::checkUpdate(
+            APPSHORTNAMEGENERAL,
+            UPDATESERVERGENERAL,
+            "0.5.0"
+        );
+        $this->assertStringContainsString("2.1.0", $result);
+        $this->assertStringContainsString("1.0.0", $result);
+        $this->assertStringNotContainsString("0.5.0", $result);
+        $this->assertStringNotContainsString("0.1.0", $result);
+    }
+    /**
+     * Test if zero update messages are returned.
+     *
+     * @group unittest
+     * @group general
+     *
+     * @return void
+     */
+    public function testUpdatePassZeroUpdate()
+    {
+        // Test for am invalid URL
+        $result = \g7mzr\webtemplate\general\General::checkUpdate(
+            APPSHORTNAMEGENERAL,
+            UPDATESERVERGENERAL,
+            "2.1.0"
+        );
+        $this->assertStringNotContainsString("2.1.0", $result);
+        $this->assertStringNotContainsString("1.0.0", $result);
+        $this->assertStringNotContainsString("0.5.0", $result);
+        $this->assertStringNotContainsString("0.1.0", $result);
     }
 }

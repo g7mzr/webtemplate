@@ -49,6 +49,13 @@
     </table>
 </div>
 <div id="main-body">
+{if $UPDATEMSG != ''}
+    <div id="updatemsg-box">
+        <B>Update Information</B><P />
+        {$UPDATEMSG|nl2br nofilter}
+    </div>
+{/if}
+
 {if $MSG != ''}
 <div id="msg-box">{$MSG|nl2br nofilter}</div>
 {/if}

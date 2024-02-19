@@ -63,6 +63,7 @@ class SmartyTemplate extends \Smarty
         $stylesheetarray[] = 'style/Dusk/main.css';
         $this->assign('STYLESHEET', $stylesheetarray);
         $this->assign('MSG', '');
+        $this->assign('UPDATEMSG', '');
 
         $this->debugging = false;
     }

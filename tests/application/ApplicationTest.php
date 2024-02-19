@@ -25,9 +25,11 @@ use PHPUnit\Framework\TestCase;
 
 // Define Application Name and Versions for test
 DEFINE("APPNAME", "Web Database Skeleton");
-DEFINE("APPVERSION", "0.5.0+");
+DEFINE("APPSHORTNAME", "Webtemplate");
+DEFINE("APPVERSION", "1.0.0-dev");
 DEFINE("APIVERSION", "0.1.0");
 DEFINE("LANGUAGE", "en");
+DEFINE("UPDATESERVER", "https://admin.starfleet.g7mzr.ampr.org/");
 
 /**
  * Application Class Unit Tests
@@ -38,7 +40,7 @@ class ApplicationTest extends TestCase
     /**
      * Session Class
      *
-     * @var\g7mzr\webtemplate\application\Application
+     * @var \g7mzr\webtemplate\application\Application
      */
     protected $object;
 
@@ -90,7 +92,21 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * This function tests that the Application Name is returned
+     * This function tests that the Application Short Name is returned
+     *
+     * @group unittest
+     * @group application
+     *
+     * @return void
+     */
+    public function testApplicationShortName()
+    {
+        $result = $this->object->appshortname();
+        $this->assertEquals(APPSHORTNAME, $result);
+    }
+
+    /**
+     * This function tests that the Application Version is returned
      *
      * @group unittest
      * @group application
@@ -104,7 +120,7 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * This function tests that the Application Name is returned
+     * This function tests that the API Version is returned
      *
      * @group unittest
      * @group application
@@ -440,5 +456,19 @@ class ApplicationTest extends TestCase
         $testapp = new \g7mzr\webtemplate\application\Application();
         $username = $testapp->session()->getUserName();
         $this->assertEquals("phpunit", $username);
+    }
+
+    /**
+     * This function tests that the update server name is returned
+     *
+     * @group unittest
+     * @group application
+     *
+     * @return void
+     */
+    public function testUpdateServer()
+    {
+        $server_name = $this->object->updateserver();
+        $this->assertEquals($server_name, UPDATESERVER);
     }
 }

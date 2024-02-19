@@ -367,4 +367,64 @@ class General
     {
         return new \g7mzr\webtemplate\application\Error($message, $code);
     }
+
+    /**
+     * This function is used to check if an updated version of the application is
+     * available
+     *
+     * @param string $appname        The name of the application t be used to retrieve
+     *                               the update file from the server.
+     * @param string $updateServer   The address of the server holding the file
+     *                               containing  the latest version information.
+     * @param string $currentVersion The version string of this version of the
+     *                               application.
+     *
+     * @return string update message
+     *
+     * @access public
+     */
+    public static function checkUpdate(
+        string $appname = "",
+        string $updateServer = "",
+        string $currentVersion = ""
+    ) {
+        $updateMessage = "";
+
+
+        // Check if both $updateServer and $currentVersion have been set
+        if (($appname == "") or ($updateServer == "") or ($currentVersion == "")) {
+            return $updateMessage;
+        }
+
+        $updateFile = rtrim($updateServer, "/") . "/" . strtolower($appname) . ".json";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $updateFile);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // Skip SSL Verification
+        $updatedata = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            return $updateMessage;
+        }
+
+        $updatedataarray = json_decode($updatedata, true);
+        if (json_last_error() != JSON_ERROR_NONE) {
+            return $updateMessage;
+        }
+
+        if ($updatedataarray == null) {
+            return $updateMessage;
+        }
+
+        foreach ($updatedataarray as $key => $data) {
+            if (version_compare($currentVersion, $data["version"]) < 0) {
+                if ($updateMessage != "") {
+                    $updateMessage .= "\n";
+                }
+                $updateMessage .= "Version " . $data["version"] . " (" . $key . ") released on " . $data["date"];
+            }
+        }
+        return $updateMessage;
+    }
 }

@@ -250,8 +250,23 @@ if ($app->session()->getUserName() == '') {
             $app->config()->read("param.email.emailaddress"),
             $app->config()->read("param.maintainer")
         );
+
         if ($msg != '') {
             $app->tpl()->assign("MSG", $msg);
+        }
+
+
+        /////////////////////////////////////////////////
+        //  This is where the update check needs to be
+        ////////////////////////////////////////////////
+        $updateMsg = \g7mzr\webtemplate\general\General::checkUpdate(
+            $app->appshortname(),
+            $app->updateserver(),
+            $app->appversion()
+        );
+
+        if ($updateMsg != '') {
+            $app->tpl()->assign("UPDATEMSG", $updateMsg);
         }
     }
 }

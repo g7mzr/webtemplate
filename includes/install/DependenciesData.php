@@ -52,6 +52,10 @@ class DependenciesData
         'JSON' => array(
             "name" => "json",
             'install' => "Install session as instructed by your version of PHP"
+        ),
+        'CURL' => array(
+            "name" => "curl",
+            'install' => "Install session as instructed by your version of PHP"
         )
     );
 
