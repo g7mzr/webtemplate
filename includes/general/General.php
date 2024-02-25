@@ -255,7 +255,8 @@ class General
         // Check if the  docbase parameter is set
         if ($docBase != '') {
             // Set docBase to the users chosen Language
-            if (is_dir($docBase . $language)) {
+            $testDocBase = str_replace("%lang%", $language, $docBase);
+            if (is_dir($testDocBase)) {
                 $docBase = str_replace("%lang%", $language, $docBase);
             } else {
                 $docBase = str_replace("%lang%", "en", $docBase);
@@ -294,7 +295,7 @@ class General
                 if ($file != '.' && $file != '..' && !is_link($nextpath)) {
                     if (is_dir($nextpath)) {
                         $dircount++;
-                        $result = getDirectorySize($nextpath);
+                        $result = self::getDirectorySize($nextpath);
                         $totalsize += $result['size'];
                         $totalcount += $result['count'];
                         $dircount += $result['dircount'];

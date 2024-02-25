@@ -195,7 +195,7 @@ class GeneralCodeTest extends TestCase
             $docbase,
             $language
         );
-        $this->assertTrue($docs_available, 'Failed with correct path and file set');
+        $this->assertTrue($docs_available, 'Failed with correct path and file set (en)');
 
         $language = 'fr';
         $docbase = dirname(__FILE__) . "/../_data/docs/%lang%/";
@@ -203,7 +203,15 @@ class GeneralCodeTest extends TestCase
             $docbase,
             $language
         );
-        $this->assertTrue($docs_available, 'Failed with correct path and file set');
+        $this->assertTrue($docs_available, 'Failed with correct path and file set (fr)');
+
+        $language = 'ge';
+        $docbase = dirname(__FILE__) . "/../_data/docs/%lang%/";
+        $docs_available = \g7mzr\webtemplate\general\General::checkdocs(
+            $docbase,
+            $language
+        );
+        $this->assertTrue($docs_available, 'Failed with incorrect correct path and file set (ge)');
 
         $docbase = dirname(__FILE__) . "/";
         $docs_available = \g7mzr\webtemplate\general\General::checkdocs(
@@ -363,6 +371,24 @@ class GeneralCodeTest extends TestCase
     }
 
     /**
+     * Test dor empty jason string
+     *
+     * @group unittest
+     * @group general
+     *
+     * @return void
+     */
+    public function testEmptyJSONString()
+    {
+        $result = \g7mzr\webtemplate\general\General::checkUpdate(
+            "update",
+            UPDATESERVERGENERAL,
+            "1.0.0"
+        );
+        $this->assertEquals("", $result);
+    }
+
+    /**
      * Test if an empty string is returned if an invalid URL is entered.
      *
      * @group unittest
@@ -445,6 +471,7 @@ class GeneralCodeTest extends TestCase
         $this->assertStringNotContainsString("0.5.0", $result);
         $this->assertStringNotContainsString("0.1.0", $result);
     }
+
     /**
      * Test if zero update messages are returned.
      *
@@ -465,5 +492,49 @@ class GeneralCodeTest extends TestCase
         $this->assertStringNotContainsString("1.0.0", $result);
         $this->assertStringNotContainsString("0.5.0", $result);
         $this->assertStringNotContainsString("0.1.0", $result);
+    }
+
+    /**
+     * This function tests the sizeFormat Function
+     *
+     * @group unittest
+     * @group general
+     *
+     * @return void
+     */
+    public function testSizeFormat()
+    {
+        //Test Bytes
+        $byteResult = \g7mzr\webtemplate\general\General::sizeFormat(208);
+        $this->assertEquals("208 bytes", $byteResult);
+
+        //Test KB
+        $kbResult = \g7mzr\webtemplate\general\General::sizeFormat(3508);
+        $this->assertEquals("3.4 KB", $kbResult);
+
+        // Test MB
+        $mbResult = \g7mzr\webtemplate\general\General::sizeFormat(21088564);
+        $this->assertEquals("20.1 MB", $mbResult);
+
+        // Test GB
+        $gbResult = \g7mzr\webtemplate\general\General::sizeFormat(2208878564);
+        $this->assertEquals("2.1 GB", $gbResult);
+    }
+
+    /**
+     * This function tests the directorySize Function
+     *
+     * @group unittest
+     * @group general
+     *
+     * @return void
+     */
+    public function testDirectorySize()
+    {
+        $direcory = __DIR__ . "/../_data";
+        $result = \g7mzr\webtemplate\general\General::getDirectorySize($direcory);
+        $this->assertEquals(1310, $result['size']);
+        $this->assertEquals(14, $result['count']);
+        $this->assertEquals(9, $result['dircount']);
     }
 }
